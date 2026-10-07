@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "projectName": "S5 Stress Tutte Sorgenti",
+  "slotCount": 5,
+  "variantCount": 5,
+  "optionsPerSlot": 59,
+  "entries": 22524,
+  "nativeSlotInstances": 25,
+  "output": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\stress-0.5\\S5_Stress_Tutte_Sorgenti-614080575-20261006-201615",
+  "binarySha256": "13ae679b241e3fa9825316072a06fede0fffe9d667f8b0689125ddce0cd77b71",
+  "hardwareTested": false,
+  "outputZip": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\stress-0.5\\S5_Stress_Tutte_Sorgenti-614080575-20261006-201615\\S5_Stress_Tutte_Sorgenti_FIXED_TEMPLATE.zip",
+  "outputSha256": "9978b97caab53c51ccbcc5a87c4e296071acc4fda366e9a4b758d0a9a5c53974",
+  "editorAodAnimationReferences": "absent, as in reference template"
+}

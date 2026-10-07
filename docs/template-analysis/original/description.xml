@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<watch>
+	<shape>circle</shape>
+	<name>Custom digital</name>
+	<deviceType>P62</deviceType>
+	<version>1.0.2</version>
+	<size>480x480</size>
+	<author>小米</author>
+	<pkgName>120917403994</pkgName>
+	<watchOS>vela</watchOS>
+	<_id>70bc8af95049a4b2c596963c976d52a3</_id>
+	<imageFormat>indexed8</imageFormat>
+	<imageCompression>true</imageCompression>
+	<editorVersion>1.0.0</editorVersion>
+	<webVersionCreatedAt>2025-05-26T09:45:11+08:00</webVersionCreatedAt>
+	<editorVersionCreatedAt>1.0.0</editorVersionCreatedAt>
+	<webVersionUpdatedAt>2026-05-14T20:15:41+08:00</webVersionUpdatedAt>
+	<editorVersionUpdatedAt>1.0.0</editorVersionUpdatedAt>
+	<watchfaceType>photoAlbum</watchfaceType>
+	<imageArrayRamMethod>whole</imageArrayRamMethod>
+	<_recolorEnable>true</_recolorEnable>
+	<recolorTable>#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e</recolorTable>
+	<webVersionExportAt>2026-05-14T20:15:41+08:00</webVersionExportAt>
+	<editorVersionExportAt>1.0.0</editorVersionExportAt>
+	<merchantId/>
+	<introduce/>
+	<deviceRegion>international</deviceRegion>
+</watch>

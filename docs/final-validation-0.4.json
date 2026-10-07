@@ -1,0 +1,18 @@
+{
+  "version": "0.4.0",
+  "unitAndIntegrationTests": 33,
+  "testsPassed": true,
+  "exeSelfTestPassed": true,
+  "exeUiSmokePassed": true,
+  "exeRealCompilationPassed": true,
+  "templatePreservedFiles": 191,
+  "screenCount": 10,
+  "slotInstances": 10,
+  "deliveredZipSha256": "8cf561f7a9113de1cd5c3e917596ce3bb57975d5897a4efcb1f02e737803102c",
+  "packagedExeZipSha256": "8cf561f7a9113de1cd5c3e917596ce3bb57975d5897a4efcb1f02e737803102c",
+  "sameZipFromExeAndSource": true,
+  "exeSize": 208514555,
+  "exeSha256": "e14a4f8f3ef349cf3c6289dede25221c15db9730ad8b8c8ea83ebf9ddeb6d6af",
+  "hardwareNewFunctionsTested": false,
+  "priorDigitalBuildSuccessReported": true
+}

@@ -1,0 +1,92 @@
+{
+  "path": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\S5_Custom_digital_original.mwz",
+  "sha256": "33fb3a1dfc162b3121f69ed0be66bb97b90f156ea3bda6dd398437ca0d5f9f55",
+  "zipCrc": "passed",
+  "entries": 186,
+  "metadata": {
+    "shape": "circle",
+    "name": "Custom digital",
+    "deviceType": "P62",
+    "version": "1.0.2",
+    "size": "480x480",
+    "author": "小米",
+    "pkgName": "120917403994",
+    "watchOS": "vela",
+    "_id": "70bc8af95049a4b2c596963c976d52a3",
+    "imageFormat": "indexed8",
+    "imageCompression": "true",
+    "editorVersion": "1.0.0",
+    "webVersionCreatedAt": "2025-05-26T09:45:11+08:00",
+    "editorVersionCreatedAt": "1.0.0",
+    "webVersionUpdatedAt": "2026-05-14T20:15:41+08:00",
+    "editorVersionUpdatedAt": "1.0.0",
+    "watchfaceType": "photoAlbum",
+    "imageArrayRamMethod": "whole",
+    "_recolorEnable": "true",
+    "recolorTable": "#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e",
+    "webVersionExportAt": "2026-05-14T20:15:41+08:00",
+    "editorVersionExportAt": "1.0.0",
+    "merchantId": null,
+    "introduce": null,
+    "deviceRegion": "international"
+  },
+  "capabilities": [
+    {
+      "name": "protocol",
+      "type": 1,
+      "value": [
+        "1.8.17"
+      ]
+    },
+    {
+      "name": "resolution",
+      "type": 2,
+      "value": [
+        "XMHD02"
+      ]
+    },
+    {
+      "name": "region",
+      "type": 2,
+      "value": [
+        "CN"
+      ]
+    },
+    {
+      "name": "packet",
+      "type": 2,
+      "value": [
+        "BIN"
+      ]
+    },
+    {
+      "name": "image_compress",
+      "type": 3,
+      "value": [
+        "01"
+      ]
+    },
+    {
+      "name": "image_fmt",
+      "type": 3,
+      "value": [
+        "00000000000000001"
+      ]
+    },
+    {
+      "name": "data_source",
+      "type": 3,
+      "value": [
+        "10010000000000000000100100100000,00000000000000000010000000000000,00000000010000000110001011011000,00000000101000000000101000000000,00000000000000000000000000000000,0000000001"
+      ]
+    }
+  ],
+  "binaryId": "120917403994",
+  "warnings": [
+    "Regione metadati: international; capacità: ['CN']. Conservare entrambe, semantica da verificare.",
+    "hashCode presente: algoritmo non decodificato, autenticità non attestata.",
+    "uidmap.map presente: riferimenti preservati, semantica non certificata."
+  ],
+  "hardwareVerified": false,
+  "status": "Struttura controllata; firma, capacità effettive e installazione non verificate."
+}

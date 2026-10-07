@@ -1,0 +1,1522 @@
+--- original/resources/manifest.xml
++++ working/resources/manifest.xml
+@@ -1,40 +1,40 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Watchface name="@watchfaceName" width="480" height="480" id="120917403994" SKU="false" compressMethod="RLEReversed" advanced="false" interactive="false" powerConsumptionLevel="1" recolorTable="#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e" support_literal="false" editable="true">
++<Watchface name="@watchfaceName" width="480" height="480" id="120917386745" SKU="false" compressMethod="RLEReversed" advanced="false" interactive="false" powerConsumptionLevel="3" support_literal="false" editable="true">
+     <Resources>
+         <Translation name="watchfaceName">
+-            <Item language="en_US" str="Custom digital"/>
+-            <Item language="zh_CN" str="相册表盘 - 多功能"/>
+-            <Item language="zh_TW" str="相簿錶盤 - 多功能"/>
+-            <Item language="ja_JP" str="カスタム・デジタル"/>
+-            <Item language="es_ES" str="Digital personalizado"/>
+-            <Item language="fr_FR" str="Numérique personnalisé"/>
+-            <Item language="de_DE" str="Digital benutzerdefiniert"/>
+-            <Item language="ru_RU" str="Пользовательский цифровой"/>
+-            <Item language="pt_BR" str="Digital personalizado"/>
+-            <Item language="pt_PT" str="Digital à medida"/>
+-            <Item language="it_IT" str="Digitale personalizzato"/>
+-            <Item language="ko_KR" str="커스텀 디지털"/>
+-            <Item language="tr_TR" str="Özel dijital"/>
+-            <Item language="nl_NL" str="Aangepast digitaal"/>
+-            <Item language="th_TH" str="ระบบดิจิทัลส่วนตัว"/>
+-            <Item language="sv_SE" str="Anpassa digital"/>
+-            <Item language="da_DK" str="Tilpasset digital"/>
+-            <Item language="vi_VN" str="Đồng hồ kỹ thuật số tùy chỉnh"/>
+-            <Item language="nb_NO" str="Tilpasset digital"/>
+-            <Item language="pl_PL" str="Niestandardowa cyfrowa"/>
+-            <Item language="fi_FI" str="Mukautettu digitaalinen"/>
+-            <Item language="in_ID" str="Digital kustom"/>
+-            <Item language="el_GR" str="Προσαρμοσμένη ψηφιακή τεχνολογία"/>
+-            <Item language="ro_RO" str="Digital personalizat"/>
+-            <Item language="cs_CZ" str="Přizpůsobitelný digitální"/>
+-            <Item language="uk_UA" str="Індивідуальний цифровий"/>
+-            <Item language="sk_SK" str="Vlastné digitálne"/>
+-            <Item language="hu_HU" str="Egyedi digitális"/>
+-            <Item language="ar_EG" str="ديجيتال مخصص"/>
+-            <Item language="iw_IL" str="דיגיטלי אישי"/>
+-            <Item language="zh_HK" str="相簿錶盤 - 多功能"/>
+-            <Item language="lt_LT" str="Tinkintas skaitmeninis"/>
+-            <Item language="bg_BG" str="Дигитално по избор"/>
++            <Item language="en_US" str="Suit and tie"/>
++            <Item language="zh_CN" str="正装 2024"/>
++            <Item language="zh_TW" str="正裝 2024"/>
++            <Item language="ja_JP" str="スーツとネクタイ"/>
++            <Item language="es_ES" str="Traje y corbata"/>
++            <Item language="fr_FR" str="Costume cravate"/>
++            <Item language="de_DE" str="Anzug und Krawatte"/>
++            <Item language="ru_RU" str="Костюм и галстук"/>
++            <Item language="pt_BR" str="Terno e gravata"/>
++            <Item language="pt_PT" str="Fato e gravata"/>
++            <Item language="it_IT" str="Giacca e cravatta"/>
++            <Item language="ko_KR" str="슈트와 타이"/>
++            <Item language="tr_TR" str="Takım Elbise ve Kravat"/>
++            <Item language="nl_NL" str="Pak en stropdas"/>
++            <Item language="th_TH" str="สูทและเน็คไท"/>
++            <Item language="sv_SE" str="Kostym och slips"/>
++            <Item language="da_DK" str="Jakkesæt og slips"/>
++            <Item language="vi_VN" str="Âu phục"/>
++            <Item language="nb_NO" str="Dress og slips"/>
++            <Item language="pl_PL" str="Garnitur z krawatem"/>
++            <Item language="fi_FI" str="Bisnes"/>
++            <Item language="in_ID" str="Jas dan dasi"/>
++            <Item language="el_GR" str="Κοστούμι και γραβάτα"/>
++            <Item language="ro_RO" str="Costum cu cravată"/>
++            <Item language="cs_CZ" str="Sako a kravata"/>
++            <Item language="uk_UA" str="Класика стилю"/>
++            <Item language="sk_SK" str="Oblek a kravata"/>
++            <Item language="hu_HU" str="Öltöny és nyakkendő"/>
++            <Item language="ar_EG" str="بذلة وربطة عنق"/>
++            <Item language="iw_IL" str="חליפה ועניבה"/>
++            <Item language="zh_HK" str="正裝 2024"/>
++            <Item language="lt_LT" str="Kostiumas ir kaklaraištis"/>
++            <Item language="bg_BG" str="Костюм и вратовръзка"/>
+         </Translation>
+         <Translation name="Translation1">
+             <Item language="en_US" str="None"/>
+@@ -107,74 +107,74 @@
+             <Item language="bg_BG" str="Движение"/>
+         </Translation>
+         <Translation name="Translation3">
+-            <Item language="en_US" str="Breaks"/>
+-            <Item language="zh_CN" str="站立"/>
+-            <Item language="zh_TW" str="站立"/>
+-            <Item language="ja_JP" str="ブレーク"/>
+-            <Item language="es_ES" str="Pausas activas"/>
+-            <Item language="fr_FR" str="Pauses actives"/>
+-            <Item language="de_DE" str="Pausen"/>
+-            <Item language="ru_RU" str="Перерывы"/>
+-            <Item language="pt_BR" str="Pausas"/>
+-            <Item language="pt_PT" str="Pausas"/>
+-            <Item language="it_IT" str="Pause"/>
+-            <Item language="ko_KR" str="브레이크"/>
+-            <Item language="tr_TR" str="Hareket Molası"/>
+-            <Item language="nl_NL" str="Pauzes"/>
+-            <Item language="th_TH" str="การพักเบรค"/>
+-            <Item language="sv_SE" str="Raster"/>
+-            <Item language="da_DK" str="Pauser"/>
+-            <Item language="vi_VN" str="Giải lao"/>
+-            <Item language="nb_NO" str="Pauser"/>
+-            <Item language="pl_PL" str="Przerwy"/>
+-            <Item language="fi_FI" str="Tauot"/>
+-            <Item language="in_ID" str="Jeda aktif"/>
+-            <Item language="el_GR" str="Διαλείμματα"/>
+-            <Item language="ro_RO" str="Pauze"/>
+-            <Item language="cs_CZ" str="Přestávky"/>
+-            <Item language="uk_UA" str="Перерви"/>
+-            <Item language="sk_SK" str="Prestávky"/>
+-            <Item language="hu_HU" str="Szünetek"/>
+-            <Item language="ar_EG" str="الاستراحات"/>
+-            <Item language="iw_IL" str="הפסקות"/>
+-            <Item language="zh_HK" str="站立"/>
+-            <Item language="lt_LT" str="Pertraukėlės"/>
+-            <Item language="bg_BG" str="Почивки"/>
++            <Item language="en_US" str="Sleep"/>
++            <Item language="zh_CN" str="睡眠"/>
++            <Item language="zh_TW" str="睡眠"/>
++            <Item language="ja_JP" str="睡眠"/>
++            <Item language="es_ES" str="Sueño"/>
++            <Item language="fr_FR" str="Sommeil"/>
++            <Item language="de_DE" str="Schlaf"/>
++            <Item language="ru_RU" str="Сон"/>
++            <Item language="pt_BR" str="Sono"/>
++            <Item language="pt_PT" str="Sono"/>
++            <Item language="it_IT" str="Sonno"/>
++            <Item language="ko_KR" str="수면"/>
++            <Item language="tr_TR" str="Uyku"/>
++            <Item language="nl_NL" str="Slaap"/>
++            <Item language="th_TH" str="การนอน"/>
++            <Item language="sv_SE" str="Sömn"/>
++            <Item language="da_DK" str="Søvn"/>
++            <Item language="vi_VN" str="Ngủ"/>
++            <Item language="nb_NO" str="Søvn"/>
++            <Item language="pl_PL" str="Sen"/>
++            <Item language="fi_FI" str="Uni"/>
++            <Item language="in_ID" str="Tidur"/>
++            <Item language="el_GR" str="Ύπνος"/>
++            <Item language="ro_RO" str="Somn"/>
++            <Item language="cs_CZ" str="Spánek"/>
++            <Item language="uk_UA" str="Сон"/>
++            <Item language="sk_SK" str="Spánok"/>
++            <Item language="hu_HU" str="Alvás"/>
++            <Item language="ar_EG" str="النوم"/>
++            <Item language="iw_IL" str="שינה"/>
++            <Item language="zh_HK" str="睡眠"/>
++            <Item language="lt_LT" str="Miegas"/>
++            <Item language="bg_BG" str="Сън"/>
+         </Translation>
+         <Translation name="Translation4">
+-            <Item language="en_US" str="Calories"/>
+-            <Item language="zh_CN" str="卡路里"/>
+-            <Item language="zh_TW" str="卡路里"/>
+-            <Item language="ja_JP" str="カロリー"/>
+-            <Item language="es_ES" str="Calorías"/>
+-            <Item language="fr_FR" str="Calories"/>
+-            <Item language="de_DE" str="Kalorien"/>
+-            <Item language="ru_RU" str="Калории"/>
+-            <Item language="pt_BR" str="Calorias"/>
+-            <Item language="pt_PT" str="Calorias"/>
+-            <Item language="it_IT" str="Calorie"/>
+-            <Item language="ko_KR" str="칼로리"/>
+-            <Item language="tr_TR" str="Kalori"/>
+-            <Item language="nl_NL" str="Calorieën"/>
+-            <Item language="th_TH" str="แคลอรี่"/>
+-            <Item language="sv_SE" str="Kalorier"/>
+-            <Item language="da_DK" str="Kalorier"/>
+-            <Item language="vi_VN" str="Calo"/>
+-            <Item language="nb_NO" str="Kalorier"/>
+-            <Item language="pl_PL" str="Kalorie"/>
+-            <Item language="fi_FI" str="Kalorit"/>
+-            <Item language="in_ID" str="Kalori"/>
+-            <Item language="el_GR" str="Θερμίδες"/>
+-            <Item language="ro_RO" str="Calorii"/>
+-            <Item language="cs_CZ" str="Kalorie"/>
+-            <Item language="uk_UA" str="Калорії"/>
+-            <Item language="sk_SK" str="Kalórie"/>
+-            <Item language="hu_HU" str="Kalória"/>
+-            <Item language="ar_EG" str="السعرات الحرارية"/>
+-            <Item language="iw_IL" str="קלוריות"/>
+-            <Item language="zh_HK" str="卡路里"/>
+-            <Item language="lt_LT" str="Kalorijos"/>
+-            <Item language="bg_BG" str="Калории"/>
++            <Item language="en_US" str="SpO₂"/>
++            <Item language="zh_CN" str="血氧"/>
++            <Item language="zh_TW" str="血氧"/>
++            <Item language="ja_JP" str="血中酸素レベル"/>
++            <Item language="es_ES" str="SpO₂"/>
++            <Item language="fr_FR" str="SpO₂"/>
++            <Item language="de_DE" str="SpO₂"/>
++            <Item language="ru_RU" str="SpO₂"/>
++            <Item language="pt_BR" str="SpO₂"/>
++            <Item language="pt_PT" str="SpO₂"/>
++            <Item language="it_IT" str="SpO₂"/>
++            <Item language="ko_KR" str="SpO₂"/>
++            <Item language="tr_TR" str="SpO₂"/>
++            <Item language="nl_NL" str="SpO₂"/>
++            <Item language="th_TH" str="SpO₂"/>
++            <Item language="sv_SE" str="SpO₂"/>
++            <Item language="da_DK" str="SpO₂"/>
++            <Item language="vi_VN" str="SpO₂"/>
++            <Item language="nb_NO" str="SpO₂"/>
++            <Item language="pl_PL" str="SpO₂"/>
++            <Item language="fi_FI" str="SpO₂"/>
++            <Item language="in_ID" str="SpO₂"/>
++            <Item language="el_GR" str="SpO₂"/>
++            <Item language="ro_RO" str="SpO₂"/>
++            <Item language="cs_CZ" str="SpO₂"/>
++            <Item language="uk_UA" str="SpO₂"/>
++            <Item language="sk_SK" str="SpO₂"/>
++            <Item language="hu_HU" str="SpO₂"/>
++            <Item language="ar_EG" str="أكسجين الدم"/>
++            <Item language="iw_IL" str="SpO₂"/>
++            <Item language="zh_HK" str="血氧"/>
++            <Item language="lt_LT" str="SpO₂"/>
++            <Item language="bg_BG" str="SpO₂"/>
+         </Translation>
+         <Translation name="Translation5">
+             <Item language="en_US" str="Steps"/>
+@@ -212,564 +212,784 @@
+             <Item language="bg_BG" str="Стъпки"/>
+         </Translation>
+         <Translation name="Translation6">
+-            <Item language="en_US" str="Heart rate"/>
+-            <Item language="zh_CN" str="心率"/>
+-            <Item language="zh_TW" str="心率"/>
+-            <Item language="ja_JP" str="心拍数"/>
+-            <Item language="es_ES" str="Ritmo cardíaco"/>
+-            <Item language="fr_FR" str="Fréquence cardiaque"/>
+-            <Item language="de_DE" str="Puls"/>
+-            <Item language="ru_RU" str="Пульс"/>
+-            <Item language="pt_BR" str="Frequência cardíaca"/>
+-            <Item language="pt_PT" str="Frequência cardíaca"/>
+-            <Item language="it_IT" str="Frequenza cardiaca"/>
+-            <Item language="ko_KR" str="심박수"/>
+-            <Item language="tr_TR" str="Nabız"/>
+-            <Item language="nl_NL" str="Hartslag"/>
+-            <Item language="th_TH" str="อัตราการเต้นหัวใจ"/>
+-            <Item language="sv_SE" str="Puls"/>
+-            <Item language="da_DK" str="Puls"/>
+-            <Item language="vi_VN" str="Nhịp tim"/>
+-            <Item language="nb_NO" str="Puls"/>
+-            <Item language="pl_PL" str="Tętno"/>
+-            <Item language="fi_FI" str="Syke"/>
+-            <Item language="in_ID" str="Detak jantung"/>
+-            <Item language="el_GR" str="Καρδιακός ρυθμός"/>
+-            <Item language="ro_RO" str="Puls"/>
+-            <Item language="cs_CZ" str="Srdeční tep"/>
+-            <Item language="uk_UA" str="Пульс"/>
+-            <Item language="sk_SK" str="Srdcový tep"/>
+-            <Item language="hu_HU" str="Pulzusszám"/>
+-            <Item language="ar_EG" str="معدل نبض القلب"/>
+-            <Item language="iw_IL" str="קצב הלב"/>
+-            <Item language="zh_HK" str="心率"/>
+-            <Item language="lt_LT" str="Pulsas (k./min.)"/>
+-            <Item language="bg_BG" str="Сърд. ритъм (BPM)"/>
+-        </Translation>
+-        <Translation name="Translation7">
+-            <Item language="en_US" str="SpO₂"/>
+-            <Item language="zh_CN" str="血氧"/>
+-            <Item language="zh_TW" str="血氧"/>
+-            <Item language="ja_JP" str="血中酸素レベル"/>
+-            <Item language="es_ES" str="SpO₂"/>
+-            <Item language="fr_FR" str="SpO₂"/>
+-            <Item language="de_DE" str="SpO₂"/>
+-            <Item language="ru_RU" str="SpO₂"/>
+-            <Item language="pt_BR" str="SpO₂"/>
+-            <Item language="pt_PT" str="SpO₂"/>
+-            <Item language="it_IT" str="SpO₂"/>
+-            <Item language="ko_KR" str="SpO₂"/>
+-            <Item language="tr_TR" str="SpO₂"/>
+-            <Item language="nl_NL" str="SpO₂"/>
+-            <Item language="th_TH" str="SpO₂"/>
+-            <Item language="sv_SE" str="SpO₂"/>
+-            <Item language="da_DK" str="SpO₂"/>
+-            <Item language="vi_VN" str="SpO₂"/>
+-            <Item language="nb_NO" str="SpO₂"/>
+-            <Item language="pl_PL" str="SpO₂"/>
+-            <Item language="fi_FI" str="SpO₂"/>
+-            <Item language="in_ID" str="SpO₂"/>
+-            <Item language="el_GR" str="SpO₂"/>
+-            <Item language="ro_RO" str="SpO₂"/>
+-            <Item language="cs_CZ" str="SpO₂"/>
+-            <Item language="uk_UA" str="SpO₂"/>
+-            <Item language="sk_SK" str="SpO₂"/>
+-            <Item language="hu_HU" str="SpO₂"/>
+-            <Item language="ar_EG" str="أكسجين الدم"/>
+-            <Item language="iw_IL" str="SpO₂"/>
+-            <Item language="zh_HK" str="血氧"/>
+-            <Item language="lt_LT" str="SpO₂"/>
+-            <Item language="bg_BG" str="SpO₂"/>
+-        </Translation>
+-        <Translation name="Translation8">
+-            <Item language="en_US" str="Weather"/>
+-            <Item language="zh_CN" str="天气状况"/>
+-            <Item language="zh_TW" str="天氣狀況"/>
+-            <Item language="ja_JP" str="天気"/>
+-            <Item language="es_ES" str="Tiempo"/>
+-            <Item language="fr_FR" str="Météo"/>
+-            <Item language="de_DE" str="Wetter"/>
+-            <Item language="ru_RU" str="Погода"/>
+-            <Item language="pt_BR" str="Clima"/>
+-            <Item language="pt_PT" str="Tempo"/>
+-            <Item language="it_IT" str="Meteo"/>
+-            <Item language="ko_KR" str="날씨"/>
+-            <Item language="tr_TR" str="Hava durumu"/>
+-            <Item language="nl_NL" str="Weer"/>
+-            <Item language="th_TH" str="สภาพอากาศ"/>
+-            <Item language="sv_SE" str="Väder"/>
+-            <Item language="da_DK" str="Vejr"/>
+-            <Item language="vi_VN" str="Thời tiết"/>
+-            <Item language="nb_NO" str="Vær"/>
+-            <Item language="pl_PL" str="Pogoda"/>
+-            <Item language="fi_FI" str="Sää"/>
+-            <Item language="in_ID" str="Cuaca"/>
+-            <Item language="el_GR" str="Καιρός"/>
+-            <Item language="ro_RO" str="Meteo"/>
+-            <Item language="cs_CZ" str="Počasí"/>
+-            <Item language="uk_UA" str="Погода"/>
+-            <Item language="sk_SK" str="Počasie"/>
+-            <Item language="hu_HU" str="Időjárás"/>
+-            <Item language="ar_EG" str="الطقس"/>
+-            <Item language="iw_IL" str="מזג אוויר"/>
+-            <Item language="zh_HK" str="天氣狀況"/>
+-            <Item language="lt_LT" str="Orai"/>
+-            <Item language="bg_BG" str="Времето"/>
+-        </Translation>
+-        <Translation name="Translation9">
+-            <Item language="en_US" str="Battery"/>
+-            <Item language="zh_CN" str="电量"/>
+-            <Item language="zh_TW" str="電量"/>
+-            <Item language="ja_JP" str="バッテリー"/>
+-            <Item language="es_ES" str="Batería"/>
+-            <Item language="fr_FR" str="Batterie"/>
+-            <Item language="de_DE" str="Akku"/>
+-            <Item language="ru_RU" str="Заряд"/>
+-            <Item language="pt_BR" str="Bateria"/>
+-            <Item language="pt_PT" str="Bateria"/>
+-            <Item language="it_IT" str="Batteria"/>
+-            <Item language="ko_KR" str="배터리"/>
+-            <Item language="tr_TR" str="Pil"/>
+-            <Item language="nl_NL" str="Batterij"/>
+-            <Item language="th_TH" str="แบตเตอรี่"/>
+-            <Item language="sv_SE" str="Batteri"/>
+-            <Item language="da_DK" str="Batteri"/>
+-            <Item language="vi_VN" str="Pin"/>
+-            <Item language="nb_NO" str="Batteri"/>
+-            <Item language="pl_PL" str="Bateria"/>
+-            <Item language="fi_FI" str="Akku"/>
+-            <Item language="in_ID" str="Baterai"/>
+-            <Item language="el_GR" str="Μπαταρία"/>
+-            <Item language="ro_RO" str="Baterie"/>
+-            <Item language="cs_CZ" str="Baterie"/>
+-            <Item language="uk_UA" str="Батарея"/>
+-            <Item language="sk_SK" str="Batéria"/>
+-            <Item language="hu_HU" str="Akkumulátor"/>
+-            <Item language="ar_EG" str="البطارية"/>
+-            <Item language="iw_IL" str="סוללה"/>
+-            <Item language="zh_HK" str="電量"/>
+-            <Item language="lt_LT" str="Baterija"/>
+-            <Item language="bg_BG" str="Батерия"/>
+-        </Translation>
+-        <Translation name="Translation10">
+-            <Item language="en_US" str="组"/>
+-            <Item language="zh_CN" str="组"/>
+-            <Item language="zh_TW" str="组"/>
+-            <Item language="ja_JP" str="组"/>
+-            <Item language="es_ES" str="组"/>
+-            <Item language="fr_FR" str="组"/>
+-            <Item language="de_DE" str="组"/>
+-            <Item language="ru_RU" str="组"/>
+-            <Item language="pt_BR" str="组"/>
+-            <Item language="pt_PT" str="组"/>
+-            <Item language="it_IT" str="组"/>
+-            <Item language="ko_KR" str="组"/>
+-            <Item language="tr_TR" str="组"/>
+-            <Item language="nl_NL" str="组"/>
+-            <Item language="th_TH" str="组"/>
+-            <Item language="sv_SE" str="组"/>
+-            <Item language="da_DK" str="组"/>
+-            <Item language="vi_VN" str="组"/>
+-            <Item language="nb_NO" str="组"/>
+-            <Item language="pl_PL" str="组"/>
+-            <Item language="fi_FI" str="组"/>
+-            <Item language="in_ID" str="组"/>
+-            <Item language="el_GR" str="组"/>
+-            <Item language="ro_RO" str="组"/>
+-            <Item language="cs_CZ" str="组"/>
+-            <Item language="uk_UA" str="组"/>
+-            <Item language="sk_SK" str="组"/>
+-            <Item language="hu_HU" str="组"/>
+-            <Item language="ar_EG" str="组"/>
+-            <Item language="iw_IL" str="组"/>
+-            <Item language="zh_HK" str="组"/>
+-            <Item language="lt_LT" str="组"/>
+-            <Item language="bg_BG" str="组"/>
++            <Item language="en_US" str="Calories"/>
++            <Item language="zh_CN" str="卡路里"/>
++            <Item language="zh_TW" str="卡路里"/>
++            <Item language="ja_JP" str="カロリー"/>
++            <Item language="es_ES" str="Calorías"/>
++            <Item language="fr_FR" str="Calories"/>
++            <Item language="de_DE" str="Kalorien"/>
++            <Item language="ru_RU" str="Калории"/>
++            <Item language="pt_BR" str="Calorias"/>
++            <Item language="pt_PT" str="Calorias"/>
++            <Item language="it_IT" str="Calorie"/>
++            <Item language="ko_KR" str="칼로리"/>
++            <Item language="tr_TR" str="Kalori"/>
++            <Item language="nl_NL" str="Calorieën"/>
++            <Item language="th_TH" str="แคลอรี่"/>
++            <Item language="sv_SE" str="Kalorier"/>
++            <Item language="da_DK" str="Kalorier"/>
++            <Item language="vi_VN" str="Calo"/>
++            <Item language="nb_NO" str="Kalorier"/>
++            <Item language="pl_PL" str="Kalorie"/>
++            <Item language="fi_FI" str="Kalorit"/>
++            <Item language="in_ID" str="Kalori"/>
++            <Item language="el_GR" str="Θερμίδες"/>
++            <Item language="ro_RO" str="Calorii"/>
++            <Item language="cs_CZ" str="Kalorie"/>
++            <Item language="uk_UA" str="Калорії"/>
++            <Item language="sk_SK" str="Kalórie"/>
++            <Item language="hu_HU" str="Kalória"/>
++            <Item language="ar_EG" str="السعرات الحرارية"/>
++            <Item language="iw_IL" str="קלוריות"/>
++            <Item language="zh_HK" str="卡路里"/>
++            <Item language="lt_LT" str="Kalorijos"/>
++            <Item language="bg_BG" str="Калории"/>
+         </Translation>
+         <Image name="Image1" src="_preview/样式1亮屏预览图.png" compressMethod="RLEReversed" format="indexed8"/>
+-        <Image name="Image2" src="14512c8.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image3" src="18f1c71.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image4" src="_widget/1bd1339.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image5" src="_widget/a0aa9b2.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image6" src="0ccf342.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image7" src="_widget/b21504a.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image8" src="499d7d8.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image9" src="5308026.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image10" src="_widget/fc2e447.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image11" src="84239e3.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image12" src="_widget/13d21ef.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image13" src="08418fa.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image14" src="_widget/3763bac.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image15" src="2a67ac6.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image16" src="_widget/09bcd61.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image17" src="3385d2b.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image18" src="_widget/797565c.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image19" src="814e6e4.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image20" src="8f0f919.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image21" src="_widget/14d8337.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image22" src="d436ebb.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image23" src="_widget/00854da.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image24" src="8cf2554.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+-        <Image name="Image25" src="f8100e5.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+-        <Image name="Image26" src="1670f4d.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+-        <Image name="Image27" src="_widget/9661fd9.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+-        <Image name="Image28" src="5745e36.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+-        <ImageArray name="ImageArray1" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="数字/00_139077c.png"/>
+-            <Image src="数字/01_cc44538.png"/>
+-            <Image src="数字/02_e772f1f.png"/>
+-            <Image src="数字/03_a99a135.png"/>
+-            <Image src="数字/04_4953c94.png"/>
+-            <Image src="数字/05_3d9fe3c.png"/>
+-            <Image src="数字/06_fa8bf36.png"/>
+-            <Image src="数字/07_a4d00a4.png"/>
+-            <Image src="数字/08_aa8a81f.png"/>
+-            <Image src="数字/09_cb8ab50.png"/>
++        <Image name="Image2" src="d79e690.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image3" src="_widget/398536d.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image4" src="_widget/101b1ba.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image5" src="25bc518.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image6" src="_widget/6d8d3a2.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image7" src="f0e4dc4.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image8" src="771558b.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image9" src="4c83a5b.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image10" src="8edf3a6.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image11" src="_widget/83143b2.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image12" src="4197cd2.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image13" src="_widget/b23bf03.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image14" src="fb43ad5.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image15" src="_widget/f0b48cb.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image16" src="f0fbc41.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image17" src="_widget/8e2a82b.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image18" src="f92cca5.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image19" src="_widget/c909304.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image20" src="_widget/f75e5a7.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image21" src="_widget/844cd49.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image22" src="_widget/1b81033.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image23" src="_widget/e0cbc27.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image24" src="_widget/3e964f9.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image25" src="f2b1652.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image26" src="9ce6a6c.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image27" src="98aab67.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image28" src="1cdceea.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image29" src="6dc1026.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image30" src="ac5a1b3.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image31" src="06244a1.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image32" src="081dfd3.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image33" src="580f495.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image34" src="2d20f5e.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image35" src="a7cdfdf.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image36" src="74c57a0.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image37" src="4f8da64.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image38" src="77f12b3.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image39" src="1661441.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image40" src="aac7bd5.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image41" src="8128296.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image42" src="ce851ce.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image43" src="5c9222e.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image44" src="_preview/样式2亮屏预览图.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image45" src="bf9861d.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image46" src="73764d0.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image47" src="d3e0443.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image48" src="858e1ab.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image49" src="8fde1ff.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image50" src="f09ba7e.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image51" src="c366b48.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image52" src="8b1ad0b.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image53" src="a5c489c.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image54" src="6ac089e.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image55" src="98c50b4.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image56" src="3d89705.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image57" src="_preview/样式3亮屏预览图.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image58" src="59ac671.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image59" src="_widget/b0aac0c.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image60" src="_widget/cd1061c.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image61" src="_widget/9225ed4.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image62" src="_widget/1c0abe2.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image63" src="_widget/07d8046.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image64" src="_widget/463f8ab.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image65" src="4d49c74.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image66" src="4ae6596.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image67" src="678c4be.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image68" src="2ffb4b2.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image69" src="f7f3076.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image70" src="56e2b41.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image71" src="_preview/样式4亮屏预览图.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image72" src="3ca892e.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image73" src="_widget/e17bf46.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image74" src="_widget/ea7bc61.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image75" src="_widget/4963143.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image76" src="_widget/9ecccf9.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image77" src="_widget/1e1c8d6.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image78" src="_widget/d1d8352.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image79" src="007dd12.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image80" src="d424539.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image81" src="3d18d66.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image82" src="467c563.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image83" src="ccd2427.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image84" src="d681506.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image85" src="735900f.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image86" src="_preview/样式5亮屏预览图.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image87" src="afc8d6b.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image88" src="d05e3f4.png" compressMethod="RLEReversed" format="indexed8"/>
++        <Image name="Image89" src="88ed5c7.png" compressMethod="RLEReversed" format="indexed8"/>
++        <ImageArray name="ImageArray1" compressMethod="RLEReversed" format="indexed8">
++            <Image src="星期/c61369d.png"/>
++            <Image src="星期/b8660e1.png"/>
++            <Image src="星期/685bb40.png"/>
++            <Image src="星期/ff3a067.png"/>
++            <Image src="星期/471002c.png"/>
++            <Image src="星期/0f3b7f9.png"/>
++            <Image src="星期/bfcc801.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray2" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="Desktop/d1c631c.png"/>
+-            <Image src="Desktop/76c1671.png"/>
++        <ImageArray name="ImageArray2" compressMethod="RLEReversed" format="indexed8">
++            <Image src="电量/d130934.png"/>
++            <Image src="电量/389ff3a.png"/>
++            <Image src="电量/f730ec9.png"/>
++            <Image src="电量/6a8cb0f.png"/>
++            <Image src="电量/ccee1e2.png"/>
++            <Image src="电量/18b3d8a.png"/>
++            <Image src="电量/393e3b6.png"/>
++            <Image src="电量/a369731.png"/>
++            <Image src="电量/9faf7e4.png"/>
++            <Image src="电量/14be69c.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray3" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="down/07_0794b92.png"/>
+-            <Image src="down/01_fcf3629.png"/>
+-            <Image src="down/02_441b3a6.png"/>
+-            <Image src="down/03_2e56968.png"/>
+-            <Image src="down/04_00419af.png"/>
+-            <Image src="down/05_2a87032.png"/>
+-            <Image src="down/06_26e1bda.png"/>
++        <ImageArray name="ImageArray3" compressMethod="RLEReversed" format="indexed8">
++            <Image src="日期/9d27286.png"/>
++            <Image src="日期/a8be248.png"/>
++            <Image src="日期/ca99e01.png"/>
++            <Image src="日期/8195baa.png"/>
++            <Image src="日期/6a8e7d1.png"/>
++            <Image src="日期/ef61c14.png"/>
++            <Image src="日期/07f415c.png"/>
++            <Image src="日期/21c6496.png"/>
++            <Image src="日期/99c3b78.png"/>
++            <Image src="日期/8b8d373.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray4" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="目标数字/00_2aac479.png"/>
+-            <Image src="目标数字/01_a6ec356.png"/>
+-            <Image src="目标数字/02_158fc8d.png"/>
+-            <Image src="目标数字/03_3378f9c.png"/>
+-            <Image src="目标数字/04_5327964.png"/>
+-            <Image src="目标数字/05_951bebc.png"/>
+-            <Image src="目标数字/06_47d1041.png"/>
+-            <Image src="目标数字/07_308f136.png"/>
+-            <Image src="目标数字/08_80ccf76.png"/>
+-            <Image src="目标数字/09_8ae900f.png"/>
++        <ImageArray name="ImageArray4" compressMethod="RLEReversed" format="indexed8">
++            <Image src="月份/2e8a14e.png"/>
++            <Image src="月份/cd53e2b.png"/>
++            <Image src="月份/00f23cb.png"/>
++            <Image src="月份/ed43ffa.png"/>
++            <Image src="月份/a40904e.png"/>
++            <Image src="月份/faafe27.png"/>
++            <Image src="月份/0ce7588.png"/>
++            <Image src="月份/b869575.png"/>
++            <Image src="月份/5b08f0c.png"/>
++            <Image src="月份/047818b.png"/>
++            <Image src="月份/45195c1.png"/>
++            <Image src="月份/04328a9.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray5" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="数字/00_139077c.png"/>
+-            <Image src="数字/01_cc44538.png"/>
+-            <Image src="数字/02_e772f1f.png"/>
+-            <Image src="数字/03_a99a135.png"/>
+-            <Image src="数字/04_4953c94.png"/>
+-            <Image src="数字/05_3d9fe3c.png"/>
+-            <Image src="数字/06_fa8bf36.png"/>
+-            <Image src="数字/07_a4d00a4.png"/>
+-            <Image src="数字/08_aa8a81f.png"/>
+-            <Image src="数字/09_cb8ab50.png"/>
+-            <Image src="数字/3cf3a6f.png"/>
++        <ImageArray name="ImageArray5" compressMethod="RLEReversed" format="indexed8">
++            <Image src="星期/ac14927.png"/>
++            <Image src="星期/36a6287.png"/>
++            <Image src="星期/f199da9.png"/>
++            <Image src="星期/977d366.png"/>
++            <Image src="星期/6953b60.png"/>
++            <Image src="星期/e018bea.png"/>
++            <Image src="星期/65deed6.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray6" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="天气/fd056ac.png"/>
+-            <Image src="天气/e029458.png"/>
+-            <Image src="天气/24279aa.png"/>
+-            <Image src="天气/674828a.png"/>
+-            <Image src="天气/9d2289c.png"/>
+-            <Image src="天气/c07c70c.png"/>
+-            <Image src="天气/d7dd4c7.png"/>
+-            <Image src="天气/444b6e9.png"/>
+-            <Image src="天气/7065868.png"/>
+-            <Image src="天气/3c39423.png"/>
+-            <Image src="天气/f10cff8.png"/>
+-            <Image src="天气/edbd3a7.png"/>
+-            <Image src="天气/550266e.png"/>
+-            <Image src="天气/304ef39.png"/>
+-            <Image src="天气/a05dd55.png"/>
+-            <Image src="天气/bf15824.png"/>
+-            <Image src="天气/b7de84c.png"/>
+-            <Image src="天气/22a130b.png"/>
++        <ImageArray name="ImageArray6" compressMethod="RLEReversed" format="indexed8">
++            <Image src="电量/36ff0eb.png"/>
++            <Image src="电量/870ba4e.png"/>
++            <Image src="电量/8682fd4.png"/>
++            <Image src="电量/5d94f35.png"/>
++            <Image src="电量/ce70409.png"/>
++            <Image src="电量/1d53247.png"/>
++            <Image src="电量/35e7faa.png"/>
++            <Image src="电量/2f5aa7a.png"/>
++            <Image src="电量/52fd487.png"/>
++            <Image src="电量/4210500.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray7" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+-            <Image src="电池电量/d754d2f.png"/>
+-            <Image src="电池电量/aec5e3b.png"/>
+-            <Image src="电池电量/e172640.png"/>
+-            <Image src="电池电量/8967dbc.png"/>
+-            <Image src="电池电量/14afe6e.png"/>
+-            <Image src="电池电量/4da4942.png"/>
+-            <Image src="电池电量/44599b7.png"/>
+-            <Image src="电池电量/71019bb.png"/>
+-            <Image src="电池电量/f2a5bb9.png"/>
+-            <Image src="电池电量/591c7cc.png"/>
+-            <Image src="电池电量/3df04b5.png"/>
+-            <Image src="电池电量/c1157e9.png"/>
+-            <Image src="电池电量/9f7fddf.png"/>
+-            <Image src="电池电量/55cfe00.png"/>
+-            <Image src="电池电量/68fe88c.png"/>
+-            <Image src="电池电量/6b3ade3.png"/>
+-            <Image src="电池电量/938b13c.png"/>
+-            <Image src="电池电量/8e68913.png"/>
+-            <Image src="电池电量/476428b.png"/>
+-            <Image src="电池电量/0ee2af1.png"/>
+-            <Image src="电池电量/1717b07.png"/>
++        <ImageArray name="ImageArray7" compressMethod="RLEReversed" format="indexed8">
++            <Image src="日期/7dca088.png"/>
++            <Image src="日期/0b39a71.png"/>
++            <Image src="日期/009c0b0.png"/>
++            <Image src="日期/3667a5e.png"/>
++            <Image src="日期/2bfe623.png"/>
++            <Image src="日期/7680ca5.png"/>
++            <Image src="日期/0824875.png"/>
++            <Image src="日期/8f0e687.png"/>
++            <Image src="日期/b3a02ea.png"/>
++            <Image src="日期/c77f0ee.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray8" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+-            <Image src="数字/00_ffb73af.png"/>
+-            <Image src="数字/01_6535790.png"/>
+-            <Image src="数字/02_faaa0ee.png"/>
+-            <Image src="数字/03_38ac042.png"/>
+-            <Image src="数字/04_2f67b7d.png"/>
+-            <Image src="数字/05_ad1018d.png"/>
+-            <Image src="数字/06_1490aec.png"/>
+-            <Image src="数字/07_df76b8b.png"/>
+-            <Image src="数字/08_6caaf5c.png"/>
+-            <Image src="数字/09_05e9904.png"/>
++        <ImageArray name="ImageArray8" compressMethod="RLEReversed" format="indexed8">
++            <Image src="月份/0aefad1.png"/>
++            <Image src="月份/2959a44.png"/>
++            <Image src="月份/509a504.png"/>
++            <Image src="月份/8dc2fd1.png"/>
++            <Image src="月份/d573e91.png"/>
++            <Image src="月份/6820a3f.png"/>
++            <Image src="月份/daa9ae6.png"/>
++            <Image src="月份/f212f37.png"/>
++            <Image src="月份/a4af0ab.png"/>
++            <Image src="月份/2280601.png"/>
++            <Image src="月份/1dd11ef.png"/>
++            <Image src="月份/42eeb1a.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray9" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+-            <Image src="时间/cb38e7f.png"/>
+-            <Image src="时间/24946b7.png"/>
++        <ImageArray name="ImageArray9" compressMethod="RLEReversed" format="indexed8">
++            <Image src="电量/114c0b5.png"/>
++            <Image src="电量/be538fa.png"/>
++            <Image src="电量/399077d.png"/>
++            <Image src="电量/8fcaf17.png"/>
++            <Image src="电量/9dfb912.png"/>
++            <Image src="电量/1db5d83.png"/>
++            <Image src="电量/0deb949.png"/>
++            <Image src="电量/bfc837a.png"/>
++            <Image src="电量/b953009.png"/>
++            <Image src="电量/6cd028b.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray10" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+-            <Image src="AOD/07_b83e52d.png"/>
+-            <Image src="AOD/01_27389dc.png"/>
+-            <Image src="AOD/02_2a1e1ee.png"/>
+-            <Image src="AOD/03_7551f39.png"/>
+-            <Image src="AOD/04_ffe84a5.png"/>
+-            <Image src="AOD/05_1af8dde.png"/>
+-            <Image src="AOD/06_9a3735e.png"/>
++        <ImageArray name="ImageArray10" compressMethod="RLEReversed" format="indexed8">
++            <Image src="月份/b974e61.png"/>
++            <Image src="月份/8177fa2.png"/>
++            <Image src="月份/eaf8c74.png"/>
++            <Image src="月份/c7779c1.png"/>
++            <Image src="月份/037200b.png"/>
++            <Image src="月份/fc34818.png"/>
++            <Image src="月份/f5092e8.png"/>
++            <Image src="月份/0e43d48.png"/>
++            <Image src="月份/7f5414e.png"/>
++            <Image src="月份/f8db32c.png"/>
++            <Image src="月份/fbf563d.png"/>
++            <Image src="月份/d68176d.png"/>
+         </ImageArray>
+-        <ImageArray name="ImageArray11" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+-            <Image src="电池电量/63b0fca.png"/>
+-            <Image src="电池电量/5c6b7e0.png"/>
+-            <Image src="电池电量/fd07fbd.png"/>
+-            <Image src="电池电量/c86e714.png"/>
+-            <Image src="电池电量/9e9c2e1.png"/>
+-            <Image src="电池电量/96ac08e.png"/>
+-            <Image src="电池电量/400e9b5.png"/>
+-            <Image src="电池电量/6ab53ca.png"/>
+-            <Image src="电池电量/c240c58.png"/>
+-            <Image src="电池电量/61f97da.png"/>
+-            <Image src="电池电量/98ff4df.png"/>
+-            <Image src="电池电量/3be1907.png"/>
+-            <Image src="电池电量/4a38a7a.png"/>
+-            <Image src="电池电量/87eeec9.png"/>
+-            <Image src="电池电量/d6930f1.png"/>
+-            <Image src="电池电量/edf8823.png"/>
+-            <Image src="电池电量/6afc284.png"/>
+-            <Image src="电池电量/94b450b.png"/>
+-            <Image src="电池电量/ecd6ef0.png"/>
+-            <Image src="电池电量/f029db2.png"/>
+-            <Image src="电池电量/73a8308.png"/>
+-        </ImageArray>
+-        <DataItemImageNumber name="ImageNumber1" source="timeHour" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber2" source="timeMinute" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber3" source="dateMonth" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+-        <DataItemImageNumber name="ImageNumber4" source="dateDay" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber5" source="healthExerciseDuration" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber6" source="healthExerciseTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+-        <DataItemImageNumber name="ImageNumber7" source="healthStandCount" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber8" source="healthStandTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber9" source="healthCalorieValue" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber10" source="healthCalorieTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber11" source="healthStepCount" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber12" source="healthStepTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+-        <DataItemImageNumber name="ImageNumber13" source="healthHeartRate" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber14" source="healthOxygenSpO2" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber15" source="weatherCurrentTemperature" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="hideWhenUnitMismatch" align="left" space="0"/>
+-        <DataItemImageNumber name="ImageNumber16" source="weatherCurrentTemperatureFahrenheit" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="4" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="hideWhenUnitMismatch" align="left" space="0"/>
+-        <DataItemImageNumber name="ImageNumber17" source="systemStatusBattery" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="@Image19" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber18" source="timeHour" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber19" source="timeMinute" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber20" source="dateMonth" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+-        <DataItemImageNumber name="ImageNumber21" source="dateDay" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageNumber name="ImageNumber22" source="systemStatusBattery" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+-        <DataItemImageValues name="ImageValues1" source="miscIsPM" ref="@ImageArray2" rotation="0" supportRecolor="true"/>
+-        <DataItemImageValues name="ImageValues2" source="dateWeek" ref="@ImageArray3" rotation="0" supportRecolor="true"/>
+-        <DataItemImageValues name="ImageValues3" source="weatherCurrentWeather" ref="@ImageArray6" rotation="0" supportRecolor="true">
+-            <Param value="0"/>
++        <DataItemImageNumber name="ImageNumber1" source="systemStatusBattery" ref="@ImageArray2" rotation="0" supportRecolor="false" unitIcon="@Image27" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-9"/>
++        <DataItemImageNumber name="ImageNumber2" source="dateDay" ref="@ImageArray3" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="center" space="-5"/>
++        <DataItemImageNumber name="ImageNumber3" source="systemStatusBattery" ref="@ImageArray6" rotation="0" supportRecolor="false" unitIcon="@Image81" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-9"/>
++        <DataItemImageNumber name="ImageNumber4" source="dateDay" ref="@ImageArray7" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="center" space="-5"/>
++        <DataItemImageNumber name="ImageNumber5" source="systemStatusBattery" ref="@ImageArray9" rotation="0" supportRecolor="false" unitIcon="@Image89" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-9"/>
++        <DataItemImageValues name="ImageValues1" source="dateWeek" ref="@ImageArray1" rotation="0" supportRecolor="false"/>
++        <DataItemImageValues name="ImageValues2" source="dateMonth" ref="@ImageArray4" rotation="0" supportRecolor="false">
+             <Param value="1"/>
+             <Param value="2"/>
++            <Param value="3"/>
+             <Param value="4"/>
+             <Param value="5"/>
+             <Param value="6"/>
+             <Param value="7"/>
+             <Param value="8"/>
+             <Param value="9"/>
+-            <Param value="13"/>
+-            <Param value="15"/>
+-            <Param value="16"/>
+-            <Param value="18"/>
+-            <Param value="19"/>
+-            <Param value="20"/>
+-            <Param value="29"/>
+-            <Param value="53"/>
+-            <Param value="99"/>
++            <Param value="10"/>
++            <Param value="11"/>
++            <Param value="12"/>
+         </DataItemImageValues>
+-        <DataItemImageValues name="ImageValues4" source="systemStatusBattery" ref="@ImageArray7" rotation="0" supportRecolor="true">
+-            <Param value="0"/>
++        <DataItemImageValues name="ImageValues3" source="dateWeek" ref="@ImageArray5" rotation="0" supportRecolor="false"/>
++        <DataItemImageValues name="ImageValues4" source="dateMonth" ref="@ImageArray8" rotation="0" supportRecolor="false">
++            <Param value="1"/>
++            <Param value="2"/>
++            <Param value="3"/>
++            <Param value="4"/>
+             <Param value="5"/>
++            <Param value="6"/>
++            <Param value="7"/>
++            <Param value="8"/>
++            <Param value="9"/>
+             <Param value="10"/>
+-            <Param value="15"/>
+-            <Param value="20"/>
+-            <Param value="25"/>
+-            <Param value="30"/>
+-            <Param value="35"/>
+-            <Param value="40"/>
+-            <Param value="45"/>
+-            <Param value="50"/>
+-            <Param value="55"/>
+-            <Param value="60"/>
+-            <Param value="65"/>
+-            <Param value="70"/>
+-            <Param value="75"/>
+-            <Param value="80"/>
+-            <Param value="85"/>
+-            <Param value="90"/>
+-            <Param value="95"/>
+-            <Param value="100"/>
++            <Param value="11"/>
++            <Param value="12"/>
+         </DataItemImageValues>
+-        <DataItemImageValues name="ImageValues5" source="miscIsPM" ref="@ImageArray9" rotation="0" supportRecolor="false"/>
+-        <DataItemImageValues name="ImageValues6" source="dateWeek" ref="@ImageArray10" rotation="0" supportRecolor="false"/>
+-        <DataItemImageValues name="ImageValues7" source="systemStatusBattery" ref="@ImageArray11" rotation="0" supportRecolor="false">
+-            <Param value="0"/>
++        <DataItemImageValues name="ImageValues5" source="dateMonth" ref="@ImageArray10" rotation="0" supportRecolor="false">
++            <Param value="1"/>
++            <Param value="2"/>
++            <Param value="3"/>
++            <Param value="4"/>
+             <Param value="5"/>
++            <Param value="6"/>
++            <Param value="7"/>
++            <Param value="8"/>
++            <Param value="9"/>
+             <Param value="10"/>
+-            <Param value="15"/>
+-            <Param value="20"/>
+-            <Param value="25"/>
+-            <Param value="30"/>
+-            <Param value="35"/>
+-            <Param value="40"/>
+-            <Param value="45"/>
+-            <Param value="50"/>
+-            <Param value="55"/>
+-            <Param value="60"/>
+-            <Param value="65"/>
+-            <Param value="70"/>
+-            <Param value="75"/>
+-            <Param value="80"/>
+-            <Param value="85"/>
+-            <Param value="90"/>
+-            <Param value="95"/>
+-            <Param value="100"/>
++            <Param value="11"/>
++            <Param value="12"/>
+         </DataItemImageValues>
+-        <Widget name="Widget1" widgetName="时间" groupType="general" w="272" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-2">
++        <DataItemPointer name="Pointer1" source="healthExerciseProgress" ref="@Image10" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer2" source="healthExerciseProgress" ref="@Image8" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer3" source="healthSleepTargetProgress" ref="@Image10" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer4" source="healthSleepTargetProgress" ref="@Image8" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer5" source="healthOxygenSpO2" ref="@Image10" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer6" source="healthOxygenSpO2" ref="@Image8" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer7" source="healthStepProgress" ref="@Image10" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer8" source="healthStepProgress" ref="@Image8" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer9" source="healthCalorieProgress" ref="@Image10" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer10" source="healthCalorieProgress" ref="@Image8" pivotX="15" pivotY="75" supportRecolor="false" renderRule="alwaysShow" angleStart="0" angleRange="360" valueStart="0" valueRange="100"/>
++        <DataItemPointer name="Pointer11" source="timeHour" ref="@Image30" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="720" valueStart="0" valueRange="24"/>
++        <DataItemPointer name="Pointer12" source="timeHour" ref="@Image28" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="6"/>
++        <DataItemPointer name="Pointer13" source="timeHour" ref="@Image29" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="6" valueRange="6"/>
++        <DataItemPointer name="Pointer14" source="timeHour" ref="@Image28" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="180" valueStart="12" valueRange="6"/>
++        <DataItemPointer name="Pointer15" source="timeHour" ref="@Image29" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="540" angleRange="180" valueStart="18" valueRange="6"/>
++        <DataItemPointer name="Pointer16" source="timeHour" ref="@Image29" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="720" angleRange="0" valueStart="24" valueRange="1"/>
++        <DataItemPointer name="Pointer17" source="timeMinute" ref="@Image33" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="360" valueStart="0" valueRange="60"/>
++        <DataItemPointer name="Pointer18" source="timeMinute" ref="@Image31" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30"/>
++        <DataItemPointer name="Pointer19" source="timeMinute" ref="@Image32" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30"/>
++        <DataItemPointer name="Pointer20" source="timeMinute" ref="@Image32" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1"/>
++        <DataItemPointer name="Pointer21" source="timeSecond" ref="@Image36" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="360" valueStart="0" valueRange="60" parameter="1000"/>
++        <DataItemPointer name="Pointer22" source="timeSecond" ref="@Image34" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30" parameter="1000"/>
++        <DataItemPointer name="Pointer23" source="timeSecond" ref="@Image35" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30" parameter="1000"/>
++        <DataItemPointer name="Pointer24" source="timeSecond" ref="@Image35" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1" parameter="1000"/>
++        <DataItemPointer name="Pointer25" source="timeHour" ref="@Image39" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="6"/>
++        <DataItemPointer name="Pointer26" source="timeHour" ref="@Image40" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="6" valueRange="6"/>
++        <DataItemPointer name="Pointer27" source="timeHour" ref="@Image39" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="180" valueStart="12" valueRange="6"/>
++        <DataItemPointer name="Pointer28" source="timeHour" ref="@Image40" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="540" angleRange="180" valueStart="18" valueRange="6"/>
++        <DataItemPointer name="Pointer29" source="timeHour" ref="@Image40" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="720" angleRange="0" valueStart="24" valueRange="1"/>
++        <DataItemPointer name="Pointer30" source="timeMinute" ref="@Image41" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30"/>
++        <DataItemPointer name="Pointer31" source="timeMinute" ref="@Image42" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30"/>
++        <DataItemPointer name="Pointer32" source="timeMinute" ref="@Image42" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1"/>
++        <DataItemPointer name="Pointer33" source="timeHour" ref="@Image46" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="6"/>
++        <DataItemPointer name="Pointer34" source="timeHour" ref="@Image47" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="6" valueRange="6"/>
++        <DataItemPointer name="Pointer35" source="timeHour" ref="@Image46" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="180" valueStart="12" valueRange="6"/>
++        <DataItemPointer name="Pointer36" source="timeHour" ref="@Image47" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="540" angleRange="180" valueStart="18" valueRange="6"/>
++        <DataItemPointer name="Pointer37" source="timeHour" ref="@Image47" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="720" angleRange="0" valueStart="24" valueRange="1"/>
++        <DataItemPointer name="Pointer38" source="timeMinute" ref="@Image48" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30"/>
++        <DataItemPointer name="Pointer39" source="timeMinute" ref="@Image49" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30"/>
++        <DataItemPointer name="Pointer40" source="timeMinute" ref="@Image49" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1"/>
++        <DataItemPointer name="Pointer41" source="timeSecond" ref="@Image50" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30" parameter="1000"/>
++        <DataItemPointer name="Pointer42" source="timeSecond" ref="@Image51" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30" parameter="1000"/>
++        <DataItemPointer name="Pointer43" source="timeSecond" ref="@Image51" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1" parameter="1000"/>
++        <DataItemPointer name="Pointer44" source="timeHour" ref="@Image53" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="6"/>
++        <DataItemPointer name="Pointer45" source="timeHour" ref="@Image54" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="6" valueRange="6"/>
++        <DataItemPointer name="Pointer46" source="timeHour" ref="@Image53" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="180" valueStart="12" valueRange="6"/>
++        <DataItemPointer name="Pointer47" source="timeHour" ref="@Image54" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="540" angleRange="180" valueStart="18" valueRange="6"/>
++        <DataItemPointer name="Pointer48" source="timeHour" ref="@Image54" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="720" angleRange="0" valueStart="24" valueRange="1"/>
++        <DataItemPointer name="Pointer49" source="timeMinute" ref="@Image55" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30"/>
++        <DataItemPointer name="Pointer50" source="timeMinute" ref="@Image56" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30"/>
++        <DataItemPointer name="Pointer51" source="timeMinute" ref="@Image56" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1"/>
++        <DataItemPointer name="Pointer52" source="timeSecond" ref="@Image36" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="360" valueStart="0" valueRange="60" parameter="33.3"/>
++        <DataItemPointer name="Pointer53" source="timeSecond" ref="@Image65" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30" parameter="33.3"/>
++        <DataItemPointer name="Pointer54" source="timeSecond" ref="@Image66" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30" parameter="33.3"/>
++        <DataItemPointer name="Pointer55" source="timeSecond" ref="@Image66" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1" parameter="33.3"/>
++        <DataItemPointer name="Pointer56" source="timeHour" ref="@Image67" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="6"/>
++        <DataItemPointer name="Pointer57" source="timeHour" ref="@Image68" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="6" valueRange="6"/>
++        <DataItemPointer name="Pointer58" source="timeHour" ref="@Image67" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="180" valueStart="12" valueRange="6"/>
++        <DataItemPointer name="Pointer59" source="timeHour" ref="@Image68" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="540" angleRange="180" valueStart="18" valueRange="6"/>
++        <DataItemPointer name="Pointer60" source="timeHour" ref="@Image68" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="720" angleRange="0" valueStart="24" valueRange="1"/>
++        <DataItemPointer name="Pointer61" source="timeMinute" ref="@Image69" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30"/>
++        <DataItemPointer name="Pointer62" source="timeMinute" ref="@Image70" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30"/>
++        <DataItemPointer name="Pointer63" source="timeMinute" ref="@Image70" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1"/>
++        <DataItemPointer name="Pointer64" source="timeSecond" ref="@Image34" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30" parameter="33.3"/>
++        <DataItemPointer name="Pointer65" source="timeSecond" ref="@Image35" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30" parameter="33.3"/>
++        <DataItemPointer name="Pointer66" source="timeSecond" ref="@Image35" pivotX="30" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1" parameter="33.3"/>
++        <DataItemPointer name="Pointer67" source="timeHour" ref="@Image82" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="6"/>
++        <DataItemPointer name="Pointer68" source="timeHour" ref="@Image83" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="6" valueRange="6"/>
++        <DataItemPointer name="Pointer69" source="timeHour" ref="@Image82" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="180" valueStart="12" valueRange="6"/>
++        <DataItemPointer name="Pointer70" source="timeHour" ref="@Image83" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="540" angleRange="180" valueStart="18" valueRange="6"/>
++        <DataItemPointer name="Pointer71" source="timeHour" ref="@Image83" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="720" angleRange="0" valueStart="24" valueRange="1"/>
++        <DataItemPointer name="Pointer72" source="timeMinute" ref="@Image84" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="0" angleRange="180" valueStart="0" valueRange="30"/>
++        <DataItemPointer name="Pointer73" source="timeMinute" ref="@Image85" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="180" angleRange="180" valueStart="30" valueRange="30"/>
++        <DataItemPointer name="Pointer74" source="timeMinute" ref="@Image85" pivotX="40" pivotY="240" supportRecolor="false" renderRule="hideWhenOutRange" angleStart="360" angleRange="0" valueStart="60" valueRange="1"/>
++        <DataItemLineProgressBar name="LineProgressBar1" source="systemStatusBattery" ref="@Image26" bg="" endingStyle="normal" valueStart="0" valueRange="100" indicatorImage="" supportRecolor="false" renderRule="alwaysShow" startX="0" startY="3" endX="16" endY="3" barWidth="6"/>
++        <DataItemLineProgressBar name="LineProgressBar2" source="systemStatusBattery" ref="@Image80" bg="" endingStyle="normal" valueStart="0" valueRange="100" indicatorImage="" supportRecolor="false" renderRule="alwaysShow" startX="0" startY="3" endX="16" endY="3" barWidth="6"/>
++        <DataItemLineProgressBar name="LineProgressBar3" source="systemStatusBattery" ref="@Image88" bg="" endingStyle="normal" valueStart="0" valueRange="100" indicatorImage="" supportRecolor="false" renderRule="alwaysShow" startX="0" startY="3" endX="16" endY="3" barWidth="6"/>
++        <Widget name="Widget1" widgetName="@Translation1" groupType="general" editBox="@Image3" preview="@Image4" w="164" h="166">
++            <Item ref="@Image5" x="0" y="0"/>
++        </Widget>
++        <Widget name="Widget2" widgetName="@Translation2" groupType="general" editBox="@Image3" preview="@Image6" w="164" h="166" jumpApp="activities">
++            <Item ref="@Image7" x="71" y="97"/>
++            <Item ref="@Pointer1" x="64" y="7"/>
++            <Item ref="@Pointer2" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget3" widgetName="@Translation3" groupType="general" editBox="@Image3" preview="@Image11" w="164" h="166" jumpApp="sleep">
++            <Item ref="@Image12" x="71" y="97"/>
++            <Item ref="@Pointer3" x="64" y="7"/>
++            <Item ref="@Pointer4" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget4" widgetName="@Translation4" groupType="general" editBox="@Image3" preview="@Image13" w="164" h="166" jumpApp="SpO2">
++            <Item ref="@Image14" x="71" y="98"/>
++            <Item ref="@Pointer5" x="64" y="7"/>
++            <Item ref="@Pointer6" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget5" widgetName="@Translation5" groupType="general" editBox="@Image3" preview="@Image15" w="164" h="166" jumpApp="activities">
++            <Item ref="@Image16" x="71" y="97"/>
++            <Item ref="@Pointer7" x="64" y="7"/>
++            <Item ref="@Pointer8" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget6" widgetName="@Translation6" groupType="general" editBox="@Image3" preview="@Image17" w="164" h="166" jumpApp="activities">
++            <Item ref="@Image18" x="71" y="97"/>
++            <Item ref="@Pointer9" x="64" y="7"/>
++            <Item ref="@Pointer10" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget7" widgetName="@Translation1" groupType="general" editBox="@Image3" preview="@Image19" w="164" h="164">
++            <Item ref="@Image5" x="0" y="0"/>
++        </Widget>
++        <Widget name="Widget8" widgetName="@Translation2" groupType="general" editBox="@Image3" preview="@Image20" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image7" x="71" y="97"/>
++            <Item ref="@Pointer1" x="64" y="7"/>
++            <Item ref="@Pointer2" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget9" widgetName="@Translation3" groupType="general" editBox="@Image3" preview="@Image21" w="164" h="164" jumpApp="sleep">
++            <Item ref="@Image12" x="71" y="97"/>
++            <Item ref="@Pointer3" x="64" y="7"/>
++            <Item ref="@Pointer4" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget10" widgetName="@Translation4" groupType="general" editBox="@Image3" preview="@Image22" w="164" h="164" jumpApp="SpO2">
++            <Item ref="@Image14" x="71" y="97"/>
++            <Item ref="@Pointer5" x="64" y="7"/>
++            <Item ref="@Pointer6" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget11" widgetName="@Translation6" groupType="general" editBox="@Image3" preview="@Image23" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image18" x="71" y="97"/>
++            <Item ref="@Pointer9" x="64" y="7"/>
++            <Item ref="@Pointer10" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget12" widgetName="@Translation5" groupType="general" editBox="@Image3" preview="@Image24" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image16" x="71" y="97"/>
++            <Item ref="@Pointer7" x="64" y="7"/>
++            <Item ref="@Pointer8" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget13" widgetName="组1" groupType="general" w="30" h="30">
++            <Item ref="@Image25" x="0" y="0"/>
++            <Item ref="@LineProgressBar1" x="6" y="12"/>
++        </Widget>
++        <Widget name="Widget14" widgetName="组2" groupType="general" w="30" h="30" flex_direction="row" justify_content="center" align_items="center" align_content="center" gap="0">
++            <Item ref="@Widget13"/>
++        </Widget>
++        <Widget name="Widget15" widgetName="组1" groupType="general" w="89" h="30" flex_direction="row" justify_content="center" align_items="center" align_content="center" gap="-5">
++            <Item ref="@Widget14"/>
+             <Item ref="@ImageNumber1"/>
+-            <Item ref="@Image2"/>
+-            <Item ref="@ImageNumber2"/>
+-            <Item ref="@ImageValues1"/>
+-        </Widget>
+-        <Widget name="Widget2" widgetName="日期" groupType="general" w="231" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="0">
++        </Widget>
++        <Widget name="Widget16" widgetName="@Translation1" groupType="general" editBox="@Image3" preview="@Image4" w="164" h="164">
++            <Item ref="@Image5" x="0" y="0"/>
++        </Widget>
++        <Widget name="Widget17" widgetName="@Translation2" groupType="general" editBox="@Image3" preview="@Image6" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image7" x="71" y="97"/>
++            <Item ref="@Pointer1" x="64" y="7"/>
++            <Item ref="@Pointer2" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget18" widgetName="@Translation3" groupType="general" editBox="@Image3" preview="@Image11" w="164" h="164" jumpApp="sleep">
++            <Item ref="@Image12" x="71" y="97"/>
++            <Item ref="@Pointer3" x="64" y="7"/>
++            <Item ref="@Pointer4" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget19" widgetName="@Translation4" groupType="general" editBox="@Image3" preview="@Image13" w="164" h="164" jumpApp="SpO2">
++            <Item ref="@Image14" x="71" y="97"/>
++            <Item ref="@Pointer5" x="64" y="7"/>
++            <Item ref="@Pointer6" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget20" widgetName="@Translation5" groupType="general" editBox="@Image3" preview="@Image15" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image16" x="71" y="97"/>
++            <Item ref="@Pointer7" x="64" y="7"/>
++            <Item ref="@Pointer8" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget21" widgetName="@Translation6" groupType="general" editBox="@Image3" preview="@Image17" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image18" x="71" y="97"/>
++            <Item ref="@Pointer9" x="64" y="7"/>
++            <Item ref="@Pointer10" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget22" widgetName="@Translation1" groupType="general" editBox="@Image3" preview="@Image59" w="164" h="164">
++            <Item ref="@Image5" x="0" y="0"/>
++        </Widget>
++        <Widget name="Widget23" widgetName="@Translation2" groupType="general" editBox="@Image3" preview="@Image60" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image7" x="71" y="97"/>
++            <Item ref="@Pointer1" x="64" y="7"/>
++            <Item ref="@Pointer2" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget24" widgetName="@Translation3" groupType="general" editBox="@Image3" preview="@Image61" w="164" h="164" jumpApp="sleep">
++            <Item ref="@Image12" x="71" y="97"/>
++            <Item ref="@Pointer3" x="64" y="7"/>
++            <Item ref="@Pointer4" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget25" widgetName="@Translation4" groupType="general" editBox="@Image3" preview="@Image62" w="164" h="164" jumpApp="SpO2">
++            <Item ref="@Image14" x="71" y="97"/>
++            <Item ref="@Pointer5" x="64" y="7"/>
++            <Item ref="@Pointer6" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget26" widgetName="@Translation6" groupType="general" editBox="@Image3" preview="@Image63" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image18" x="71" y="97"/>
++            <Item ref="@Pointer9" x="64" y="7"/>
++            <Item ref="@Pointer10" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget27" widgetName="@Translation5" groupType="general" editBox="@Image3" preview="@Image64" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image16" x="71" y="97"/>
++            <Item ref="@Pointer7" x="64" y="7"/>
++            <Item ref="@Pointer8" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget28" widgetName="@Translation1" groupType="general" editBox="@Image3" preview="@Image73" w="164" h="164">
++            <Item ref="@Image5" x="0" y="0"/>
++        </Widget>
++        <Widget name="Widget29" widgetName="@Translation2" groupType="general" editBox="@Image3" preview="@Image74" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image7" x="71" y="97"/>
++            <Item ref="@Pointer1" x="64" y="7"/>
++            <Item ref="@Pointer2" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget30" widgetName="@Translation3" groupType="general" editBox="@Image3" preview="@Image75" w="164" h="164" jumpApp="sleep">
++            <Item ref="@Image12" x="71" y="97"/>
++            <Item ref="@Pointer3" x="64" y="7"/>
++            <Item ref="@Pointer4" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget31" widgetName="@Translation4" groupType="general" editBox="@Image3" preview="@Image76" w="164" h="164" jumpApp="SpO2">
++            <Item ref="@Image14" x="71" y="97"/>
++            <Item ref="@Pointer5" x="64" y="7"/>
++            <Item ref="@Pointer6" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget32" widgetName="@Translation5" groupType="general" editBox="@Image3" preview="@Image77" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image16" x="71" y="97"/>
++            <Item ref="@Pointer7" x="64" y="7"/>
++            <Item ref="@Pointer8" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget33" widgetName="@Translation6" groupType="general" editBox="@Image3" preview="@Image78" w="164" h="164" jumpApp="activities">
++            <Item ref="@Image18" x="71" y="97"/>
++            <Item ref="@Pointer9" x="64" y="7"/>
++            <Item ref="@Pointer10" x="64" y="5"/>
++        </Widget>
++        <Widget name="Widget34" widgetName="组1" groupType="general" w="30" h="30">
++            <Item ref="@Image79" x="0" y="0"/>
++            <Item ref="@LineProgressBar2" x="6" y="12"/>
++        </Widget>
++        <Widget name="Widget35" widgetName="组2" groupType="general" w="30" h="30" flex_direction="row" justify_content="center" align_items="center" align_content="center" gap="0">
++            <Item ref="@Widget34"/>
++        </Widget>
++        <Widget name="Widget36" widgetName="组1" groupType="general" w="89" h="30" flex_direction="row" justify_content="center" align_items="center" align_content="center" gap="-5">
++            <Item ref="@Widget35"/>
+             <Item ref="@ImageNumber3"/>
+-            <Item ref="@Image3"/>
+-            <Item ref="@ImageNumber4"/>
+-            <Item ref="@ImageValues2"/>
+-        </Widget>
+-        <Widget name="Widget3" widgetName="@Translation1" groupType="general" editBox="@Image4" preview="@Image5" w="278" h="80">
+-            <Item ref="@Image6" x="0" y="0"/>
+-        </Widget>
+-        <Widget name="Widget4" widgetName="组1" groupType="general" w="71" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@Image9"/>
+-            <Item ref="@ImageNumber6"/>
+-        </Widget>
+-        <Widget name="Widget5" widgetName="组2" groupType="general" w="71" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+-            <Item ref="@Image8"/>
++        </Widget>
++        <Widget name="Widget37" widgetName="组1" groupType="general" w="30" h="30">
++            <Item ref="@Image87" x="0" y="0"/>
++            <Item ref="@LineProgressBar3" x="6" y="12"/>
++        </Widget>
++        <Widget name="Widget38" widgetName="组2" groupType="general" w="30" h="30" flex_direction="row" justify_content="center" align_items="center" align_content="center" gap="0">
++            <Item ref="@Widget37"/>
++        </Widget>
++        <Widget name="Widget39" widgetName="组1" groupType="general" w="89" h="30" flex_direction="row" justify_content="center" align_items="center" align_content="center" gap="-5">
++            <Item ref="@Widget38"/>
++            <Item ref="@ImageNumber5"/>
++        </Widget>
++        <Slot name="Slot1" type="widget" SlotGroupName="2">
++            <Item ref="@Widget6"/>
++            <Item ref="@Widget5"/>
+             <Item ref="@Widget4"/>
+-        </Widget>
+-        <Widget name="Widget6" widgetName="@Translation2" groupType="general" editBox="@Image4" preview="@Image7" w="159" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber5"/>
+-            <Item ref="@Widget5"/>
+-        </Widget>
+-        <Widget name="Widget7" widgetName="组1" groupType="general" w="55" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="-1">
+-            <Item ref="@Image9"/>
+-            <Item ref="@ImageNumber8"/>
+-        </Widget>
+-        <Widget name="Widget8" widgetName="icon" groupType="general" w="55" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+-            <Item ref="@Image11"/>
++            <Item ref="@Widget3"/>
++            <Item ref="@Widget2"/>
++            <Item ref="@Widget1"/>
++        </Slot>
++        <Slot name="Slot2" type="widget" SlotGroupName="1">
++            <Item ref="@Widget12"/>
++            <Item ref="@Widget11"/>
++            <Item ref="@Widget10"/>
++            <Item ref="@Widget9"/>
++            <Item ref="@Widget8"/>
+             <Item ref="@Widget7"/>
+-        </Widget>
+-        <Widget name="Widget9" widgetName="@Translation3" groupType="general" editBox="@Image4" preview="@Image10" w="153" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber7"/>
+-            <Item ref="@Widget8"/>
+-        </Widget>
+-        <Widget name="Widget10" widgetName="组1" groupType="general" w="69" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="-1">
+-            <Item ref="@Image9"/>
+-            <Item ref="@ImageNumber10"/>
+-        </Widget>
+-        <Widget name="Widget11" widgetName="icon" groupType="general" w="69" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+-            <Item ref="@Image13"/>
+-            <Item ref="@Widget10"/>
+-        </Widget>
+-        <Widget name="Widget12" widgetName="@Translation4" groupType="general" editBox="@Image4" preview="@Image12" w="228" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber9"/>
+-            <Item ref="@Widget11"/>
+-        </Widget>
+-        <Widget name="Widget13" widgetName="组1" groupType="general" w="103" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@Image9"/>
+-            <Item ref="@ImageNumber12"/>
+-        </Widget>
+-        <Widget name="Widget14" widgetName="组2" groupType="general" w="103" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+-            <Item ref="@Image15"/>
+-            <Item ref="@Widget13"/>
+-        </Widget>
+-        <Widget name="Widget15" widgetName="@Translation5" groupType="general" editBox="@Image4" preview="@Image14" w="183" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber11"/>
+-            <Item ref="@Widget14"/>
+-        </Widget>
+-        <Widget name="Widget16" widgetName="@Translation6" groupType="general" editBox="@Image4" preview="@Image16" w="183" h="80" jumpApp="heartrate" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber13"/>
+-            <Item ref="@Image17"/>
+-        </Widget>
+-        <Widget name="Widget17" widgetName="@Translation7" groupType="general" editBox="@Image4" preview="@Image18" w="179" h="80" jumpApp="SpO2" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber14"/>
+-            <Item ref="@Image19"/>
+-            <Item ref="@Image20"/>
+-        </Widget>
+-        <Widget name="Widget18" widgetName="@Translation8" groupType="general" editBox="@Image4" preview="@Image21" w="198" h="80" jumpApp="weather" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+-            <Item ref="@ImageNumber15"/>
+-            <Item ref="@ImageNumber16"/>
+-            <Item ref="@Image22"/>
+-            <Item ref="@ImageValues3"/>
+-        </Widget>
+-        <Widget name="Widget19" widgetName="@Translation9" groupType="general" editBox="@Image4" preview="@Image23" w="340" h="74" flex_direction="row" justify_content="flex-start" align_items="flex-end" align_content="flex-end" gap="0">
+-            <Item ref="@ImageNumber17"/>
+-            <Item ref="@ImageValues4"/>
+-        </Widget>
+-        <Widget name="Widget20" widgetName="时间" groupType="general" w="272" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-2">
+-            <Item ref="@ImageNumber18"/>
+-            <Item ref="@Image25"/>
+-            <Item ref="@ImageNumber19"/>
+-            <Item ref="@ImageValues5"/>
+-        </Widget>
+-        <Widget name="Widget21" widgetName="日期" groupType="general" w="231" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="0">
+-            <Item ref="@ImageNumber20"/>
+-            <Item ref="@Image26"/>
+-            <Item ref="@ImageNumber21"/>
+-            <Item ref="@ImageValues6"/>
+-        </Widget>
+-        <Widget name="Widget22" widgetName="@Translation10" groupType="general" editBox="@Image4" preview="@Image27" w="174" h="74" flex_direction="row" justify_content="flex-start" align_items="flex-end" align_content="flex-end" gap="-1">
+-            <Item ref="@ImageNumber22"/>
+-            <Item ref="@Image28"/>
+-            <Item ref="@ImageValues7"/>
+-        </Widget>
+-        <Slot name="Slot1" type="widget">
++        </Slot>
++        <Slot name="Slot3" type="widget" SlotGroupName="2">
++            <Item ref="@Widget21"/>
++            <Item ref="@Widget20"/>
+             <Item ref="@Widget19"/>
+             <Item ref="@Widget18"/>
+             <Item ref="@Widget17"/>
+             <Item ref="@Widget16"/>
+-            <Item ref="@Widget15"/>
+-            <Item ref="@Widget12"/>
+-            <Item ref="@Widget9"/>
+-            <Item ref="@Widget6"/>
+-            <Item ref="@Widget3"/>
+         </Slot>
+-        <Slot name="Slot2" type="widget">
++        <Slot name="Slot4" type="widget" SlotGroupName="1">
++            <Item ref="@Widget20"/>
++            <Item ref="@Widget21"/>
++            <Item ref="@Widget19"/>
++            <Item ref="@Widget18"/>
++            <Item ref="@Widget17"/>
++            <Item ref="@Widget16"/>
++        </Slot>
++        <Slot name="Slot5" type="widget" SlotGroupName="1">
++            <Item ref="@Widget27"/>
++            <Item ref="@Widget26"/>
++            <Item ref="@Widget25"/>
++            <Item ref="@Widget24"/>
++            <Item ref="@Widget23"/>
+             <Item ref="@Widget22"/>
+         </Slot>
++        <Slot name="Slot6" type="widget" SlotGroupName="2">
++            <Item ref="@Widget33"/>
++            <Item ref="@Widget32"/>
++            <Item ref="@Widget31"/>
++            <Item ref="@Widget30"/>
++            <Item ref="@Widget29"/>
++            <Item ref="@Widget28"/>
++        </Slot>
++        <Slot name="Slot7" type="widget" SlotGroupName="1">
++            <Item ref="@Widget32"/>
++            <Item ref="@Widget33"/>
++            <Item ref="@Widget31"/>
++            <Item ref="@Widget30"/>
++            <Item ref="@Widget29"/>
++            <Item ref="@Widget28"/>
++        </Slot>
+     </Resources>
+-    <Theme type="normal" name="样式1" bgColor="#000000" isPhotoAlbumWatchface="true" preview="@Image1" recolorTable="#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e" bg="@Image24" fg="">
+-        <Layout ref="@Image24" x="0" y="0"/>
+-        <Layout ref="@Widget1" x="80" y="120"/>
+-        <Layout ref="@Widget2" x="80" y="200"/>
+-        <Layout ref="@Slot1" x="80" y="280"/>
++    <Theme type="normal" name="样式1" bgColor="#000000" isPhotoAlbumWatchface="false" preview="@Image1">
++        <Layout ref="@Image2" x="0" y="0"/>
++        <Layout ref="@Slot1" x="269" y="160"/>
++        <Layout ref="@Slot2" x="53" y="160"/>
++        <Layout ref="@ImageValues1" x="140" y="119"/>
++        <Layout ref="@Widget15" x="196" y="152"/>
++        <Layout ref="@ImageNumber2" x="240" y="373"/>
++        <Layout ref="@ImageValues2" x="190" y="335"/>
++        <Layout ref="@Pointer11" x="210" y="8"/>
++        <Layout ref="@Pointer12" x="210" y="0"/>
++        <Layout ref="@Pointer13" x="210" y="0"/>
++        <Layout ref="@Pointer14" x="210" y="0"/>
++        <Layout ref="@Pointer15" x="210" y="0"/>
++        <Layout ref="@Pointer16" x="210" y="0"/>
++        <Layout ref="@Pointer17" x="210" y="8"/>
++        <Layout ref="@Pointer18" x="210" y="0"/>
++        <Layout ref="@Pointer19" x="210" y="0"/>
++        <Layout ref="@Pointer20" x="210" y="0"/>
++        <Layout ref="@Pointer21" x="210" y="9"/>
++        <Layout ref="@Pointer22" x="210" y="0"/>
++        <Layout ref="@Pointer23" x="210" y="0"/>
++        <Layout ref="@Pointer24" x="210" y="0"/>
++        <Layout ref="@Image37" x="235" y="235"/>
+     </Theme>
+-    <Theme type="AOD" name="样式1" bgColor="#000000" isPhotoAlbumWatchface="false" recolorTable="#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e">
+-        <Layout ref="@Widget20" x="80" y="120"/>
+-        <Layout ref="@Widget21" x="80" y="200"/>
+-        <Layout ref="@Slot2" x="80" y="280"/>
++    <Theme type="AOD" name="样式1" bgColor="#000000" isPhotoAlbumWatchface="false">
++        <Layout ref="@Image38" x="0" y="0"/>
++        <Layout ref="@Pointer25" x="200" y="0"/>
++        <Layout ref="@Pointer26" x="200" y="0"/>
++        <Layout ref="@Pointer27" x="200" y="0"/>
++        <Layout ref="@Pointer28" x="200" y="0"/>
++        <Layout ref="@Pointer29" x="200" y="0"/>
++        <Layout ref="@Pointer30" x="200" y="0"/>
++        <Layout ref="@Pointer31" x="200" y="0"/>
++        <Layout ref="@Pointer32" x="200" y="0"/>
++        <Layout ref="@Image43" x="235" y="235"/>
++    </Theme>
++    <Theme type="normal" name="样式2" bgColor="#000000" isPhotoAlbumWatchface="false" preview="@Image44">
++        <Layout ref="@Image45" x="0" y="0"/>
++        <Layout ref="@Slot3" x="269" y="160"/>
++        <Layout ref="@Slot4" x="53" y="160"/>
++        <Layout ref="@ImageValues1" x="140" y="119"/>
++        <Layout ref="@Widget15" x="196" y="152"/>
++        <Layout ref="@ImageNumber2" x="240" y="373"/>
++        <Layout ref="@ImageValues2" x="190" y="335"/>
++        <Layout ref="@Image37" x="235" y="235"/>
++        <Layout ref="@Pointer11" x="210" y="8"/>
++        <Layout ref="@Pointer33" x="210" y="0"/>
++        <Layout ref="@Pointer34" x="210" y="0"/>
++        <Layout ref="@Pointer35" x="210" y="0"/>
++        <Layout ref="@Pointer36" x="210" y="0"/>
++        <Layout ref="@Pointer37" x="210" y="0"/>
++        <Layout ref="@Pointer17" x="210" y="8"/>
++        <Layout ref="@Pointer38" x="210" y="0"/>
++        <Layout ref="@Pointer39" x="210" y="0"/>
++        <Layout ref="@Pointer40" x="210" y="0"/>
++        <Layout ref="@Pointer21" x="210" y="9"/>
++        <Layout ref="@Pointer41" x="210" y="0"/>
++        <Layout ref="@Pointer42" x="210" y="0"/>
++        <Layout ref="@Pointer43" x="210" y="0"/>
++        <Layout ref="@Image52" x="235" y="235"/>
++    </Theme>
++    <Theme type="AOD" name="样式2" bgColor="#000000" isPhotoAlbumWatchface="false">
++        <Layout ref="@Image38" x="0" y="0"/>
++        <Layout ref="@Pointer44" x="200" y="0"/>
++        <Layout ref="@Pointer45" x="200" y="0"/>
++        <Layout ref="@Pointer46" x="200" y="0"/>
++        <Layout ref="@Pointer47" x="200" y="0"/>
++        <Layout ref="@Pointer48" x="200" y="0"/>
++        <Layout ref="@Pointer49" x="200" y="0"/>
++        <Layout ref="@Pointer50" x="200" y="0"/>
++        <Layout ref="@Pointer51" x="200" y="0"/>
++        <Layout ref="@Image43" x="235" y="235"/>
++    </Theme>
++    <Theme type="normal" name="样式3" bgColor="#000000" isPhotoAlbumWatchface="false" preview="@Image57">
++        <Layout ref="@Image58" x="0" y="0"/>
++        <Layout ref="@Slot3" x="269" y="160"/>
++        <Layout ref="@Slot5" x="53" y="160"/>
++        <Layout ref="@ImageValues1" x="140" y="119"/>
++        <Layout ref="@Widget15" x="196" y="152"/>
++        <Layout ref="@ImageNumber2" x="240" y="373"/>
++        <Layout ref="@ImageValues2" x="190" y="335"/>
++        <Layout ref="@Pointer11" x="210" y="8"/>
++        <Layout ref="@Pointer12" x="210" y="0"/>
++        <Layout ref="@Pointer13" x="210" y="0"/>
++        <Layout ref="@Pointer14" x="210" y="0"/>
++        <Layout ref="@Pointer15" x="210" y="0"/>
++        <Layout ref="@Pointer16" x="210" y="0"/>
++        <Layout ref="@Pointer17" x="210" y="8"/>
++        <Layout ref="@Pointer18" x="210" y="0"/>
++        <Layout ref="@Pointer19" x="210" y="0"/>
++        <Layout ref="@Pointer20" x="210" y="0"/>
++        <Layout ref="@Pointer52" x="210" y="9"/>
++        <Layout ref="@Pointer53" x="210" y="0"/>
++        <Layout ref="@Pointer54" x="210" y="0"/>
++        <Layout ref="@Pointer55" x="210" y="0"/>
++        <Layout ref="@Image37" x="235" y="235"/>
++    </Theme>
++    <Theme type="AOD" name="样式3" bgColor="#000000" isPhotoAlbumWatchface="false">
++        <Layout ref="@Image38" x="0" y="0"/>
++        <Layout ref="@Pointer56" x="200" y="0"/>
++        <Layout ref="@Pointer57" x="200" y="0"/>
++        <Layout ref="@Pointer58" x="200" y="0"/>
++        <Layout ref="@Pointer59" x="200" y="0"/>
++        <Layout ref="@Pointer60" x="200" y="0"/>
++        <Layout ref="@Pointer61" x="200" y="0"/>
++        <Layout ref="@Pointer62" x="200" y="0"/>
++        <Layout ref="@Pointer63" x="200" y="0"/>
++        <Layout ref="@Image43" x="235" y="235"/>
++    </Theme>
++    <Theme type="normal" name="样式4" bgColor="#000000" isPhotoAlbumWatchface="false" preview="@Image71">
++        <Layout ref="@Image72" x="0" y="0"/>
++        <Layout ref="@Slot6" x="269" y="160"/>
++        <Layout ref="@Slot7" x="53" y="160"/>
++        <Layout ref="@ImageValues3" x="140" y="119"/>
++        <Layout ref="@Widget36" x="196" y="152"/>
++        <Layout ref="@ImageNumber4" x="240" y="373"/>
++        <Layout ref="@ImageValues4" x="190" y="335"/>
++        <Layout ref="@Pointer11" x="210" y="8"/>
++        <Layout ref="@Pointer12" x="210" y="0"/>
++        <Layout ref="@Pointer13" x="210" y="0"/>
++        <Layout ref="@Pointer14" x="210" y="0"/>
++        <Layout ref="@Pointer15" x="210" y="0"/>
++        <Layout ref="@Pointer16" x="210" y="0"/>
++        <Layout ref="@Pointer17" x="210" y="8"/>
++        <Layout ref="@Pointer18" x="210" y="0"/>
++        <Layout ref="@Pointer19" x="210" y="0"/>
++        <Layout ref="@Pointer20" x="210" y="0"/>
++        <Layout ref="@Pointer52" x="210" y="9"/>
++        <Layout ref="@Pointer64" x="210" y="0"/>
++        <Layout ref="@Pointer65" x="210" y="0"/>
++        <Layout ref="@Pointer66" x="210" y="0"/>
++        <Layout ref="@Image37" x="235" y="235"/>
++    </Theme>
++    <Theme type="AOD" name="样式4" bgColor="#000000" isPhotoAlbumWatchface="false">
++        <Layout ref="@Image38" x="0" y="0"/>
++        <Layout ref="@Pointer67" x="200" y="0"/>
++        <Layout ref="@Pointer68" x="200" y="0"/>
++        <Layout ref="@Pointer69" x="200" y="0"/>
++        <Layout ref="@Pointer70" x="200" y="0"/>
++        <Layout ref="@Pointer71" x="200" y="0"/>
++        <Layout ref="@Pointer72" x="200" y="0"/>
++        <Layout ref="@Pointer73" x="200" y="0"/>
++        <Layout ref="@Pointer74" x="200" y="0"/>
++        <Layout ref="@Image43" x="235" y="235"/>
++    </Theme>
++    <Theme type="normal" name="样式5" bgColor="#000000" isPhotoAlbumWatchface="false" preview="@Image86">
++        <Layout ref="@Image72" x="0" y="0"/>
++        <Layout ref="@Slot6" x="269" y="160"/>
++        <Layout ref="@Slot7" x="53" y="160"/>
++        <Layout ref="@ImageValues3" x="140" y="119"/>
++        <Layout ref="@Widget39" x="196" y="152"/>
++        <Layout ref="@ImageNumber4" x="240" y="373"/>
++        <Layout ref="@ImageValues5" x="190" y="335"/>
++        <Layout ref="@Pointer11" x="210" y="8"/>
++        <Layout ref="@Pointer12" x="210" y="0"/>
++        <Layout ref="@Pointer13" x="210" y="0"/>
++        <Layout ref="@Pointer14" x="210" y="0"/>
++        <Layout ref="@Pointer15" x="210" y="0"/>
++        <Layout ref="@Pointer16" x="210" y="0"/>
++        <Layout ref="@Pointer17" x="210" y="8"/>
++        <Layout ref="@Pointer18" x="210" y="0"/>
++        <Layout ref="@Pointer19" x="210" y="0"/>
++        <Layout ref="@Pointer20" x="210" y="0"/>
++        <Layout ref="@Pointer52" x="210" y="9"/>
++        <Layout ref="@Pointer64" x="210" y="0"/>
++        <Layout ref="@Pointer65" x="210" y="0"/>
++        <Layout ref="@Pointer66" x="210" y="0"/>
++        <Layout ref="@Image37" x="235" y="235"/>
++    </Theme>
++    <Theme type="AOD" name="样式5" bgColor="#000000" isPhotoAlbumWatchface="false">
++        <Layout ref="@Image38" x="0" y="0"/>
++        <Layout ref="@Pointer67" x="200" y="0"/>
++        <Layout ref="@Pointer68" x="200" y="0"/>
++        <Layout ref="@Pointer69" x="200" y="0"/>
++        <Layout ref="@Pointer70" x="200" y="0"/>
++        <Layout ref="@Pointer71" x="200" y="0"/>
++        <Layout ref="@Pointer72" x="200" y="0"/>
++        <Layout ref="@Pointer73" x="200" y="0"/>
++        <Layout ref="@Pointer74" x="200" y="0"/>
++        <Layout ref="@Image43" x="235" y="235"/>
+     </Theme>
+ </Watchface>

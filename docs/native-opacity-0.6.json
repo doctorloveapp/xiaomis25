@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "compiler": "EasyFace 4.23 pinned SHA256",
+  "payloadSha256": "8dea0455beb3c3827711740c472b76527f5b45abd9055ec38a5135f49428bf81",
+  "method": "Decodifica dei run BGRA di immagini uniformi nel resource compilato, non solo confronto dei PNG sorgenti.",
+  "levels": [
+    {
+      "opacityPercent": 0,
+      "encodedAlpha": 0,
+      "decodedPixels": 200
+    },
+    {
+      "opacityPercent": 1,
+      "encodedAlpha": 3,
+      "decodedPixels": 200
+    },
+    {
+      "opacityPercent": 25,
+      "encodedAlpha": 64,
+      "decodedPixels": 200
+    },
+    {
+      "opacityPercent": 50,
+      "encodedAlpha": 128,
+      "decodedPixels": 200
+    },
+    {
+      "opacityPercent": 77,
+      "encodedAlpha": 196,
+      "decodedPixels": 200
+    },
+    {
+      "opacityPercent": 99,
+      "encodedAlpha": 252,
+      "decodedPixels": 200
+    },
+    {
+      "opacityPercent": 100,
+      "encodedAlpha": 255,
+      "decodedPixels": 200
+    }
+  ]
+}

@@ -1,0 +1,375 @@
+{
+  "status": "passed",
+  "package": {
+    "status": "passed",
+    "scope": "CRC, struttura ZIP e hash di tutti i file preservati; ID e binario EasyFace; formati e dimensioni preview.",
+    "templateSha256": "5c7a3bb0c81762e7bb0749fd1b1cd941e0578d8e0eec0d567b37c44dd6695627",
+    "outputSha256": "8c9db56d047af58dafcd1cb93f25a18eaa15bab3e79b242424bc85622c9bfe20",
+    "structuralFingerprint": "59e5e50128915342b718765026ef2091f8e9595241861c0554f958bdd42d422b",
+    "entries": 228,
+    "preservedFiles": 191,
+    "mutableMembers": [
+      "preview/aod-preview.png",
+      "preview/market-preview.png",
+      "preview/preview.png",
+      "preview/style_1_animated.webp",
+      "preview/style_1_aod.png",
+      "preview/style_1_static.png",
+      "preview/style_2_animated.webp",
+      "preview/style_2_aod.png",
+      "preview/style_2_static.png",
+      "preview/style_3_animated.webp",
+      "preview/style_3_aod.png",
+      "preview/style_3_static.png",
+      "preview/style_4_animated.webp",
+      "preview/style_4_aod.png",
+      "preview/style_4_static.png",
+      "preview/style_5_animated.webp",
+      "preview/style_5_aod.png",
+      "preview/style_5_static.png",
+      "resource.bin",
+      "resources/_preview/样式1亮屏预览图.png",
+      "resources/_preview/样式1息屏预览图.png",
+      "resources/_preview/样式2亮屏预览图.png",
+      "resources/_preview/样式2息屏预览图.png",
+      "resources/_preview/样式3亮屏预览图.png",
+      "resources/_preview/样式3息屏预览图.png",
+      "resources/_preview/样式4亮屏预览图.png",
+      "resources/_preview/样式4息屏预览图.png",
+      "resources/_preview/样式5亮屏预览图.png",
+      "resources/_preview/样式5息屏预览图.png"
+    ],
+    "binary": {
+      "faceId": "120917386745",
+      "size": 172804,
+      "sha256": "f88204360c41538036427e0d69b86a1f8d719bba001b9af1bfeec6c78742e403",
+      "screenCount": 2,
+      "sectionCounts": [
+        10,
+        0,
+        5,
+        5,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0
+      ],
+      "widgets": [
+        {
+          "id": "7000000",
+          "source": "0811",
+          "digits": 2,
+          "type": 1,
+          "target": "3000000"
+        },
+        {
+          "id": "7000001",
+          "source": "1011",
+          "digits": 2,
+          "type": 1,
+          "target": "3000001"
+        },
+        {
+          "id": "7000002",
+          "source": "1812",
+          "digits": 2,
+          "type": 1,
+          "target": "3000002"
+        },
+        {
+          "id": "7000003",
+          "source": "1012",
+          "digits": 2,
+          "type": 1,
+          "target": "3000003"
+        },
+        {
+          "id": "7000004",
+          "source": "0841",
+          "digits": 3,
+          "type": 1,
+          "target": "3000004"
+        }
+      ],
+      "images": [
+        {
+          "id": "2000000",
+          "width": 480,
+          "height": 480,
+          "array": false
+        },
+        {
+          "id": "2000001",
+          "width": 220,
+          "height": 32,
+          "array": false
+        },
+        {
+          "id": "2000002",
+          "width": 34,
+          "height": 68,
+          "array": false
+        },
+        {
+          "id": "2000003",
+          "width": 12,
+          "height": 24,
+          "array": false
+        },
+        {
+          "id": "2000004",
+          "width": 180,
+          "height": 26,
+          "array": false
+        },
+        {
+          "id": "3000000",
+          "width": 52,
+          "height": 68,
+          "array": true
+        },
+        {
+          "id": "3000001",
+          "width": 52,
+          "height": 68,
+          "array": true
+        },
+        {
+          "id": "3000002",
+          "width": 19,
+          "height": 24,
+          "array": true
+        },
+        {
+          "id": "3000003",
+          "width": 19,
+          "height": 24,
+          "array": true
+        },
+        {
+          "id": "3000004",
+          "width": 19,
+          "height": 24,
+          "array": true
+        }
+      ],
+      "screens": [
+        {
+          "index": 0,
+          "sectionCounts": [
+            10,
+            0,
+            5,
+            5,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0
+          ],
+          "widgets": [
+            {
+              "id": "7000000",
+              "source": "0811",
+              "digits": 2,
+              "type": 1,
+              "target": "3000000"
+            },
+            {
+              "id": "7000001",
+              "source": "1011",
+              "digits": 2,
+              "type": 1,
+              "target": "3000001"
+            },
+            {
+              "id": "7000002",
+              "source": "1812",
+              "digits": 2,
+              "type": 1,
+              "target": "3000002"
+            },
+            {
+              "id": "7000003",
+              "source": "1012",
+              "digits": 2,
+              "type": 1,
+              "target": "3000003"
+            },
+            {
+              "id": "7000004",
+              "source": "0841",
+              "digits": 3,
+              "type": 1,
+              "target": "3000004"
+            }
+          ],
+          "images": [
+            {
+              "id": "2000000",
+              "width": 480,
+              "height": 480,
+              "array": false
+            },
+            {
+              "id": "2000001",
+              "width": 220,
+              "height": 32,
+              "array": false
+            },
+            {
+              "id": "2000002",
+              "width": 34,
+              "height": 68,
+              "array": false
+            },
+            {
+              "id": "2000003",
+              "width": 12,
+              "height": 24,
+              "array": false
+            },
+            {
+              "id": "2000004",
+              "width": 180,
+              "height": 26,
+              "array": false
+            },
+            {
+              "id": "3000000",
+              "width": 52,
+              "height": 68,
+              "array": true
+            },
+            {
+              "id": "3000001",
+              "width": 52,
+              "height": 68,
+              "array": true
+            },
+            {
+              "id": "3000002",
+              "width": 19,
+              "height": 24,
+              "array": true
+            },
+            {
+              "id": "3000003",
+              "width": 19,
+              "height": 24,
+              "array": true
+            },
+            {
+              "id": "3000004",
+              "width": 19,
+              "height": 24,
+              "array": true
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionCounts": [
+            7,
+            0,
+            3,
+            4,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0
+          ],
+          "widgets": [
+            {
+              "id": "7000005",
+              "source": "0811",
+              "digits": 2,
+              "type": 1,
+              "target": "3000005"
+            },
+            {
+              "id": "7000006",
+              "source": "1011",
+              "digits": 2,
+              "type": 1,
+              "target": "3000006"
+            },
+            {
+              "id": "7000007",
+              "source": "1812",
+              "digits": 2,
+              "type": 1,
+              "target": "3000007"
+            },
+            {
+              "id": "7000008",
+              "source": "1012",
+              "digits": 2,
+              "type": 1,
+              "target": "3000008"
+            }
+          ],
+          "images": [
+            {
+              "id": "2000005",
+              "width": 480,
+              "height": 480,
+              "array": false
+            },
+            {
+              "id": "2000006",
+              "width": 25,
+              "height": 49,
+              "array": false
+            },
+            {
+              "id": "2000007",
+              "width": 11,
+              "height": 21,
+              "array": false
+            },
+            {
+              "id": "3000005",
+              "width": 38,
+              "height": 49,
+              "array": true
+            },
+            {
+              "id": "3000006",
+              "width": 38,
+              "height": 49,
+              "array": true
+            },
+            {
+              "id": "3000007",
+              "width": 16,
+              "height": 21,
+              "array": true
+            },
+            {
+              "id": "3000008",
+              "width": 16,
+              "height": 21,
+              "array": true
+            }
+          ]
+        }
+      ],
+      "scope": "Header, limiti delle tabelle, dimensioni risorse e binding. Nessuna prova sul firmware."
+    },
+    "hardwareVerified": false,
+    "warnings": [
+      "Identità originale del template mantenuta: può sostituire il quadrante originale nello stesso slot.",
+      "capability.json conservato byte per byte: non prova che la maschera descriva il nuovo payload.",
+      "hashCode, uidmap.map, manifest ed editor.config.json conservati: potrebbero riferirsi al payload originale. Integrità crittografica e coerenza semantica non certificate.",
+      "Stili e risorse del template sono conservati; i WEBP di anteprima sostituiti sono statici.",
+      "Accettazione nella mod e funzionamento sul firmware del pacchetto modificato restano da provare."
+    ]
+  },
+  "build": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\executable-0.3-test\\Suit_and_tie-120917386745-20261006-164140"
+}

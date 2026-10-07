@@ -1,0 +1,38 @@
+{
+  "version": "0.8",
+  "date": "2026-10-07",
+  "status": "passed",
+  "pytest": {
+    "passed": 65,
+    "skipped": 0,
+    "seconds": 69.81,
+    "command": "python -X utf8 -m pytest -q"
+  },
+  "uiSmoke": "docs/screenshots/executable-0.8.json",
+  "buildSource": "docs/S5-Studio-Lancette-0.8-build-report.json",
+  "actualExecutable": "docs/executable-build-0.8.json",
+  "handLibrary": "docs/library-analysis/hands-0.8.json",
+  "gitignore": "docs/gitignore-preservation-0.8.json",
+  "screenshots": [
+    "docs/screenshots/editor-0.8-empty.png",
+    "docs/screenshots/editor-0.8-hover.png"
+  ],
+  "checks": [
+    "startup-maximized",
+    "header-Version-0.8",
+    "every-save-prompts-filename-and-cancel-keeps-path",
+    "hover-highlight-and-preview-without-commit",
+    "all-1310-corpus-pointers-covered",
+    "595-models-108-small-407-with-shadow",
+    "hour-auto-pairs-minute-second-set",
+    "independent-manual-overrides-and-variant-scope",
+    "shadow-visibility-preserves-original-alpha-colour",
+    "real-endpoint-pivot-visible-length",
+    "main-and-shadow-native-bindings-ranges-AOD",
+    "old-project-migration-build",
+    "all-native-bitmaps-within-480",
+    "gitignore-original-prefix-unchanged"
+  ],
+  "hardwareEvidencePreviousVersion": "data/hardware-tests/analogico-05-superato.json",
+  "new08HardwareTested": false
+}

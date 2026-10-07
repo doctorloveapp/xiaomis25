@@ -1,0 +1,31 @@
+# Stato operativo — S5 Studio 0.8
+
+Aggiornamento 0.8 (2026-10-07): **65 test passati**, finestra massimizzata, label Version 0.8, salvataggio sempre con scelta nome, hover evidenziato, 595 modelli madri/set (526 bitmap distinte, 108 piccoli, 407 con ombre), abbinamento ore/minuti/secondi, flag ombre e perni alle estremità per i sottoquadranti. Scansione completa: 1.310 puntatori nei 39 quadranti, senza errori. Eseguibile `S5Studio-0.8.exe`; progetto/ZIP `S5_Studio_Lancette_0.8`. Guide e rapporti: `EDITOR_0.8.md`, `validation-editor-0.8.json`, `executable-build-0.8.json`, `library-analysis/hands-0.8.json`. Nuova build verificata su PC; prova hardware ancora da registrare.
+
+Verifica storica 0.7 (2026-10-07): **58 test passati**, hover con anteprima grafica senza applicazione, riquadro vuoto senza `src`, immagini 720/4096 px ritagliate a 480, coordinate negative e frecce da 1/10 px su livelli normali, complicazioni, lancette piccole, stili e AOD. Guida: [EDITOR_0.7.md](EDITOR_0.7.md). Rapporti: `validation-editor-0.7.json`, `screenshots/editor-0.7.json`, `executable-build-0.7.json`. Nuovo progetto/ZIP: `S5_Studio_Ritaglio_0.7`. Il template era stato spostato in Downloads: è stata ripristinata una copia byte per byte, con SHA256 originale verificato in `template-restored-0.7.json`.
+
+Verifica storica 0.6: **48 test passati**, compilazioni reali e prove DOM di cancellazione/undo, riordino, opacità 77%, ridimensionamento, menu in hover e lancette piccole. Rapporti in `validation-editor-0.6.json`, `screenshots/editor-0.6.json` e `executable-build-0.6.json`. L’eseguibile reale supera le stesse prove e produce un binario identico ai sorgenti. Il test `native-opacity-0.6.json` decodifica il canale alfa effettivamente compilato per sette valori fra 0 e 100.
+
+Le nuove funzioni sono descritte in [EDITOR_0.6.md](EDITOR_0.6.md). Livelli unificati con cancellazione e riordino tramite trascinamento, immagini ridimensionabili e opacità 0–100, colori per lancetta, menu che confermano solo con clic/Invio, lancette piccole con sorgenti e intervalli nativi.
+
+Avvio: `S5Studio-0.8.exe` o `Avvia_S5_Studio.cmd`. UI Tailwind offline, editor analogico/digitale, immagini e font incorporati, pivot personali, 595 modelli di lancette, cinque stili e fino a 16 slot nel progetto Studio. Le scelte per ogni slot provengono da 58 sorgenti native osservate; meteo con 18 icone, cifre con segno e decimali.
+
+La verifica storica 0.5 comprende **37 test automatici passati**, comprese compilazioni EasyFace reali di tutte le sorgenti, cinque stili con cinque slot, riferimenti corrotti rifiutati, asset/pivot e anteprime distinti. Smoke test del vero QtWebEngine: drag, annulla, modifica stile, applicazione lancetta dalla galleria e simulazione scelta slot. La compilazione aggiuntiva con cinque slot, cinque stili e 59 scelte per slot passa anche con 22.524 voci ZIP; rapporto `stress-all-sources-0.5.json`. Le evidenze dell’eseguibile sono in `executable-self-test-0.5.json`, `screenshots/executable-0.5.json` e `executable-build-0.5.json`.
+
+| Evidenza | Esito |
+| --- | --- |
+| MWZ originale, prova dell’utente | Installato e funzionante disattivando Verify capability test |
+| Suit and tie originale via catalogo | Nome, preview, varianti e complicazioni funzionanti secondo l’utente |
+| Suit and tie originale via uploader locale | Capabilities rifiutate, nome generico e preview assente nella lista locale |
+| Primo ZIP digitale Studio 0.3 | Installato e funzionante, preview corretta sull’orologio secondo l’utente |
+| Analogico Studio 0.4 | Lancette principali funzionanti; stili, complicazioni e anteprima falliti |
+| Analogico Studio 0.5 | Test dell’utente superato: installazione, varianti e complicazioni |
+| Editor/build Studio 0.6 | Nuove funzioni e lancette piccole verificate sul PC; nuovo ZIP da provare sul S5 |
+
+La 0.5 abbandona l’importazione dei gruppi grafici Suit and tie. Genera la chiusura delle risorse dei propri gruppi e ricolloca UID e riferimenti. Rende coerenti description, manifest, uidmap, editor, anteprime di tema e binario. Capability, hashCode e 187 file protetti mantengono i record originali. Non dichiara ricostruita l’autenticazione Xiaomi.
+
+La scansione comprende 39 cartelle e 7.513 file. LLATH dichiara 11 slot widget per schermo normale: conferma che due non sono un limite del formato. Gli slot condition di SkyHawk non sono equivalenti a scelte dell’utente. Il limite Studio di 16 è una guardia applicativa, non una certificazione hardware. Le sorgenti rappresentano dati del framework, non 58 sensori né API grezze. Tre sorgenti di testo formattato restano escluse dall’esportazione dinamica.
+
+Prova pronta: `S5_Analogico_Libero_0.5_TEMPLATE.zip`, progetto `projects/S5_Analogico_Libero_0.5.s5faceproj`. Cinque stili normal/AOD, 25 istanze native di slot, cinque slot simultanei con 15 scelte ciascuno. Guide: [prova](PROVA_S5_0.5.md) e [analisi tecnica](ANALISI_QUADRANTI_E_CORREZIONI_0.5.md).
+
+Il test 0.5 non copre tutte le sorgenti e il ciclo AOD. Restano da verificare sul firmware dell’utente: anteprime watch/Modifica, persistenza e indipendenza delle scelte, cambio stili, quantità/unità reali, valori mancanti, aggiornamenti bussola/meteo, sleep/wake, AOD e consumo. La lista locale della mod può conservare il problema osservato anche sul riferimento originale. La correzione dei metadati non prova che la mod risolva quel comportamento.

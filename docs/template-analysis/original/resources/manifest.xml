@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Watchface name="@watchfaceName" width="480" height="480" id="120917403994" SKU="false" compressMethod="RLEReversed" advanced="false" interactive="false" powerConsumptionLevel="1" recolorTable="#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e" support_literal="false" editable="true">
+    <Resources>
+        <Translation name="watchfaceName">
+            <Item language="en_US" str="Custom digital"/>
+            <Item language="zh_CN" str="相册表盘 - 多功能"/>
+            <Item language="zh_TW" str="相簿錶盤 - 多功能"/>
+            <Item language="ja_JP" str="カスタム・デジタル"/>
+            <Item language="es_ES" str="Digital personalizado"/>
+            <Item language="fr_FR" str="Numérique personnalisé"/>
+            <Item language="de_DE" str="Digital benutzerdefiniert"/>
+            <Item language="ru_RU" str="Пользовательский цифровой"/>
+            <Item language="pt_BR" str="Digital personalizado"/>
+            <Item language="pt_PT" str="Digital à medida"/>
+            <Item language="it_IT" str="Digitale personalizzato"/>
+            <Item language="ko_KR" str="커스텀 디지털"/>
+            <Item language="tr_TR" str="Özel dijital"/>
+            <Item language="nl_NL" str="Aangepast digitaal"/>
+            <Item language="th_TH" str="ระบบดิจิทัลส่วนตัว"/>
+            <Item language="sv_SE" str="Anpassa digital"/>
+            <Item language="da_DK" str="Tilpasset digital"/>
+            <Item language="vi_VN" str="Đồng hồ kỹ thuật số tùy chỉnh"/>
+            <Item language="nb_NO" str="Tilpasset digital"/>
+            <Item language="pl_PL" str="Niestandardowa cyfrowa"/>
+            <Item language="fi_FI" str="Mukautettu digitaalinen"/>
+            <Item language="in_ID" str="Digital kustom"/>
+            <Item language="el_GR" str="Προσαρμοσμένη ψηφιακή τεχνολογία"/>
+            <Item language="ro_RO" str="Digital personalizat"/>
+            <Item language="cs_CZ" str="Přizpůsobitelný digitální"/>
+            <Item language="uk_UA" str="Індивідуальний цифровий"/>
+            <Item language="sk_SK" str="Vlastné digitálne"/>
+            <Item language="hu_HU" str="Egyedi digitális"/>
+            <Item language="ar_EG" str="ديجيتال مخصص"/>
+            <Item language="iw_IL" str="דיגיטלי אישי"/>
+            <Item language="zh_HK" str="相簿錶盤 - 多功能"/>
+            <Item language="lt_LT" str="Tinkintas skaitmeninis"/>
+            <Item language="bg_BG" str="Дигитално по избор"/>
+        </Translation>
+        <Translation name="Translation1">
+            <Item language="en_US" str="None"/>
+            <Item language="zh_CN" str="无"/>
+            <Item language="zh_TW" str="無"/>
+            <Item language="ja_JP" str="なし"/>
+            <Item language="es_ES" str="Nada"/>
+            <Item language="fr_FR" str="Aucun(e)"/>
+            <Item language="de_DE" str="Keine"/>
+            <Item language="ru_RU" str="Нет"/>
+            <Item language="pt_BR" str="N/A"/>
+            <Item language="pt_PT" str="Nenhum"/>
+            <Item language="it_IT" str="Nessuna"/>
+            <Item language="ko_KR" str="없음"/>
+            <Item language="tr_TR" str="Hiçbiri"/>
+            <Item language="nl_NL" str="Geen"/>
+            <Item language="th_TH" str="ไม่ตรงกับตัวเลือกใด"/>
+            <Item language="sv_SE" str="Ingen"/>
+            <Item language="da_DK" str="Intet"/>
+            <Item language="vi_VN" str="Không có"/>
+            <Item language="nb_NO" str="Ingen"/>
+            <Item language="pl_PL" str="Żadne z powyższych"/>
+            <Item language="fi_FI" str="Ei mikään"/>
+            <Item language="in_ID" str="Tidak ada"/>
+            <Item language="el_GR" str="Τίποτα"/>
+            <Item language="ro_RO" str="Niciunul"/>
+            <Item language="cs_CZ" str="Žádná"/>
+            <Item language="uk_UA" str="Нічого"/>
+            <Item language="sk_SK" str="Žiadny"/>
+            <Item language="hu_HU" str="Egyik sem"/>
+            <Item language="ar_EG" str="لا شيء"/>
+            <Item language="iw_IL" str="ללא"/>
+            <Item language="zh_HK" str="無"/>
+            <Item language="lt_LT" str="Nėra"/>
+            <Item language="bg_BG" str="Няма"/>
+        </Translation>
+        <Translation name="Translation2">
+            <Item language="en_US" str="Moving"/>
+            <Item language="zh_CN" str="中高强度训练"/>
+            <Item language="zh_TW" str="中高強度訓練"/>
+            <Item language="ja_JP" str="中高強度の身体活動"/>
+            <Item language="es_ES" str="Movimiento"/>
+            <Item language="fr_FR" str="Mouvement"/>
+            <Item language="de_DE" str="Bewegung"/>
+            <Item language="ru_RU" str="Разминка"/>
+            <Item language="pt_BR" str="Movimento"/>
+            <Item language="pt_PT" str="Movimento"/>
+            <Item language="it_IT" str="Movimento"/>
+            <Item language="ko_KR" str="고중강도 활동"/>
+            <Item language="tr_TR" str="Hareket"/>
+            <Item language="nl_NL" str="Beweging"/>
+            <Item language="th_TH" str="การเคลื่อนไหว"/>
+            <Item language="sv_SE" str="Rörelse"/>
+            <Item language="da_DK" str="Bevægelse"/>
+            <Item language="vi_VN" str="Vận động"/>
+            <Item language="nb_NO" str="Bevegelse"/>
+            <Item language="pl_PL" str="W ruchu"/>
+            <Item language="fi_FI" str="Liikkuminen"/>
+            <Item language="in_ID" str="Bergerak"/>
+            <Item language="el_GR" str="Κίνηση"/>
+            <Item language="ro_RO" str="Mișcare"/>
+            <Item language="cs_CZ" str="V pohybu"/>
+            <Item language="uk_UA" str="Розминка"/>
+            <Item language="sk_SK" str="V pohybe"/>
+            <Item language="hu_HU" str="Mozgás"/>
+            <Item language="ar_EG" str="الحركة"/>
+            <Item language="iw_IL" str="בתנועה"/>
+            <Item language="zh_HK" str="中高強度訓練"/>
+            <Item language="lt_LT" str="Judėjimas"/>
+            <Item language="bg_BG" str="Движение"/>
+        </Translation>
+        <Translation name="Translation3">
+            <Item language="en_US" str="Breaks"/>
+            <Item language="zh_CN" str="站立"/>
+            <Item language="zh_TW" str="站立"/>
+            <Item language="ja_JP" str="ブレーク"/>
+            <Item language="es_ES" str="Pausas activas"/>
+            <Item language="fr_FR" str="Pauses actives"/>
+            <Item language="de_DE" str="Pausen"/>
+            <Item language="ru_RU" str="Перерывы"/>
+            <Item language="pt_BR" str="Pausas"/>
+            <Item language="pt_PT" str="Pausas"/>
+            <Item language="it_IT" str="Pause"/>
+            <Item language="ko_KR" str="브레이크"/>
+            <Item language="tr_TR" str="Hareket Molası"/>
+            <Item language="nl_NL" str="Pauzes"/>
+            <Item language="th_TH" str="การพักเบรค"/>
+            <Item language="sv_SE" str="Raster"/>
+            <Item language="da_DK" str="Pauser"/>
+            <Item language="vi_VN" str="Giải lao"/>
+            <Item language="nb_NO" str="Pauser"/>
+            <Item language="pl_PL" str="Przerwy"/>
+            <Item language="fi_FI" str="Tauot"/>
+            <Item language="in_ID" str="Jeda aktif"/>
+            <Item language="el_GR" str="Διαλείμματα"/>
+            <Item language="ro_RO" str="Pauze"/>
+            <Item language="cs_CZ" str="Přestávky"/>
+            <Item language="uk_UA" str="Перерви"/>
+            <Item language="sk_SK" str="Prestávky"/>
+            <Item language="hu_HU" str="Szünetek"/>
+            <Item language="ar_EG" str="الاستراحات"/>
+            <Item language="iw_IL" str="הפסקות"/>
+            <Item language="zh_HK" str="站立"/>
+            <Item language="lt_LT" str="Pertraukėlės"/>
+            <Item language="bg_BG" str="Почивки"/>
+        </Translation>
+        <Translation name="Translation4">
+            <Item language="en_US" str="Calories"/>
+            <Item language="zh_CN" str="卡路里"/>
+            <Item language="zh_TW" str="卡路里"/>
+            <Item language="ja_JP" str="カロリー"/>
+            <Item language="es_ES" str="Calorías"/>
+            <Item language="fr_FR" str="Calories"/>
+            <Item language="de_DE" str="Kalorien"/>
+            <Item language="ru_RU" str="Калории"/>
+            <Item language="pt_BR" str="Calorias"/>
+            <Item language="pt_PT" str="Calorias"/>
+            <Item language="it_IT" str="Calorie"/>
+            <Item language="ko_KR" str="칼로리"/>
+            <Item language="tr_TR" str="Kalori"/>
+            <Item language="nl_NL" str="Calorieën"/>
+            <Item language="th_TH" str="แคลอรี่"/>
+            <Item language="sv_SE" str="Kalorier"/>
+            <Item language="da_DK" str="Kalorier"/>
+            <Item language="vi_VN" str="Calo"/>
+            <Item language="nb_NO" str="Kalorier"/>
+            <Item language="pl_PL" str="Kalorie"/>
+            <Item language="fi_FI" str="Kalorit"/>
+            <Item language="in_ID" str="Kalori"/>
+            <Item language="el_GR" str="Θερμίδες"/>
+            <Item language="ro_RO" str="Calorii"/>
+            <Item language="cs_CZ" str="Kalorie"/>
+            <Item language="uk_UA" str="Калорії"/>
+            <Item language="sk_SK" str="Kalórie"/>
+            <Item language="hu_HU" str="Kalória"/>
+            <Item language="ar_EG" str="السعرات الحرارية"/>
+            <Item language="iw_IL" str="קלוריות"/>
+            <Item language="zh_HK" str="卡路里"/>
+            <Item language="lt_LT" str="Kalorijos"/>
+            <Item language="bg_BG" str="Калории"/>
+        </Translation>
+        <Translation name="Translation5">
+            <Item language="en_US" str="Steps"/>
+            <Item language="zh_CN" str="步数"/>
+            <Item language="zh_TW" str="步數"/>
+            <Item language="ja_JP" str="歩数"/>
+            <Item language="es_ES" str="Pasos"/>
+            <Item language="fr_FR" str="Pas"/>
+            <Item language="de_DE" str="Schritte"/>
+            <Item language="ru_RU" str="Шаги"/>
+            <Item language="pt_BR" str="Passos"/>
+            <Item language="pt_PT" str="Passos"/>
+            <Item language="it_IT" str="Passi"/>
+            <Item language="ko_KR" str="걸음"/>
+            <Item language="tr_TR" str="Adımlar"/>
+            <Item language="nl_NL" str="Stappen"/>
+            <Item language="th_TH" str="ก้าว"/>
+            <Item language="sv_SE" str="Steg"/>
+            <Item language="da_DK" str="Skridt"/>
+            <Item language="vi_VN" str="Bước"/>
+            <Item language="nb_NO" str="Skritt"/>
+            <Item language="pl_PL" str="Kroki"/>
+            <Item language="fi_FI" str="Askeleet"/>
+            <Item language="in_ID" str="Langkah"/>
+            <Item language="el_GR" str="Βήματα"/>
+            <Item language="ro_RO" str="Pași"/>
+            <Item language="cs_CZ" str="Kroky"/>
+            <Item language="uk_UA" str="Кроки"/>
+            <Item language="sk_SK" str="Kroky"/>
+            <Item language="hu_HU" str="Lépés"/>
+            <Item language="ar_EG" str="الخطوات"/>
+            <Item language="iw_IL" str="צעדים"/>
+            <Item language="zh_HK" str="步數"/>
+            <Item language="lt_LT" str="Žingsniai"/>
+            <Item language="bg_BG" str="Стъпки"/>
+        </Translation>
+        <Translation name="Translation6">
+            <Item language="en_US" str="Heart rate"/>
+            <Item language="zh_CN" str="心率"/>
+            <Item language="zh_TW" str="心率"/>
+            <Item language="ja_JP" str="心拍数"/>
+            <Item language="es_ES" str="Ritmo cardíaco"/>
+            <Item language="fr_FR" str="Fréquence cardiaque"/>
+            <Item language="de_DE" str="Puls"/>
+            <Item language="ru_RU" str="Пульс"/>
+            <Item language="pt_BR" str="Frequência cardíaca"/>
+            <Item language="pt_PT" str="Frequência cardíaca"/>
+            <Item language="it_IT" str="Frequenza cardiaca"/>
+            <Item language="ko_KR" str="심박수"/>
+            <Item language="tr_TR" str="Nabız"/>
+            <Item language="nl_NL" str="Hartslag"/>
+            <Item language="th_TH" str="อัตราการเต้นหัวใจ"/>
+            <Item language="sv_SE" str="Puls"/>
+            <Item language="da_DK" str="Puls"/>
+            <Item language="vi_VN" str="Nhịp tim"/>
+            <Item language="nb_NO" str="Puls"/>
+            <Item language="pl_PL" str="Tętno"/>
+            <Item language="fi_FI" str="Syke"/>
+            <Item language="in_ID" str="Detak jantung"/>
+            <Item language="el_GR" str="Καρδιακός ρυθμός"/>
+            <Item language="ro_RO" str="Puls"/>
+            <Item language="cs_CZ" str="Srdeční tep"/>
+            <Item language="uk_UA" str="Пульс"/>
+            <Item language="sk_SK" str="Srdcový tep"/>
+            <Item language="hu_HU" str="Pulzusszám"/>
+            <Item language="ar_EG" str="معدل نبض القلب"/>
+            <Item language="iw_IL" str="קצב הלב"/>
+            <Item language="zh_HK" str="心率"/>
+            <Item language="lt_LT" str="Pulsas (k./min.)"/>
+            <Item language="bg_BG" str="Сърд. ритъм (BPM)"/>
+        </Translation>
+        <Translation name="Translation7">
+            <Item language="en_US" str="SpO₂"/>
+            <Item language="zh_CN" str="血氧"/>
+            <Item language="zh_TW" str="血氧"/>
+            <Item language="ja_JP" str="血中酸素レベル"/>
+            <Item language="es_ES" str="SpO₂"/>
+            <Item language="fr_FR" str="SpO₂"/>
+            <Item language="de_DE" str="SpO₂"/>
+            <Item language="ru_RU" str="SpO₂"/>
+            <Item language="pt_BR" str="SpO₂"/>
+            <Item language="pt_PT" str="SpO₂"/>
+            <Item language="it_IT" str="SpO₂"/>
+            <Item language="ko_KR" str="SpO₂"/>
+            <Item language="tr_TR" str="SpO₂"/>
+            <Item language="nl_NL" str="SpO₂"/>
+            <Item language="th_TH" str="SpO₂"/>
+            <Item language="sv_SE" str="SpO₂"/>
+            <Item language="da_DK" str="SpO₂"/>
+            <Item language="vi_VN" str="SpO₂"/>
+            <Item language="nb_NO" str="SpO₂"/>
+            <Item language="pl_PL" str="SpO₂"/>
+            <Item language="fi_FI" str="SpO₂"/>
+            <Item language="in_ID" str="SpO₂"/>
+            <Item language="el_GR" str="SpO₂"/>
+            <Item language="ro_RO" str="SpO₂"/>
+            <Item language="cs_CZ" str="SpO₂"/>
+            <Item language="uk_UA" str="SpO₂"/>
+            <Item language="sk_SK" str="SpO₂"/>
+            <Item language="hu_HU" str="SpO₂"/>
+            <Item language="ar_EG" str="أكسجين الدم"/>
+            <Item language="iw_IL" str="SpO₂"/>
+            <Item language="zh_HK" str="血氧"/>
+            <Item language="lt_LT" str="SpO₂"/>
+            <Item language="bg_BG" str="SpO₂"/>
+        </Translation>
+        <Translation name="Translation8">
+            <Item language="en_US" str="Weather"/>
+            <Item language="zh_CN" str="天气状况"/>
+            <Item language="zh_TW" str="天氣狀況"/>
+            <Item language="ja_JP" str="天気"/>
+            <Item language="es_ES" str="Tiempo"/>
+            <Item language="fr_FR" str="Météo"/>
+            <Item language="de_DE" str="Wetter"/>
+            <Item language="ru_RU" str="Погода"/>
+            <Item language="pt_BR" str="Clima"/>
+            <Item language="pt_PT" str="Tempo"/>
+            <Item language="it_IT" str="Meteo"/>
+            <Item language="ko_KR" str="날씨"/>
+            <Item language="tr_TR" str="Hava durumu"/>
+            <Item language="nl_NL" str="Weer"/>
+            <Item language="th_TH" str="สภาพอากาศ"/>
+            <Item language="sv_SE" str="Väder"/>
+            <Item language="da_DK" str="Vejr"/>
+            <Item language="vi_VN" str="Thời tiết"/>
+            <Item language="nb_NO" str="Vær"/>
+            <Item language="pl_PL" str="Pogoda"/>
+            <Item language="fi_FI" str="Sää"/>
+            <Item language="in_ID" str="Cuaca"/>
+            <Item language="el_GR" str="Καιρός"/>
+            <Item language="ro_RO" str="Meteo"/>
+            <Item language="cs_CZ" str="Počasí"/>
+            <Item language="uk_UA" str="Погода"/>
+            <Item language="sk_SK" str="Počasie"/>
+            <Item language="hu_HU" str="Időjárás"/>
+            <Item language="ar_EG" str="الطقس"/>
+            <Item language="iw_IL" str="מזג אוויר"/>
+            <Item language="zh_HK" str="天氣狀況"/>
+            <Item language="lt_LT" str="Orai"/>
+            <Item language="bg_BG" str="Времето"/>
+        </Translation>
+        <Translation name="Translation9">
+            <Item language="en_US" str="Battery"/>
+            <Item language="zh_CN" str="电量"/>
+            <Item language="zh_TW" str="電量"/>
+            <Item language="ja_JP" str="バッテリー"/>
+            <Item language="es_ES" str="Batería"/>
+            <Item language="fr_FR" str="Batterie"/>
+            <Item language="de_DE" str="Akku"/>
+            <Item language="ru_RU" str="Заряд"/>
+            <Item language="pt_BR" str="Bateria"/>
+            <Item language="pt_PT" str="Bateria"/>
+            <Item language="it_IT" str="Batteria"/>
+            <Item language="ko_KR" str="배터리"/>
+            <Item language="tr_TR" str="Pil"/>
+            <Item language="nl_NL" str="Batterij"/>
+            <Item language="th_TH" str="แบตเตอรี่"/>
+            <Item language="sv_SE" str="Batteri"/>
+            <Item language="da_DK" str="Batteri"/>
+            <Item language="vi_VN" str="Pin"/>
+            <Item language="nb_NO" str="Batteri"/>
+            <Item language="pl_PL" str="Bateria"/>
+            <Item language="fi_FI" str="Akku"/>
+            <Item language="in_ID" str="Baterai"/>
+            <Item language="el_GR" str="Μπαταρία"/>
+            <Item language="ro_RO" str="Baterie"/>
+            <Item language="cs_CZ" str="Baterie"/>
+            <Item language="uk_UA" str="Батарея"/>
+            <Item language="sk_SK" str="Batéria"/>
+            <Item language="hu_HU" str="Akkumulátor"/>
+            <Item language="ar_EG" str="البطارية"/>
+            <Item language="iw_IL" str="סוללה"/>
+            <Item language="zh_HK" str="電量"/>
+            <Item language="lt_LT" str="Baterija"/>
+            <Item language="bg_BG" str="Батерия"/>
+        </Translation>
+        <Translation name="Translation10">
+            <Item language="en_US" str="组"/>
+            <Item language="zh_CN" str="组"/>
+            <Item language="zh_TW" str="组"/>
+            <Item language="ja_JP" str="组"/>
+            <Item language="es_ES" str="组"/>
+            <Item language="fr_FR" str="组"/>
+            <Item language="de_DE" str="组"/>
+            <Item language="ru_RU" str="组"/>
+            <Item language="pt_BR" str="组"/>
+            <Item language="pt_PT" str="组"/>
+            <Item language="it_IT" str="组"/>
+            <Item language="ko_KR" str="组"/>
+            <Item language="tr_TR" str="组"/>
+            <Item language="nl_NL" str="组"/>
+            <Item language="th_TH" str="组"/>
+            <Item language="sv_SE" str="组"/>
+            <Item language="da_DK" str="组"/>
+            <Item language="vi_VN" str="组"/>
+            <Item language="nb_NO" str="组"/>
+            <Item language="pl_PL" str="组"/>
+            <Item language="fi_FI" str="组"/>
+            <Item language="in_ID" str="组"/>
+            <Item language="el_GR" str="组"/>
+            <Item language="ro_RO" str="组"/>
+            <Item language="cs_CZ" str="组"/>
+            <Item language="uk_UA" str="组"/>
+            <Item language="sk_SK" str="组"/>
+            <Item language="hu_HU" str="组"/>
+            <Item language="ar_EG" str="组"/>
+            <Item language="iw_IL" str="组"/>
+            <Item language="zh_HK" str="组"/>
+            <Item language="lt_LT" str="组"/>
+            <Item language="bg_BG" str="组"/>
+        </Translation>
+        <Image name="Image1" src="_preview/样式1亮屏预览图.png" compressMethod="RLEReversed" format="indexed8"/>
+        <Image name="Image2" src="14512c8.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image3" src="18f1c71.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image4" src="_widget/1bd1339.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image5" src="_widget/a0aa9b2.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image6" src="0ccf342.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image7" src="_widget/b21504a.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image8" src="499d7d8.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image9" src="5308026.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image10" src="_widget/fc2e447.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image11" src="84239e3.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image12" src="_widget/13d21ef.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image13" src="08418fa.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image14" src="_widget/3763bac.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image15" src="2a67ac6.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image16" src="_widget/09bcd61.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image17" src="3385d2b.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image18" src="_widget/797565c.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image19" src="814e6e4.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image20" src="8f0f919.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image21" src="_widget/14d8337.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image22" src="d436ebb.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image23" src="_widget/00854da.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image24" src="8cf2554.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+        <Image name="Image25" src="f8100e5.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+        <Image name="Image26" src="1670f4d.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+        <Image name="Image27" src="_widget/9661fd9.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="true"/>
+        <Image name="Image28" src="5745e36.png" compressMethod="RLEReversed" format="indexed8" recolorEnable="false"/>
+        <ImageArray name="ImageArray1" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="数字/00_139077c.png"/>
+            <Image src="数字/01_cc44538.png"/>
+            <Image src="数字/02_e772f1f.png"/>
+            <Image src="数字/03_a99a135.png"/>
+            <Image src="数字/04_4953c94.png"/>
+            <Image src="数字/05_3d9fe3c.png"/>
+            <Image src="数字/06_fa8bf36.png"/>
+            <Image src="数字/07_a4d00a4.png"/>
+            <Image src="数字/08_aa8a81f.png"/>
+            <Image src="数字/09_cb8ab50.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray2" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="Desktop/d1c631c.png"/>
+            <Image src="Desktop/76c1671.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray3" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="down/07_0794b92.png"/>
+            <Image src="down/01_fcf3629.png"/>
+            <Image src="down/02_441b3a6.png"/>
+            <Image src="down/03_2e56968.png"/>
+            <Image src="down/04_00419af.png"/>
+            <Image src="down/05_2a87032.png"/>
+            <Image src="down/06_26e1bda.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray4" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="目标数字/00_2aac479.png"/>
+            <Image src="目标数字/01_a6ec356.png"/>
+            <Image src="目标数字/02_158fc8d.png"/>
+            <Image src="目标数字/03_3378f9c.png"/>
+            <Image src="目标数字/04_5327964.png"/>
+            <Image src="目标数字/05_951bebc.png"/>
+            <Image src="目标数字/06_47d1041.png"/>
+            <Image src="目标数字/07_308f136.png"/>
+            <Image src="目标数字/08_80ccf76.png"/>
+            <Image src="目标数字/09_8ae900f.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray5" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="数字/00_139077c.png"/>
+            <Image src="数字/01_cc44538.png"/>
+            <Image src="数字/02_e772f1f.png"/>
+            <Image src="数字/03_a99a135.png"/>
+            <Image src="数字/04_4953c94.png"/>
+            <Image src="数字/05_3d9fe3c.png"/>
+            <Image src="数字/06_fa8bf36.png"/>
+            <Image src="数字/07_a4d00a4.png"/>
+            <Image src="数字/08_aa8a81f.png"/>
+            <Image src="数字/09_cb8ab50.png"/>
+            <Image src="数字/3cf3a6f.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray6" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="天气/fd056ac.png"/>
+            <Image src="天气/e029458.png"/>
+            <Image src="天气/24279aa.png"/>
+            <Image src="天气/674828a.png"/>
+            <Image src="天气/9d2289c.png"/>
+            <Image src="天气/c07c70c.png"/>
+            <Image src="天气/d7dd4c7.png"/>
+            <Image src="天气/444b6e9.png"/>
+            <Image src="天气/7065868.png"/>
+            <Image src="天气/3c39423.png"/>
+            <Image src="天气/f10cff8.png"/>
+            <Image src="天气/edbd3a7.png"/>
+            <Image src="天气/550266e.png"/>
+            <Image src="天气/304ef39.png"/>
+            <Image src="天气/a05dd55.png"/>
+            <Image src="天气/bf15824.png"/>
+            <Image src="天气/b7de84c.png"/>
+            <Image src="天气/22a130b.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray7" compressMethod="RLEReversed" format="indexed8" recolorEnable="true">
+            <Image src="电池电量/d754d2f.png"/>
+            <Image src="电池电量/aec5e3b.png"/>
+            <Image src="电池电量/e172640.png"/>
+            <Image src="电池电量/8967dbc.png"/>
+            <Image src="电池电量/14afe6e.png"/>
+            <Image src="电池电量/4da4942.png"/>
+            <Image src="电池电量/44599b7.png"/>
+            <Image src="电池电量/71019bb.png"/>
+            <Image src="电池电量/f2a5bb9.png"/>
+            <Image src="电池电量/591c7cc.png"/>
+            <Image src="电池电量/3df04b5.png"/>
+            <Image src="电池电量/c1157e9.png"/>
+            <Image src="电池电量/9f7fddf.png"/>
+            <Image src="电池电量/55cfe00.png"/>
+            <Image src="电池电量/68fe88c.png"/>
+            <Image src="电池电量/6b3ade3.png"/>
+            <Image src="电池电量/938b13c.png"/>
+            <Image src="电池电量/8e68913.png"/>
+            <Image src="电池电量/476428b.png"/>
+            <Image src="电池电量/0ee2af1.png"/>
+            <Image src="电池电量/1717b07.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray8" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+            <Image src="数字/00_ffb73af.png"/>
+            <Image src="数字/01_6535790.png"/>
+            <Image src="数字/02_faaa0ee.png"/>
+            <Image src="数字/03_38ac042.png"/>
+            <Image src="数字/04_2f67b7d.png"/>
+            <Image src="数字/05_ad1018d.png"/>
+            <Image src="数字/06_1490aec.png"/>
+            <Image src="数字/07_df76b8b.png"/>
+            <Image src="数字/08_6caaf5c.png"/>
+            <Image src="数字/09_05e9904.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray9" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+            <Image src="时间/cb38e7f.png"/>
+            <Image src="时间/24946b7.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray10" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+            <Image src="AOD/07_b83e52d.png"/>
+            <Image src="AOD/01_27389dc.png"/>
+            <Image src="AOD/02_2a1e1ee.png"/>
+            <Image src="AOD/03_7551f39.png"/>
+            <Image src="AOD/04_ffe84a5.png"/>
+            <Image src="AOD/05_1af8dde.png"/>
+            <Image src="AOD/06_9a3735e.png"/>
+        </ImageArray>
+        <ImageArray name="ImageArray11" compressMethod="RLEReversed" format="indexed8" recolorEnable="false">
+            <Image src="电池电量/63b0fca.png"/>
+            <Image src="电池电量/5c6b7e0.png"/>
+            <Image src="电池电量/fd07fbd.png"/>
+            <Image src="电池电量/c86e714.png"/>
+            <Image src="电池电量/9e9c2e1.png"/>
+            <Image src="电池电量/96ac08e.png"/>
+            <Image src="电池电量/400e9b5.png"/>
+            <Image src="电池电量/6ab53ca.png"/>
+            <Image src="电池电量/c240c58.png"/>
+            <Image src="电池电量/61f97da.png"/>
+            <Image src="电池电量/98ff4df.png"/>
+            <Image src="电池电量/3be1907.png"/>
+            <Image src="电池电量/4a38a7a.png"/>
+            <Image src="电池电量/87eeec9.png"/>
+            <Image src="电池电量/d6930f1.png"/>
+            <Image src="电池电量/edf8823.png"/>
+            <Image src="电池电量/6afc284.png"/>
+            <Image src="电池电量/94b450b.png"/>
+            <Image src="电池电量/ecd6ef0.png"/>
+            <Image src="电池电量/f029db2.png"/>
+            <Image src="电池电量/73a8308.png"/>
+        </ImageArray>
+        <DataItemImageNumber name="ImageNumber1" source="timeHour" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber2" source="timeMinute" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber3" source="dateMonth" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+        <DataItemImageNumber name="ImageNumber4" source="dateDay" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber5" source="healthExerciseDuration" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber6" source="healthExerciseTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+        <DataItemImageNumber name="ImageNumber7" source="healthStandCount" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber8" source="healthStandTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber9" source="healthCalorieValue" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber10" source="healthCalorieTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber11" source="healthStepCount" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber12" source="healthStepTarget" ref="@ImageArray4" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="5" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+        <DataItemImageNumber name="ImageNumber13" source="healthHeartRate" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber14" source="healthOxygenSpO2" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber15" source="weatherCurrentTemperature" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="hideWhenUnitMismatch" align="left" space="0"/>
+        <DataItemImageNumber name="ImageNumber16" source="weatherCurrentTemperatureFahrenheit" ref="@ImageArray5" rotation="0" supportRecolor="true" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="4" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="hideWhenUnitMismatch" align="left" space="0"/>
+        <DataItemImageNumber name="ImageNumber17" source="systemStatusBattery" ref="@ImageArray1" rotation="0" supportRecolor="true" unitIcon="@Image19" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber18" source="timeHour" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber19" source="timeMinute" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="true" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber20" source="dateMonth" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="0"/>
+        <DataItemImageNumber name="ImageNumber21" source="dateDay" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="2" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageNumber name="ImageNumber22" source="systemStatusBattery" ref="@ImageArray8" rotation="0" supportRecolor="false" unitIcon="" leadingZero="false" decimalOffsetX="0" totalDigits="3" decimalDigits="0" trailingZero="false" parameter="1000" renderRule="alwaysShow" align="left" space="-1"/>
+        <DataItemImageValues name="ImageValues1" source="miscIsPM" ref="@ImageArray2" rotation="0" supportRecolor="true"/>
+        <DataItemImageValues name="ImageValues2" source="dateWeek" ref="@ImageArray3" rotation="0" supportRecolor="true"/>
+        <DataItemImageValues name="ImageValues3" source="weatherCurrentWeather" ref="@ImageArray6" rotation="0" supportRecolor="true">
+            <Param value="0"/>
+            <Param value="1"/>
+            <Param value="2"/>
+            <Param value="4"/>
+            <Param value="5"/>
+            <Param value="6"/>
+            <Param value="7"/>
+            <Param value="8"/>
+            <Param value="9"/>
+            <Param value="13"/>
+            <Param value="15"/>
+            <Param value="16"/>
+            <Param value="18"/>
+            <Param value="19"/>
+            <Param value="20"/>
+            <Param value="29"/>
+            <Param value="53"/>
+            <Param value="99"/>
+        </DataItemImageValues>
+        <DataItemImageValues name="ImageValues4" source="systemStatusBattery" ref="@ImageArray7" rotation="0" supportRecolor="true">
+            <Param value="0"/>
+            <Param value="5"/>
+            <Param value="10"/>
+            <Param value="15"/>
+            <Param value="20"/>
+            <Param value="25"/>
+            <Param value="30"/>
+            <Param value="35"/>
+            <Param value="40"/>
+            <Param value="45"/>
+            <Param value="50"/>
+            <Param value="55"/>
+            <Param value="60"/>
+            <Param value="65"/>
+            <Param value="70"/>
+            <Param value="75"/>
+            <Param value="80"/>
+            <Param value="85"/>
+            <Param value="90"/>
+            <Param value="95"/>
+            <Param value="100"/>
+        </DataItemImageValues>
+        <DataItemImageValues name="ImageValues5" source="miscIsPM" ref="@ImageArray9" rotation="0" supportRecolor="false"/>
+        <DataItemImageValues name="ImageValues6" source="dateWeek" ref="@ImageArray10" rotation="0" supportRecolor="false"/>
+        <DataItemImageValues name="ImageValues7" source="systemStatusBattery" ref="@ImageArray11" rotation="0" supportRecolor="false">
+            <Param value="0"/>
+            <Param value="5"/>
+            <Param value="10"/>
+            <Param value="15"/>
+            <Param value="20"/>
+            <Param value="25"/>
+            <Param value="30"/>
+            <Param value="35"/>
+            <Param value="40"/>
+            <Param value="45"/>
+            <Param value="50"/>
+            <Param value="55"/>
+            <Param value="60"/>
+            <Param value="65"/>
+            <Param value="70"/>
+            <Param value="75"/>
+            <Param value="80"/>
+            <Param value="85"/>
+            <Param value="90"/>
+            <Param value="95"/>
+            <Param value="100"/>
+        </DataItemImageValues>
+        <Widget name="Widget1" widgetName="时间" groupType="general" w="272" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-2">
+            <Item ref="@ImageNumber1"/>
+            <Item ref="@Image2"/>
+            <Item ref="@ImageNumber2"/>
+            <Item ref="@ImageValues1"/>
+        </Widget>
+        <Widget name="Widget2" widgetName="日期" groupType="general" w="231" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="0">
+            <Item ref="@ImageNumber3"/>
+            <Item ref="@Image3"/>
+            <Item ref="@ImageNumber4"/>
+            <Item ref="@ImageValues2"/>
+        </Widget>
+        <Widget name="Widget3" widgetName="@Translation1" groupType="general" editBox="@Image4" preview="@Image5" w="278" h="80">
+            <Item ref="@Image6" x="0" y="0"/>
+        </Widget>
+        <Widget name="Widget4" widgetName="组1" groupType="general" w="71" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@Image9"/>
+            <Item ref="@ImageNumber6"/>
+        </Widget>
+        <Widget name="Widget5" widgetName="组2" groupType="general" w="71" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+            <Item ref="@Image8"/>
+            <Item ref="@Widget4"/>
+        </Widget>
+        <Widget name="Widget6" widgetName="@Translation2" groupType="general" editBox="@Image4" preview="@Image7" w="159" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber5"/>
+            <Item ref="@Widget5"/>
+        </Widget>
+        <Widget name="Widget7" widgetName="组1" groupType="general" w="55" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="-1">
+            <Item ref="@Image9"/>
+            <Item ref="@ImageNumber8"/>
+        </Widget>
+        <Widget name="Widget8" widgetName="icon" groupType="general" w="55" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+            <Item ref="@Image11"/>
+            <Item ref="@Widget7"/>
+        </Widget>
+        <Widget name="Widget9" widgetName="@Translation3" groupType="general" editBox="@Image4" preview="@Image10" w="153" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber7"/>
+            <Item ref="@Widget8"/>
+        </Widget>
+        <Widget name="Widget10" widgetName="组1" groupType="general" w="69" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="-1">
+            <Item ref="@Image9"/>
+            <Item ref="@ImageNumber10"/>
+        </Widget>
+        <Widget name="Widget11" widgetName="icon" groupType="general" w="69" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+            <Item ref="@Image13"/>
+            <Item ref="@Widget10"/>
+        </Widget>
+        <Widget name="Widget12" widgetName="@Translation4" groupType="general" editBox="@Image4" preview="@Image12" w="228" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber9"/>
+            <Item ref="@Widget11"/>
+        </Widget>
+        <Widget name="Widget13" widgetName="组1" groupType="general" w="103" h="24" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@Image9"/>
+            <Item ref="@ImageNumber12"/>
+        </Widget>
+        <Widget name="Widget14" widgetName="组2" groupType="general" w="103" h="68" flex_direction="column" justify_content="flex-start" align_items="flex-start" align_content="flex-start" gap="0">
+            <Item ref="@Image15"/>
+            <Item ref="@Widget13"/>
+        </Widget>
+        <Widget name="Widget15" widgetName="@Translation5" groupType="general" editBox="@Image4" preview="@Image14" w="183" h="80" jumpApp="activities" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber11"/>
+            <Item ref="@Widget14"/>
+        </Widget>
+        <Widget name="Widget16" widgetName="@Translation6" groupType="general" editBox="@Image4" preview="@Image16" w="183" h="80" jumpApp="heartrate" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber13"/>
+            <Item ref="@Image17"/>
+        </Widget>
+        <Widget name="Widget17" widgetName="@Translation7" groupType="general" editBox="@Image4" preview="@Image18" w="179" h="80" jumpApp="SpO2" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber14"/>
+            <Item ref="@Image19"/>
+            <Item ref="@Image20"/>
+        </Widget>
+        <Widget name="Widget18" widgetName="@Translation8" groupType="general" editBox="@Image4" preview="@Image21" w="198" h="80" jumpApp="weather" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-1">
+            <Item ref="@ImageNumber15"/>
+            <Item ref="@ImageNumber16"/>
+            <Item ref="@Image22"/>
+            <Item ref="@ImageValues3"/>
+        </Widget>
+        <Widget name="Widget19" widgetName="@Translation9" groupType="general" editBox="@Image4" preview="@Image23" w="340" h="74" flex_direction="row" justify_content="flex-start" align_items="flex-end" align_content="flex-end" gap="0">
+            <Item ref="@ImageNumber17"/>
+            <Item ref="@ImageValues4"/>
+        </Widget>
+        <Widget name="Widget20" widgetName="时间" groupType="general" w="272" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="-2">
+            <Item ref="@ImageNumber18"/>
+            <Item ref="@Image25"/>
+            <Item ref="@ImageNumber19"/>
+            <Item ref="@ImageValues5"/>
+        </Widget>
+        <Widget name="Widget21" widgetName="日期" groupType="general" w="231" h="80" flex_direction="row" justify_content="flex-start" align_items="center" align_content="center" gap="0">
+            <Item ref="@ImageNumber20"/>
+            <Item ref="@Image26"/>
+            <Item ref="@ImageNumber21"/>
+            <Item ref="@ImageValues6"/>
+        </Widget>
+        <Widget name="Widget22" widgetName="@Translation10" groupType="general" editBox="@Image4" preview="@Image27" w="174" h="74" flex_direction="row" justify_content="flex-start" align_items="flex-end" align_content="flex-end" gap="-1">
+            <Item ref="@ImageNumber22"/>
+            <Item ref="@Image28"/>
+            <Item ref="@ImageValues7"/>
+        </Widget>
+        <Slot name="Slot1" type="widget">
+            <Item ref="@Widget19"/>
+            <Item ref="@Widget18"/>
+            <Item ref="@Widget17"/>
+            <Item ref="@Widget16"/>
+            <Item ref="@Widget15"/>
+            <Item ref="@Widget12"/>
+            <Item ref="@Widget9"/>
+            <Item ref="@Widget6"/>
+            <Item ref="@Widget3"/>
+        </Slot>
+        <Slot name="Slot2" type="widget">
+            <Item ref="@Widget22"/>
+        </Slot>
+    </Resources>
+    <Theme type="normal" name="样式1" bgColor="#000000" isPhotoAlbumWatchface="true" preview="@Image1" recolorTable="#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e" bg="@Image24" fg="">
+        <Layout ref="@Image24" x="0" y="0"/>
+        <Layout ref="@Widget1" x="80" y="120"/>
+        <Layout ref="@Widget2" x="80" y="200"/>
+        <Layout ref="@Slot1" x="80" y="280"/>
+    </Theme>
+    <Theme type="AOD" name="样式1" bgColor="#000000" isPhotoAlbumWatchface="false" recolorTable="#ffffff,#1f1f1f,#ea3232,#db6332,#ebc92c,#12bd8f,#1a4dc1,#623ed8,#25392a,#7d573f,#90958e">
+        <Layout ref="@Widget20" x="80" y="120"/>
+        <Layout ref="@Widget21" x="80" y="200"/>
+        <Layout ref="@Slot2" x="80" y="280"/>
+    </Theme>
+</Watchface>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="it">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>S5 Studio</title><link rel="stylesheet" href="tailwind.css"><link rel="stylesheet" href="studio.css"></head>
+<body class="bg-[#070913] text-slate-100 font-sans antialiased">
+<div id="app" class="flex h-screen overflow-hidden">
+  <aside class="w-56 shrink-0 flex flex-col p-5 border-r border-white/5 bg-[#090c18]">
+    <div class="flex items-center gap-3 mb-10"><div class="brand">S5</div><div><strong class="text-lg tracking-tight">S5 Studio</strong><div class="text-[11px] text-slate-500">Version 0.8</div></div></div>
+    <div class="text-[10px] uppercase tracking-[.2em] text-slate-500 mb-3">Il tuo spazio creativo</div>
+    <nav class="space-y-2" id="navigation">
+      <button data-tab="design" class="nav active"><span>◷</span> Quadrante</button>
+      <button data-tab="variants" class="nav"><span>◈</span> Varianti grafiche</button>
+      <button data-tab="slots" class="nav"><span>⊞</span> Complicazioni</button>
+      <button data-tab="project" class="nav"><span>⚙</span> Progetto e AOD</button>
+    </nav>
+    <div class="mt-8 text-[10px] uppercase tracking-[.2em] text-slate-500 mb-3">Crea da un modello</div>
+    <div class="space-y-2"><button data-template="Analogico" class="template-button">◴ <span>Analogico <small>Lancette native</small></span><span class="ml-auto">＋</span></button><button data-template="Digitale" class="template-button">08:12 <span>Digitale <small>Ora e dati live</small></span><span class="ml-auto">＋</span></button><button data-template="Salute" class="template-button">♡ <span>Salute <small>Passi e pulsazioni</small></span><span class="ml-auto">＋</span></button></div>
+    <div class="mt-auto device"><div class="flex items-center gap-2 mb-2"><span class="dot"></span><strong class="text-xs">Xiaomi Watch S5</strong></div><div class="text-[11px] text-slate-500">M2530W1 · 480 × 480<br>Grafica e dati personalizzabili</div><div class="text-[10px] mt-3 text-slate-400">Progetto locale · nessun servizio online</div></div>
+  </aside>
+  <main class="flex flex-1 min-w-0 flex-col">
+    <header class="h-20 px-7 flex items-center justify-between border-b border-white/5 shrink-0"><div class="min-w-0"><div class="text-[10px] tracking-[.16em] text-slate-500 uppercase mb-1">Studio / <span id="tab-label">Quadrante</span></div><div class="flex items-center gap-3"><h1 id="project-title" class="text-xl font-semibold truncate">Il mio quadrante</h1><span id="dirty" class="text-xs text-blue-300"></span></div></div><div class="flex items-center gap-2"><button id="open" class="btn subtle">Apri</button><button id="save" class="btn">Salva progetto</button><button id="compile" class="btn primary">↗ Esporta ZIP</button></div></header>
+    <div class="flex flex-1 min-h-0">
+      <section class="flex-1 min-w-0 overflow-y-auto p-7" id="workspace">
+        <div class="flex items-center justify-between gap-3 mb-6"><div><h2 id="view-title" class="text-lg font-semibold">Disegna il tuo tempo</h2><p id="view-subtitle" class="text-xs text-slate-500 mt-1">Immagini, lancette e dati. Tutto in un unico quadrante.</p></div><div class="flex gap-1 bg-[#111625] rounded-xl p-1"><button id="normal" class="seg active">Quadrante</button><button id="aod" class="seg">AOD</button></div></div>
+        <div id="design-panel">
+          <div class="toolbar flex gap-2 flex-wrap mb-5"><button id="import" class="btn">＋ Immagine</button><button data-add="analog" class="btn">Lancette</button><button data-add="pointer" class="btn">Lancetta piccola</button><button id="add-complication" class="btn">Complicazione</button><button data-add="clock" class="btn">Ora</button><button data-add="number" class="btn">Dato live</button><button data-add="text" class="btn">Testo</button><button data-add="date" class="btn">Data</button><button data-add="rect" class="btn">Forma</button><div class="ml-auto flex gap-1"><button id="undo" class="btn" title="Annulla · Ctrl+Z">↶</button><button id="redo" class="btn" title="Ripristina · Ctrl+Y">↷</button></div></div>
+        </div>
+        <div id="stage-wrap" class="stage-card relative flex flex-col items-center py-9 mb-5">
+          <div class="absolute top-5 left-5 flex items-center gap-2 text-[10px] uppercase tracking-[.15em] text-slate-500"><span class="dot"></span> Anteprima <span id="current-style" class="text-blue-300"></span></div>
+          <div class="watch-ring"><div id="canvas" tabindex="0" aria-label="Quadrante: usa le frecce per spostare il livello selezionato" class="relative w-[360px] h-[360px] rounded-full overflow-hidden select-none"><img id="preview" alt="Anteprima del quadrante" class="w-full h-full pointer-events-none"><div id="overlays" class="absolute inset-0"></div></div></div>
+          <div class="text-[10px] text-slate-600 mt-5">480 × 480 px <span class="mx-2">·</span> valori simulati nell’anteprima</div>
+        </div>
+        <div id="variants-panel" class="hidden"></div><div id="slots-panel" class="hidden"></div><div id="project-panel" class="hidden"></div>
+        <div id="simulation" class="card p-4"><div class="flex justify-between items-center"><div><h3 class="text-xs font-semibold">Simula l’orologio</h3><p class="text-[11px] text-slate-500 mt-1">Controlla l’ora, i dati e la leggibilità.</p></div><select id="scenario" class="input w-36"><option>Normale</option><option>Dati assenti</option><option>Valori massimi</option></select></div><div class="flex items-center gap-3 mt-4"><label class="text-xs text-slate-400">Ora</label><input id="hour" type="number" min="0" max="23" class="input w-16"><span>:</span><input id="minute" type="number" min="0" max="59" class="input w-16"><span>:</span><input id="second" type="number" min="0" max="59" class="input w-16"><button id="preview-export" class="text-xs text-blue-300 ml-auto">Salva PNG ↗</button></div></div>
+        <div id="validation" class="mt-4 text-xs text-amber-200"></div>
+      </section>
+      <aside id="inspector" class="w-[300px] shrink-0 border-l border-white/5 bg-[#0b0f1c] overflow-y-auto p-5"><div class="flex justify-between mb-4"><h2 class="text-xs font-semibold">Livelli e proprietà</h2><span id="layers-count" class="text-[10px] text-slate-500"></span></div><div id="layers" class="space-y-1"></div><div id="properties" class="mt-6"></div></aside>
+    </div>
+    <footer class="h-11 px-7 border-t border-white/5 flex items-center justify-between gap-4 shrink-0"><span id="status" class="text-[11px] text-slate-500 truncate">Pronto per creare</span><button id="show-output" class="text-[11px] text-blue-300 hidden">Apri esportazione ↗</button><span class="text-[10px] text-slate-600 shrink-0">EasyFace 4.23 · S5</span></footer>
+  </main>
+</div>
+<div id="toast" role="alert" class="hidden fixed bottom-16 right-7 max-w-lg p-4 rounded-xl bg-[#202940] border border-blue-400/25 shadow-2xl text-sm z-50"></div>
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script><script src="editor-controls.js"></script><script src="app.js"></script>
+</body></html>

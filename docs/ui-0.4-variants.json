@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "frontend": "Tailwind CSS 4.3.3 / QtWebEngine offline",
+  "checks": [
+    "page-loaded",
+    "QWebChannel",
+    "add-variant",
+    "add-native-slot",
+    "canvas-drag",
+    "DOM-undo",
+    "DOM-colour-change",
+    "preview-decoded",
+    "screenshot"
+  ],
+  "hardwareTested": false
+}

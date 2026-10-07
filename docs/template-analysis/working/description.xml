@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<watch>
+	<shape>circle</shape>
+	<name>Suit and tie</name>
+	<deviceType>P62</deviceType>
+	<version>1.1.16</version>
+	<size>480x480</size>
+	<author>小米</author>
+	<pkgName>120917386745</pkgName>
+	<watchOS>vela</watchOS>
+	<_id>90a93725170a44cd9ab1781f476f6254</_id>
+	<imageFormat>indexed8</imageFormat>
+	<imageCompression>true</imageCompression>
+	<editorVersion>1.0.0</editorVersion>
+	<webVersionCreatedAt>2025-08-19T14:39:27+08:00</webVersionCreatedAt>
+	<editorVersionCreatedAt>1.0.0</editorVersionCreatedAt>
+	<webVersionUpdatedAt>2026-04-24T15:35:49+08:00</webVersionUpdatedAt>
+	<editorVersionUpdatedAt>1.0.0</editorVersionUpdatedAt>
+	<watchfaceType>normal</watchfaceType>
+	<imageArrayRamMethod>whole</imageArrayRamMethod>
+	<_recolorEnable>false</_recolorEnable>
+	<webVersionExportAt>2026-04-24T15:35:49+08:00</webVersionExportAt>
+	<editorVersionExportAt>1.0.0</editorVersionExportAt>
+	<merchantId/>
+	<introduce/>
+	<deviceRegion>international</deviceRegion>
+</watch>

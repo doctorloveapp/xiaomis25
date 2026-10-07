@@ -1,0 +1,2337 @@
+{
+  "status": "passed",
+  "scope": "CRC, struttura ZIP e hash di tutti i file preservati; ID e binario EasyFace; formati e dimensioni preview.",
+  "templateSha256": "5c7a3bb0c81762e7bb0749fd1b1cd941e0578d8e0eec0d567b37c44dd6695627",
+  "outputSha256": "8cf561f7a9113de1cd5c3e917596ce3bb57975d5897a4efcb1f02e737803102c",
+  "structuralFingerprint": "59e5e50128915342b718765026ef2091f8e9595241861c0554f958bdd42d422b",
+  "entries": 228,
+  "preservedFiles": 191,
+  "mutableMembers": [
+    "preview/aod-preview.png",
+    "preview/market-preview.png",
+    "preview/preview.png",
+    "preview/style_1_animated.webp",
+    "preview/style_1_aod.png",
+    "preview/style_1_static.png",
+    "preview/style_2_animated.webp",
+    "preview/style_2_aod.png",
+    "preview/style_2_static.png",
+    "preview/style_3_animated.webp",
+    "preview/style_3_aod.png",
+    "preview/style_3_static.png",
+    "preview/style_4_animated.webp",
+    "preview/style_4_aod.png",
+    "preview/style_4_static.png",
+    "preview/style_5_animated.webp",
+    "preview/style_5_aod.png",
+    "preview/style_5_static.png",
+    "resource.bin",
+    "resources/_preview/样式1亮屏预览图.png",
+    "resources/_preview/样式1息屏预览图.png",
+    "resources/_preview/样式2亮屏预览图.png",
+    "resources/_preview/样式2息屏预览图.png",
+    "resources/_preview/样式3亮屏预览图.png",
+    "resources/_preview/样式3息屏预览图.png",
+    "resources/_preview/样式4亮屏预览图.png",
+    "resources/_preview/样式4息屏预览图.png",
+    "resources/_preview/样式5亮屏预览图.png",
+    "resources/_preview/样式5息屏预览图.png"
+  ],
+  "binary": {
+    "faceId": "120917386745",
+    "size": 1694368,
+    "sha256": "308f1acca35d19473514c3a9d1b3fff1dbd147026b6668de146399cb8b9fce81",
+    "screenCount": 10,
+    "directoryStride": 176,
+    "nativeSlots": 10,
+    "sectionCounts": [
+      8,
+      0,
+      27,
+      0,
+      0,
+      0,
+      6,
+      13,
+      2,
+      12,
+      0,
+      0
+    ],
+    "widgets": [
+      {
+        "id": "7001000",
+        "source": "0811",
+        "digits": 0,
+        "type": 3,
+        "target": "2001002"
+      },
+      {
+        "id": "7001001",
+        "source": "1011",
+        "digits": 0,
+        "type": 3,
+        "target": "2001003"
+      },
+      {
+        "id": "7001002",
+        "source": "1811",
+        "digits": 0,
+        "type": 3,
+        "target": "2001004"
+      },
+      {
+        "id": "700000a",
+        "source": "1029",
+        "digits": 0,
+        "type": 3,
+        "target": "2000009"
+      },
+      {
+        "id": "700000b",
+        "source": "1029",
+        "digits": 0,
+        "type": 3,
+        "target": "2000007"
+      },
+      {
+        "id": "700000c",
+        "source": "1828",
+        "digits": 0,
+        "type": 3,
+        "target": "2000009"
+      },
+      {
+        "id": "700000d",
+        "source": "1828",
+        "digits": 0,
+        "type": 3,
+        "target": "2000007"
+      },
+      {
+        "id": "700000e",
+        "source": "0825",
+        "digits": 0,
+        "type": 3,
+        "target": "2000009"
+      },
+      {
+        "id": "700000f",
+        "source": "0825",
+        "digits": 0,
+        "type": 3,
+        "target": "2000007"
+      },
+      {
+        "id": "7000010",
+        "source": "1021",
+        "digits": 0,
+        "type": 3,
+        "target": "2000009"
+      },
+      {
+        "id": "7000011",
+        "source": "1021",
+        "digits": 0,
+        "type": 3,
+        "target": "2000007"
+      },
+      {
+        "id": "7000012",
+        "source": "1023",
+        "digits": 0,
+        "type": 3,
+        "target": "2000009"
+      },
+      {
+        "id": "7000013",
+        "source": "1023",
+        "digits": 0,
+        "type": 3,
+        "target": "2000007"
+      }
+    ],
+    "images": [
+      {
+        "id": "2001000",
+        "width": 480,
+        "height": 480,
+        "array": false
+      },
+      {
+        "id": "2001001",
+        "width": 360,
+        "height": 360,
+        "array": false
+      },
+      {
+        "id": "2001002",
+        "width": 12,
+        "height": 114,
+        "array": false
+      },
+      {
+        "id": "2001003",
+        "width": 9,
+        "height": 158,
+        "array": false
+      },
+      {
+        "id": "2001004",
+        "width": 6,
+        "height": 172,
+        "array": false
+      },
+      {
+        "id": "2001005",
+        "width": 14,
+        "height": 14,
+        "array": false
+      },
+      {
+        "id": "2000002",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000003",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000004",
+        "width": 125,
+        "height": 125,
+        "array": false
+      },
+      {
+        "id": "2000005",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000006",
+        "width": 16,
+        "height": 16,
+        "array": false
+      },
+      {
+        "id": "2000007",
+        "width": 30,
+        "height": 150,
+        "array": false
+      },
+      {
+        "id": "2000009",
+        "width": 30,
+        "height": 150,
+        "array": false
+      },
+      {
+        "id": "200000a",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "200000b",
+        "width": 16,
+        "height": 16,
+        "array": false
+      },
+      {
+        "id": "200000c",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "200000d",
+        "width": 16,
+        "height": 16,
+        "array": false
+      },
+      {
+        "id": "200000e",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "200000f",
+        "width": 16,
+        "height": 16,
+        "array": false
+      },
+      {
+        "id": "2000010",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000011",
+        "width": 16,
+        "height": 16,
+        "array": false
+      },
+      {
+        "id": "2000012",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000013",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000014",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000015",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000016",
+        "width": 123,
+        "height": 123,
+        "array": false
+      },
+      {
+        "id": "2000017",
+        "width": 123,
+        "height": 123,
+        "array": false
+      }
+    ],
+    "screens": [
+      {
+        "index": 0,
+        "sectionCounts": [
+          8,
+          0,
+          27,
+          0,
+          0,
+          0,
+          6,
+          13,
+          2,
+          12,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7001000",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001002"
+          },
+          {
+            "id": "7001001",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2001003"
+          },
+          {
+            "id": "7001002",
+            "source": "1811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001004"
+          },
+          {
+            "id": "700000a",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000b",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000c",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000d",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000e",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000f",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000010",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000011",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000012",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000013",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          }
+        ],
+        "images": [
+          {
+            "id": "2001000",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2001001",
+            "width": 360,
+            "height": 360,
+            "array": false
+          },
+          {
+            "id": "2001002",
+            "width": 12,
+            "height": 114,
+            "array": false
+          },
+          {
+            "id": "2001003",
+            "width": 9,
+            "height": 158,
+            "array": false
+          },
+          {
+            "id": "2001004",
+            "width": 6,
+            "height": 172,
+            "array": false
+          },
+          {
+            "id": "2001005",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "2000002",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000003",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000004",
+            "width": 125,
+            "height": 125,
+            "array": false
+          },
+          {
+            "id": "2000005",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000006",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000c",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000d",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000e",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000f",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000010",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000011",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000012",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000013",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000014",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000015",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000016",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000017",
+            "width": 123,
+            "height": 123,
+            "array": false
+          }
+        ],
+        "slots": [
+          {
+            "id": "8000000",
+            "choices": [
+              "9000004",
+              "9000000",
+              "9000001",
+              "9000003",
+              "9000002",
+              "9000005"
+            ]
+          },
+          {
+            "id": "8000001",
+            "choices": [
+              "9000007",
+              "9000006",
+              "900000a",
+              "9000009",
+              "9000008",
+              "900000b"
+            ]
+          }
+        ],
+        "title": "Menta",
+        "aod": false
+      },
+      {
+        "index": 1,
+        "sectionCounts": [
+          8,
+          0,
+          6,
+          2,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7000003",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2000008"
+          },
+          {
+            "id": "7000004",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000005",
+            "source": "1812",
+            "digits": 2,
+            "type": 1,
+            "target": "3000000"
+          },
+          {
+            "id": "7000006",
+            "source": "1012",
+            "digits": 2,
+            "type": 1,
+            "target": "3000001"
+          }
+        ],
+        "images": [
+          {
+            "id": "2000006",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 320,
+            "height": 320,
+            "array": false
+          },
+          {
+            "id": "2000008",
+            "width": 12,
+            "height": 103,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 9,
+            "height": 142,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 11,
+            "height": 21,
+            "array": false
+          },
+          {
+            "id": "3000000",
+            "width": 16,
+            "height": 21,
+            "array": true
+          },
+          {
+            "id": "3000001",
+            "width": 16,
+            "height": 21,
+            "array": true
+          }
+        ],
+        "slots": [],
+        "title": "Menta",
+        "aod": true
+      },
+      {
+        "index": 2,
+        "sectionCounts": [
+          8,
+          0,
+          27,
+          0,
+          0,
+          0,
+          6,
+          13,
+          2,
+          12,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7001007",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "200100e"
+          },
+          {
+            "id": "7001008",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "200100f"
+          },
+          {
+            "id": "7001009",
+            "source": "1811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001010"
+          },
+          {
+            "id": "700000a",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000b",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000c",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000d",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000e",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000f",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000010",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000011",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000012",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000013",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          }
+        ],
+        "images": [
+          {
+            "id": "200100c",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "200100d",
+            "width": 360,
+            "height": 360,
+            "array": false
+          },
+          {
+            "id": "200100e",
+            "width": 12,
+            "height": 114,
+            "array": false
+          },
+          {
+            "id": "200100f",
+            "width": 9,
+            "height": 158,
+            "array": false
+          },
+          {
+            "id": "2001010",
+            "width": 6,
+            "height": 172,
+            "array": false
+          },
+          {
+            "id": "2001011",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "2000002",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000003",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000004",
+            "width": 125,
+            "height": 125,
+            "array": false
+          },
+          {
+            "id": "2000005",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000006",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000c",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000d",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000e",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000f",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000010",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000011",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000012",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000013",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000014",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000015",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000016",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000017",
+            "width": 123,
+            "height": 123,
+            "array": false
+          }
+        ],
+        "slots": [
+          {
+            "id": "8000000",
+            "choices": [
+              "9000004",
+              "9000000",
+              "9000001",
+              "9000003",
+              "9000002",
+              "9000005"
+            ]
+          },
+          {
+            "id": "8000001",
+            "choices": [
+              "9000007",
+              "9000006",
+              "900000a",
+              "9000009",
+              "9000008",
+              "900000b"
+            ]
+          }
+        ],
+        "title": "Blu",
+        "aod": false
+      },
+      {
+        "index": 3,
+        "sectionCounts": [
+          8,
+          0,
+          6,
+          2,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7000003",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2000008"
+          },
+          {
+            "id": "7000004",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000005",
+            "source": "1812",
+            "digits": 2,
+            "type": 1,
+            "target": "3000000"
+          },
+          {
+            "id": "7000006",
+            "source": "1012",
+            "digits": 2,
+            "type": 1,
+            "target": "3000001"
+          }
+        ],
+        "images": [
+          {
+            "id": "2000006",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 320,
+            "height": 320,
+            "array": false
+          },
+          {
+            "id": "2000008",
+            "width": 12,
+            "height": 103,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 9,
+            "height": 142,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 11,
+            "height": 21,
+            "array": false
+          },
+          {
+            "id": "3000000",
+            "width": 16,
+            "height": 21,
+            "array": true
+          },
+          {
+            "id": "3000001",
+            "width": 16,
+            "height": 21,
+            "array": true
+          }
+        ],
+        "slots": [],
+        "title": "Blu",
+        "aod": true
+      },
+      {
+        "index": 4,
+        "sectionCounts": [
+          8,
+          0,
+          27,
+          0,
+          0,
+          0,
+          6,
+          13,
+          2,
+          12,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "700100a",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001014"
+          },
+          {
+            "id": "700100b",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2001015"
+          },
+          {
+            "id": "700100c",
+            "source": "1811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001016"
+          },
+          {
+            "id": "700000a",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000b",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000c",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000d",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000e",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000f",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000010",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000011",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000012",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000013",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          }
+        ],
+        "images": [
+          {
+            "id": "2001012",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2001013",
+            "width": 360,
+            "height": 360,
+            "array": false
+          },
+          {
+            "id": "2001014",
+            "width": 12,
+            "height": 114,
+            "array": false
+          },
+          {
+            "id": "2001015",
+            "width": 9,
+            "height": 158,
+            "array": false
+          },
+          {
+            "id": "2001016",
+            "width": 6,
+            "height": 172,
+            "array": false
+          },
+          {
+            "id": "2001017",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "2000002",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000003",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000004",
+            "width": 125,
+            "height": 125,
+            "array": false
+          },
+          {
+            "id": "2000005",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000006",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000c",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000d",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000e",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000f",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000010",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000011",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000012",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000013",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000014",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000015",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000016",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000017",
+            "width": 123,
+            "height": 123,
+            "array": false
+          }
+        ],
+        "slots": [
+          {
+            "id": "8000000",
+            "choices": [
+              "9000004",
+              "9000000",
+              "9000001",
+              "9000003",
+              "9000002",
+              "9000005"
+            ]
+          },
+          {
+            "id": "8000001",
+            "choices": [
+              "9000007",
+              "9000006",
+              "900000a",
+              "9000009",
+              "9000008",
+              "900000b"
+            ]
+          }
+        ],
+        "title": "Oro",
+        "aod": false
+      },
+      {
+        "index": 5,
+        "sectionCounts": [
+          8,
+          0,
+          6,
+          2,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7000003",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2000008"
+          },
+          {
+            "id": "7000004",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000005",
+            "source": "1812",
+            "digits": 2,
+            "type": 1,
+            "target": "3000000"
+          },
+          {
+            "id": "7000006",
+            "source": "1012",
+            "digits": 2,
+            "type": 1,
+            "target": "3000001"
+          }
+        ],
+        "images": [
+          {
+            "id": "2000006",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 320,
+            "height": 320,
+            "array": false
+          },
+          {
+            "id": "2000008",
+            "width": 12,
+            "height": 103,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 9,
+            "height": 142,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 11,
+            "height": 21,
+            "array": false
+          },
+          {
+            "id": "3000000",
+            "width": 16,
+            "height": 21,
+            "array": true
+          },
+          {
+            "id": "3000001",
+            "width": 16,
+            "height": 21,
+            "array": true
+          }
+        ],
+        "slots": [],
+        "title": "Oro",
+        "aod": true
+      },
+      {
+        "index": 6,
+        "sectionCounts": [
+          8,
+          0,
+          27,
+          0,
+          0,
+          0,
+          6,
+          13,
+          2,
+          12,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "700100d",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "200101a"
+          },
+          {
+            "id": "700100e",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "200101b"
+          },
+          {
+            "id": "700100f",
+            "source": "1811",
+            "digits": 0,
+            "type": 3,
+            "target": "200101c"
+          },
+          {
+            "id": "700000a",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000b",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000c",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000d",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000e",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000f",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000010",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000011",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000012",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000013",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          }
+        ],
+        "images": [
+          {
+            "id": "2001018",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2001019",
+            "width": 360,
+            "height": 360,
+            "array": false
+          },
+          {
+            "id": "200101a",
+            "width": 12,
+            "height": 114,
+            "array": false
+          },
+          {
+            "id": "200101b",
+            "width": 9,
+            "height": 158,
+            "array": false
+          },
+          {
+            "id": "200101c",
+            "width": 6,
+            "height": 172,
+            "array": false
+          },
+          {
+            "id": "200101d",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "2000002",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000003",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000004",
+            "width": 125,
+            "height": 125,
+            "array": false
+          },
+          {
+            "id": "2000005",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000006",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000c",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000d",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000e",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000f",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000010",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000011",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000012",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000013",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000014",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000015",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000016",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000017",
+            "width": 123,
+            "height": 123,
+            "array": false
+          }
+        ],
+        "slots": [
+          {
+            "id": "8000000",
+            "choices": [
+              "9000004",
+              "9000000",
+              "9000001",
+              "9000003",
+              "9000002",
+              "9000005"
+            ]
+          },
+          {
+            "id": "8000001",
+            "choices": [
+              "9000007",
+              "9000006",
+              "900000a",
+              "9000009",
+              "9000008",
+              "900000b"
+            ]
+          }
+        ],
+        "title": "Viola",
+        "aod": false
+      },
+      {
+        "index": 7,
+        "sectionCounts": [
+          8,
+          0,
+          6,
+          2,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7000003",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2000008"
+          },
+          {
+            "id": "7000004",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000005",
+            "source": "1812",
+            "digits": 2,
+            "type": 1,
+            "target": "3000000"
+          },
+          {
+            "id": "7000006",
+            "source": "1012",
+            "digits": 2,
+            "type": 1,
+            "target": "3000001"
+          }
+        ],
+        "images": [
+          {
+            "id": "2000006",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 320,
+            "height": 320,
+            "array": false
+          },
+          {
+            "id": "2000008",
+            "width": 12,
+            "height": 103,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 9,
+            "height": 142,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 11,
+            "height": 21,
+            "array": false
+          },
+          {
+            "id": "3000000",
+            "width": 16,
+            "height": 21,
+            "array": true
+          },
+          {
+            "id": "3000001",
+            "width": 16,
+            "height": 21,
+            "array": true
+          }
+        ],
+        "slots": [],
+        "title": "Viola",
+        "aod": true
+      },
+      {
+        "index": 8,
+        "sectionCounts": [
+          8,
+          0,
+          27,
+          0,
+          0,
+          0,
+          6,
+          13,
+          2,
+          12,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7001010",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001020"
+          },
+          {
+            "id": "7001011",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2001021"
+          },
+          {
+            "id": "7001012",
+            "source": "1811",
+            "digits": 0,
+            "type": 3,
+            "target": "2001022"
+          },
+          {
+            "id": "700000a",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000b",
+            "source": "1029",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000c",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000d",
+            "source": "1828",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "700000e",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "700000f",
+            "source": "0825",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000010",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000011",
+            "source": "1021",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          },
+          {
+            "id": "7000012",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000013",
+            "source": "1023",
+            "digits": 0,
+            "type": 3,
+            "target": "2000007"
+          }
+        ],
+        "images": [
+          {
+            "id": "200101e",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "200101f",
+            "width": 360,
+            "height": 360,
+            "array": false
+          },
+          {
+            "id": "2001020",
+            "width": 12,
+            "height": 114,
+            "array": false
+          },
+          {
+            "id": "2001021",
+            "width": 9,
+            "height": 158,
+            "array": false
+          },
+          {
+            "id": "2001022",
+            "width": 6,
+            "height": 172,
+            "array": false
+          },
+          {
+            "id": "2001023",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "2000002",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000003",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000004",
+            "width": 125,
+            "height": 125,
+            "array": false
+          },
+          {
+            "id": "2000005",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000006",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 30,
+            "height": 150,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000c",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000d",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "200000e",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "200000f",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000010",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000011",
+            "width": 16,
+            "height": 16,
+            "array": false
+          },
+          {
+            "id": "2000012",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000013",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000014",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000015",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000016",
+            "width": 123,
+            "height": 123,
+            "array": false
+          },
+          {
+            "id": "2000017",
+            "width": 123,
+            "height": 123,
+            "array": false
+          }
+        ],
+        "slots": [
+          {
+            "id": "8000000",
+            "choices": [
+              "9000004",
+              "9000000",
+              "9000001",
+              "9000003",
+              "9000002",
+              "9000005"
+            ]
+          },
+          {
+            "id": "8000001",
+            "choices": [
+              "9000007",
+              "9000006",
+              "900000a",
+              "9000009",
+              "9000008",
+              "900000b"
+            ]
+          }
+        ],
+        "title": "Bianco",
+        "aod": false
+      },
+      {
+        "index": 9,
+        "sectionCounts": [
+          8,
+          0,
+          6,
+          2,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "widgets": [
+          {
+            "id": "7000003",
+            "source": "0811",
+            "digits": 0,
+            "type": 3,
+            "target": "2000008"
+          },
+          {
+            "id": "7000004",
+            "source": "1011",
+            "digits": 0,
+            "type": 3,
+            "target": "2000009"
+          },
+          {
+            "id": "7000005",
+            "source": "1812",
+            "digits": 2,
+            "type": 1,
+            "target": "3000000"
+          },
+          {
+            "id": "7000006",
+            "source": "1012",
+            "digits": 2,
+            "type": 1,
+            "target": "3000001"
+          }
+        ],
+        "images": [
+          {
+            "id": "2000006",
+            "width": 480,
+            "height": 480,
+            "array": false
+          },
+          {
+            "id": "2000007",
+            "width": 320,
+            "height": 320,
+            "array": false
+          },
+          {
+            "id": "2000008",
+            "width": 12,
+            "height": 103,
+            "array": false
+          },
+          {
+            "id": "2000009",
+            "width": 9,
+            "height": 142,
+            "array": false
+          },
+          {
+            "id": "200000a",
+            "width": 14,
+            "height": 14,
+            "array": false
+          },
+          {
+            "id": "200000b",
+            "width": 11,
+            "height": 21,
+            "array": false
+          },
+          {
+            "id": "3000000",
+            "width": 16,
+            "height": 21,
+            "array": true
+          },
+          {
+            "id": "3000001",
+            "width": 16,
+            "height": 21,
+            "array": true
+          }
+        ],
+        "slots": [],
+        "title": "Bianco",
+        "aod": true
+      }
+    ],
+    "scope": "Header, limiti delle tabelle, dimensioni risorse e binding. Nessuna prova sul firmware."
+  },
+  "hardwareVerified": false,
+  "warnings": [
+    "Identità originale del template mantenuta: può sostituire il quadrante originale nello stesso slot.",
+    "capability.json conservato byte per byte: non prova che la maschera descriva il nuovo payload.",
+    "hashCode, uidmap.map, manifest ed editor.config.json conservati: potrebbero riferirsi al payload originale. Integrità crittografica e coerenza semantica non certificate.",
+    "Stili e risorse del template sono conservati; i WEBP di anteprima sostituiti sono statici.",
+    "Accettazione nella mod e funzionamento sul firmware del pacchetto modificato restano da provare."
+  ],
+  "project": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\projects\\Analogico_varianti_complicazioni.s5faceproj",
+  "buildDirectory": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\test_upload\\S5_Analogico_Varianti-120917386745-20261006-180210",
+  "testPackage": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\S5_Analogico_Varianti_TEMPLATE.zip",
+  "variants": 5,
+  "complicationSlots": 2,
+  "hardwareTested": false,
+  "uiVersion": "0.4.0"
+}

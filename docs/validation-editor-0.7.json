@@ -1,0 +1,35 @@
+{
+  "version": "0.7",
+  "date": "2026-10-07",
+  "status": "passed",
+  "pytest": {
+    "passed": 58,
+    "skipped": 0,
+    "seconds": 56.48,
+    "command": "python -X utf8 -m pytest -q"
+  },
+  "uiSmoke": "docs/screenshots/editor-0.7.json",
+  "buildSource": "docs/S5-Studio-Ritaglio-0.7-build-report.json",
+  "actualExecutable": "docs/executable-build-0.7.json",
+  "screenshots": [
+    "docs/screenshots/editor-0.7-empty.png",
+    "docs/screenshots/editor-0.7-hover.png"
+  ],
+  "checks": [
+    "hand-hover-previews-without-commit",
+    "empty-preview-no-src",
+    "oversized-image-crop-cover-contain-stretch",
+    "partially-and-fully-outside-image",
+    "maximum-4096-design-window-480",
+    "save-original-asset-and-negative-geometry",
+    "real-EasyFace-cropped-bitmaps",
+    "relative-arrows-1-and-10-repeat",
+    "input-focus-preserved",
+    "undo-lock-styles-and-AOD",
+    "gallery-thumbnails-crop-transparent-padding",
+    "transfer-guide-version-07"
+  ],
+  "templateRestored": "docs/template-restored-0.7.json",
+  "hardwareEvidencePreviousVersion": "data/hardware-tests/analogico-05-superato.json",
+  "new07HardwareTested": false
+}

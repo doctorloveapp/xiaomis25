@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "executable": "S5Studio-0.5.exe",
+  "executableSha256": "4e60b15254c7558640e4760ff826a4231ad92fb6f66a9d3bcb66d84bfe41c2db",
+  "ui": [
+    "page-loaded",
+    "QWebChannel",
+    "add-variant",
+    "five-independent-slots",
+    "58-unique-sources-plus-none",
+    "canvas-drag",
+    "DOM-undo",
+    "DOM-colour-change",
+    "DOM-hand-preset",
+    "DOM-slot-choice-preview",
+    "preview-decoded",
+    "screenshot"
+  ],
+  "sourceAndExecutableBinaryIdentical": true,
+  "binarySha256": "a19be370efb8a09ddd58d0dfe7a9a6a06b712e72f9ceb5864205e5d155fa6b67",
+  "screenCount": 10,
+  "simultaneousSlots": 5,
+  "nativeSlotInstances": 25,
+  "all58SourcesPerSlotValidation": "passed",
+  "hardwareTested": false,
+  "buildReport": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\executable-0.5\\S5_Analogico_Libero-614080575-20261006-203501\\build-report.json"
+}

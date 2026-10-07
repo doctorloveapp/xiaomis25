@@ -1,0 +1,9 @@
+{
+  "version": "EasyFace 4.23",
+  "source": "https://github.com/m0tral/EasyFace/releases/tag/v4.23",
+  "releaseArchiveSha256": "5b62773369c10c3402f369e8aa579f13393af359d0214c0d979464e5cc776cef",
+  "compilerSha256": "bfb8c3b6666b79de165884d832c69d46e5bbfa581c65c1e188cddfc4b9d6723a",
+  "target": 562,
+  "compilerModel": "MiWatchS5",
+  "hardwareVerified": false
+}

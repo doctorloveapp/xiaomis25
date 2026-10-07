@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "tests": 37,
+  "durationSeconds": 53.45,
+  "hardwareTested": false,
+  "command": "python -m pytest -q"
+}

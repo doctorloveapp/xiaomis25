@@ -1,0 +1,25 @@
+{
+  "path": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\S5_Test_Locale_TEST_LOCALE.zip",
+  "sha256": "37f36a3b1f66d917a118c9ccbc72b058ef447e6d48d8be5fb13176d1b98e3801",
+  "zipCrc": "passed",
+  "entries": 6,
+  "metadata": {
+    "shape": "circle",
+    "name": "S5 Test Locale",
+    "deviceType": "P62",
+    "version": "1.0.0",
+    "size": "480x480",
+    "author": "S5 Studio",
+    "pkgName": "562800201",
+    "watchOS": "vela",
+    "deviceRegion": "international"
+  },
+  "capabilities": null,
+  "capabilityCheckAvailable": false,
+  "binaryId": "562800201",
+  "warnings": [
+    "capability.json assente: verifica delle capacità impossibile. Solo prova locale con controllo disattivato; compatibilità firmware non attestata."
+  ],
+  "hardwareVerified": false,
+  "status": "Struttura controllata; firma, capacità effettive e installazione non verificate."
+}

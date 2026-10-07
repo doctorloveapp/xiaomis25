@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@source "./index.html";
+@source "./app.js";
+@theme { --font-sans: "Segoe UI", Arial, sans-serif; }

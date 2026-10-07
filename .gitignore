@@ -1,0 +1,62 @@
+__pycache__/
+.pytest_cache/
+.venv/
+build/
+*.spec
+S5Studio.exe
+dist/
+data/
+projects/
+research/
+tools/easyface-4.23/
+tools/EasyFace_Gen2_CompilerV423.zip
+S5_Custom_digital_original.mwz
+docs/screenshots/
+Documenti
+ORIGINALE_quadrante
+Piano_tecnico_Xiaomi_Watch_S5.md
+Quadranti immagini
+Quadranti Compilati
+S5_Studio_Crono_0.6_TEMPLATE.zip
+quadranti
+
+# Generated application releases and local watchface packages
+S5Studio-*.exe
+*_TEMPLATE.zip
+quadrante_funzionante.zip
+deliverables/
+test_upload/
+
+# Python environments, tooling caches and reports
+*.py[cod]
+*$py.class
+venv/
+env/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.egg-info/
+.eggs/
+
+# Frontend dependencies and tooling logs
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local configuration, OS metadata and temporary editor files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
