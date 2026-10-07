@@ -33,5 +33,12 @@
     "measuredCleanupSeconds": 0.03
   },
   "correctionsVersion": "0.11",
-  "correctionsHardwareVerified": false
+  "correctionsHardwareVerified": true,
+  "resolution": {
+    "version": "0.11",
+    "status": "passed-as-reported-by-user",
+    "date": "2026-10-07",
+    "evidenceFile": "hardware-test-0.11.json",
+    "historical010FailuresPreserved": true
+  }
 }

@@ -8,11 +8,13 @@ Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e
 
 ## Novità 0.11
 
+**Test reali sullo Xiaomi Watch S5 M2530W1: tutti superati**, come confermato dall’utente il **7 ottobre 2026**. Funzionano perfettamente sia il quadrante Crono sia quello con i decimi; il movimento fluido era già confermato. Anche la compilazione dall’applicazione termina in pochi secondi. Evidenza: [hardware-test-0.11.json](docs/hardware-test-0.11.json).
+
 - Esportazione: notifica collegata alla reale fine del worker, pulsante riabilitato anche dopo errori, aggiornamento finale senza render di tutte le anteprime. L’animazione della UI è sospesa durante la build e usa intervalli dopo il render. Il report esterno registra tempi delle fasi, pubblicazione, pulizia e ritardo della notifica UI.
 - Decimi: animazione LVGL ciclica da 1000 ms, indipendente da `tick_get` e `/proc/uptime`. Anche un vecchio intervallo 60 copre la rotazione configurata in un secondo; scala consigliata 0/10 e rotazione 360°.
-- Cronografo: tap esteso al quadrante e fallback `os.time` se i clock monotoni non sono disponibili. Questo fallback ha precisione di un secondo e risente della sincronizzazione dell’ora. Il runtime deve comunque essere verificato sul dispositivo.
+- Cronografo: tap esteso al quadrante e fallback `os.time` se i clock monotoni non sono disponibili. Questo fallback ha precisione di un secondo e risente della sincronizzazione dell’ora. Il funzionamento del Crono è confermato dal test reale sull’S5.
 
-**Test reale della 0.10:** movimento fluido superato; decimi fermi e cronografo non avviato, secondo l’utente. La disponibilità del clock sul firmware non è stata misurata. Nella prova PC con una copia NASA la build ha richiesto circa 7,2 s: il ritardo oltre un minuto non è stato riprodotto. Le correzioni 0.11 richiedono un nuovo test hardware. Dettagli: [EDITOR_0.11.md](docs/EDITOR_0.11.md).
+**Esito delle correzioni 0.11:** risolti nel test reale i decimi fermi e il cronografo non avviato della 0.10. L’utente conferma inoltre la compilazione in pochi secondi. Restano conservati i rapporti storici della 0.10; il risultato attuale è positivo. Dettagli: [EDITOR_0.11.md](docs/EDITOR_0.11.md).
 
 Verifica PC: 90 test della suite completa e 14 test mirati dopo l’ultimo feedback sul tap (91 test distinti); 84 controlli nell’editor, senza prova EXE isolata. [Rapporto](docs/validation-editor-0.11.json). Il runtime gestisce anche un tap durante una pausa temporanea, senza nascondere esplicitamente le lancette; i tocchi in AOD vengono ignorati.
 

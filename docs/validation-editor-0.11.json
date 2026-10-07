@@ -108,8 +108,8 @@
     "performed": false,
     "reason": "Omitted at explicit user request; prior versions already tested standalone"
   },
-  "hardwareTested": false,
-  "hardwareEvidence": "0.10 native sweep passed; deciseconds and chrono failed. 0.11 corrections pending hardware test.",
+  "hardwareTested": true,
+  "hardwareEvidence": "User confirmed all real tests passed on Xiaomi Watch S5 on 2026-10-07: chronograph, deciseconds and application; compilation now completes in a few seconds. Native seconds sweep was already confirmed.",
   "targetedRetestAfterTouchFeedback": {
     "passed": 14,
     "failed": 0,
@@ -127,5 +127,8 @@
       "observedModificationTime": "2026-10-07T20:00:09.109080",
       "agentUsedReadOnly": true
     }
-  ]
+  ],
+  "hardwareTest": "passed-as-reported-by-user",
+  "hardwareEvidenceFile": "hardware-test-0.11.json",
+  "agentPerformedPhysicalHardwareTest": false
 }

@@ -1,0 +1,25 @@
+{
+  "applicationVersion": "0.11",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "date": "2026-10-07",
+  "hardwareTest": "passed-as-reported-by-user",
+  "allRealTestsReportedPassed": true,
+  "source": "User confirmation in conversation after physical testing on their Xiaomi Watch S5",
+  "userConfirmation": "Adesso funziona perfettamente sia la versione crono che la versione decimi. Anche la compilazione avviene in pochi secondi.",
+  "results": {
+    "chronograph": "passed-as-reported-by-user",
+    "decisecond": "passed-as-reported-by-user",
+    "nativeSecondsSweep": "passed-as-reported-by-user; already confirmed in the preceding 0.10 test",
+    "application": "passed-as-reported-by-user",
+    "compilationAndExport": {
+      "status": "passed-as-reported-by-user",
+      "durationReported": "a few seconds",
+      "exactSecondsMeasuredInThisHardwareTest": null
+    }
+  },
+  "previous010Issues": "resolved in the user-reported 0.11 test",
+  "exeSha256": "926d54b4cd89286e58e215ab5e458e4cfb7bc53ba624178197ff946e78a3c362",
+  "agentPerformedPhysicalHardwareTest": false,
+  "isolatedExecutableTestPerformed": false,
+  "updateScope": "documentation only; no application changes or executable rebuild"
+}
