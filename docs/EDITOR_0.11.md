@@ -1,5 +1,7 @@
 # S5 Studio 0.11
 
+**Esito aggiornato:** dopo la prima prova positiva, un test più lungo ha mostrato minuti Crono fermi a zero oltre il primo minuto. Start/Stop/Reset, secondi e decimi funzionano; le ore non sono state provate per un’ora. La 1.0 corregge la sincronizzazione con una sola scena Lua. Vedere [EDITOR_1.0.md](EDITOR_1.0.md). Le conferme iniziali riportate sotto restano come storia della prova.
+
 Apri `S5Studio-0.11.exe` o `Avvia_S5_Studio.cmd`. L’EXE personale contiene UI, librerie, template, compilatore e runtime Lua; non richiede cartelle accanto. I progetti 0.10 si aprono senza cambiare grafiche, pivot o valori salvati. Non sono stati modificati i progetti NASA dell’utente.
 
 **Test reali sull’orologio Xiaomi Watch S5 M2530W1: tutti superati.** Il **7 ottobre 2026** l’utente ha confermato il funzionamento perfetto dei quadranti Crono e decimi, dell’applicazione e della compilazione, che ora termina in pochi secondi. Il movimento fluido era già stato confermato. Evidenza aggiornata: [hardware-test-0.11.json](hardware-test-0.11.json). I problemi della 0.10 descritti sotto sono la storia della diagnosi, risolta nella prova reale della 0.11.

@@ -5,7 +5,7 @@ from s5studio.model import Project,Element,template,normalized_slot
 from s5studio.motion import LUA_SOURCES
 from s5studio.native import build,generate_fprj,inspect_binary
 from s5studio.watchface_library import read_tables
-from s5studio.lua_runtime import write_pointer,unpack_app
+from s5studio.lua_runtime import write_pointer,write_scene,scene_layers,unpack_app
 from s5studio.semantic_package import validate_package
 from s5studio.selection import move,align
 ROOT=Path(__file__).resolve().parents[1]
@@ -66,8 +66,9 @@ def lua_runtime():
         function object:Anim(attrs)
             local a=make(nil,attrs);a.target=self;self.animation=a;return a
         end
+        function object:Image(attrs) return make(self,attrs) end
         function make(parent,attrs)
-            local o={flags={},events={}};setmetatable(o,{__index=object});o:set(attrs)
+            local o={flags={},events={},parent=parent};setmetatable(o,{__index=object});o:set(attrs)
             if parent then parent.children=parent.children or {};table.insert(parent.children,o) end
             return o
         end
@@ -167,7 +168,7 @@ def test_chrono_full_face_tap_works_with_wall_clock_fallback_and_freezes_after_s
         p.elements.append(e);name=write_pointer(p,e,tmp_path,0)
         lua.execute((tmp_path/'app'/name).read_text(encoding='utf8'))
         text=(tmp_path/'app'/name).read_text(encoding='utf8')
-        assert 'local tap = lvgl.Object(root, {x=0,y=0,w=480,h=480' in text
+        assert 'local tap = lvgl.Object(scene, {x=0,y=0,w=480,h=480' in text
     # The generated touch handler invokes the shared core, not a mock tap.
     lua.execute('local root=CORE.views[3].root;TAP=root.children[#root.children]')
     lua.execute('TAP.events[LV.EVENT.PRESSED]()')
@@ -255,7 +256,8 @@ def test_real_compiler_sweep_lua_all_variants_aod_and_report_tampering(tmp_path)
     archive=next(output.glob('*_TEMPLATE.zip'));data=(output/'resource.bin').read_bytes();info=inspect_binary(data)
     with zipfile.ZipFile(archive) as z:
         report=json.loads(z.read('build-report.json'));assert report['interactive']['injected']
-        assert report['interactive']['appLayoutCount']==8
+        assert report['interactive']['appLayoutCount']==2
+        assert report['interactive']['luaArchitecture']['crossWidgetVmSharingRequired'] is False
         assert ET.fromstring(z.read('resources/manifest.xml')).get('interactive')=='true'
         for screen in info['screens']:
             tables=read_tables(data,screen['index'])
@@ -276,3 +278,61 @@ def test_real_compiler_sweep_lua_all_variants_aod_and_report_tampering(tmp_path)
     with zipfile.ZipFile(tampered) as z:
         from s5studio.semantic_package import validate_semantics
         with pytest.raises(ValueError,match='Rapporto'):validate_semantics(z)
+
+
+def chrono_project():
+    p=Project()
+    p.elements=[Element(kind='pointer',source=s,value_range=LUA_SOURCES[s][1],
+                        x=100+i*100,y=180,width=80,height=80)
+                for i,s in enumerate(('studioChronoHour','studioChronoMinute','studioChronoSecond'))]
+    return p
+
+
+def test_separate_widget_vms_reproduce_seconds_only_bug(tmp_path):
+    p=chrono_project();engines=[]
+    for e in p.elements:
+        lua,core=lua_runtime();name=write_pointer(p,e,tmp_path,0)
+        lua.execute((tmp_path/'app'/name).read_text(encoding='utf8'));engines.append((lua,core))
+    # One touch goes to the topmost App. _G/require caches in other VMs do not
+    # synchronize their states, even though their bindings and math are right.
+    engines[-1][0].execute('local r=CORE.views[1].root;r.children[#r.children].events[LV.EVENT.PRESSED]()')
+    for lua,core in engines:
+        lua.globals().TICK=65000;core.timer.cb()
+    assert [core.state for _,core in engines]==['reset','reset','running']
+    assert [core.views[1].hands[1].value for _,core in engines]==[0,0,5]
+
+
+@pytest.mark.parametrize('wall_clock',[False,True])
+def test_single_entry_all_hands_advance_past_minute_hour_and_rollover(tmp_path,wall_clock):
+    p=chrono_project();lua,core=lua_runtime()
+    if wall_clock:lua.execute('LV.tick_get=nil;io.open=function()return nil end;WALL=1000;os.time=function()return WALL end')
+    else:lua.globals().TICK=1000000
+    name=write_scene(p,scene_layers(p),tmp_path,0)
+    code=(tmp_path/'app'/name).read_text(encoding='utf8')
+    assert code.count('tap:onevent(')==1 and code.count('core:add {')==3
+    lua.execute(code);assert len(core.views)==3
+    lua.execute('local r=CORE.views[1].root.parent;TAP=r.children[#r.children];TAP.events[LV.EVENT.PRESSED]()')
+    for ms in (59999,60000,61000,3599999,3600000,3661000,43200000,43261000):
+        if wall_clock:lua.globals().WALL=1000+ms//1000
+        else:lua.globals().TICK=1000000+ms
+        core.timer.cb()
+        expected=[ms//3600000%12,ms//60000%60,ms//1000%60]
+        assert [core.views[i].hands[1].value for i in (1,2,3)]==expected
+    lua.execute('TAP.events[LV.EVENT.PRESSED]()');assert core.state=='stopped'
+    frozen=[core.views[i].hands[1].value for i in (1,2,3)]
+    lua.globals().TICK=100000000;lua.globals().WALL=100000;core.timer.cb()
+    assert [core.views[i].hands[1].value for i in (1,2,3)]==frozen
+    lua.execute('TAP.events[LV.EVENT.PRESSED]()');assert core.state=='reset'
+    assert all(core.views[i].hands[1].value==0 for i in (1,2,3))
+
+
+def test_scene_preserves_interleaved_static_layers_and_refuses_silent_dynamic_reorder(tmp_path):
+    p=chrono_project();shape=Element(kind='rect',name='Copertura',x=190,y=200,width=40,height=40)
+    p.elements.insert(1,shape)
+    name=write_scene(p,scene_layers(p),tmp_path,0)
+    code=(tmp_path/'app'/name).read_text(encoding='utf8')
+    assert code.index('id="'+p.elements[0].id)<code.index(shape.id+'_static.png')<code.index('id="'+p.elements[2].id)
+    lua,core=lua_runtime();lua.execute(code);assert len(core.views)==3
+    p.elements.insert(2,Element(kind='number',name='Pulsazioni',source='heartRate'))
+    with pytest.raises(ValueError,match='Pulsazioni'):generate_fprj(p,tmp_path/'mixed')
+    p.elements[2].visible=False;assert scene_layers(p)

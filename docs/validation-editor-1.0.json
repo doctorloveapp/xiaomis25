@@ -1,14 +1,14 @@
 {
-  "applicationVersion": "0.11",
+  "applicationVersion": "1.0",
   "status": "passed",
   "tests": {
-    "passed": 90,
+    "passed": 95,
     "failed": 0,
     "skipped": 0,
-    "elapsedSeconds": 68.09,
+    "elapsedSeconds": 69.78,
     "command": "pytest -q"
   },
-  "motionInteractionRegressionTests": 14,
+  "motionInteractionTests": 18,
   "sourceUi": {
     "status": "passed",
     "frontend": "Tailwind CSS 4.3.3 / QtWebEngine offline",
@@ -30,7 +30,7 @@
       "dropdown-hover-highlights-without-selection",
       "dropdown-click-commits",
       "all-native-selects-replaced",
-      "header-Version-0.11",
+      "header-Version-1.0",
       "hour-model-auto-pairs-matching-set",
       "shadow-visibility-checkbox",
       "empty-hand-preview-has-no-image-src",
@@ -101,34 +101,42 @@
     "hardwareTested": false
   },
   "sourceUiCheckCount": 84,
-  "embeddedFilesVerified": 707,
-  "exeSize": 234900861,
-  "exeSha256": "926d54b4cd89286e58e215ab5e458e4cfb7bc53ba624178197ff946e78a3c362",
+  "luaArchitecture": "single-scene-per-theme",
+  "crossWidgetVmSharingRequired": false,
+  "regression": {
+    "isolatedWidgetVmsReproduceSecondsOnly": true,
+    "minuteRolloverMs": [
+      59999,
+      60000,
+      61000
+    ],
+    "hourRolloverMs": [
+      3599999,
+      3600000,
+      3661000
+    ],
+    "twelveHourRolloverTested": true,
+    "startStopResetAllHands": true,
+    "wallClockFallbackTested": true,
+    "interleavedStaticLayerOrderTested": true,
+    "twoVariantAodRealCompilationTested": true,
+    "normalAppLayoutCountInTwoVariantFixture": 2,
+    "previousChronoPackageStillValid": true
+  },
+  "hardwareTested": false,
+  "hardwareEvidence": "User reported 0.11 chrono minutes frozen; new 1.0 payload requires hardware confirmation. Hours tested with simulated clocks.",
   "standaloneExecutableTest": {
     "performed": false,
-    "reason": "Omitted at explicit user request; prior versions already tested standalone"
+    "reason": "Not run at explicit user request"
   },
-  "hardwareTested": true,
-  "hardwareEvidence": "Initial user report positive; longer follow-up found chrono minutes at zero after a full seconds revolution. Tap cycle, seconds, deciseconds and fast export passed; chrono hours were not tested for one hour. Correction prepared in 1.0.",
-  "targetedRetestAfterTouchFeedback": {
-    "passed": 14,
-    "failed": 0,
-    "elapsedSeconds": 6.68,
-    "command": "pytest -q tests/test_motion_interaction.py",
-    "newRegression": "tap while page paused retained once; AOD tap ignored"
-  },
-  "uniqueTestsPassed": 91,
-  "embeddedLuaMatchesTestedSource": true,
-  "old010PackageStillValidates": true,
-  "protectedTemplateAndGitignoreUnchanged": true,
-  "projectChangesObservedDuringSession": [
-    {
-      "path": "projects/NASA_S5_new_crono.s5faceproj",
-      "observedModificationTime": "2026-10-07T20:00:09.109080",
-      "agentUsedReadOnly": true
-    }
-  ],
-  "hardwareTest": "partial-pass-with-later-chrono-minute-failure",
-  "hardwareEvidenceFile": "hardware-test-0.11.json",
-  "agentPerformedPhysicalHardwareTest": false
+  "standaloneBundle": {
+    "status": "passed",
+    "embeddedFilesVerified": 707,
+    "exeSize": 234904669,
+    "exeSha256": "0fb4d9185ecac8c9e35b74aa8a3e6083cd63cb240ded812fcb5d611c09f770c8",
+    "embeddedLuaMatchesTestedSource": true,
+    "embeddedLuaSha256": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  }
 }

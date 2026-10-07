@@ -200,6 +200,9 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
         widget(30,name,x,y,im.width,im.height,Bitmap=filename,Visible_Src=visible)
 
     image(f'background_{variant_index}',Image.new("RGB",(480,480),"#000000" if aod else p.background),0,0)
+    from .lua_runtime import scene_layers,write_scene
+    lua_scene=scene_layers(p,aod)
+    lua_ids={e.id for e in lua_scene}
     for e in p.ordered_layers(aod):
         if isinstance(e,dict):
             if e['visible']:
@@ -208,6 +211,12 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 image('slot_'+e['id'],Image.new('RGBA',(e['width'],e['height'])),e['x'],e['y'])
             continue
         if not e.visible or e.aod!=aod or (aod and excluded_from_aod(e)):
+            continue
+        if e.id in lua_ids:
+            if e.id==lua_scene[-1].id:
+                from urllib.parse import quote
+                name=write_scene(p,lua_scene,directory,variant_index)
+                widget(34,'app_'+quote(name,safe=''),0,0,480,480)
             continue
         prefix=f'el_{variant_index}_'+e.id
         if e.kind=='image':
@@ -245,11 +254,6 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 box=font_for(p,e).getbbox(char)
                 ImageDraw.Draw(im).text(((w-(box[2]-box[0]))//2-box[0],1-digit_metrics(p,e)[2]),char,font=font_for(p,e),fill=rgba(e))
                 image(prefix+"_separator",im,e.x+x,e.y+y)
-        elif e.kind == 'pointer' and e.source in LUA_SOURCES:
-            from .lua_runtime import write_pointer
-            from urllib.parse import quote
-            name=write_pointer(p,e,directory,variant_index)
-            widget(34,'app_'+quote(name,safe=''),0,0,480,480)
         elif e.kind in ('pointer','compass'):
             if e.show_shadows:
                 pair=hand_image(e,'second',p,shadow=True)
@@ -479,7 +483,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'0.11',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.0',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -502,7 +506,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"0.11","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.0","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -589,14 +593,15 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 0.11 — PROVA SUL WATCH S5
+TRANSFER_GUIDE = """S5 STUDIO 1.0 — PROVA SUL WATCH S5
 
 Build compilata per M2530W1, target EasyFace 562, e controllata sul PC.
 La prova analogica 0.5 ha superato installazione, cambio stili e scelta
 complicazioni secondo l'utente. Il movimento fluido della 0.10 è stato
-confermato sul S5; decimi e cronografo della 0.10 restavano fermi.
-Questa build corregge il runtime Lua e la gestione di fine esportazione.
-I nuovi decimi e il cronografo richiedono la prova sul dispositivo.
+confermato sul S5. Nella 0.11 funzionavano decimi, tap Crono e secondi,
+ma un test più lungo ha rilevato minuti Crono fermi; ore non ancora provate.
+La 1.0 usa una sola scena Lua per stile: un conteggio aggiorna tutte
+le lancette. Il nuovo payload richiede la conferma sul dispositivo.
 
 1. Copia *_TEMPLATE.zip sul telefono senza estrarlo.
 2. Apri Local watchfaces uploader con S5 connesso e sincronizzato.
@@ -613,6 +618,9 @@ I nuovi decimi e il cronografo richiedono la prova sul dispositivo.
 8. Crono: tap sul quadrante per Avvia, Ferma, Azzera. Il fallback os.time
    ha precisione di un secondo e risente di cambi dell'ora. Stato locale
    alla VM Lua, senza collegamento al cronometro di sistema.
+9. Dopo 65 secondi di Crono, minuti = 1 e secondi circa 5.
+   Verifica Stop e Reset su tutte le lancette. Per ore Crono su un
+   sottoquadrante da 12 ore, scala consigliata 0/12 e rotazione 360°.
 
 La lista locale della mod può ancora mostrare nome generico o nessuna immagine:
 questo comportamento è stato osservato anche col pacchetto originale.

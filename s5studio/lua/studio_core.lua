@@ -1,11 +1,12 @@
 -- Original S5 Studio runtime. Public API examples: m0tral/MiWatchLuaWatchfaces.
--- Shared by the entry points in one watchface Lua VM. No invented sensor IDs.
-local existing = rawget(_G, "S5StudioChrono011")
+-- All pointers in a theme are registered by ONE entry point/VM.
+-- No cross-widget globals or invented sensor IDs are needed.
+local existing = rawget(_G, "S5StudioChrono100")
 if existing then return existing end
 local lvgl = require("lvgl")
 local M = {state = "reset", elapsed = 0, started = 0, views = {}, active = true,
     screenOn = true, pendingTap = false}
-_G.S5StudioChrono011 = M
+_G.S5StudioChrono100 = M
 
 local reader
 local function proc_milliseconds()

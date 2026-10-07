@@ -2,12 +2,18 @@
   "applicationVersion": "0.11",
   "device": "Xiaomi Watch S5 M2530W1",
   "date": "2026-10-07",
-  "hardwareTest": "passed-as-reported-by-user",
-  "allRealTestsReportedPassed": true,
+  "hardwareTest": "partial-pass-with-later-chrono-minute-failure",
+  "allRealTestsReportedPassed": false,
   "source": "User confirmation in conversation after physical testing on their Xiaomi Watch S5",
   "userConfirmation": "Adesso funziona perfettamente sia la versione crono che la versione decimi. Anche la compilazione avviene in pochi secondi.",
   "results": {
-    "chronograph": "passed-as-reported-by-user",
+    "chronograph": {
+      "startStopReset": "passed-as-reported-by-user",
+      "seconds": "passed-as-reported-by-user",
+      "minutes": "failed-as-reported-by-user; stays zero after more than one minute",
+      "hours": "not-tested-for-one-hour-by-user",
+      "bindings": "user confirms hour/minute/second chrono sources correctly set"
+    },
     "decisecond": "passed-as-reported-by-user",
     "nativeSecondsSweep": "passed-as-reported-by-user; already confirmed in the preceding 0.10 test",
     "application": "passed-as-reported-by-user",
@@ -21,5 +27,15 @@
   "exeSha256": "926d54b4cd89286e58e215ab5e458e4cfb7bc53ba624178197ff946e78a3c362",
   "agentPerformedPhysicalHardwareTest": false,
   "isolatedExecutableTestPerformed": false,
-  "updateScope": "documentation only; no application changes or executable rebuild"
+  "updateScope": "documentation only; no application changes or executable rebuild",
+  "initialReport": {
+    "hardwareTest": "passed-as-reported-by-user",
+    "allRealTestsReportedPassed": true,
+    "userConfirmation": "Adesso funziona perfettamente sia la versione crono che la versione decimi. Anche la compilazione avviene in pochi secondi."
+  },
+  "followUp": {
+    "date": "2026-10-07",
+    "correctionVersion": "1.0",
+    "separateVmHypothesis": "reproduced by simulated isolated widget VMs; actual firmware VM organization not measured"
+  }
 }
