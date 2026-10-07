@@ -176,6 +176,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             main=main or result.project_path
             expected+=result.expected_sources
         return NativeSource(main,expected)
+    from .motion import LUA_SOURCES, excluded_from_aod, pointer_period, SWEEP_PERIOD_MS
     directory.mkdir(parents=True,exist_ok=True)
     images=directory/"images"
     images.mkdir(exist_ok=True)
@@ -206,7 +207,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 # point in the layer stack. Transparent pixels never show up.
                 image('slot_'+e['id'],Image.new('RGBA',(e['width'],e['height'])),e['x'],e['y'])
             continue
-        if not e.visible or e.aod!=aod:
+        if not e.visible or e.aod!=aod or (aod and excluded_from_aod(e)):
             continue
         prefix=f'el_{variant_index}_'+e.id
         if e.kind=='image':
@@ -244,13 +245,18 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 box=font_for(p,e).getbbox(char)
                 ImageDraw.Draw(im).text(((w-(box[2]-box[0]))//2-box[0],1-digit_metrics(p,e)[2]),char,font=font_for(p,e),fill=rgba(e))
                 image(prefix+"_separator",im,e.x+x,e.y+y)
-        elif e.kind=='pointer':
+        elif e.kind == 'pointer' and e.source in LUA_SOURCES:
+            from .lua_runtime import write_pointer
+            from urllib.parse import quote
+            name=write_pointer(p,e,directory,variant_index)
+            widget(34,'app_'+quote(name,safe=''),0,0,480,480)
+        elif e.kind in ('pointer','compass'):
             if e.show_shadows:
                 pair=hand_image(e,'second',p,shadow=True)
                 if pair:
                     shadow,sa=pair;shadow.save(images/(prefix+'_pointer_shadow.png'))
                     dx,dy=hand_shadow_offset(e,'second',p)
-                    widget(27,'pointer_shadow_'+e.id,e.x+dx,e.y+dy,e.width,e.height,
+                    widget(27,'pointer_shadow_'+e.id,e.x+e.width//2-sa[0]+dx,e.y+e.height//2-sa[1]+dy,e.width,e.height,
                            HourHand_ImageName='',MinuteHand_Image=prefix+'_pointer_shadow.png',SecondHand_Image='',
                            MinuteImage_rotate_xc=sa[0],MinuteImage_rotate_yc=sa[1],
                            Background_ImageName='',BgImage_rotate_xc=0,BgImage_rotate_yc=0,
@@ -259,7 +265,9 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             hand,anchor=hand_image(e,'second',p);hand.save(images/(prefix+'_pointer.png'))
             # One native pointer encoded by EasyFace. compose() assigns the
             # configured source/range using the observed S5 pointer descriptor.
-            widget(27,'pointer_'+e.id,e.x,e.y,e.width,e.height,
+            # EasyFace centres a clock when HourHand is present. A lone
+            # MinuteHand/SecondHand instead uses X/Y as bitmap origin.
+            widget(27,'pointer_'+e.id,e.x+e.width//2-anchor[0],e.y+e.height//2-anchor[1],e.width,e.height,
                    HourHand_ImageName='',MinuteHand_Image=prefix+'_pointer.png',SecondHand_Image='',
                    MinuteImage_rotate_xc=anchor[0],MinuteImage_rotate_yc=anchor[1],
                    Background_ImageName='',BgImage_rotate_xc=0,BgImage_rotate_yc=0,
@@ -278,7 +286,9 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                                Background_ImageName='',BgImage_rotate_xc=0,BgImage_rotate_yc=0,
                                HourHandCorrection_En=1,MinuteHandCorrection_En=0)
                     attrs.update({attr:name,title+'Image_rotate_xc':sa[0],title+'Image_rotate_yc':sa[1]})
-                    widget(27,prefix+'_'+h+'_shadow',e.x+dx,e.y+dy,e.width,e.height,**attrs)
+                    x,y=e.x+dx,e.y+dy
+                    if h!='hour':x+=e.width//2-sa[0];y+=e.height//2-sa[1]
+                    widget(27,prefix+'_'+h+'_shadow'+(f'_smooth[{SWEEP_PERIOD_MS}]' if h=='second' and e.smooth_seconds and not aod else ''),x,y,e.width,e.height,**attrs)
                     expected.append(code)
             hour,h_anchor=hand_image(e,"hour",p)
             minute,m_anchor=hand_image(e,"minute",p)
@@ -286,7 +296,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             minute.save(images/(prefix+"_minute.png"))
             second,s_anchor=hand_image(e,'second',p)
             if e.second_hand and not aod:second.save(images/(prefix+'_second.png'))
-            widget(27,prefix,e.x,e.y,e.width,e.height,
+            widget(27,prefix+(f"_smooth[{SWEEP_PERIOD_MS}]" if e.smooth_seconds and not aod else ""),e.x,e.y,e.width,e.height,
                    HourHand_ImageName=prefix+"_hour.png",HourImage_rotate_xc=h_anchor[0],HourImage_rotate_yc=h_anchor[1],
                    MinuteHand_Image=prefix+"_minute.png",MinuteImage_rotate_xc=m_anchor[0],MinuteImage_rotate_yc=m_anchor[1],
                    SecondHand_Image=prefix+'_second.png' if e.second_hand and not aod else '',Background_ImageName="",BgImage_rotate_xc=0,BgImage_rotate_yc=0,
@@ -459,6 +469,14 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
             native_aod_preview=preview_blob(compile_extra(aod_source/'single.fprj','aod-preview.face'))
         data,generated_metadata=compose(data,p,reference,work/'source',native_previews,options,option_keys,aod_preview=native_aod_preview)
         inspection=inspect_binary(data)
+        from .lua_runtime import interaction_report
+        interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
+        from .motion import native_motion_report
+        seconds_motion=native_motion_report(data)
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'0.10',
+            'binarySha256':inspection['sha256'],'interactive':interaction,
+            'secondsMotion':seconds_motion,
+            'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
         progress("Controllo binario, risorse e ID…")
         bundle=work/"delivery"
         bundle.mkdir()
@@ -477,7 +495,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"0.10","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -552,7 +570,7 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 0.8 — PROVA SUL WATCH S5
+TRANSFER_GUIDE = """S5 STUDIO 0.9 — PROVA SUL WATCH S5
 
 Build compilata per M2530W1, target EasyFace 562, e controllata sul PC.
 La prova analogica 0.5 ha superato installazione, cambio stili e scelta

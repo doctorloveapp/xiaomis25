@@ -4,6 +4,7 @@ import base64
 import json
 from pathlib import Path
 import sys
+import time
 
 from PySide6.QtCore import QObject,Signal,Slot,QThread,QTimer,QUrl,Qt
 from PySide6.QtGui import QDesktopServices
@@ -14,13 +15,10 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 
 from .model import Project,Element,template,identifier,SOURCES,VARIANT_PROPERTIES,MAX_SLOTS,MAX_DESIGN_IMAGE_SIZE,normalized_slot
 from .watchface_library import library
-from .render import render,png_bytes,SCENARIOS,layout_errors
+from .render import render,png_bytes,SCENARIOS,layout_errors,hand_preview,hand_edit_changes
 from .native import build
 from .hand_presets import preset_changes,clear_hand_changes
-
-
-def application_root():
-    return Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parents[1]
+from .paths import application_root,resource_root,user_data_root,default_compiler
 
 
 class BuildTask(QThread):
@@ -40,22 +38,29 @@ class LocalPage(QWebEnginePage):
     def acceptNavigationRequest(self,url,nav_type,is_main_frame):
         return url.scheme() in ('file','qrc','data','about')
 
+    def javaScriptConsoleMessage(self,level,message,line,source):
+        if level==QWebEnginePage.JavaScriptConsoleMessageLevel.ErrorMessageLevel and sys.stderr:
+            print(f'Editor JavaScript: {source}:{line}: {message}',file=sys.stderr)
+
 
 class StudioBridge(QObject):
     event=Signal(str)
 
     def __init__(self,window,*,smoke=False):
         super().__init__(window)
-        self.window=window;self.root=application_root();self.project=template('Analogico')
+        self.window=window;self.root=application_root();self.resources=resource_root();self.project=template('Analogico')
         self.path=None;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
         self.variant=0;self.aod=False;self.scenario='Normale';self.values=dict(SCENARIOS['Normale'])
         self.worker=None;self.output=None;self.smoke=smoke
-        self.compiler=self.root/'tools/easyface-4.23/Compiler.exe'
+        self.state_sequence=0
+        self.compiler=default_compiler()
+        self.chrono_state='reset';self.chrono_elapsed=0;self.chrono_started=0;self.motion_preview=False;self.motion_started=0
+        self.motion_timer=QTimer(self);self.motion_timer.setInterval(100);self.motion_timer.timeout.connect(self.preview_tick)
         self.hand_presets=[]
         from PIL import Image
         from io import BytesIO
         for preset in library()['hands']:
-            path=self.root/preset['assetPath']
+            path=self.resources/preset['assetPath']
             if not path.is_file():continue
             with Image.open(path) as im:
                 im=im.convert('RGBA')
@@ -64,7 +69,12 @@ class StudioBridge(QObject):
                 if bounds:im=im.crop(bounds)
                 im.thumbnail((96,110));out=BytesIO();im.save(out,format='PNG')
             self.hand_presets.append({**preset,'thumbnail':'data:image/png;base64,'+base64.b64encode(out.getvalue()).decode()})
-        self.recovery=self.root/'data/recovery-web.s5faceproj'
+        self.compass_presets=[]
+        for preset in library().get('compasses',[]):
+            with Image.open(self.resources/preset['assetPath']) as im:
+                im=im.convert('RGBA');im.thumbnail((100,100))
+                self.compass_presets.append({**preset,'thumbnail':'data:image/png;base64,'+base64.b64encode(png_bytes(im)).decode()})
+        self.recovery=user_data_root()/'recovery-web.s5faceproj'
         self.timer=QTimer(self);self.timer.setInterval(20000);self.timer.timeout.connect(self.autosave)
         if not smoke:self.timer.start()
 
@@ -72,6 +82,7 @@ class StudioBridge(QObject):
         return 'data:image/png;base64,'+base64.b64encode(png_bytes(render(p,self.values,aod))).decode()
 
     def state(self):
+        self.state_sequence+=1
         from .complications import ALIASES
         # Lossless migration of old Studio aliases to the observed source names:
         # both keys have the same native code, but should appear only once.
@@ -80,8 +91,21 @@ class StudioBridge(QObject):
             s['default']=ALIASES.get(s['default'],s['default'])
         selectable={'none':'Nessuna',**{k:v[0] for k,v in SOURCES.items() if k not in ALIASES}}
         resolved=self.project.variant_project(0 if self.aod else self.variant)
+        from .source_help import source_choices
+        pointer_sources,source_descriptions=source_choices(SOURCES)
+        from .motion import LUA_SOURCES
+        from .motion import excluded_from_aod
+        lua_sources={k:v[0] for k,v in LUA_SOURCES.items()}
+        source_descriptions.update({
+            'studioDecisecond':'Decimi da 0 a 9: intervallo 10 e rotazione 360°, un giro ogni secondo (1 Hz). Runtime Lua; esclusa in AOD.',
+            'studioChronoHour':'Ore trascorse del cronografo su 12 ore. Tap sul sottoquadrante: Avvia → Ferma → Azzera. Le lancette Crono condividono il conteggio. Lua da verificare sul S5.',
+            'studioChronoMinute':'Minuti trascorsi del cronografo (0–59). Tap sul sottoquadrante: Avvia → Ferma → Azzera. Esclusa in AOD.',
+            'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Tap sul sottoquadrante: Avvia → Ferma → Azzera. Esclusa in AOD; Movimento Fluido abilita i valori intermedi.'})
+        hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
+                       for e in resolved.elements if e.kind in ('analog','pointer')}
         result=self.project.metadata()
         result.update(variantIndex=self.variant,aod=self.aod,dirty=self.dirty,path=str(self.path or ''),
+                      stateSequence=self.state_sequence,
                       preview=self.image_url(resolved,self.aod),
                       thumbnails=[self.image_url(self.project.variant_project(i)) for i in range(len(self.project.variants))],
                       resolvedElements=[asdict(e) for e in resolved.elements if e.id in {x.id for x in self.project.elements}],
@@ -93,6 +117,10 @@ class StudioBridge(QObject):
                       busy=bool(self.worker and self.worker.isRunning()),output=str(self.output or ''),
                       sources={key:label for key,(label,_,_) in SOURCES.items()},scenario=self.scenario,values=self.values,
                       complications=[normalized_slot(s) for s in self.project.complications],maxSlots=MAX_SLOTS,handPresets=self.hand_presets,
+                      pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
+                      luaSources=lua_sources,
+                      aodExcluded=[e.id for e in resolved.elements if e.aod and excluded_from_aod(e)],
+                      chronoState=self.chrono_state,motionPreview=self.motion_preview,
                       complicationSources=selectable,
                       scenarios=list(SCENARIOS),
                       maxImageSize=MAX_DESIGN_IMAGE_SIZE,
@@ -100,6 +128,14 @@ class StudioBridge(QObject):
         return result
 
     def send(self,**values):self.event.emit(json.dumps(values,ensure_ascii=False))
+
+    def preview_tick(self):
+        if self.aod:return
+        now=time.monotonic_ns()//1000000
+        self.values['__clockMs']=now
+        self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
+        self.values['__secondFraction']=(now-self.motion_started)/1000 if self.motion_preview else 0
+        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values)
 
     def autosave(self):
         if self.dirty and not self.project.validate():
@@ -173,8 +209,8 @@ class StudioBridge(QObject):
             size=svg.defaultSize();size.scale(1920,1920,Qt.AspectRatioMode.KeepAspectRatio)
             image=QImage(size,QImage.Format.Format_ARGB32);image.fill(Qt.GlobalColor.transparent)
             painter=QPainter(image);svg.render(painter);painter.end()
-            self.root.joinpath('data').mkdir(exist_ok=True)
-            with tempfile.TemporaryDirectory(dir=self.root/'data') as temp:
+            user_data_root().mkdir(parents=True,exist_ok=True)
+            with tempfile.TemporaryDirectory(dir=user_data_root()) as temp:
                 path=Path(temp)/'import.png';image.save(str(path));el=self.project.add_image(path)
             el.name=Path(filename).stem
             return el
@@ -185,12 +221,27 @@ class StudioBridge(QObject):
         before=None;selection=None
         try:
             req=json.loads(raw);action=req.get('action')
-            mutations={'add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
+            mutations={'move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
                 if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
                 before=self.project.copy()
                 self.project.sync_layer_order()
             if action=='state':pass
+            elif action=='chrono-preview':
+                now=time.monotonic_ns()//1000000
+                if self.chrono_state=='reset':self.chrono_started=now;self.chrono_state='running'
+                elif self.chrono_state=='running':self.chrono_elapsed=now-self.chrono_started;self.chrono_state='stopped'
+                else:self.chrono_elapsed=0;self.chrono_state='reset'
+                self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
+                if not self.smoke:
+                    if self.motion_preview or self.chrono_state=='running':self.motion_timer.start()
+                    else:self.motion_timer.stop()
+            elif action=='motion-preview':
+                self.motion_preview=bool(req.get('value'));self.motion_started=time.monotonic_ns()//1000000
+                self.values['__secondFraction']=0
+                if not self.smoke:
+                    if self.motion_preview or self.chrono_state=='running':self.motion_timer.start()
+                    else:self.motion_timer.stop()
             elif action=='new':
                 if self.confirm_leave():
                     self.project=template(req.get('template','Analogico'));self.path=None;self.variant=0;self.aod=False;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
@@ -211,10 +262,20 @@ class StudioBridge(QObject):
                 kind=req['kind']
                 defaults={'clock':dict(name='Ora',x=57,y=144,width=366,height=108,size=90),'date':dict(name='Data',x=158,y=258,width=164,height=40,size=30),'analog':dict(name='Lancette',x=60,y=60,width=360,height=360,color='#6ce5c1',second_hand=not self.aod),'number':dict(name='Dato',x=166,y=340,width=148,height=46,size=30),'text':dict(name='Testo',x=140,y=100,width=200,height=40,size=24),'rect':dict(name='Rettangolo'),'circle':dict(name='Cerchio')}
                 defaults['pointer']=dict(name='Lancetta piccola',x=180,y=180,width=120,height=120,source='second',color='#f7be69',second_length=40,second_width=3,show_ticks=False)
+                defaults['compass']=dict(name='Bussola analogica',x=180,y=180,width=120,height=120,source='systemSensorCompass',
+                                         value_range=360,angle_range=-360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
                 if kind not in defaults:raise ValueError('Componente non supportato.')
                 added=Element(kind=kind,aod=self.aod,**defaults[kind]);self.project.elements.append(added);selection=added.id
+                if kind=='compass':
+                    from .compass_catalog import preset_changes as compass_changes
+                    preset=next((c for c in self.compass_presets if c['name']=='Ferrari' and c['kind']=='Rosa completa'),self.compass_presets[0] if self.compass_presets else None)
+                    if preset is None:raise ValueError('Catalogo bussole non disponibile.')
+                    for k,v in compass_changes(self.project,self.resources,preset).items():setattr(added,k,v)
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
+                if e.kind in ('analog','pointer'):
+                    resolved=next(x for x in self.project.variant_project(0 if self.aod else self.variant).elements if x.id==e.id)
+                    changes=hand_edit_changes(resolved,changes,self.project)
                 allowed=set(Element.__dataclass_fields__)-{'id','kind'}
                 if set(changes)-allowed:raise ValueError('Proprietà non supportata.')
                 if req.get('variantOnly'):
@@ -225,6 +286,11 @@ class StudioBridge(QObject):
                     overrides.update(changes)
                 else:
                     for k,v in changes.items():setattr(e,k,v)
+                    if e.kind in ('analog','pointer'):
+                        for variant in self.project.variants:
+                            overrides=variant.get('overrides',{}).get(e.id,{})
+                            for k in changes:
+                                if k.startswith(('hour_','minute_','second_')) or k=='pointer_end_pivot':overrides.pop(k,None)
             elif action=='nudge':
                 layer=self.layer(req['id']);dx=req.get('dx',0);dy=req.get('dy',0)
                 if type(dx) is not int or type(dy) is not int or abs(dx)>100 or abs(dy)>100:raise ValueError('Spostamento non valido.')
@@ -257,6 +323,12 @@ class StudioBridge(QObject):
                     if not layer['locked']:
                         self.layer(req['id']).update(x=max(0,min(480-layer['width'],layer['x']+dx)),y=max(0,min(480-layer['height'],layer['y']+dy)))
                     else:self.project=before;before=None
+            elif action in ('move-group','align-group'):
+                from .selection import move,align
+                args=(self.project,req['ids'])
+                settings=dict(variant=self.variant,aod=self.aod,variant_only=bool(req.get('variantOnly')))
+                if action=='move-group':move(*args,req['dx'],req['dy'],**settings)
+                else:align(*args,req['alignment'],**settings)
             elif action=='delete':
                 self.remove_layer(req['id']);selection=''
             elif action=='duplicate':
@@ -280,20 +352,35 @@ class StudioBridge(QObject):
                 if req.get('variantOnly') and not self.aod:self.project.variants[self.variant].setdefault('overrides',{}).setdefault(e.id,{}).update(changes)
                 else:
                     for k,v in changes.items():setattr(e,k,v)
-            elif action in ('image','variant-image','hand-image'):
+            elif action in ('image','variant-image','hand-image','compass-image'):
                 el=self.import_image()
                 if el:
                     if action=='image':el.aod=self.aod;selection=el.id
                     else:
                         self.project.elements.remove(el)
                         if action=='variant-image':self.project.variants[self.variant]['imageAsset']=el.asset
+                        elif action=='compass-image':
+                            if self.element(req).kind!='compass':raise ValueError('Seleziona una bussola.')
+                            self.set_compass(req,{'asset':el.asset,'compass_preset':''})
                         else:
                             hand=req['hand']
                             if hand not in ('hour','minute','second'):raise ValueError('Lancetta non valida.')
                             self.set_hand(req,clear_hand_changes(hand,el.asset))
             elif action=='hand-preset':
                 preset=next(h for h in self.hand_presets if h['id']==req['preset'])
-                self.set_hand(req,preset_changes(self.project,self.element(req),self.root,preset,req['hand'],self.hand_presets))
+                self.set_hand(req,preset_changes(self.project,self.element(req),self.resources,preset,req['hand'],self.hand_presets))
+            elif action=='hand-pivot':
+                e=next(x for x in self.project.variant_project(0 if self.aod else self.variant).elements if x.id==req['id'])
+                hand=req['hand']
+                if hand not in ('hour','minute','second') or not getattr(e,hand+'_asset') or req.get('asset')!=getattr(e,hand+'_asset'):
+                    raise ValueError('Applica la grafica prima di scegliere il suo pivot.')
+                if any(type(req.get(a)) is not int or not 0<=req[a]<480 for a in ('x','y')):raise ValueError('Clicca un punto valido nella grafica della lancetta.')
+                changes={hand+'_anchor_x':req['x'],hand+'_anchor_y':req['y']}
+                self.set_hand(req,hand_edit_changes(e,changes,self.project))
+            elif action=='compass-preset':
+                from .compass_catalog import preset_changes as compass_changes
+                preset=next(c for c in self.compass_presets if c['id']==req['preset'])
+                self.set_compass(req,compass_changes(self.project,self.resources,preset))
             elif action=='clear-hand':
                 self.set_hand(req,clear_hand_changes(req['hand']))
             elif action=='font':
@@ -340,7 +427,11 @@ class StudioBridge(QObject):
             elif action=='aod':self.aod=bool(req['value']) and self.project.aod_enabled
             elif action=='scenario':
                 self.scenario=req['value'];self.values=dict(SCENARIOS[self.scenario])
-            elif action=='time':self.values.update({key:int(req[key]) for key in ('hour','minute','second') if key in req})
+            elif action=='time':
+                limits={'hour':23,'minute':59,'second':59,'systemSensorCompass':359}
+                changes={key:req[key] for key in limits if key in req}
+                if any(type(v) is not int or not 0<=v<=limits[k] for k,v in changes.items()):raise ValueError('Valore di simulazione fuori intervallo.')
+                self.values.update(changes)
             elif action=='compiler':
                 filename,_=QFileDialog.getOpenFileName(self.window,'Seleziona EasyFace 4.23',str(self.compiler.parent),'Compilatore (Compiler.exe)')
                 if filename:self.compiler=Path(filename)
@@ -384,11 +475,21 @@ class StudioBridge(QObject):
                     override=variant.get('overrides',{}).get(e.id,{})
                     for key in changes:override.pop(key,None)
 
+    def set_compass(self,req,changes):
+        e=self.element(req)
+        if e.kind!='compass':raise ValueError('Seleziona un livello bussola.')
+        if req.get('variantOnly') and not self.aod:self.project.variants[self.variant].setdefault('overrides',{}).setdefault(e.id,{}).update({k:v for k,v in changes.items() if k in VARIANT_PROPERTIES})
+        else:
+            for k,v in changes.items():setattr(e,k,v)
+            for variant in self.project.variants:
+                overrides=variant.get('overrides',{}).get(e.id,{})
+                for key in changes:overrides.pop(key,None)
+
 
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 0.8 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 0.10 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)
@@ -403,6 +504,7 @@ class MainWindow(QMainWindow):
         if self.bridge.worker and self.bridge.worker.isRunning():event.ignore();return
         if self.bridge.smoke or self.bridge.confirm_leave():
             self.bridge.timer.stop()
+            self.bridge.motion_timer.stop()
             if not self.bridge.smoke:self.bridge.recovery.unlink(missing_ok=True)
             event.accept()
         else:event.ignore()

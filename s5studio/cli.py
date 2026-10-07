@@ -7,6 +7,7 @@ import sys
 from .model import Project, template
 from .render import render, png_bytes, layout_errors
 from .native import build, inspect_mwz, inspect_binary
+from .paths import default_compiler
 
 
 def run(argv):
@@ -21,7 +22,7 @@ def run(argv):
     check.add_argument('path',type=Path)
     comp=sub.add_parser('build',help='Compila un progetto S5 Studio')
     comp.add_argument('project',type=Path)
-    comp.add_argument('--compiler',type=Path,required=True)
+    comp.add_argument('--compiler',type=Path,default=default_compiler())
     comp.add_argument('--output',type=Path,default=Path('dist'))
     comp.add_argument('--template',type=Path,help='Template ZIP; predefinito: quadrante_funzionante.zip verificato')
     surgery=sub.add_parser('apply-template',help='Compila FPRJ/progetto Studio, rigenera i metadati e preserva i record protetti del template ZIP')
@@ -42,10 +43,27 @@ def run(argv):
     picture.add_argument('--variant',type=int,default=0,help='Indice stile da 0 a 4 (AOD comune: stile 0)')
     selftest=sub.add_parser('self-test',help='Prova i modelli incorporati senza usare hardware o compilatore')
     selftest.add_argument('--report',type=Path)
+    runtime=sub.add_parser('runtime-info',help='Verifica tutte le risorse incorporate dell’eseguibile personale')
+    runtime.add_argument('--report',type=Path)
     sub.add_parser('legacy-ui',help='Apri il precedente editor Qt')
     gui=sub.add_parser('ui-smoke',help='Prova Qt fuori schermo e salva una schermata')
     gui.add_argument('--screenshot',type=Path,required=True)
     args=parser.parse_args(argv)
+    if args.command=='runtime-info':
+        from .paths import resource_root
+        import hashlib
+        root=resource_root();manifest=json.loads((root/'runtime-manifest.json').read_text(encoding='utf8'))
+        for name,digest in manifest['files'].items():
+            path=(root/name).resolve()
+            if not path.is_relative_to(root.resolve()) or hashlib.sha256(path.read_bytes()).hexdigest()!=digest:
+                raise ValueError('Risorsa incorporata mancante o alterata: '+name)
+        result={k:v for k,v in manifest.items() if k!='files'}
+        result.update(status='passed',checkedFiles=len(manifest['files']),frozen=bool(getattr(sys,'frozen',False)))
+        print(json.dumps(result,ensure_ascii=False,indent=2))
+        if args.report:
+            args.report.parent.mkdir(parents=True,exist_ok=True)
+            args.report.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf8')
+        return 0
     if args.command=='legacy-ui':
         from .ui import launch
         return launch()
@@ -56,8 +74,7 @@ def run(argv):
         print(build(Project.load(args.project),args.compiler.resolve(),args.output,print,template_path=args.template))
     elif args.command=='apply-template':
         from .template_package import compile_and_apply_template,resolve_template
-        root=Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parents[1]
-        compiler=args.compiler or root/'tools/easyface-4.23/Compiler.exe'
+        compiler=args.compiler or default_compiler()
         print(compile_and_apply_template(args.project,args.template,args.output_dir,compiler.resolve()))
     elif args.command=='validate-template':
         from .template_package import validate_template_output

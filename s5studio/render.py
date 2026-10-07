@@ -179,7 +179,7 @@ def _window_hand(im,anchor,crop):
     return im.crop((left,top,right,bottom)),(anchor[0]-left,anchor[1]-top)
 
 
-def _hand_geometry(e,which,p):
+def raw_hand_pivot(e,which,p):
     main=_raw_hand(e,which,p)
     if main is None:return None
     im,original=main;anchor=original
@@ -189,40 +189,100 @@ def _hand_geometry(e,which,p):
         if bounds:
             row=mask.crop((bounds[0],bounds[3]-1,bounds[2],bounds[3])).getbbox()
             anchor=(bounds[0]+(row[0]+row[2]-1)//2 if row else (bounds[0]+bounds[2]-1)//2,bounds[3]-1)
-    delta=(anchor[0]-original[0],anchor[1]-original[1])
-    main=_window_hand(im,anchor,e.kind=='pointer')
+    return im,anchor
+
+
+def hand_preview(e,which,p):
+    """A source-coordinate editing window, never a scaled export bitmap."""
+    pair=raw_hand_pivot(e,which,p)
+    if pair is None:return None
+    im,anchor=pair
+    bounds=im.getchannel('A').getbbox() or (0,0,*im.size)
+    left,top=min(bounds[0],anchor[0])-8,min(bounds[1],anchor[1])-8
+    right,bottom=max(bounds[2],anchor[0]+1)+8,max(bounds[3],anchor[1]+1)+8
+    im=im.crop((left,top,right,bottom))
+    color=getattr(e,which+'_color')
+    if color:im=tint_image(im,color)
+    import base64
+    return {'src':'data:image/png;base64,'+base64.b64encode(png_bytes(im)).decode(),
+            'width':im.width,'height':im.height,'originX':left,'originY':top,
+            'pivotX':anchor[0]-left,'pivotY':anchor[1]-top,'asset':getattr(e,which+'_asset')}
+
+
+def hand_edit_changes(e,changes,p):
+    changes=dict(changes)
+    for hand in ('hour','minute','second'):
+        if hand+'_length' in changes:changes[hand+'_length_adjusted']=True
+        if hand+'_width' in changes:changes[hand+'_width_adjusted']=True
+        if any(hand+'_anchor_'+a in changes for a in ('x','y')):
+            if e.kind=='pointer':changes['pointer_end_pivot']=False
+            main=_raw_hand(e,hand,p)
+            if main and min(getattr(e,hand+'_pivot_reference_'+a) for a in ('x','y'))<0:
+                for i,a in enumerate(('x','y')):changes[hand+'_pivot_reference_'+a]=main[1][i]
+    return changes
+
+
+def _hand_geometry(e,which,p):
+    raw=_raw_hand(e,which,p)
+    if raw is None:return None
+    im,original=raw
+    anchor=raw_hand_pivot(e,which,p)[1]
+    reference=tuple(getattr(e,which+'_pivot_reference_'+axis) for axis in ('x','y'))
+    if min(reference)<0:reference=original
+    delta=(anchor[0]-reference[0],anchor[1]-reference[1])
+    crop=e.kind=='pointer' or getattr(e,which+'_length_adjusted') or getattr(e,which+'_width_adjusted')
+    main=_window_hand(im,anchor,crop)
     shadow=_raw_hand(e,which,p,True)
     if shadow:
         sim,sa=shadow
-        shadow=_window_hand(sim,(sa[0]+delta[0],sa[1]+delta[1]),e.kind=='pointer')
-    scale=1.
+        shadow=_window_hand(sim,(sa[0]+delta[0],sa[1]+delta[1]),crop)
+    sx=sy=1.
     if e.kind=='pointer':
         bounds=main[0].getchannel('A').getbbox() or (0,0,*main[0].size)
         length=max(1,main[1][1]-bounds[1])
-        scale=min(e.width,e.height)*e.second_length/100/length
-        dimensions=[*main[0].size,*shadow[0].size] if shadow else list(main[0].size)
-        scale=min(scale,480/max(dimensions))
-    return main,shadow,scale
+        sx=sy=min(e.width,e.height)*e.second_length/100/length
+    elif getattr(e,which+'_length_adjusted'):
+        bounds=main[0].getchannel('A').getbbox() or (0,0,*main[0].size)
+        length=max(1,main[1][1]-bounds[1])
+        sy=min(e.width,e.height)*getattr(e,which+'_length')/100/length
+    if getattr(e,which+'_width_adjusted'):
+        bounds=main[0].getchannel('A').point(lambda a:255 if a>=24 else 0).getbbox()
+        # Width is the widest visible part of the graphic; transparent canvas
+        # padding never counts as needle thickness.
+        sx=getattr(e,which+'_width')/max(1,bounds[2]-bounds[0] if bounds else main[0].width)
+    pairs=[main]+([shadow] if shadow else [])
+    # Bounds are enforced on actual emitted bitmaps, independently per axis.
+    sx=min(sx,480/max(pair[0].width for pair in pairs))
+    sy=min(sy,480/max(pair[0].height for pair in pairs))
+    return main,shadow,(sx,sy)
 
 
 def hand_shadow_offset(e,which,p):
     geometry=_hand_geometry(e,which,p)
-    scale=geometry[2] if geometry else 1.
-    return tuple(round(getattr(e,which+'_shadow_offset_'+axis)*scale) for axis in ('x','y'))
+    scales=geometry[2] if geometry else (1.,1.)
+    return tuple(round(getattr(e,which+'_shadow_offset_'+axis)*scales[i]) for i,axis in enumerate(('x','y')))
 
 
 def hand_image(e: Element, which: str, p: Project | None=None, *, shadow=False):
+    if e.kind=='compass':
+        if shadow:return None
+        with Image.open(BytesIO(p.assets[e.asset])) as source:im=source.convert('RGBA')
+        scale=min(e.width/im.width,e.height/im.height)
+        im=im.resize((max(1,round(im.width*scale)),max(1,round(im.height*scale))),Image.Resampling.LANCZOS)
+        if e.tint:im=tint_image(im,e.color)
+        if e.opacity!=255:im.putalpha(im.getchannel('A').point(lambda a:a*e.opacity//255))
+        return im,(im.width//2,im.height//2)
     geometry=_hand_geometry(e,which,p)
     if geometry:
         pair=geometry[1 if shadow else 0]
         if pair is None:return None
-        im,anchor=pair;scale=geometry[2]
+        im,anchor=pair;scales=geometry[2]
         color=getattr(e,which+'_color')
         if color and not shadow:im=tint_image(im,color)
         if e.opacity!=255:im.putalpha(im.getchannel('A').point(lambda v:v*e.opacity//255))
-        if scale!=1:
-            im=im.resize(tuple(max(1,round(v*scale)) for v in im.size),Image.Resampling.LANCZOS)
-            anchor=tuple(max(0,min(im.size[i]-1,round(v*scale))) for i,v in enumerate(anchor))
+        if scales!=(1.,1.):
+            im=im.resize(tuple(max(1,round(v*scales[i])) for i,v in enumerate(im.size)),Image.Resampling.LANCZOS)
+            anchor=tuple(max(0,min(im.size[i]-1,round(v*scales[i]))) for i,v in enumerate(anchor))
         return im,anchor
     if shadow:return None
     length = int(min(e.width,e.height) * getattr(e,which+'_length')/100)
@@ -234,7 +294,7 @@ def hand_image(e: Element, which: str, p: Project | None=None, *, shadow=False):
     return im, (im.width//2,length)
 
 
-def element_image(p: Project, e: Element, values: dict):
+def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=(0,0)):
     if e.kind=='image_values':
         from dataclasses import replace
         value=values.get(e.source)
@@ -243,13 +303,17 @@ def element_image(p: Project, e: Element, values: dict):
         return static_image(p,replace(e,kind='image',asset=asset,fit='contain'))
     if e.kind in {"text", "image", "rect", "circle"}:
         return static_image(p,e)
-    if e.kind in ('analog','pointer'):
-        im = analog_face(e) if e.kind=='analog' else Image.new('RGBA',(e.width,e.height))
+    if e.kind in ('analog','pointer','compass'):
+        im=Image.new('RGBA',viewport or (e.width,e.height))
+        if e.kind=='analog':im.alpha_composite(analog_face(e),origin)
+        cx,cy=origin[0]+e.width//2,origin[1]+e.height//2
         # Preview uses native hand raster assets, rotated around the same anchor.
-        hands=[("hour",(values.get('hour',0)%12)*30+values.get('minute',0)*0.5), ("minute",values.get('minute',0)*6)]
-        if e.second_hand and not e.aod:hands.append(('second',values.get('second',0)*6))
-        if e.kind=='pointer':
-            value=values.get(e.source)
+        hands=[("hour",((values.get('hour') or 0)%12)*30+(values.get('minute') or 0)*0.5), ("minute",(values.get('minute') or 0)*6)]
+        if e.second_hand and not e.aod:hands.append(('second',(((values.get('second') or 0)+(values.get('__secondFraction',0) if e.smooth_seconds else int(values.get('__secondFraction',0))))%60)*6))
+        if e.kind in ('pointer','compass'):
+            from .motion import LUA_SOURCES, lua_value
+            value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in LUA_SOURCES else values.get(e.source)
+            if e.smooth_seconds and e.source in ('second','timeSecond') and value is not None:value=(value+values.get('__secondFraction',0))%60
             fraction=0 if value is None else max(0,min(1,(float(value)-e.value_start)/e.value_range))
             hands=[('second',e.angle_start+fraction*e.angle_range)]
         for shadow in ([True,False] if e.show_shadows else [False]):
@@ -257,11 +321,11 @@ def element_image(p: Project, e: Element, values: dict):
                 pair=hand_image(e,which,p,shadow=shadow)
                 if pair is None:continue
                 hand,anchor=pair;dx,dy=hand_shadow_offset(e,which,p) if shadow else (0,0)
-                centre=(e.width//2+dx,e.height//2+dy)
+                centre=(cx+dx,cy+dy)
                 layer=Image.new('RGBA',im.size)
                 layer.alpha_composite(hand,(centre[0]-anchor[0],centre[1]-anchor[1]))
                 im.alpha_composite(layer.rotate(-angle,resample=Image.Resampling.BICUBIC,center=centre))
-        if e.kind=='analog':ImageDraw.Draw(im).ellipse((e.width//2-6,e.height//2-6,e.width//2+6,e.height//2+6),fill=rgba(e))
+        if e.kind=='analog':ImageDraw.Draw(im).ellipse((cx-6,cy-6,cx+6,cy+6),fill=rgba(e))
         return im
     im = Image.new("RGBA", (e.width,e.height))
     cw,ch,_=digit_metrics(p,e)
@@ -293,12 +357,18 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
     values=sample_values(values)
     im = Image.new("RGBA",(480,480),"#000000" if aod else p.background)
     from .complications import option_image
+    from .motion import excluded_from_aod
     for layer in p.ordered_layers(aod):
         if isinstance(layer,Element):
-            if layer.visible:
+            if layer.visible and not (aod and excluded_from_aod(layer)):
                 if layer.kind=='image':
                     clipped=canvas_image(p,layer)
                     if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
+                elif layer.kind in ('analog','pointer','compass'):
+                    # Native hands use the level centre as their pivot, but
+                    # their bitmap is clipped by the watch canvas, not the
+                    # editor's selection box. Rotate on that same full canvas.
+                    im.alpha_composite(element_image(p,layer,values,viewport=im.size,origin=(layer.x,layer.y)))
                 else:im.alpha_composite(element_image(p,layer,values),(layer.x,layer.y))
         elif layer['visible']:
             choice=values.get('__choices',{}).get(layer['id'],layer['default'])

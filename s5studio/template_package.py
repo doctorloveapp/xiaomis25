@@ -30,7 +30,8 @@ WORKING_TEMPLATE_SHA256='5c7a3bb0c81762e7bb0749fd1b1cd941e0578d8e0eec0d567b37c44
 def resolve_template(path: Path | None=None) -> Path:
     if path is not None:
         return Path(path).resolve()
-    root=Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parents[1]
+    from .paths import resource_root
+    root=resource_root()
     path=root/'quadrante_funzionante.zip'
     if not path.is_file() or sha256(path.read_bytes())!=WORKING_TEMPLATE_SHA256:
         raise ValueError('Template quadrante_funzionante.zip mancante o modificato. Ripristina il file collaudato; nessun packaging ipotetico viene usato.')

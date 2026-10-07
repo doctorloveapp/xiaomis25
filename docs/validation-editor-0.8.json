@@ -3,9 +3,9 @@
   "date": "2026-10-07",
   "status": "passed",
   "pytest": {
-    "passed": 65,
+    "passed": 66,
     "skipped": 0,
-    "seconds": 69.81,
+    "seconds": 69.69,
     "command": "python -X utf8 -m pytest -q"
   },
   "uiSmoke": "docs/screenshots/executable-0.8.json",
@@ -31,8 +31,18 @@
     "main-and-shadow-native-bindings-ranges-AOD",
     "old-project-migration-build",
     "all-native-bitmaps-within-480",
-    "gitignore-original-prefix-unchanged"
+    "gitignore-original-prefix-unchanged",
+    "imported-hand-preview-clipped-at-watch-not-selection-box",
+    "real-native-pointer-and-shadow-world-centres-normal-and-AOD",
+    "EasyFace-single-hand-bitmap-origin-compensation"
   ],
   "hardwareEvidencePreviousVersion": "data/hardware-tests/analogico-05-superato.json",
-  "new08HardwareTested": false
+  "new08HardwareTested": false,
+  "executableSha256": "7407c797e5e48060fb9e849af13f70d6692528fcd0a3b25de7c0659d149d562f",
+  "sourceAndExecutableBinaryIdentical": true,
+  "binarySha256": "62770b291e35c2ee5d73e53d7e29accaa8c4a1cfeb68849b329b79b985e44719",
+  "clockHandDescriptorsChecked": 30,
+  "smallHandDescriptorsChecked": 30,
+  "uiChecks": 45,
+  "compiledBitmapsWithin480": 1275
 }

@@ -16,7 +16,7 @@ Le cornici, cifre e grafiche dei modelli Studio sono generate dal codice origina
 
 - **Tailwind CSS 4.3.3** — Tailwind Labs, https://tailwindcss.com. CSS compilato offline con CLI ufficiale; licenza MIT in licenses/Tailwind-MIT.txt. Node e i pacchetti di sviluppo non sono inclusi nell’eseguibile.
 - **QtWebEngine / Chromium** — parte della dipendenza PySide6. Il renderer e QtWebChannel sono inclusi da PyInstaller; licenze Qt già conservate in licenses/, riferimenti e avvisi Chromium: https://doc.qt.io/qt-6/qtwebengine-licensing.html. Nessuna restrizione aggiuntiva alla modifica delle librerie.
-- **quadrante_funzionante.zip / Suit and tie** — riferimento fornito dall’utente. Non modificato né incluso nelle distribuzioni. Il packaging locale conserva i record protetti del template e rigenera i metadati del nuovo payload. La 0.4 importava i gruppi grafici Suit and tie; questo metodo è stato eliminato nella 0.5. Il riferimento locale rimane necessario per la compilazione.
+- **quadrante_funzionante.zip / Suit and tie** — riferimento fornito dall’utente. Non modificato. Escluso dalle distribuzioni fino alla 0.8; nella copia personale autonoma 0.9 è incorporato byte per byte come base del packaging. Il packaging locale conserva i record protetti del template e rigenera i metadati del nuovo payload. La 0.4 importava i gruppi grafici Suit and tie; questo metodo è stato eliminato nella 0.5. Il riferimento rimane necessario per la compilazione; la 0.9 personale lo legge dalle risorse incorporate.
 - **ORIGINALE_quadrante / Ferrari** — attribuito a HaloX78 nei metadati e confermato dall’utente; non OEM Xiaomi. Usato in sola lettura per confronto, escluso dalla distribuzione.
 - **ILSpyCmd** — tool esterno usato soltanto in research per ispezionare l’interfaccia binaria della toolchain; codice decompilato non incorporato nel software o nelle distribuzioni.
 
@@ -25,3 +25,11 @@ Le cornici, cifre e grafiche dei modelli Studio sono generate dal codice origina
 `quadranti/` è il corpus fornito dall’utente, trattato in sola lettura. `data/hand-presets/` contiene 124 bitmap di lancette intatte con pivot nativi, e `data/weather-presets/` 18 icone; `data/watchface-library.json` conserva autore, quadrante, tema, percorso originario e SHA-256. I diritti delle grafiche rimangono dei rispettivi autori. Le copie locali sono predisposte per l’uso personale richiesto, non accompagnate da una licenza di redistribuzione degli asset.
 
 Gli archivi locali 0.5 includono queste librerie derivate, non i pacchetti originali né il compilatore. Le complicazioni Studio usano cornici, etichette e cifre proprie; possono utilizzare le icone meteo selezionate dalla libreria personale. Nessun sorgente decompilato di terzi è incorporato.
+
+## Runtime personale 0.9
+
+La build locale 0.9 incorpora il catalogo completo (595 modelli/set di lancette, 18 icone meteo e 10 modelli bussola) ricavato dalle cartelle fornite dall’utente, oltre al template e al compilatore locale. Le bitmap madri e le ombre mantengono i file e gli SHA-256 originali; due modelli bussola sono composizioni centrate di componenti originali. Gli autori e i percorsi originali restano nel catalogo incorporato. I diritti rimangono dei rispettivi titolari: questa copia è predisposta per l’uso personale richiesto e non dichiara una licenza pubblica di redistribuzione di tali asset.
+
+Il manifest `docs/runtime-manifest-0.9.json` elenca tutti i file effettivamente inclusi con i relativi hash. Non vengono inclusi cartelle quadranti originali, progetti personali (NASA compreso), recuperi automatici, ADB o l’editor EasyFace. Font Windows letti dal sistema; nessun font di Windows aggiunto al runtime. La toolchain dichiara .NET Framework 4.7.2; serve tale runtime di Windows o una versione successiva compatibile.
+
+Il runtime `s5studio/lua/studio_core.lua` della 0.10 è codice originale Studio. Il framework usa le API mostrate negli esempi pubblici m0tral/MiWatchLuaWatchfaces; nessun modulo Lua di terzi è incluso. Lupa 2.6 serve solo per i test di sviluppo e non viene incluso nella distribuzione.

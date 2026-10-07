@@ -23,7 +23,7 @@ run('self-test','--report',ROOT/'docs/executable-self-test-0.8.json')
 assert json.loads((ROOT/'docs/executable-self-test-0.8.json').read_text())['status']=='passed'
 run('ui-smoke','--screenshot',ROOT/'docs/screenshots/executable-0.8.png')
 ui=json.loads((ROOT/'docs/screenshots/executable-0.8.json').read_text());assert ui['status']=='passed'
-assert {'startup-window-maximized','header-Version-0.7','dropdown-hover-highlights-without-selection',
+assert {'startup-window-maximized','header-Version-0.8','dropdown-hover-highlights-without-selection',
         'hour-model-auto-pairs-matching-set','shadow-visibility-checkbox',
         'every-save-button-click-asks-filename','save-cancel-preserves-path-and-dirty'}<=set(ui['checks'])
 
@@ -43,7 +43,7 @@ assert (image.x,image.y,image.width,image.height)==(-120,-120,720,720)
 
 # Match native descriptor pivots and layout positions against the preview's
 # geometry, using the actual FPRJ widget order produced by the frozen build.
-data=(latest.parent/'resource.bin').read_bytes();checked=[];bitmap_count=0
+data=(latest.parent/'resource.bin').read_bytes();checked=[];clocks=[];bitmap_count=0
 for screen in range(data[28]):
     for _,_,payload in read_tables(data,screen)[2]+read_tables(data,screen)[3]:
         w,h=struct.unpack_from('<HH',payload,4);assert 1<=w<=480 and 1<=h<=480;bitmap_count+=1
@@ -68,6 +68,20 @@ for vi in range(5):
             with Image.open(fprj.parent/'images'/w.get('MinuteHand_Image')) as compiled:
                 assert compiled.convert('RGBA').tobytes()==bitmap.tobytes()
             checked.append({'style':vi+1,'element':e.name,'shadow':shadow,'pivot':anchor,'size':list(bitmap.size)})
+        elif w.get('Shape')=='27':
+            identity=w.get('Name').split('_')[2]
+            e=next(e for e in resolved.elements if e.id==identity)
+            shadow=w.get('Name').endswith('_shadow');sub=0
+            for h,attr in [('hour','HourHand_ImageName'),('minute','MinuteHand_Image'),('second','SecondHand_Image')]:
+                if not w.get(attr):continue
+                bitmap,anchor=hand_image(e,h,resolved,shadow=shadow)
+                uid,x,y,_,_=struct.unpack('<IhhII',tables[0][cursor+sub][2]);sub+=1
+                assert tuple(struct.unpack_from('<HH',descriptors[uid],20))==anchor
+                dx,dy=hand_shadow_offset(e,h,resolved) if shadow else (0,0)
+                assert (x+anchor[0],y+anchor[1])==(e.x+e.width//2+dx,e.y+e.height//2+dy)
+                with Image.open(fprj.parent/'images'/w.get(attr)) as compiled:
+                    assert compiled.convert('RGBA').tobytes()==bitmap.tobytes()
+                clocks.append({'style':vi+1,'hand':h,'shadow':shadow,'pivot':anchor,'worldCentre':[x+anchor[0],y+anchor[1]]})
         cursor+=count
     assert sum('shadow' in w.get('Name','') for w in ET.parse(fprj).getroot().find('Screen'))==6
 with zipfile.ZipFile(next(latest.parent.glob('*_TEMPLATE.zip'))) as z:
@@ -84,9 +98,9 @@ assert json.loads((ROOT/'docs/executable-stress-validation-0.8.json').read_text(
 summary={'status':'passed','date':'2026-10-07','executable':exe.name,'executableSha256':hashlib.sha256(exe.read_bytes()).hexdigest(),
          'embeddedFrontendIdentical':embedded,'ui':ui['checks'],'handCatalog':library()['handCatalogSummary'],
          'sourceAndExecutableBinaryIdentical':True,'binarySha256':report['binary']['sha256'],
-         'originalProjectAssetsPreserved':True,'smallHandPivotsAndShadows':checked,'compiledBitmapCountWithin480':bitmap_count,
+         'originalProjectAssetsPreserved':True,'smallHandPivotsAndShadows':checked,'clockHandPivotsAndShadows':clocks,'compiledBitmapCountWithin480':bitmap_count,
          'old06ProjectBuildPassed':True,'old06NewBinarySha256':regression['binary']['sha256'],
          'screenCount':10,'simultaneousSlots':5,'nativeSlotInstances':25,'all58SourcesPerSlotValidation':'passed',
          'hardwareTested':False,'buildReport':str(latest)}
 (ROOT/'docs/executable-build-0.8.json').write_text(json.dumps(summary,indent=2),encoding='utf8')
-print(json.dumps({k:v for k,v in summary.items() if k not in ('ui','smallHandPivotsAndShadows','embeddedFrontendIdentical')},indent=2))
+print(json.dumps({k:v for k,v in summary.items() if k not in ('ui','smallHandPivotsAndShadows','clockHandPivotsAndShadows','embeddedFrontendIdentical')},indent=2))

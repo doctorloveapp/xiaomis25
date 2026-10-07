@@ -1,0 +1,21 @@
+{
+  "requested": true,
+  "injected": true,
+  "status": "injected-and-structurally-verified",
+  "appLayoutCount": 2,
+  "files": {
+    "app/lua/studio_core.lua": "7d571835af792f33c55c290a909359d68417819de8e83920f95464a6724010d9",
+    "app/lua/studio_v0_0da74addb461.lua": "ac1f76a9cec79975c8c22b0162a49f7b29e6205fc9c008a9ba640253c3e075a5",
+    "app/lua/studio_v0_385db3fe1629.lua": "39e3a4e0545ea5af4cd16686d9536b79260d132015363f2bed51816fc3a0d189",
+    "app/lua/gfx/v0_0da74addb461.png": "e69ef84fe6f05833294a8799f75cfef5604e6ca83e77e9eb06c129b9935f239f",
+    "app/lua/gfx/v0_385db3fe1629.png": "e69ef84fe6f05833294a8799f75cfef5604e6ca83e77e9eb06c129b9935f239f"
+  },
+  "manifestInteractive": "true",
+  "aodSecondsExcluded": true,
+  "hardwareVerified": false,
+  "limitations": [
+    "Runtime Lua, clock monotono e VM condivisa da verificare sul firmware S5.",
+    "Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio."
+  ],
+  "scope": "Initial compiler feasibility probe; payload hashes describe that temporary fixture, not the final executable"
+}

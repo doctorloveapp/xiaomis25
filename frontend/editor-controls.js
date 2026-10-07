@@ -12,6 +12,7 @@ window.S5Selectors=(()=>{
       if(graphic){img.src=graphic.src;img.alt=graphic.label;caption.textContent=graphic.label;}
       else{img.removeAttribute('src');caption.textContent='Passa su un modello per vedere l’anteprima';}
     }
+    if(popup?.select===select&&popup.description)popup.description.textContent=select._studioDescription?.(value)||'Passa su una voce per leggerne il significato.';
   }
   function close(){if(popup){const current=popup;popup=null;current.trigger.setAttribute('aria-expanded','false');current.menu.remove();preview(current.select,current.select.value);}}
   function mount(root=document){
@@ -61,11 +62,13 @@ window.S5Selectors=(()=>{
         };
         let figure=null;
         if(select._studioGraphic){figure=document.createElement('figure');figure.className='select-graphic-preview';figure.innerHTML='<img hidden alt="Anteprima modello"><figcaption>Passa su un modello per vedere l’anteprima</figcaption>';menu.classList.add('with-preview');menu.append(figure);}
+        let description=null;
+        if(select._studioDescription){description=document.createElement('div');description.className='select-description';description.setAttribute('role','tooltip');menu.classList.add('with-description');menu.append(description);}
         document.body.append(menu);const bounds=trigger.getBoundingClientRect();
         menu.style.width=Math.max(200,Math.min(420,bounds.width+(figure?120:0)))+'px';menu.style.left=Math.max(8,Math.min(bounds.left,window.innerWidth-menu.offsetWidth-8))+'px';
         const height=menu.getBoundingClientRect().height,preferred=bounds.bottom+height+5<window.innerHeight-8?bounds.bottom+5:bounds.top-height-5;
         menu.style.top=Math.max(8,Math.min(preferred,window.innerHeight-height-8))+'px';
-        popup={select,trigger,menu,figure};preview(select,select.value);
+        popup={select,trigger,menu,figure,description};preview(select,select.value);
         menu.onmouseleave=()=>{list.querySelectorAll('.is-hovered').forEach(row=>row.classList.remove('is-hovered'));preview(select,select.value);};
       }
       trigger.onclick=event=>{event.preventDefault();open();};

@@ -10,13 +10,15 @@ Le ombre sono risorse separate: mantengono colore, alpha, perno e offset ricavat
 
 La scelta del modello ore è un’operazione unica nell’Annulla. **Modifica soltanto questo stile** applica set e ombre solo allo stile attivo. Una scelta comune sostituisce le proprietà corrispondenti anche negli override degli stili.
 
+Le lancette importate vengono ritagliate soltanto al bordo dell’orologio, anche quando oltrepassano il riquadro di selezione: preview ed esportazione condividono lo stesso centro e gli stessi limiti.
+
 Il menu contiene ricerca, provenienza/autore, stile, ruolo, indicazione Piccola/AOD e disponibilità dell’ombra. La voce sotto il mouse si evidenzia e mostra la preview; soltanto clic/Invio confermano la voce, e **Usa modello** la applica al progetto. Il riquadro vuoto non carica un’immagine mancante.
 
 ## Lancette piccole
 
 Aggiungi Lancetta piccola e posiziona il livello: il centro del livello è il punto di rotazione sul quadrante. **Perno all’estremità della lancetta** è attivo di default e sceglie l’estremità inferiore visibile della grafica orientata alle ore 12, ignorando il padding trasparente. La lunghezza percentuale si riferisce alla parte visibile. È possibile scegliere tutti i modelli, con quelli piccoli elencati per primi, o importare la propria PNG/SVG. Le ombre vengono trasformate insieme alla grafica madre.
 
-Per una posizione di rotazione particolare disattiva il flag e usa Pivot manuale X/Y: −1 ripristina il pivot automatico tradizionale. Modificare direttamente un pivot manuale disattiva il flag all’estremità. La stessa funzione calcola bitmap e perni per anteprima, FPRJ e descrittore nativo. Non sono cronometri azionabili: il livello ruota in base alla sorgente scelta, come secondi, minuti, batteria o altri valori del framework.
+Per una posizione di rotazione particolare disattiva il flag e usa Pivot manuale X/Y: −1 ripristina il pivot automatico tradizionale. Modificare direttamente un pivot manuale disattiva il flag all’estremità. La stessa funzione calcola bitmap e perni per anteprima, FPRJ e descrittore nativo. Le coordinate di una lancetta singola vengono compensate per il diverso comportamento di EasyFace, mantenendo il centro del livello come punto di rotazione reale anche per le ombre. Non sono cronometri azionabili: il livello ruota in base alla sorgente scelta, come secondi, minuti, batteria o altri valori del framework.
 
 ## Analisi e verifica
 

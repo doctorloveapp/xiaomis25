@@ -1,0 +1,299 @@
+{
+  "graphics": 10,
+  "originalGraphics": 8,
+  "completeCompositions": 2,
+  "binding": "systemSensorCompass",
+  "angleRange": -360,
+  "models": [
+    {
+      "id": "3d054c9ac07d997add35b509",
+      "name": "Bouldering",
+      "author": "小米",
+      "face": "120917386835",
+      "theme": "样式1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer1",
+      "sourceSha256": "b8aa8af3d1e6735beda0f1687c089bcbefed4c8267ef10c4ecfe9fdda2ca18cb",
+      "path": "quadranti/120917386835/234aed4df19b41992243a8e4be44a7ec/resources/9d32fb0.png",
+      "imageSize": [
+        142,
+        142
+      ],
+      "pivot": [
+        71,
+        71
+      ],
+      "label": "Bouldering · Rosa cardinali · 样式1 · 3d05",
+      "kind": "Rosa cardinali",
+      "assetPath": "data/compass-presets/b8aa8af3d1e6735beda0f168.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "6508711477e4397f8cd3b0fb",
+      "name": "Bouldering",
+      "author": "小米",
+      "face": "120917386835",
+      "theme": "样式1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer2",
+      "sourceSha256": "5ad23335c084b830a77d737e3f06223c2f35fb08cf1d1ec0b6f74ad1fec2c7f3",
+      "path": "quadranti/120917386835/234aed4df19b41992243a8e4be44a7ec/resources/720476d.png",
+      "imageSize": [
+        142,
+        142
+      ],
+      "pivot": [
+        71,
+        71
+      ],
+      "label": "Bouldering · Ghiera graduata · 样式1 · 6508",
+      "kind": "Ghiera graduata",
+      "assetPath": "data/compass-presets/5ad23335c084b830a77d737e.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "9cce05866096960cd850ec29",
+      "name": "Gear jungle",
+      "author": "小米",
+      "face": "120917393389",
+      "theme": "样式1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer9",
+      "sourceSha256": "70cb76e84a0dd6892ba5731bf706912017202e17624d23f3a42769a9472304a9",
+      "path": "quadranti/120917393389/234aed4df19b41992243a8e4be44a7ec/resources/abcaafa.png",
+      "imageSize": [
+        100,
+        100
+      ],
+      "pivot": [
+        50,
+        50
+      ],
+      "label": "Gear jungle · Rosa dei venti · 样式1 · 9cce",
+      "kind": "Rosa dei venti",
+      "assetPath": "data/compass-presets/70cb76e84a0dd6892ba5731b.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "3455f9f600901b51985a6ec2",
+      "name": "Gear jungle",
+      "author": "小米",
+      "face": "120917393389",
+      "theme": "样式3",
+      "source": "systemSensorCompass",
+      "resource": "Pointer57",
+      "sourceSha256": "bbfb0ab2182facb287a05ed7b994be6df2f5ab26510c1550a02eec50c7d455d3",
+      "path": "quadranti/120917393389/234aed4df19b41992243a8e4be44a7ec/resources/e4cdecb.png",
+      "imageSize": [
+        100,
+        100
+      ],
+      "pivot": [
+        50,
+        50
+      ],
+      "label": "Gear jungle · Rosa dei venti · 样式3 · 3455",
+      "kind": "Rosa dei venti",
+      "assetPath": "data/compass-presets/bbfb0ab2182facb287a05ed7.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "64e05bdb28e1d2848ba0d2fb",
+      "name": "Gear jungle",
+      "author": "小米",
+      "face": "120917393389",
+      "theme": "样式4",
+      "source": "systemSensorCompass",
+      "resource": "Pointer68",
+      "sourceSha256": "76bcaadbbf6db8b5555d990122fe4e6c5e8f23b72d4cd0079d8efadf1e62b167",
+      "path": "quadranti/120917393389/234aed4df19b41992243a8e4be44a7ec/resources/f3355a8.png",
+      "imageSize": [
+        100,
+        100
+      ],
+      "pivot": [
+        50,
+        50
+      ],
+      "label": "Gear jungle · Rosa dei venti · 样式4 · 64e0",
+      "kind": "Rosa dei venti",
+      "assetPath": "data/compass-presets/76bcaadbbf6db8b5555d9901.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "574a049fa97cc8ff881eb734",
+      "name": "Ferrari",
+      "author": "HaloX78",
+      "face": "562700009",
+      "theme": "Theme1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer2",
+      "sourceSha256": "9fd45164d6f865f79b266b75a0bba93228deea1b6e28a06dcea2a5a5cf10324a",
+      "path": "quadranti/562700009/234aed4df19b41992243a8e4be44a7ec/resources/02e90e6.png",
+      "imageSize": [
+        20,
+        28
+      ],
+      "pivot": [
+        10,
+        14
+      ],
+      "label": "Ferrari · Ago nord · Theme1 · 574a",
+      "kind": "Ago nord",
+      "assetPath": "data/compass-presets/9fd45164d6f865f79b266b75.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "0cf04b0a568d26b992d04758",
+      "name": "Ferrari",
+      "author": "HaloX78",
+      "face": "562700009",
+      "theme": "Theme1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer3",
+      "sourceSha256": "85956d62e4edb9b8ec70a76c151d2e6563168642541a668d294081d638f2d9b4",
+      "path": "quadranti/562700009/234aed4df19b41992243a8e4be44a7ec/resources/template_940cac9.png",
+      "imageSize": [
+        92,
+        92
+      ],
+      "pivot": [
+        46,
+        46
+      ],
+      "label": "Ferrari · Rosa cardinali e tacche · Theme1 · 0cf0",
+      "kind": "Rosa cardinali e tacche",
+      "assetPath": "data/compass-presets/85956d62e4edb9b8ec70a76c.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "4c3cadf10fe155c7f9c2cb7f",
+      "name": "LLATH",
+      "author": "Aksiarin",
+      "face": "562700103",
+      "theme": "Ru",
+      "source": "systemSensorCompass",
+      "resource": "Pointer8",
+      "sourceSha256": "4e7a106c0f1220d1c6096363e0365a38841d6eb13f8c8dd9edcc872ab69a8f99",
+      "path": "quadranti/562700103/234aed4df19b41992243a8e4be44a7ec/resources/69e3d5d.png",
+      "imageSize": [
+        30,
+        30
+      ],
+      "pivot": [
+        15,
+        15
+      ],
+      "label": "LLATH · Ago bussola · Ru · 4c3c",
+      "kind": "Ago bussola",
+      "assetPath": "data/compass-presets/4e7a106c0f1220d1c6096363.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042"
+    },
+    {
+      "id": "5380233f6cbf84904ae70166",
+      "name": "Bouldering",
+      "author": "小米",
+      "face": "120917386835",
+      "theme": "样式1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer1",
+      "sourceSha256": "5380233f6cbf84904ae701663fcc80409f13d0d319bd054dff1956e6691b834e",
+      "path": "quadranti/120917386835/234aed4df19b41992243a8e4be44a7ec/resources/9d32fb0.png",
+      "imageSize": [
+        142,
+        142
+      ],
+      "pivot": [
+        71,
+        71
+      ],
+      "label": "Bouldering · Rosa completa",
+      "kind": "Rosa completa",
+      "assetPath": "data/compass-presets/5380233f6cbf84904ae70166.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042",
+      "components": [
+        "3d054c9ac07d997add35b509",
+        "6508711477e4397f8cd3b0fb"
+      ]
+    },
+    {
+      "id": "b77f8505e0d47ab970165f71",
+      "name": "Ferrari",
+      "author": "HaloX78",
+      "face": "562700009",
+      "theme": "Theme1",
+      "source": "systemSensorCompass",
+      "resource": "Pointer2",
+      "sourceSha256": "b77f8505e0d47ab970165f7148c567444809c5eed6a840d1b2a2fb86096c5bf9",
+      "path": "quadranti/562700009/234aed4df19b41992243a8e4be44a7ec/resources/02e90e6.png",
+      "imageSize": [
+        92,
+        92
+      ],
+      "pivot": [
+        46,
+        46
+      ],
+      "label": "Ferrari · Rosa completa",
+      "kind": "Rosa completa",
+      "assetPath": "data/compass-presets/b77f8505e0d47ab970165f71.png",
+      "angleStart": 0,
+      "angleRange": -360,
+      "valueStart": 0,
+      "valueRange": 360,
+      "bindingCode": "5042",
+      "components": [
+        "574a049fa97cc8ff881eb734",
+        "0cf04b0a568d26b992d04758"
+      ]
+    }
+  ],
+  "hardwareTested": false,
+  "originalFolderMatches": [
+    {
+      "model": "574a049fa97cc8ff881eb734",
+      "originalPath": "ORIGINALE_quadrante/resources/02e90e6.png"
+    },
+    {
+      "model": "0cf04b0a568d26b992d04758",
+      "originalPath": "ORIGINALE_quadrante/resources/template_940cac9.png"
+    }
+  ],
+  "referenceScreenshot": "Documenti/screen_bussola.jpg"
+}

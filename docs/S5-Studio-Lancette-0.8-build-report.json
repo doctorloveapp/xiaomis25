@@ -1152,7 +1152,7 @@
   "binary": {
     "faceId": "708008001",
     "size": 6817808,
-    "sha256": "1b6879da98a0e6c5ecf0f8ab52ef644d134a953f56b8cf97ee9a69802b738a52",
+    "sha256": "62770b291e35c2ee5d73e53d7e29accaa8c4a1cfeb68849b329b79b985e44719",
     "screenCount": 10,
     "directoryStride": 176,
     "nativeSlots": 25,
@@ -15241,7 +15241,7 @@
     ],
     "scope": "Header, limiti delle tabelle, dimensioni risorse e binding. Nessuna prova sul firmware."
   },
-  "compilerOriginalSha256": "ec1c76342036f5b424787b8d21da24e9ef8f5757452823ac12e9f824c4c75975",
+  "compilerOriginalSha256": "b4591ec8d45562268cc34c52cfb126d36187fda608f548539078a6ba8b4a5fd9",
   "idAssignment": {
     "method": "ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.",
     "original": "167210065",
@@ -15290,7 +15290,7 @@
     "scope": "CRC, record protetti del template, geometrie, UID, sorgenti, temi, gruppi selezionabili e hash anteprime/risorse del progetto.",
     "packaging": "template-surgery-with-generated-metadata",
     "templateSha256": "5c7a3bb0c81762e7bb0749fd1b1cd941e0578d8e0eec0d567b37c44dd6695627",
-    "outputSha256": "c3dbb68fd8e2a73c3195fab26ba1062f12ef1ae959af4e01c6aaeb666638609f",
+    "outputSha256": "e50189e51e3bfb2fe09139d834d9efdc06d258585434f59a8810f88f2abb70f5",
     "structuralFingerprint": "ecce7a34e3b8e7dc5356d962e11a7544813cdf4047c227a5059795ba227afd4e",
     "preservedFiles": 187,
     "entries": 5574,
@@ -15333,7 +15333,7 @@
     "binary": {
       "faceId": "708008001",
       "size": 6817808,
-      "sha256": "1b6879da98a0e6c5ecf0f8ab52ef644d134a953f56b8cf97ee9a69802b738a52",
+      "sha256": "62770b291e35c2ee5d73e53d7e29accaa8c4a1cfeb68849b329b79b985e44719",
       "screenCount": 10,
       "directoryStride": 176,
       "nativeSlots": 25,
@@ -29427,7 +29427,7 @@
       "Capability e hashCode opachi conservati: firma Xiaomi e accettazione capabilities non attestate.",
       "Funzionamento delle nuove selezioni da provare sul S5."
     ],
-    "output": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\hardware-candidates-0.8\\S5_Studio_Lancette-708008001-20261007-143102\\S5_Studio_Lancette_TEMPLATE.zip",
+    "output": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\hardware-candidates-0.8\\S5_Studio_Lancette-708008001-20261007-145721\\S5_Studio_Lancette_TEMPLATE.zip",
     "filename": "S5_Studio_Lancette_TEMPLATE.zip"
   },
   "editable": {

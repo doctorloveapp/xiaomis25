@@ -33,8 +33,8 @@ def verify_editor(window,app):
     until(lambda:bridge.scenario=='Normale','Scenario non ripristinato')
     wait_js('[...document.querySelectorAll("select")].every(e=>getComputedStyle(e).display==="none")','Un menu usa ancora il popup nativo')
     checks.extend(['dropdown-hover-does-not-commit','dropdown-hover-highlights-without-selection','dropdown-click-commits','all-native-selects-replaced'])
-    assert js('document.body.textContent.includes("Version 0.8")&&!document.body.textContent.includes("WATCHFACE DESIGNER")')
-    checks.append('header-Version-0.8')
+    assert js('document.body.textContent.includes("Version 0.10")&&!document.body.textContent.includes("WATCHFACE DESIGNER")')
+    checks.append('header-Version-0.10')
 
     analog=next(e for e in bridge.project.elements if e.kind=='analog' and not e.aod)
     js('selected='+json.dumps(analog.id)+';paint();true')
@@ -85,7 +85,7 @@ def verify_editor(window,app):
     js('selected='+json.dumps(image.id)+';paint();document.getElementById("prop-opacity").value="77";document.getElementById("prop-opacity").dispatchEvent(new Event("change"));true')
     until(lambda:bridge.element({'id':image.id}).opacity==196,'Opacità 77% non applicata')
     assert js('document.getElementById("prop-opacity").value')=='77'
-    js('const resize=document.querySelector(".selection.selected [data-resize=se]");resize.dispatchEvent(new PointerEvent("pointerdown",{clientX:100,clientY:100,bubbles:true}));window.dispatchEvent(new PointerEvent("pointermove",{clientX:124,clientY:112}));window.dispatchEvent(new PointerEvent("pointerup"));true')
+    js('const resize=document.querySelector(".selection.selected [data-resize=se]");resize.dispatchEvent(new PointerEvent("pointerdown",{clientX:100,clientY:100,bubbles:true}));window.dispatchEvent(new PointerEvent("pointermove",{clientX:100+32*document.getElementById("canvas").getBoundingClientRect().width/480,clientY:100+16*document.getElementById("canvas").getBoundingClientRect().width/480}));window.dispatchEvent(new PointerEvent("pointerup"));true')
     until(lambda:bridge.element({'id':image.id}).width==192,'Maniglia non ridimensiona immagine')
     assert bridge.element({'id':image.id}).height==96
     js('document.getElementById("image-cover").click();true')
@@ -96,7 +96,7 @@ def verify_editor(window,app):
     until(lambda:bridge.element({'id':image.id}).width==720,'Scala oltre 480 bloccata')
     assert (bridge.element({'id':image.id}).x,bridge.element({'id':image.id}).y)==(-120,-120)
     assert bridge.element({'id':image.id}).height==720 and not bridge.project.validate()
-    js('document.querySelector(".selection.selected").dispatchEvent(new PointerEvent("pointerdown",{clientX:100,clientY:100,bubbles:true}));window.dispatchEvent(new PointerEvent("pointermove",{clientX:91,clientY:109}));window.dispatchEvent(new PointerEvent("pointerup"));true')
+    js('document.querySelector(".selection.selected").dispatchEvent(new PointerEvent("pointerdown",{clientX:100,clientY:100,bubbles:true}));window.dispatchEvent(new PointerEvent("pointermove",{clientX:100-12*document.getElementById("canvas").getBoundingClientRect().width/480,clientY:100+12*document.getElementById("canvas").getBoundingClientRect().width/480}));window.dispatchEvent(new PointerEvent("pointerup"));true')
     until(lambda:bridge.element({'id':image.id}).x==-132,'Immagine ingrandita non trascinabile oltre il bordo')
     assert bridge.element({'id':image.id}).y==-108
     js('document.getElementById("canvas").focus();for(let i=0;i<5;i++)window.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowRight",cancelable:true}));window.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowUp",shiftKey:true,cancelable:true}));true')
@@ -130,8 +130,8 @@ def verify_editor(window,app):
     pointer=next(e for e in bridge.project.elements if e.kind=='pointer');wait_js('selected==='+json.dumps(pointer.id),'Lancetta piccola non selezionata')
     px=pointer.x;js('document.getElementById("canvas").focus();window.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowLeft",cancelable:true}));true')
     until(lambda:bridge.element({'id':pointer.id}).x==px-1,'Frecce non spostano una lancetta piccola')
-    js('const source=document.querySelector("[data-prop=source]");source.value="batteryPercent";source.dispatchEvent(new Event("change"));true')
-    until(lambda:bridge.element({'id':pointer.id}).source=='batteryPercent','Sorgente lancetta piccola non applicata')
+    js('const source=document.querySelector("[data-prop=source]");source.value="systemStatusBattery";source.dispatchEvent(new Event("change"));true')
+    until(lambda:bridge.element({'id':pointer.id}).source=='systemStatusBattery','Sorgente lancetta piccola non applicata')
     assert bridge.element({'id':pointer.id}).value_range==100
     js('document.getElementById("prop-name").focus();document.getElementById("prop-name").dispatchEvent(new KeyboardEvent("keydown",{key:"Delete",bubbles:true}));true')
     assert any(e.id==pointer.id for e in bridge.project.elements)

@@ -120,12 +120,14 @@ def create_library(root:Path,catalog:dict):
     result={'schemaVersion':2,'sources':sources,'hands':hands,'handCatalogSummary':{k:v for k,v in hand_report.items() if k not in ('coverage','errors')},'weatherIcons':weather,'errors':errors,'watchfaceCount':len(catalog['watchfaces'])}
     target=root/'data/watchface-library.json';target.parent.mkdir(exist_ok=True)
     target.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+    from .compass_catalog import create_compass_catalog
+    create_compass_catalog(root,result)
     return result
 
 
 @lru_cache(maxsize=1)
 def library():
-    import sys
-    root=Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parents[1]
+    from .paths import resource_root
+    root=resource_root()
     path=root/'data/watchface-library.json'
     return json.loads(path.read_text(encoding='utf-8')) if path.exists() else {'sources':{},'hands':[]}

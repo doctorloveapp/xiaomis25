@@ -1,3 +1,4 @@
 -r requirements.txt
 pytest==8.4.1
 pyinstaller==6.17.0
+lupa==2.6

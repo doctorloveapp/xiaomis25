@@ -26,6 +26,10 @@ def collect_nodes(data,screen,fprj):
     def image(uid,filename):
         raw=(folder/filename).read_bytes()
         nodes[uid]={'tag':'Image','attrs':{},'bitmap':raw}
+    from .lua_runtime import unpack_app
+    for uid,_,payload in tables[5]:
+        name,content=unpack_app(payload)
+        nodes[uid]={'tag':'App','attrs':{'src':'app/'+name},'app':content}
     for w in ET.parse(fprj).getroot().find('Screen').findall('Widget'):
         shape=w.get('Shape');hands=[h for h,attr in (('Hour','HourHand_ImageName'),('Minute','MinuteHand_Image'),('Second','SecondHand_Image')) if w.get(attr)]
         count=len(hands) if shape=='27' else 1
@@ -34,6 +38,10 @@ def collect_nodes(data,screen,fprj):
             _,_,layout=layouts[cursor];cursor+=1;uid=struct.unpack_from('<I',layout)[0]
             index,payload=available[uid]
             if shape=='30':image(uid,w.get('Bitmap'))
+            elif shape=='34':
+                from urllib.parse import unquote
+                if index!=5 or nodes[uid]['attrs']['src']!='app/'+unquote(w.get('Name')[4:]):
+                    raise ValueError('Entry point Lua diverso dal layout compilato.')
             elif shape in ('32','31'):
                 target=struct.unpack_from('<I',payload,8)[0]
                 items=w.get('BitmapList').split('|')
@@ -52,7 +60,9 @@ def collect_nodes(data,screen,fprj):
                 image(target,w.get({'Hour':'HourHand_ImageName','Minute':'MinuteHand_Image','Second':'SecondHand_Image'}[hand]))
                 nodes[uid]={'tag':'DataItemPointer','attrs':{'source':{'Hour':'timeHour','Minute':'timeMinute','Second':'timeSecond'}[hand],
                            'ref':target,'pivotX':str(struct.unpack_from('<H',payload,20)[0]),'pivotY':str(struct.unpack_from('<H',payload,22)[0]),
-                           'angleStart':'0','angleRange':'720' if hand=='Hour' else '360'}}
+                           'angleStart':'0','angleRange':'720' if hand=='Hour' else '360',
+                           'parameter':str(struct.unpack_from('<H',payload,6)[0]),
+                           'pointerFps':str(1000//struct.unpack_from('<H',payload,6)[0])}}
             else:raise ValueError('Tipo FPRJ senza metadati ricostruibili: '+str(shape))
     if cursor!=len(layouts):raise ValueError('Il compilatore ha aggiunto layout non previsti.')
     missing=set(available)-set(nodes)
@@ -130,18 +140,21 @@ def factory(project,work,run_compiler,progress):
             result[identity]=(t,nodes,preview_uid,edit_uid)
     return result,keys
 
-def patch_pointers(normal,nodes,resolved,pointers):
+def patch_pointers(normal,nodes,resolved,pointers,aod=False):
+    from .motion import pointer_period
     for e in resolved.elements:
-        if e.kind!='pointer' or not e.visible or e.id not in pointers:continue
+        if e.kind not in ('pointer','compass') or not e.visible or e.id not in pointers:continue
         for position in pointers[e.id]:
             uid=struct.unpack_from('<I',normal[0][position][2])[0]
             for row,(key,flags,payload) in enumerate(normal[7]):
                 if key!=uid:continue
                 b=bytearray(payload);b[:2]=bytes.fromhex(SOURCES[e.source][1])
+                period=pointer_period(e,aod)
+                struct.pack_into('<H',b,6,period)
                 struct.pack_into('<II',b,12,e.value_start<<8,e.value_range<<8)
                 struct.pack_into('<hh',b,24,e.angle_start*10,e.angle_range*10)
                 normal[7][row]=(key,flags,bytes(b))
-                nodes[uid]['attrs'].update(source=ALIASES.get(e.source,e.source),valueStart=str(e.value_start),valueRange=str(e.value_range),angleStart=str(e.angle_start),angleRange=str(e.angle_range),parameter='1000',renderRule='alwaysShow')
+                nodes[uid]['attrs'].update(source=ALIASES.get(e.source,e.source),valueStart=str(e.value_start),valueRange=str(e.value_range),angleStart=str(e.angle_start),angleRange=str(e.angle_range),parameter=str(period),pointerFps=str(1000//period),renderRule='alwaysShow')
 
 def compose(compiled,project,reference,source_dir,previews,options,option_keys,source_paths=None,aod_preview=None):
     from .native import inspect_binary
@@ -207,7 +220,7 @@ def compose(compiled,project,reference,source_dir,previews,options,option_keys,s
                     key=widget.get('Name').removeprefix('pointer_').removeprefix('shadow_')
                     apointers.setdefault(key,[]).append(cursor)
                 cursor+=sum(bool(widget.get(k)) for k in ('HourHand_ImageName','MinuteHand_Image','SecondHand_Image')) if widget.get('Shape')=='27' else 1
-            patch_pointers(aod,anodes,resolved,apointers)
+            patch_pointers(aod,anodes,resolved,apointers,aod=True)
             preview_uid=alloc.new(2)
             if aod_preview is None:raise ValueError('Anteprima AOD nativa mancante.')
             aod[2].append((preview_uid,0,aod_preview));anodes[preview_uid]={'tag':'Image','attrs':{},'bitmap':png_bytes(render(project.variant_project(0),aod=True,circular=False))}
@@ -233,6 +246,8 @@ def compose(compiled,project,reference,source_dir,previews,options,option_keys,s
 def metadata(project,screens,nodes,face_id):
     from .render import render,png_bytes
     manifest=ET.Element('Watchface',name='@watchfaceName',width='480',height='480',id=face_id,compressMethod='RLEReversed',editable=str(bool(any(normalized_slot(s)['visible'] for s in project.complications) or len(project.variants)>1)).lower())
+    manifest.set('interactive',str(any(node['tag']=='App' for node in nodes.values())).lower())
+    manifest.set('advanced',manifest.get('interactive'))
     resources=ET.SubElement(manifest,'Resources');files={};mapping=['watchfaceName: 6000000'];editor={'themes':[],'i18n':{'translations':{'watchfaceName':{language:project.name for language in LANGUAGES}},'locales':LANGUAGES},'formats':{},'dataSource':{},'isSlotFollowing':True,'introData':{},'aodDisplayMode':'multiColor'}
     title=ET.SubElement(resources,'Translation',name='watchfaceName')
     for language in LANGUAGES:ET.SubElement(title,'Item',language=language,str=project.name)
@@ -242,6 +257,10 @@ def metadata(project,screens,nodes,face_id):
         el=ET.SubElement(resources,node['tag'],name=name,**attrs)
         if node['tag']=='Image':
             path=f'studio/{name}.png';el.set('src',path);files['resources/'+path]=node['bitmap']
+        elif node['tag']=='App':
+            path=node['attrs']['src']
+            if path in files and files[path]!=node['app']:raise ValueError('Risorsa Lua condivisa incoerente.')
+            files[path]=node['app']
         elif node['tag']=='ImageArray':
             for n,b in enumerate(node['bitmaps']):
                 path=f'studio/{name}_{n}.png';ET.SubElement(el,'Image',src=path);files['resources/'+path]=b
@@ -280,8 +299,8 @@ def metadata(project,screens,nodes,face_id):
         if node['tag']=='Translation':editor['i18n']['translations'][uid_name(uid)]={language:node['text'] for language in LANGUAGES}
     ET.indent(manifest);files['resources/manifest.xml']=ET.tostring(manifest,encoding='utf-8',xml_declaration=True)
     files['editor.config.json']=json.dumps(editor,ensure_ascii=False,indent=2).encode();files['uidmap.map']=('\n'.join(mapping)+'\n').encode()
-    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 0.8','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
-         'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith('resources/studio/')},
+    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 0.10','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
+         'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','app/lua/'))},
          'metadataHashes':{k:hashlib.sha256(files[k]).hexdigest() for k in ('resources/manifest.xml','editor.config.json','uidmap.map')},
          'hardwareVerified':False},ensure_ascii=False,indent=2).encode()
     return files

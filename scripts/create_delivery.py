@@ -24,7 +24,7 @@ for title,include_exe in [('S5Studio-0.8-sorgenti.zip',False),('S5Studio-0.8-Win
         assert not any('Compiler.exe' in n or 'S5_Custom_digital_original.mwz' in n for n in z.namelist())
 manifest={'version':'0.8.0','hardwareVerified':False,'priorDigitalBuildHardwareSuccessReported':True,'analog05HardwareSuccessReported':True,'analog05Evidence':'data/hardware-tests/analogico-05-superato.json','templateRequired':'quadrante_funzionante.zip (file locale fornito dall’utente, non incluso negli archivi)',
           'analog04HardwareTestFailed':True,'sourcesObserved':58,'handPresets':595,'smallHandPresets':108,'modelsWithShadows':407,'uniqueMotherBitmaps':526,'userDerivedAssets':'Librerie personali dai quadranti forniti: diritti dei rispettivi autori, non una licenza di redistribuzione.',
-          'validationReport':'docs/validation-editor-0.8.json','executableValidation':'docs/executable-build-0.8.json','pytestPassed':65,'date':'2026-10-07',
+          'validationReport':'docs/validation-editor-0.8.json','executableValidation':'docs/executable-build-0.8.json','pytestPassed':66,'date':'2026-10-07',
           'artifacts':{p.name:{'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in [root/'S5Studio-0.8.exe',root/'S5_Studio_Lancette_0.8_TEMPLATE.zip',output/'S5Studio-0.8-sorgenti.zip',output/'S5Studio-0.8-Windows-portabile.zip']}}
 (output/'manifest-0.8.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
 (output/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')

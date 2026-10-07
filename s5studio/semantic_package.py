@@ -65,6 +65,9 @@ def validate_semantics(z):
                     values=[int(n.get('value')) for n in node]
                     if len(b)!=16+4*len(values) or list(struct.unpack_from('<'+'i'*len(values),b,16))!=values:raise ValueError('Mappa valori/icone diversa dal binario.')
                 if node.tag=='DataItemPointer':
+                    period=struct.unpack_from('<H',b,6)[0]
+                    if node.get('pointerFps') is not None and (int(node.get('parameter'))!=period or int(node.get('pointerFps'))!=1000//period):
+                        raise ValueError('Frequenza lancetta diversa dal binario.')
                     if tuple(int(node.get(k)) for k in ('pivotX','pivotY'))!=struct.unpack_from('<HH',b,20):raise ValueError('Pivot lancetta diverso dal binario.')
                     if tuple(round(float(node.get(k))*10) for k in ('angleStart','angleRange'))!=struct.unpack_from('<hh',b,24):raise ValueError('Rotazione lancetta diversa dal binario.')
                     for attr,pos in (('valueStart',12),('valueRange',16)):
@@ -85,9 +88,24 @@ def validate_semantics(z):
                     with Image.open(BytesIO(z.read('resources/'+path))) as image:
                         image.load()
                         if image.size!=struct.unpack_from('<HH',b,4):raise ValueError('Dimensioni bitmap/metadati diverse dal binario.')
+            if index==5:
+                from .lua_runtime import unpack_app
+                app_name,content=unpack_app(b)
+                if node.tag!='App' or node.get('src')!='app/'+app_name or z.read('app/'+app_name)!=content:
+                    raise ValueError('Script/risorsa Lua diversi dal binario.')
     schema=json.loads(z.read('s5studio-schema.json'))
     for path,digest in {**schema['resourceFiles'],**schema['metadataHashes'],**schema['previewFiles']}.items():
         if hashlib.sha256(z.read(path)).hexdigest()!=digest:raise ValueError('Risorsa/anteprima modificata dopo la compilazione: '+path)
+    if 'build-report.json' in z.namelist():
+        from .model import Project,Element
+        from .lua_runtime import interaction_report
+        d=schema['project'];project=Project(elements=[Element.from_dict(e) for e in d['elements']],variants=d['variants'])
+        expected=interaction_report(project,data,z.read('resources/manifest.xml'))
+        report=json.loads(z.read('build-report.json'))
+        from .motion import native_motion_report
+        if report.get('binarySha256')!=info['sha256'] or report.get('interactive')!=expected or report.get('secondsMotion')!=native_motion_report(data):
+            raise ValueError('Rapporto interattività diverso dal contenuto del pacchetto.')
+    elif manifest.get('interactive')=='true':raise ValueError('Rapporto build interattiva mancante.')
     return info
 
 def validate_package(template,output,expected=None):
@@ -96,7 +114,7 @@ def validate_package(template,output,expected=None):
         old=archive_members(base);new=archive_members(actual)
         if set(old)-set(new):raise ValueError('File del template eliminati.')
         additions=set(new)-set(old)
-        if any(n!='s5studio-schema.json' and not n.startswith('resources/studio/') for n in additions):raise ValueError('Aggiunta estranea al packaging Studio.')
+        if any(n not in ('s5studio-schema.json','build-report.json') and not n.startswith(('resources/studio/','app/lua/')) for n in additions):raise ValueError('Aggiunta estranea al packaging Studio.')
         original_records=local_records(base,Path(template).read_bytes());new_records=local_records(actual,Path(output).read_bytes())
         preserved=0
         for name,item in old.items():

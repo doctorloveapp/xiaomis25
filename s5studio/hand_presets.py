@@ -8,7 +8,9 @@ def clear_hand_changes(hand,asset=''):
     return {hand+'_asset':asset,hand+'_anchor_x':-1,hand+'_anchor_y':-1,
             hand+'_preset':'',hand+'_shadow_asset':'',
             hand+'_shadow_anchor_x':-1,hand+'_shadow_anchor_y':-1,
-            hand+'_shadow_offset_x':0,hand+'_shadow_offset_y':0}
+            hand+'_shadow_offset_x':0,hand+'_shadow_offset_y':0,
+            hand+'_length_adjusted':False,hand+'_width_adjusted':False,
+            hand+'_pivot_reference_x':-1,hand+'_pivot_reference_y':-1}
 
 def preset_changes(project,element,root,preset,hand,presets):
     if hand not in HANDS or element.kind not in ('analog','pointer'):
@@ -31,7 +33,10 @@ def preset_changes(project,element,root,preset,hand,presets):
     changes={}
     for role,item in chosen.items():
         changes.update(clear_hand_changes(role,import_bitmap(item)))
-        changes.update({role+'_preset':item['id'],role+'_anchor_x':item['pivot'][0],role+'_anchor_y':item['pivot'][1]})
+        changes.update({role+'_preset':item['id'],role+'_anchor_x':item['pivot'][0],role+'_anchor_y':item['pivot'][1],
+                        role+'_pivot_reference_x':item['pivot'][0],role+'_pivot_reference_y':item['pivot'][1],
+                        role+'_length_adjusted':getattr(element,role+'_length_adjusted'),
+                        role+'_width_adjusted':getattr(element,role+'_width_adjusted')})
         shadow=item.get('shadow')
         if shadow:
             changes.update({role+'_shadow_asset':import_bitmap(shadow),

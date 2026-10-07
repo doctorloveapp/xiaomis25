@@ -11,9 +11,13 @@ if (-not $python) {
 }
 # Desktop distribution only. Watchface ZIP surgery is implemented by
 # s5studio/semantic_package.py and is shared by the GUI and apply-template CLI.
-# Keep data/ alongside the EXE: the user's preset library is external.
+# The private 0.10 runtime includes the supplied personal catalogs/template and
+# the locally verified compiler. No project/recovery/corpus/ADB is bundled.
 & $python -X utf8 main.py template-info --report (Join-Path $projectRoot 'docs/template-build-profile.json') | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Template funzionante mancante o modificato.' }
 if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'frontend/tailwind.css'))) { throw 'CSS Tailwind mancante: esegui npm ci e npm run build nella cartella frontend.' }
-& $python -m PyInstaller --noconfirm --onefile --windowed --name S5Studio-0.8 --add-data "$projectRoot/frontend/index.html;frontend" --add-data "$projectRoot/frontend/app.js;frontend" --add-data "$projectRoot/frontend/editor-controls.js;frontend" --add-data "$projectRoot/frontend/studio.css;frontend" --add-data "$projectRoot/frontend/tailwind.css;frontend" --distpath $projectRoot --workpath (Join-Path $projectRoot 'build/pyinstaller-0.8') --specpath (Join-Path $projectRoot 'build') main.py
+& $python -X utf8 (Join-Path $PSScriptRoot 'prepare_runtime.py')
+if ($LASTEXITCODE -ne 0) { throw 'Runtime incompleto: packaging interrotto.' }
+$runtime = Join-Path $projectRoot 'build/runtime-0.10'
+& $python -m PyInstaller --noconfirm --onefile --windowed --name S5Studio-0.10 --add-data "$runtime;." --distpath $projectRoot --workpath (Join-Path $projectRoot 'build/pyinstaller-0.10') --specpath (Join-Path $projectRoot 'build') main.py
 if ($LASTEXITCODE -ne 0) { throw 'Creazione eseguibile fallita.' }

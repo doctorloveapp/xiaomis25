@@ -1,0 +1,870 @@
+{
+  "status": "passed",
+  "date": "2026-10-07",
+  "executable": "S5Studio-0.8.exe",
+  "executableSha256": "7407c797e5e48060fb9e849af13f70d6692528fcd0a3b25de7c0659d149d562f",
+  "embeddedFrontendIdentical": {
+    "index.html": "5d3ebaea90ea3f6e8b162b6b4814be1ef3dbb0a581de4d0dc3668a4a1b2b6c15",
+    "app.js": "92ec07376fc55933a69a32d70efd6074674bf3cc0c4fc9e445f5d48ab33a7ebb",
+    "editor-controls.js": "450afe676d2c87c57463cc72571d40f2b610196cbd49868cb590ec9ab20ee498",
+    "studio.css": "4d67a9afac1d153dc12e5dc9f2e4ee41e0efed91192bf6aaefcd61fade2cd8ee",
+    "tailwind.css": "2d32cfca31763ed0fc6aa935a3086397be12fedad99233fcb77f528040680e94"
+  },
+  "ui": [
+    "startup-window-maximized",
+    "page-loaded",
+    "QWebChannel",
+    "add-variant",
+    "five-independent-slots",
+    "58-unique-sources-plus-none",
+    "canvas-drag",
+    "DOM-undo",
+    "DOM-colour-change",
+    "DOM-hand-preset",
+    "DOM-slot-choice-preview",
+    "preview-decoded",
+    "screenshot",
+    "dropdown-hover-does-not-commit",
+    "dropdown-hover-highlights-without-selection",
+    "dropdown-click-commits",
+    "all-native-selects-replaced",
+    "header-Version-0.8",
+    "hour-model-auto-pairs-matching-set",
+    "shadow-visibility-checkbox",
+    "empty-hand-preview-has-no-image-src",
+    "hand-hover-shows-both-previews-without-commit",
+    "hand-preview-restores-on-menu-close",
+    "hand-model-requires-explicit-apply",
+    "individual-hour-minute-second-colours",
+    "image-opacity-percentage",
+    "image-resize-handle-keeps-aspect",
+    "image-fit-watch-rim",
+    "image-scale-beyond-480",
+    "oversized-image-negative-canvas-drag",
+    "arrow-keys-accumulate-one-pixel",
+    "shift-arrows-ten-pixels",
+    "arrows-preserve-input-editing",
+    "center-oversized-image",
+    "new-complication-is-value-only-layer",
+    "complication-canvas-drag",
+    "layer-drag-reorder",
+    "delete-layer-row",
+    "undo-deletion",
+    "arrow-keys-move-complication-and-small-pointer",
+    "small-pointer-layer-and-live-source",
+    "delete-key-preserves-editing",
+    "delete-key-removes-selected-layer",
+    "every-save-button-click-asks-filename",
+    "save-cancel-preserves-path-and-dirty"
+  ],
+  "handCatalog": {
+    "status": "passed",
+    "watchfaces": 39,
+    "pointerNodes": 1310,
+    "models": 595,
+    "smallModels": 108,
+    "modelsWithShadows": 407,
+    "roles": {
+      "hour": 194,
+      "minute": 191,
+      "second": 114,
+      "indicator": 96
+    }
+  },
+  "sourceAndExecutableBinaryIdentical": true,
+  "binarySha256": "62770b291e35c2ee5d73e53d7e29accaa8c4a1cfeb68849b329b79b985e44719",
+  "originalProjectAssetsPreserved": true,
+  "smallHandPivotsAndShadows": [
+    {
+      "style": 1,
+      "element": "Secondi piccoli",
+      "shadow": true,
+      "pivot": [
+        8,
+        45
+      ],
+      "size": [
+        18,
+        49
+      ]
+    },
+    {
+      "style": 1,
+      "element": "Secondi piccoli",
+      "shadow": false,
+      "pivot": [
+        6,
+        43
+      ],
+      "size": [
+        14,
+        44
+      ]
+    },
+    {
+      "style": 1,
+      "element": "Minuti piccoli",
+      "shadow": true,
+      "pivot": [
+        6,
+        44
+      ],
+      "size": [
+        13,
+        45
+      ]
+    },
+    {
+      "style": 1,
+      "element": "Minuti piccoli",
+      "shadow": false,
+      "pivot": [
+        5,
+        43
+      ],
+      "size": [
+        12,
+        44
+      ]
+    },
+    {
+      "style": 1,
+      "element": "Batteria piccola",
+      "shadow": true,
+      "pivot": [
+        4,
+        44
+      ],
+      "size": [
+        9,
+        46
+      ]
+    },
+    {
+      "style": 1,
+      "element": "Batteria piccola",
+      "shadow": false,
+      "pivot": [
+        3,
+        43
+      ],
+      "size": [
+        7,
+        44
+      ]
+    },
+    {
+      "style": 2,
+      "element": "Secondi piccoli",
+      "shadow": true,
+      "pivot": [
+        8,
+        45
+      ],
+      "size": [
+        18,
+        49
+      ]
+    },
+    {
+      "style": 2,
+      "element": "Secondi piccoli",
+      "shadow": false,
+      "pivot": [
+        6,
+        43
+      ],
+      "size": [
+        14,
+        44
+      ]
+    },
+    {
+      "style": 2,
+      "element": "Minuti piccoli",
+      "shadow": true,
+      "pivot": [
+        6,
+        44
+      ],
+      "size": [
+        13,
+        45
+      ]
+    },
+    {
+      "style": 2,
+      "element": "Minuti piccoli",
+      "shadow": false,
+      "pivot": [
+        5,
+        43
+      ],
+      "size": [
+        12,
+        44
+      ]
+    },
+    {
+      "style": 2,
+      "element": "Batteria piccola",
+      "shadow": true,
+      "pivot": [
+        4,
+        44
+      ],
+      "size": [
+        9,
+        46
+      ]
+    },
+    {
+      "style": 2,
+      "element": "Batteria piccola",
+      "shadow": false,
+      "pivot": [
+        3,
+        43
+      ],
+      "size": [
+        7,
+        44
+      ]
+    },
+    {
+      "style": 3,
+      "element": "Secondi piccoli",
+      "shadow": true,
+      "pivot": [
+        8,
+        45
+      ],
+      "size": [
+        18,
+        49
+      ]
+    },
+    {
+      "style": 3,
+      "element": "Secondi piccoli",
+      "shadow": false,
+      "pivot": [
+        6,
+        43
+      ],
+      "size": [
+        14,
+        44
+      ]
+    },
+    {
+      "style": 3,
+      "element": "Minuti piccoli",
+      "shadow": true,
+      "pivot": [
+        6,
+        44
+      ],
+      "size": [
+        13,
+        45
+      ]
+    },
+    {
+      "style": 3,
+      "element": "Minuti piccoli",
+      "shadow": false,
+      "pivot": [
+        5,
+        43
+      ],
+      "size": [
+        12,
+        44
+      ]
+    },
+    {
+      "style": 3,
+      "element": "Batteria piccola",
+      "shadow": true,
+      "pivot": [
+        4,
+        44
+      ],
+      "size": [
+        9,
+        46
+      ]
+    },
+    {
+      "style": 3,
+      "element": "Batteria piccola",
+      "shadow": false,
+      "pivot": [
+        3,
+        43
+      ],
+      "size": [
+        7,
+        44
+      ]
+    },
+    {
+      "style": 4,
+      "element": "Secondi piccoli",
+      "shadow": true,
+      "pivot": [
+        8,
+        45
+      ],
+      "size": [
+        18,
+        49
+      ]
+    },
+    {
+      "style": 4,
+      "element": "Secondi piccoli",
+      "shadow": false,
+      "pivot": [
+        6,
+        43
+      ],
+      "size": [
+        14,
+        44
+      ]
+    },
+    {
+      "style": 4,
+      "element": "Minuti piccoli",
+      "shadow": true,
+      "pivot": [
+        6,
+        44
+      ],
+      "size": [
+        13,
+        45
+      ]
+    },
+    {
+      "style": 4,
+      "element": "Minuti piccoli",
+      "shadow": false,
+      "pivot": [
+        5,
+        43
+      ],
+      "size": [
+        12,
+        44
+      ]
+    },
+    {
+      "style": 4,
+      "element": "Batteria piccola",
+      "shadow": true,
+      "pivot": [
+        4,
+        44
+      ],
+      "size": [
+        9,
+        46
+      ]
+    },
+    {
+      "style": 4,
+      "element": "Batteria piccola",
+      "shadow": false,
+      "pivot": [
+        3,
+        43
+      ],
+      "size": [
+        7,
+        44
+      ]
+    },
+    {
+      "style": 5,
+      "element": "Secondi piccoli",
+      "shadow": true,
+      "pivot": [
+        8,
+        45
+      ],
+      "size": [
+        18,
+        49
+      ]
+    },
+    {
+      "style": 5,
+      "element": "Secondi piccoli",
+      "shadow": false,
+      "pivot": [
+        6,
+        43
+      ],
+      "size": [
+        14,
+        44
+      ]
+    },
+    {
+      "style": 5,
+      "element": "Minuti piccoli",
+      "shadow": true,
+      "pivot": [
+        6,
+        44
+      ],
+      "size": [
+        13,
+        45
+      ]
+    },
+    {
+      "style": 5,
+      "element": "Minuti piccoli",
+      "shadow": false,
+      "pivot": [
+        5,
+        43
+      ],
+      "size": [
+        12,
+        44
+      ]
+    },
+    {
+      "style": 5,
+      "element": "Batteria piccola",
+      "shadow": true,
+      "pivot": [
+        4,
+        44
+      ],
+      "size": [
+        9,
+        46
+      ]
+    },
+    {
+      "style": 5,
+      "element": "Batteria piccola",
+      "shadow": false,
+      "pivot": [
+        3,
+        43
+      ],
+      "size": [
+        7,
+        44
+      ]
+    }
+  ],
+  "clockHandPivotsAndShadows": [
+    {
+      "style": 1,
+      "hand": "hour",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 1,
+      "hand": "minute",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 1,
+      "hand": "second",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        249
+      ]
+    },
+    {
+      "style": 1,
+      "hand": "hour",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 1,
+      "hand": "minute",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 1,
+      "hand": "second",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 2,
+      "hand": "hour",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 2,
+      "hand": "minute",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 2,
+      "hand": "second",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        249
+      ]
+    },
+    {
+      "style": 2,
+      "hand": "hour",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 2,
+      "hand": "minute",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 2,
+      "hand": "second",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 3,
+      "hand": "hour",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 3,
+      "hand": "minute",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 3,
+      "hand": "second",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        249
+      ]
+    },
+    {
+      "style": 3,
+      "hand": "hour",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 3,
+      "hand": "minute",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 3,
+      "hand": "second",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 4,
+      "hand": "hour",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 4,
+      "hand": "minute",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        248
+      ]
+    },
+    {
+      "style": 4,
+      "hand": "second",
+      "shadow": true,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        249
+      ]
+    },
+    {
+      "style": 4,
+      "hand": "hour",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 4,
+      "hand": "minute",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 4,
+      "hand": "second",
+      "shadow": false,
+      "pivot": [
+        30,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 5,
+      "hand": "hour",
+      "shadow": true,
+      "pivot": [
+        33,
+        240
+      ],
+      "worldCentre": [
+        240,
+        250
+      ]
+    },
+    {
+      "style": 5,
+      "hand": "minute",
+      "shadow": true,
+      "pivot": [
+        33,
+        240
+      ],
+      "worldCentre": [
+        240,
+        250
+      ]
+    },
+    {
+      "style": 5,
+      "hand": "second",
+      "shadow": true,
+      "pivot": [
+        33,
+        240
+      ],
+      "worldCentre": [
+        240,
+        252
+      ]
+    },
+    {
+      "style": 5,
+      "hand": "hour",
+      "shadow": false,
+      "pivot": [
+        33,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 5,
+      "hand": "minute",
+      "shadow": false,
+      "pivot": [
+        33,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    },
+    {
+      "style": 5,
+      "hand": "second",
+      "shadow": false,
+      "pivot": [
+        33,
+        240
+      ],
+      "worldCentre": [
+        240,
+        240
+      ]
+    }
+  ],
+  "compiledBitmapCountWithin480": 1275,
+  "old06ProjectBuildPassed": true,
+  "old06NewBinarySha256": "2e12c099c8e6b71ec17196305b9741d8b4c504f9d9d3141749e0f006fec44bd6",
+  "screenCount": 10,
+  "simultaneousSlots": 5,
+  "nativeSlotInstances": 25,
+  "all58SourcesPerSlotValidation": "passed",
+  "hardwareTested": false,
+  "buildReport": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\build\\executable-0.8\\hands\\S5_Studio_Lancette-708008001-20261007-150037\\build-report.json"
+}

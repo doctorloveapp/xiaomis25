@@ -46,7 +46,8 @@ def option_project(slot,key):
         from .watchface_library import library
         import sys
         from pathlib import Path
-        root=Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parents[1]
+        from .paths import resource_root
+        root=resource_root()
         frames={}
         for value,icon in library().get('weatherIcons',{}).items():
             raw=(root/icon['path']).read_bytes();name='assets/'+hashlib.sha256(raw).hexdigest()[:24]+'.png';p.assets[name]=raw;frames[value]=name

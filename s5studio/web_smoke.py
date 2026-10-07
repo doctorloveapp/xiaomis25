@@ -79,7 +79,12 @@ def smoke(screenshot: Path):
     else:raise ValueError('La simulazione della complicazione non aggiorna la preview.')
     from .editor_smoke import verify_editor
     editor_checks=verify_editor(w,app)
+    from .precision_smoke import verify_precision
+    editor_checks+=verify_precision(w,app)
+    from .multi_smoke import verify_multi
+    editor_checks+=verify_multi(w,app)
     screenshot=Path(screenshot);screenshot.parent.mkdir(parents=True,exist_ok=True)
+    w.view.page().runJavaScript('document.getElementById("workspace").scrollTop=0;document.getElementById("inspector").scrollTop=0;true')
     # Let asynchronous PNG decoding and compositor catch up before grabbing.
     deadline=time.monotonic()+.7
     while time.monotonic()<deadline:app.processEvents()
