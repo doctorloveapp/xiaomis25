@@ -1,0 +1,14 @@
+[
+  {
+    "event": "finished_build",
+    "elapsed": 6.974,
+    "isRunning": false,
+    "error": "",
+    "busyInState": false
+  },
+  {
+    "event": "QThread.finished",
+    "elapsed": 8.251,
+    "isRunning": false
+  }
+]

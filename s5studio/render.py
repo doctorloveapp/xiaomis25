@@ -313,6 +313,7 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
         if e.kind in ('pointer','compass'):
             from .motion import LUA_SOURCES, lua_value
             value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in LUA_SOURCES else values.get(e.source)
+            if e.source=='studioDecisecond':value=e.value_start+value/10*e.value_range
             if e.smooth_seconds and e.source in ('second','timeSecond') and value is not None:value=(value+values.get('__secondFraction',0))%60
             fraction=0 if value is None else max(0,min(1,(float(value)-e.value_start)/e.value_range))
             hands=[('second',e.angle_start+fraction*e.angle_range)]

@@ -366,6 +366,11 @@ def export_local_test_zip(p: Project, data: bytes, target: Path) -> dict:
 
 
 def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None, *, template_path: Path | None=None) -> Path:
+    started=time.perf_counter();stages=[];notify=progress
+    def progress(message):
+        stages.append({'stage':message,'elapsedSeconds':round(time.perf_counter()-started,3)})
+        notify(message)
+    progress('Preparazione del progetto e controllo del compilatore…')
     from .template_package import resolve_template, template_profile, template_identity, apply_template
     template_path=resolve_template(template_path)
     template_info=template_profile(template_path)
@@ -428,6 +433,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
             failure.write_text(log,encoding="utf-8")
             raise ValueError(f"Compilazione fallita. Log: {failure}\n{log[-1800:]}")
         original=raw.read_bytes()
+        progress('Compilazione principale completata; preparazione delle risorse…')
         if original[40:49]!=b'167210065' or original[49]!=0:
             raise ValueError('Campo ID del compilatore diverso dal valore predefinito verificato.')
         data=template_identity(original,p.face_id)
@@ -473,7 +479,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'0.10',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'0.11',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -491,11 +497,12 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         (bundle/"compiler.log").write_text(log,encoding="utf-8")
         previews=[png_bytes(render(p.variant_project(i))) for i in range(max(1,len(p.variants)))]
         from .semantic_package import package
+        progress('Creazione ZIP e validazione del pacchetto finale…')
         packaged=package(template_path,data,previews[0],bundle/f'{label}_TEMPLATE.zip',
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"0.10","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"0.11","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -516,8 +523,20 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         (bundle/"LEGGIMI.txt").write_text(TRANSFER_GUIDE,encoding="utf-8")
         # Publish with the destination's inherited ACLs. Moving a directory out of
         # Python 3.13's private Windows temp directory retains restrictive ACLs.
+        progress('Salvataggio del ZIP verificato nella cartella scelta…')
+        publish_started=time.perf_counter()
         shutil.copytree(bundle,final)
-    progress("Compilazione completata. Prova sul dispositivo ancora da registrare.")
+        published=time.perf_counter()
+        progress('Pulizia dei file temporanei…')
+        cleanup_started=time.perf_counter()
+    ready=time.perf_counter()
+    report['exportTiming']={'totalReadySeconds':round(ready-started,3),
+                          'fileReadySeconds':round(published-started,3),
+                          'publishSeconds':round(published-publish_started,3),
+                          'cleanupSeconds':round(ready-cleanup_started,3),
+                          'stages':stages}
+    (final/'build-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
+    progress(f'Compilazione completata in {ready-started:.1f} s. ZIP verificato pronto.')
     return final
 
 
@@ -570,13 +589,14 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 0.9 — PROVA SUL WATCH S5
+TRANSFER_GUIDE = """S5 STUDIO 0.11 — PROVA SUL WATCH S5
 
 Build compilata per M2530W1, target EasyFace 562, e controllata sul PC.
 La prova analogica 0.5 ha superato installazione, cambio stili e scelta
-complicazioni secondo l'utente. Questa build amplia i modelli delle lancette,
-abbina set e ombre e corregge i perni delle lancette piccole: queste modifiche
-richiedono la prova del nuovo quadrante sul dispositivo.
+complicazioni secondo l'utente. Il movimento fluido della 0.10 è stato
+confermato sul S5; decimi e cronografo della 0.10 restavano fermi.
+Questa build corregge il runtime Lua e la gestione di fine esportazione.
+I nuovi decimi e il cronografo richiedono la prova sul dispositivo.
 
 1. Copia *_TEMPLATE.zip sul telefono senza estrarlo.
 2. Apri Local watchfaces uploader con S5 connesso e sincronizzato.
@@ -588,6 +608,11 @@ richiedono la prova del nuovo quadrante sul dispositivo.
    Scegli due dati diversi per verificare che le selezioni siano indipendenti.
 6. Controlla anteprima sull'orologio, ore/minuti/secondi, pulsazioni/passi
    rispetto alle schermate di sistema, meteo sincronizzato e AOD dopo sleep/wake.
+7. Decimi: scala consigliata 0/10 e rotazione 360°. L'animazione completa
+   la rotazione configurata ogni secondo, anche con un vecchio intervallo 60.
+8. Crono: tap sul quadrante per Avvia, Ferma, Azzera. Il fallback os.time
+   ha precisione di un secondo e risente di cambi dell'ora. Stato locale
+   alla VM Lua, senza collegamento al cronometro di sistema.
 
 La lista locale della mod può ancora mostrare nome generico o nessuna immagine:
 questo comportamento è stato osservato anche col pacchetto originale.
@@ -608,4 +633,6 @@ sorgenti-easyface: FPRJ, bitmap, studio.s5faceproj e manifest di riproduzione.
 apply-template sul FPRJ Studio riconosce questi sorgenti e ricostruisce anche
 stili e complicazioni; modifiche manuali ai sorgenti vengono rilevate.
 build-report.json e compiler.log: evidenze tecniche e limiti della prova.
+exportTiming nel report esterno: tempi delle fasi, pubblicazione e pulizia;
+dall'editor include anche il ritardo della notifica di fine nella UI.
 """

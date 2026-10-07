@@ -83,6 +83,8 @@ def smoke(screenshot: Path):
     editor_checks+=verify_precision(w,app)
     from .multi_smoke import verify_multi
     editor_checks+=verify_multi(w,app)
+    from .export_smoke import verify_export
+    editor_checks+=verify_export(w,app)
     screenshot=Path(screenshot);screenshot.parent.mkdir(parents=True,exist_ok=True)
     w.view.page().runJavaScript('document.getElementById("workspace").scrollTop=0;document.getElementById("inspector").scrollTop=0;true')
     # Let asynchronous PNG decoding and compositor catch up before grabbing.

@@ -1,10 +1,20 @@
-# S5 Studio 0.10
+# S5 Studio 0.11
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-0.10.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-0.11.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Novità 0.11
+
+- Esportazione: notifica collegata alla reale fine del worker, pulsante riabilitato anche dopo errori, aggiornamento finale senza render di tutte le anteprime. L’animazione della UI è sospesa durante la build e usa intervalli dopo il render. Il report esterno registra tempi delle fasi, pubblicazione, pulizia e ritardo della notifica UI.
+- Decimi: animazione LVGL ciclica da 1000 ms, indipendente da `tick_get` e `/proc/uptime`. Anche un vecchio intervallo 60 copre la rotazione configurata in un secondo; scala consigliata 0/10 e rotazione 360°.
+- Cronografo: tap esteso al quadrante e fallback `os.time` se i clock monotoni non sono disponibili. Questo fallback ha precisione di un secondo e risente della sincronizzazione dell’ora. Il runtime deve comunque essere verificato sul dispositivo.
+
+**Test reale della 0.10:** movimento fluido superato; decimi fermi e cronografo non avviato, secondo l’utente. La disponibilità del clock sul firmware non è stata misurata. Nella prova PC con una copia NASA la build ha richiesto circa 7,2 s: il ritardo oltre un minuto non è stato riprodotto. Le correzioni 0.11 richiedono un nuovo test hardware. Dettagli: [EDITOR_0.11.md](docs/EDITOR_0.11.md).
+
+Verifica PC: 90 test della suite completa e 14 test mirati dopo l’ultimo feedback sul tap (91 test distinti); 84 controlli nell’editor, senza prova EXE isolata. [Rapporto](docs/validation-editor-0.11.json). Il runtime gestisce anche un tap durante una pausa temporanea, senza nascondere esplicitamente le lancette; i tocchi in AOD vengono ignorati.
 
 ## Novità 0.10
 
@@ -14,7 +24,7 @@ Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e
 - ZIP con `build-report.json`: hash degli script incorporati nel binario, interattività verificata, frequenze native e controllo AOD. `interactive=true` solo con componenti Lua.
 - EXE personale autonomo, con runtime Lua incorporato. Nessun nuovo quadrante dimostrativo consegnato.
 
-**Cronografo e decimi: compilazione e logica verificate sul PC; esecuzione sul firmware S5 ancora da provare.** Sono richiesti un clock monotono accessibile e una VM condivisa fra i sottoquadranti. Senza clock il cronografo resta azzerato. Durante AOD il disegno e il timer sono sospesi, mentre il tempo trascorso continua. Cambio quadrante o nuova VM azzerano il conteggio. Non è collegato all’app cronometro dell’orologio.
+**Cronografo e decimi 0.10: verificati sul PC, ma il successivo test firmware è fallito. Vedere le correzioni 0.11 sopra.** Sono richiesti un clock monotono accessibile e una VM condivisa fra i sottoquadranti. Senza clock il cronografo resta azzerato. Durante AOD il disegno e il timer sono sospesi, mentre il tempo trascorso continua. Cambio quadrante o nuova VM azzerano il conteggio. Non è collegato all’app cronometro dell’orologio.
 
 Verifica finale 0.10: **85 test passati**, **81 controlli UI nell’EXE**, **707 risorse incorporate verificate** e compilazione isolata senza tool esterni; il binario Lua con due stili e AOD coincide con quello prodotto dai sorgenti. Rapporti: [validation-editor-0.10.json](docs/validation-editor-0.10.json), [executable-build-0.10.json](docs/executable-build-0.10.json).
 
@@ -85,7 +95,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-0.9.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-0.11.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.
@@ -120,4 +130,4 @@ python main.py validate-template quadrante_funzionante.zip S5_Analogico_Libero_0
 
 `apply-template` riconosce i FPRJ esportati da Studio e ricostruisce anche stili/slot dal progetto incorporato, controllando gli hash dei sorgenti. Per FPRJ esterni supporta immagini, cifre, liste di immagini e lancette; altri widget sono rifiutati quando non è possibile rigenerare metadati coerenti.
 
-CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 707 file tramite `scripts/prepare_runtime.py`. Verifica dell’eseguibile isolato: `scripts/verify_executable_010.py`. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 0.10 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
+CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 707 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 0.11 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).

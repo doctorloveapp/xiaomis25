@@ -1,0 +1,37 @@
+{
+  "applicationVersion": "0.10",
+  "date": "2026-10-07",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "source": "user-reported physical tests in conversation",
+  "nativeSecondsSweep": {
+    "status": "passed",
+    "pointerFps": 25
+  },
+  "decisecond": {
+    "status": "failed",
+    "observed": "hand remains at zero",
+    "projectCompiled": "Quadranti Compilati/NASA_S5_new-793822443-20261007-192352",
+    "retainedValueRange": 60
+  },
+  "chrono": {
+    "status": "failed",
+    "observed": "tap does not start any small hand",
+    "project": "projects/NASA_S5_new_crono.s5faceproj",
+    "tapTested": "Both subdial and centre, explicitly confirmed by user",
+    "smallTapAreaExplainsFailure": false,
+    "touchObservation": "Small hands disappear while holding the screen and return at release; chrono does not start",
+    "lifecycleHypothesis": "Temporary Lua page pause may hide the roots and discard the event; actual firmware event order not measured"
+  },
+  "firmwareClockAvailability": {
+    "status": "not-measured",
+    "absence": "hypothesis, not proven"
+  },
+  "exportDelay": {
+    "reported": "more than one minute in app; ZIP already exists after a few seconds",
+    "reproducedOnPC": false,
+    "measuredBuildSeconds": 7.2,
+    "measuredCleanupSeconds": 0.03
+  },
+  "correctionsVersion": "0.11",
+  "correctionsHardwareVerified": false
+}

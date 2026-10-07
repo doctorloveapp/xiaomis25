@@ -1,0 +1,19 @@
+{
+  "projectInput": "Quadranti Compilati\\NASA_S5_new-793822443-20261007-192352\\NASA_S5_new.s5faceproj",
+  "observed": [
+    {
+      "phase": "publish",
+      "elapsed": 7.169,
+      "seconds": 0.065
+    },
+    {
+      "phase": "cleanup",
+      "seconds": 0.03
+    },
+    {
+      "phase": "cleanup",
+      "seconds": 0.012
+    }
+  ],
+  "hardwareTest": "user-reported-sweep-passed-decisecond-static-chrono-pending"
+}

@@ -23,15 +23,17 @@ from .paths import application_root,resource_root,user_data_root,default_compile
 
 class BuildTask(QThread):
     progress=Signal(str)
-    finished_build=Signal(str,str)
 
     def __init__(self,project,compiler,destination):
         super().__init__()
         self.project=project.copy();self.compiler=compiler;self.destination=destination
+        self.output='';self.error=''
+        self.ready_at=None
 
     def run(self):
-        try:self.finished_build.emit(str(build(self.project,self.compiler,self.destination,self.progress.emit)),'')
-        except Exception as exc:self.finished_build.emit('',str(exc))
+        try:self.output=str(build(self.project,self.compiler,self.destination,self.progress.emit))
+        except Exception as exc:self.error=str(exc)
+        finally:self.ready_at=time.perf_counter()
 
 
 class LocalPage(QWebEnginePage):
@@ -55,7 +57,9 @@ class StudioBridge(QObject):
         self.state_sequence=0
         self.compiler=default_compiler()
         self.chrono_state='reset';self.chrono_elapsed=0;self.chrono_started=0;self.motion_preview=False;self.motion_started=0
-        self.motion_timer=QTimer(self);self.motion_timer.setInterval(100);self.motion_timer.timeout.connect(self.preview_tick)
+        # Wait after rendering instead of keeping a permanently overdue timer
+        # when a large imported bitmap costs more than the frame interval.
+        self.motion_timer=QTimer(self);self.motion_timer.setInterval(200);self.motion_timer.setSingleShot(True);self.motion_timer.timeout.connect(self.preview_tick)
         self.hand_presets=[]
         from PIL import Image
         from io import BytesIO
@@ -97,10 +101,10 @@ class StudioBridge(QObject):
         from .motion import excluded_from_aod
         lua_sources={k:v[0] for k,v in LUA_SOURCES.items()}
         source_descriptions.update({
-            'studioDecisecond':'Decimi da 0 a 9: intervallo 10 e rotazione 360°, un giro ogni secondo (1 Hz). Runtime Lua; esclusa in AOD.',
-            'studioChronoHour':'Ore trascorse del cronografo su 12 ore. Tap sul sottoquadrante: Avvia → Ferma → Azzera. Le lancette Crono condividono il conteggio. Lua da verificare sul S5.',
-            'studioChronoMinute':'Minuti trascorsi del cronografo (0–59). Tap sul sottoquadrante: Avvia → Ferma → Azzera. Esclusa in AOD.',
-            'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Tap sul sottoquadrante: Avvia → Ferma → Azzera. Esclusa in AOD; Movimento Fluido abilita i valori intermedi.'})
+            'studioDecisecond':'Decimi da 0 a 9: scala consigliata 0/10 e rotazione 360°. Animazione Lua di 1 secondo; copre la scala configurata anche nei progetti che hanno ancora intervallo 60. Esclusa in AOD; da riprovare sul S5.',
+            'studioChronoHour':'Ore trascorse del cronografo su 12 ore. Tap sul quadrante: Avvia → Ferma → Azzera. Le lancette Crono condividono il conteggio. Lua da verificare sul S5.',
+            'studioChronoMinute':'Minuti trascorsi del cronografo (0–59). Tap sul quadrante: Avvia → Ferma → Azzera. Esclusa in AOD.',
+            'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Tap sul quadrante: Avvia → Ferma → Azzera. Esclusa in AOD; se il firmware offre soltanto il clock os.time, precisione di un secondo.'})
         hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
                        for e in resolved.elements if e.kind in ('analog','pointer')}
         result=self.project.metadata()
@@ -130,12 +134,17 @@ class StudioBridge(QObject):
     def send(self,**values):self.event.emit(json.dumps(values,ensure_ascii=False))
 
     def preview_tick(self):
-        if self.aod:return
+        if self.aod or self.worker:return
         now=time.monotonic_ns()//1000000
         self.values['__clockMs']=now
         self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
         self.values['__secondFraction']=(now-self.motion_started)/1000 if self.motion_preview else 0
         self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values)
+        self.resume_preview()
+
+    def resume_preview(self):
+        if not self.smoke and not self.worker and not self.aod and (self.motion_preview or self.chrono_state=='running'):
+            self.motion_timer.start()
 
     def autosave(self):
         if self.dirty and not self.project.validate():
@@ -439,9 +448,10 @@ class StudioBridge(QObject):
                 if self.worker and self.worker.isRunning():raise ValueError('Compilazione già in corso.')
                 destination=QFileDialog.getExistingDirectory(self.window,'Cartella di esportazione',str(self.root/'dist'))
                 if destination:
+                    self.motion_timer.stop()
                     self.worker=BuildTask(self.project,self.compiler,Path(destination))
                     self.worker.progress.connect(lambda message:self.send(progress=message))
-                    self.worker.finished_build.connect(self.build_complete);self.worker.start()
+                    self.worker.finished.connect(self.build_finished);self.worker.start()
             elif action=='show-output' and self.output:QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.output)))
             elif action=='export-preview':
                 filename,_=QFileDialog.getSaveFileName(self.window,'Salva anteprima',str(self.root/'preview.png'),'PNG (*.png)')
@@ -453,15 +463,38 @@ class StudioBridge(QObject):
                 if self.project.metadata()!=before.metadata():
                     self.undo_stack.append(before);self.undo_stack=self.undo_stack[-40:];self.redo_stack=[];self.dirty=True
             reply={'state':self.state()}
+            self.resume_preview()
             if selection is not None:reply['selectedLayer']=selection
             return json.dumps(reply,ensure_ascii=False)
         except Exception as exc:
             if before:self.project=before;self.variant=min(self.variant,len(self.project.variants)-1)
             return json.dumps({'error':str(exc)},ensure_ascii=False)
 
+    @Slot()
+    def build_finished(self):
+        task=self.worker
+        if task is None:return
+        self.worker=None
+        self.build_complete(task.output,task.error)
+        if task.output and task.ready_at is not None:
+            # File-based evidence distinguishes worker time from a delayed GUI
+            # notification on the user's PC. No project or archive is changed.
+            try:
+                path=Path(task.output)/'build-report.json'
+                report=json.loads(path.read_text(encoding='utf8'))
+                report.setdefault('exportTiming',{})['guiNotificationDelaySeconds']=round(time.perf_counter()-task.ready_at,3)
+                path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
+            except (OSError,ValueError):pass
+        task.deleteLater()
+        self.resume_preview()
+
     def build_complete(self,path,error):
         if path:self.output=Path(path)
-        self.send(state=self.state(),error=error,progress='ZIP pronto: '+path if path else 'Compilazione interrotta.',buildDone=bool(path))
+        self.state_sequence+=1
+        # No expensive preview rendering or gallery serialization is needed to
+        # mark the export complete. This version also invalidates stale replies.
+        self.send(buildStatus={'stateSequence':self.state_sequence,'busy':False,'output':str(self.output or '')},
+                  error=error,progress='ZIP pronto: '+path if path else 'Compilazione interrotta.',buildDone=bool(path))
 
     def set_hand(self,req,changes):
         if req.get('hand') not in ('hour','minute','second'):raise ValueError('Lancetta non valida.')
@@ -489,7 +522,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 0.10 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 0.11 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

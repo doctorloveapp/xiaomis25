@@ -39,10 +39,10 @@ def write_pointer(project, e, directory, variant):
                   'h:set {range={angleStart=%d,angleRange=%d,valueStart=%d,valueRange=%d}}' % (e.angle_start*10,e.angle_range*10,e.value_start,e.value_range),
                   'h:clear_flag(lvgl.FLAG.CLICKABLE)', 'hands[#hands+1] = h']
     if e.source != 'studioDecisecond':
-        lines += [f'local tap = lvgl.Object(root, {{x={e.x},y={e.y},w={e.width},h={e.height},bg_opa=0,border_width=0,pad_all=0}})',
+        lines += ['local tap = lvgl.Object(root, {x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})',
                   'tap:clear_flag(lvgl.FLAG.SCROLLABLE)', 'tap:add_flag(lvgl.FLAG.CLICKABLE)',
-                  'tap:onevent(lvgl.EVENT.CLICKED, function() core:tap() end)']
-    lines += [f'core:add {{root=root,hands=hands,source="{e.source}",range={LUA_SOURCES[e.source][1]},smooth={str(e.smooth_seconds).lower()}}}']
+                  'tap:onevent(lvgl.EVENT.PRESSED or lvgl.EVENT.CLICKED, function() core:tap() end)']
+    lines += [f'core:add {{root=root,hands=hands,source="{e.source}",range={LUA_SOURCES[e.source][1]},valueStart={e.value_start},valueRange={e.value_range},smooth={str(e.smooth_seconds).lower()}}}']
     name=f'lua/studio_{key}.lua'
     (directory/'app'/name).write_text('\n'.join(lines)+'\n',encoding='utf8')
     return name
@@ -74,8 +74,19 @@ def interaction_report(project, data, manifest_bytes):
     if requested != bool(app_layouts) or manifest.get('interactive')!=str(requested).lower():
         raise ValueError('Interattività richiesta ma script/layout/manifest incoerenti.')
     import hashlib
-    return {'requested':requested,'injected':bool(app_layouts),'status':'injected-and-structurally-verified' if requested else 'not-requested',
+    result = {'requested':requested,'injected':bool(app_layouts),'status':'injected-and-structurally-verified' if requested else 'not-requested',
             'appLayoutCount':app_layouts,'files':{f'app/{n}':hashlib.sha256(b).hexdigest() for n,b in files.items()},
             'manifestInteractive':manifest.get('interactive'),'aodSecondsExcluded':True,'hardwareVerified':False,
             'limitations':(['Runtime Lua, clock monotono e VM condivisa da verificare sul firmware S5.',
                             'Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio.'] if requested else [])}
+    # Keep old exports independently verifiable with their original report.
+    if b'S5StudioChrono011' in files.get('lua/studio_core.lua',b''):
+        result['decisecondTiming']={'engine':'lvgl-animation','durationMs':1000,'requiresExternalClock':False,'scalesToConfiguredRange':True}
+        result['chronoTiming']={'clockPriority':['lvgl.tick_get','/proc/uptime','os.time'],
+                               'wallClockFallbackPrecisionMs':1000,'tapArea':'full-face',
+                               'tapEvent':'PRESSED (CLICKED fallback)','pagePausePreservesTap':True,
+                               'hardwareVerified':False}
+        result['limitations']=['Runtime Lua, Anim, eventi di tap e VM condivisa da verificare sul firmware S5.',
+                               'Fallback os.time: precisione di un secondo; sincronizzazione dell’ora può alterare il conteggio.',
+                               'Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio.']
+    return result
