@@ -96,6 +96,35 @@ class Allocator:
             rewritten[mapping[uid]]=node
         return output,rewritten
 
+def preview_factory(project,work,run_compiler,progress):
+    """Encode complete flattened scenes; EasyFace cannot execute Lua in previews."""
+    from .native import generate_fprj
+    from .model import Project
+    from .render import render,png_bytes
+    directory=work/'preview-source';paths=[]
+    scenes=[(project.variant_project(i),False) for i in range(max(1,len(project.variants)))]
+    if project.aod_enabled:scenes.append((project.variant_project(0),True))
+    for index,(scene,aod) in enumerate(scenes):
+        bitmap=png_bytes(render(scene,aod=aod,circular=False).convert('RGB'))
+        asset='assets/full-preview.png'
+        flat=Project(name=f'Anteprima completa {index+1}',elements=[Element(kind='image',name='Tutti i livelli',
+                     asset=asset,x=0,y=0,width=480,height=480)],assets={asset:bitmap},variants=[],aod_enabled=False)
+        paths.append(generate_fprj(flat,directory,filename=f'preview_{index:03}',variant_index=index).project_path)
+    progress(f'Codifica anteprime complete: {len(scenes)} schermate?')
+    data=run_compiler(paths[0],'previews.face')
+    if data[28]!=len(scenes):raise ValueError('Numero schermate della fabbrica anteprime inatteso.')
+    previews=[]
+    for index in range(len(scenes)):
+        tables=read_tables(data,index)
+        if len(tables[0])!=2:raise ValueError('Anteprima completa deve avere sfondo e una sola immagine.')
+        image_uid=struct.unpack_from('<I',tables[0][-1][2])[0]
+        bitmap=next((b for uid,_,b in tables[2] if uid==image_uid),None)
+        if bitmap is None or struct.unpack_from('<HH',bitmap,4)!=(480,480):
+            raise ValueError('Bitmap nativa dell?anteprima completa mancante.')
+        previews.append(bitmap)
+    return previews[:len(scenes)-int(project.aod_enabled)],previews[-1] if project.aod_enabled else None
+
+
 def factory(project,work,run_compiler,progress):
     """Compile option components in batches; reuse identical visual definitions."""
     from .native import generate_fprj
@@ -301,7 +330,7 @@ def metadata(project,screens,nodes,face_id):
         if node['tag']=='Translation':editor['i18n']['translations'][uid_name(uid)]={language:node['text'] for language in LANGUAGES}
     ET.indent(manifest);files['resources/manifest.xml']=ET.tostring(manifest,encoding='utf-8',xml_declaration=True)
     files['editor.config.json']=json.dumps(editor,ensure_ascii=False,indent=2).encode();files['uidmap.map']=('\n'.join(mapping)+'\n').encode()
-    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.2','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
+    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.3','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
          'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','app/lua/'))},
          'metadataHashes':{k:hashlib.sha256(files[k]).hexdigest() for k in ('resources/manifest.xml','editor.config.json','uidmap.map')},
          'hardwareVerified':False},ensure_ascii=False,indent=2).encode()

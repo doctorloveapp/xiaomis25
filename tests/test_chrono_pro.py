@@ -1,4 +1,4 @@
-import hashlib,json,zipfile
+import hashlib,json,zipfile,struct
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import pytest
@@ -47,7 +47,7 @@ def view(core,source):
 
 
 def finish(lua,core):
-    lua.globals().TICK+=400
+    lua.globals().TICK+=core.transitionMs+80
     core.progress(core,1000)
 
 
@@ -85,7 +85,7 @@ def test_pro_all_reset_hands_sweep_together_and_return_to_latest_civil_time(tmp_
     for _,v in core.views.items():v.smooth=smooth
     start(lua,core);lua.globals().TICK=core.started+3661456;core.tap(core)
     lua.globals().TICK+=500;core.tap(core);assert core.state=='resetting'
-    assert len(core.transition.entries)==4 and core.transitionAnimation.duration==320
+    assert len(core.transition.entries)==4 and core.transitionAnimation.duration==480
     starts={e.view.id:e.start for _,e in core.transition.entries.items()}
     lua.execute('DATA.timeSecond(52*256)')
     core.progress(core,500)
@@ -127,7 +127,7 @@ def test_pro_aod_immediately_cancels_animation_and_never_processes_hidden_taps(t
 def test_pro_wall_fallback_uses_animation_phase_for_real_visible_decisecond_steps(tmp_path):
     p,lua,core=pro_runtime(tmp_path,fallback=True)
     assert core.clockMode=='lvgl-animation-phase'
-    core.tap(core);core.clockAnimation.exec_cb(core.root,0);core.clockAnimation.exec_cb(core.root,320)
+    core.tap(core);core.clockAnimation.exec_cb(core.root,0);core.clockAnimation.exec_cb(core.root,480)
     core.progress(core,1000)
     core.tapUnlockAnimation.exec_cb(core.root,1000);core.tap(core);assert core.state=='running'
     core.clockAnimation.exec_cb(core.root,0);core.clockAnimation.exec_cb(core.root,456)
@@ -286,14 +286,38 @@ def test_pro_preserves_imported_geometry_colour_and_shadow_offsets(tmp_path):
 
 
 @pytest.mark.integration
-def test_pro_real_compiler_variants_aod_package_and_report(tmp_path):
+def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch):
     p=pro_project();p.variants.append({'id':'blue','name':'Blu','accent':'#ffffff','background':'','imageAsset':'','overrides':{}})
+    from s5studio import native_graph
+    encoded={};factory=native_graph.preview_factory
+    def capture(project,work,compiler,progress):
+        result=factory(project,work,compiler,progress);encoded['normal'],encoded['aod']=result
+        return result
+    monkeypatch.setattr(native_graph,'preview_factory',capture)
     output=build(p,ROOT/'tools/easyface-4.23/Compiler.exe',tmp_path)
     archive=next(output.glob('*_TEMPLATE.zip'));data=(output/'resource.bin').read_bytes()
+    from s5studio.watchface_library import directory_bases
+    for index,base in enumerate(directory_bases(data)):
+        expected=encoded['aod'] if index%2 else encoded['normal'][index//2]
+        if index%2:
+            assert any(b==expected for _,_,b in read_tables(data,index)[2])
+        else:
+            pos=struct.unpack_from('<I',data,base+4)[0]
+            assert data[pos:pos+len(expected)]==expected
+    from PIL import Image
+    # Runtime Lua hands and every visible layer are rasterized before encoding.
+    with zipfile.ZipFile(archive) as z:
+        config=json.loads(z.read('editor.config.json'))
+        for i,theme in enumerate(t for t in config['themes'] if t['type']=='normal'):
+            from io import BytesIO
+            from s5studio.render import render
+            with Image.open(BytesIO(z.read('resources/'+theme['preview']))) as preview:
+                assert preview.convert('RGB').tobytes()==render(p.variant_project(i),circular=False).convert('RGB').tobytes()
     with zipfile.ZipFile(archive) as z:
         report=json.loads(z.read('build-report.json'));pro=report['interactive']['chronoPro']
         assert pro['runningSmoothForcedOff'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
-        assert report['applicationVersion']=='1.2' and report['interactive']['appLayoutCount']==2
+        assert pro['transitionDurationMs']==480 and pro['transitionTargetFps']==25
+        assert report['applicationVersion']=='1.3' and report['interactive']['appLayoutCount']==2
         assert all(len(s['pointerIds'])==6 for s in report['interactive']['luaArchitecture']['scenes'])
         for screen in inspect_binary(data)['screens']:
             tables=read_tables(data,screen['index'])
@@ -312,3 +336,21 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path):
             dst.writestr(item,content)
     with zipfile.ZipFile(tampered) as z:
         with pytest.raises(ValueError,match='Rapporto'):validate_semantics(z)
+
+
+def test_preview_prepare_and_reset_complete_after_480ms():
+    from s5studio.chrono_pro import ProPreview
+    p=pro_project();preview=ProPreview()
+    assert preview.duration==480
+    second=next(v for v in preview.bindings(p) if v.source=='studioIntegratedSecond')
+    preview.tap(p,0,47)
+    halfway=preview.values(p,320,47)
+    assert preview.state=='arming' and 47<halfway[second.id]<60
+    preview.values(p,479,47);assert preview.state=='arming'
+    preview.values(p,480,47);assert preview.state=='ready'
+    preview.tap(p,480,47);preview.tap(p,65936,52)
+    assert preview.state=='stopped'
+    preview.tap(p,66036,52);preview.values(p,66356,52)
+    assert preview.state=='resetting'
+    preview.values(p,66516,52)
+    assert preview.state=='rest' and preview.values(p,66516,52)[second.id]==52

@@ -1,0 +1,74 @@
+{
+  "applicationVersion": "1.3",
+  "date": "2026-10-08",
+  "status": "passed",
+  "scope": "Crono Pro transition duration and complete style previews",
+  "transition": {
+    "previousDurationMs": 320,
+    "durationMs": 480,
+    "speedRatio": 0.6666666666666666,
+    "durationRatio": 1.5,
+    "targetFps": 25,
+    "direction": "clockwise-only",
+    "sharedByAllProTransitionHands": true,
+    "editorPreviewMatchesRuntime": true
+  },
+  "sourceTests": {
+    "passed": 25,
+    "failures": 0,
+    "errors": 0,
+    "checks": [
+      {
+        "passed": 23,
+        "elapsedSeconds": 1.75,
+        "report": "build/tests-1.3.xml"
+      },
+      {
+        "passed": 2,
+        "elapsedSeconds": 6.532,
+        "report": "build/tests-previews-1.3.xml"
+      }
+    ],
+    "luaTestDependency": "build/test-deps"
+  },
+  "stylePreviews": {
+    "allVisibleLayersRasterizedBeforeNativeEncoding": true,
+    "includesLuaHands": true,
+    "includesDefaultComplications": true,
+    "layerOrderPreserved": true,
+    "nativePreviewBlobsVerifiedInFinalResourceBin": true,
+    "aodUsesOwnRendering": true,
+    "editorThumbnailsIndependentOfLiveChronoAndAod": true,
+    "encoding": "single EasyFace batch"
+  },
+  "checks": {
+    "frontendSyntax": "passed",
+    "diffWhitespace": "passed",
+    "proLuaOnlyTransitionDurationChangedSince12": true,
+    "separateCronoLuaUnchanged": true,
+    "fullSuiteRepeated": false,
+    "graphicalEditorSmokeRepeated": false,
+    "temporaryCompilerIntegrationTest": true,
+    "demoWatchfaceDelivered": false
+  },
+  "hardwareEvidence": {
+    "previousVersion": "1.2",
+    "status": "passed-as-reported-by-user",
+    "record": "docs/hardware-test-1.2.json",
+    "version13": "not-yet-physically-tested"
+  },
+  "releaseWorkflow": {
+    "newRegressionBackups": false,
+    "isolatedExecutableTest": false,
+    "documentsMaintained": true
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.3",
+    "embeddedFilesVerified": 708,
+    "exeSize": 234936515,
+    "exeSha256": "a7e4c62f6a49cc3719f7ebe50fca0aac45f78d5b6c39a4ab0b4f4a8a0a90fcf7",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  }
+}

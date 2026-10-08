@@ -1,0 +1,11 @@
+{
+  "applicationVersion": "1.2",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "date": "2026-10-08",
+  "status": "passed-as-reported-by-user",
+  "scope": "User reports everything works very well, including Crono Pro clockwise transitions and independent variants.",
+  "userStatement": "ho fatto un test reale ed hai fatto un lavoro eccellente, tutto funziona benissimo.",
+  "batteryConsumptionMeasured": false,
+  "agentPerformedPhysicalTest": false,
+  "exeSha256": "32b4506a597f3a05fb97761c4c3f364c85b3238a5addb2459fc6c01a0d69ae8d"
+}

@@ -166,8 +166,9 @@
   "hardwareEvidence": {
     "version11FirstTest": "passed-as-reported-by-user",
     "record": "docs/hardware-test-1.1.json",
-    "version12": "awaiting-physical-test",
-    "batteryConsumptionMeasured": false
+    "version12": "passed-as-reported-by-user",
+    "batteryConsumptionMeasured": false,
+    "version12Record": "docs/hardware-test-1.2.json"
   },
   "recoveryBaseline11": {
     "record": "docs/stable-baseline-1.1.json",

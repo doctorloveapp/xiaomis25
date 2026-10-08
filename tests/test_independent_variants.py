@@ -179,7 +179,7 @@ def test_real_compiler_independent_images_bindings_slot_counts_and_aod(tmp_path)
     archive=next(output.glob('*_TEMPLATE.zip'))
     assert validate_package(ROOT/'quadrante_funzionante.zip',archive)['status']=='passed'
     with zipfile.ZipFile(archive) as z:
-        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.2'
+        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.3'
         assert report['interactive']['chronoPro']['transitionDirection']=='clockwise-only'
         config=json.loads(z.read('editor.config.json'));assert not config['isSlotFollowing']
         previews=[Image.open(BytesIO(z.read('resources/'+t['preview']))).convert('RGB').getpixel((240,420)) for t in config['themes'] if t['type']=='normal']
@@ -187,3 +187,31 @@ def test_real_compiler_independent_images_bindings_slot_counts_and_aod(tmp_path)
         slots=[s['attrs']['SlotGroupName'] for t in config['themes'] for s in t['children'] if s['type']=='Slot']
         assert len(set(slots))==3
     q=Project.load(next(output.glob('*.s5faceproj')));assert q.metadata()==p.metadata()
+
+
+def test_style_thumbnails_include_all_visible_layers_and_are_independent_of_live_preview(bridge):
+    import base64
+    from s5studio.render import SCENARIOS
+    b=bridge;b.project=template('Analogico');b.project.ensure_independent_variants()
+    b.project.elements[0].chrono_pro=True
+    b.project.add_variant()
+    for index,color in enumerate(('#bb2200','#0044cc')):
+        scene=b.project.editable_variant(index)
+        scene.elements.insert(0,Element(kind='image',name='Sfondo',asset=asset(b.project,color),x=0,y=0,width=480,height=480))
+        scene.elements.append(Element(kind='pointer',source='studioChronoMinute',x=70,y=100,width=80,height=80))
+        scene.elements.append(Element(kind='number',source='heartRate',x=170,y=360,width=140,height=40,size=24))
+        scene.complications.append({'id':'sensor','name':'Passi','x':40,'y':330,'width':110,'height':44,'size':24,
+                                    'frame':'none','showLabel':False,'showUnit':False,'options':['steps'],'default':'steps','visible':True})
+        scene.layer_order=[];scene.sync_layer_order();b.project.commit_variant(index,scene)
+    b.values['__proValues']={'unrelated':0};b.values['__chronoMs']=54321
+    b.aod=True;state=b.state()
+    for index,url in enumerate(state['thumbnails']):
+        image=base64.b64decode(url.split(',',1)[1]);scene=b.project.variant_project(index)
+        assert image==png_bytes(render(scene,SCENARIOS['Normale']))
+        background=scene.copy();background.elements=[e for e in background.elements if e.kind=='image'];background.complications=[]
+        assert image!=png_bytes(render(background,SCENARIOS['Normale']))
+        for kind in ('analog','pointer','number','complication'):
+            without=scene.copy()
+            if kind=='complication':without.complications=[]
+            else:without.elements=[e for e in without.elements if e.kind!=kind]
+            assert image!=png_bytes(render(without,SCENARIOS['Normale'])),kind

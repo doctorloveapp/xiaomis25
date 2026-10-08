@@ -5,7 +5,7 @@ from .lua_runtime import pro_views
 
 
 class ProPreview:
-    duration=320
+    duration=480
 
     def __init__(self):
         self.state='rest';self.elapsed=0;self.started=0;self.transition=None

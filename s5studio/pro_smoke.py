@@ -32,7 +32,7 @@ def verify_pro(window,app):
     assert pointer.value_range==10
     js('document.getElementById("chrono-preview").click();true')
     until(lambda:bridge.chrono_state=='arming')
-    bridge.pro_preview.transition['started']-=400;bridge.preview_tick()
+    bridge.pro_preview.transition['started']-=bridge.pro_preview.duration+80;bridge.preview_tick()
     until(lambda:js('state.chronoState==="ready"&&!document.getElementById("chrono-preview").disabled'))
     js('document.getElementById("chrono-preview").click();true');until(lambda:bridge.chrono_state=='running')
     bridge.pro_preview.started-=6456;bridge.preview_tick()

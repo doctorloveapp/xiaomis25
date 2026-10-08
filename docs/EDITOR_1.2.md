@@ -1,6 +1,6 @@
 # S5 Studio 1.2
 
-Avvia **S5Studio-1.2.exe** oppure **Avvia_S5_Studio.cmd**. L’eseguibile incorpora il runtime personale completo e resta autonomo. Il primo test reale del **Crono Pro 1.1** è superato, con fluidità confermata dall’utente; la 1.2 aggiunge rientri orari e livelli indipendenti per ogni stile.
+Avvia **S5Studio-1.2.exe** oppure **Avvia_S5_Studio.cmd**. L’eseguibile incorpora il runtime personale completo e resta autonomo. Il primo test reale del **Crono Pro 1.1** è superato, con fluidità confermata dall’utente; la 1.2 aggiunge rientri orari e livelli indipendenti per ogni stile. **Test reale 1.2 pienamente superato**, confermato dall?utente l?8 ottobre 2026. La versione corrente ? la [1.3](EDITOR_1.3.md), con rientri pi? lenti.
 
 ## Creare una variante indipendente
 
@@ -37,7 +37,7 @@ Il flag Crono Pro è locale allo stile, come le altre proprietà. Le scene class
 
 **127 test della suite completa, 11 verifiche finali sulle varianti e 100 controlli dell’editor superati.** Rapporti: [validation-editor-1.2.json](validation-editor-1.2.json), [executable-build-1.2.json](executable-build-1.2.json). I controlli comprendono rientri orari su scale complete/parziali/inverse, AOD e pause, migrazione, asset presenti solo in una variante, modifiche locali, selezione multipla, eliminazione del primo stile e compilazione reale temporanea con sfondi, sorgenti e conteggi di complicazioni differenti.
 
-Il consumo e la precisione subsecondo non sono misurati. Il test fisico 1.1 è [registrato](hardware-test-1.1.json); rientri orari e varianti indipendenti della 1.2 attendono la nuova prova sul dispositivo. Non viene avviato l’EXE in ambiente isolato e non viene consegnato un quadrante dimostrativo.
+Il consumo e la precisione subsecondo non sono misurati. Il test fisico 1.1 è [registrato](hardware-test-1.1.json); rientri orari e varianti indipendenti della 1.2 hanno superato il test reale sul dispositivo: [conferma dell?utente](hardware-test-1.2.json). Non viene avviato l’EXE in ambiente isolato e non viene consegnato un quadrante dimostrativo.
 
 Il [backup 1.1](stable-baseline-1.1.json) conserva sorgenti, 708 risorse ed eseguibile esatti, verificati tramite SHA-256 e CRC. Per tornare alla versione precedente estrai il backup in una cartella nuova e usa progetto/ZIP precedenti. Il vecchio EXE 1.1 rimane nella root.
 

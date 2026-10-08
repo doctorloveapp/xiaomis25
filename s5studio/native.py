@@ -448,8 +448,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
             raise ValueError("Il compilatore non ha mantenuto il numero di schermate richiesto.")
         if sorted(got)!=sorted(source.expected_sources):
             raise ValueError(f"Binding nativi inattesi. Attesi {source.expected_sources}, ottenuti {got}.")
-        from .editable import preview_blob
-        from .native_graph import factory,compose
+        from .native_graph import factory,preview_factory,compose
         def compile_extra(path,name):
             nonlocal log
             extra=subprocess.run([str(exe),'-b',str(path),str(output),name,'167210065'],
@@ -461,29 +460,15 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
             raw=(output/name).read_bytes();inspect_binary(raw)
             return raw
         options,option_keys=factory(p,work,compile_extra,progress)
-        native_previews=[preview_blob(data)]
-        preview_source=work/'preview-source';preview_source.mkdir()
-        (preview_source/'output').mkdir()
-        shutil.copytree(work/'source/images',preview_source/'images')
-        for index in range(1,len(p.variants)):
-            progress(f'Anteprima nativa variante {index+1}/{len(p.variants)}…')
-            single=preview_source/'single.fprj'
-            shutil.copyfile(work/'source'/f'variante_{index+1:02}.fprj',single)
-            native_previews.append(preview_blob(compile_extra(single,'preview.face')))
+        native_previews,native_aod_preview=preview_factory(p,work,compile_extra,progress)
         with zipfile.ZipFile(template_path) as z:reference=z.read('resource.bin')
-        native_aod_preview=None
-        if p.aod_enabled:
-            aod_source=work/'aod-preview-source';aod_source.mkdir();(aod_source/'output').mkdir()
-            shutil.copytree(work/'source/AOD/images',aod_source/'images')
-            shutil.copyfile(work/'source/AOD/quadrante.fprj',aod_source/'single.fprj')
-            native_aod_preview=preview_blob(compile_extra(aod_source/'single.fprj','aod-preview.face'))
         data,generated_metadata=compose(data,p,reference,work/'source',native_previews,options,option_keys,aod_preview=native_aod_preview)
         inspection=inspect_binary(data)
         from .lua_runtime import interaction_report
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.2',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.3',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -506,7 +491,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.2","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.3","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -596,9 +581,9 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.2 — CRONO PRO
+TRANSFER_GUIDE = """S5 STUDIO 1.3 — CRONO PRO
 
-Apri il progetto nella 1.2, salva una copia e genera un nuovo ZIP.
+Apri il progetto nella 1.3, salva una copia e genera un nuovo ZIP.
 Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
 Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
 Piccole: scegli Ore Crono, Minuti Crono e la nuova voce Decimi crono.
@@ -607,15 +592,15 @@ Sequenza Pro: primo tap rientro allo zero, secondo tap Avvio,
 terzo tap Stop lettura, quarto tap Reset/rientro all'ora corrente.
 Conteggio sempre a scatti: secondi interi e decimi interi.
 Il flag Movimento Fluido non cambia il conteggio Pro.
-I rientri del gruppo sono sempre orari, fluidi, simultanei, durata 320 ms.
+I rientri del gruppo sono sempre orari, fluidi, simultanei, durata 480 ms (velocita ridotta di un terzo).
 Stili: ogni variante ha i propri livelli, immagini, lancette e complicazioni.
 Scegli lo stile nel pannello Livelli e proprieta: le modifiche restano locali.
 Il salvataggio usa schema 3: conserva una copia del progetto precedente.
 AOD: cancella i rientri, sospende timer/animazioni e usa la schermata
 AOD del progetto. Secondi e tutte le App Lua sono esclusi dall'AOD.
 
-Il primo test Pro 1.1 e superato. Rientri orari e stili indipendenti 1.2
-devono essere provati sul dispositivo. Il runtime usa il clock
+Il test reale 1.2 e superato, rientri orari e stili indipendenti inclusi.
+La 1.3 cambia solo la durata dei rientri: 320 -> 480 ms. Il runtime usa il clock
 monotono quando disponibile; il fallback usa la fase LVGL e os.time
 per le sospensioni, con precisione di un secondo durante il sonno.
 Non è il cronometro dell'app di sistema. Cambio VM/quadrante resetta.

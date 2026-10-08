@@ -260,14 +260,14 @@ def interaction_report(project, data, manifest_bytes):
         result['luaArchitecture']={'type':'single-scene-per-theme','crossWidgetVmSharingRequired':False,'scenes':variants}
         result['chronoPro']={'injected':True,'runtime':'studio_core_pro.lua','states':['rest','arming','ready','running','stopped','resetting'],
                             'runningSmoothForcedOff':True,'runningPeriodMsWithDeciseconds':100,'runningPeriodMsWithoutDeciseconds':1000,
-                            'writesOnlyChangedValues':True,'transitionSmoothForcedOn':True,'transitionDurationMs':320,'transitionTargetFps':25,
+                            'writesOnlyChangedValues':True,'transitionSmoothForcedOn':True,'transitionDurationMs':int(re.search(rb'\btransitionMs=(\d+)',pro_core).group(1)),'transitionTargetFps':25,
                             'pointerValueDomain':'scaled-integer','defaultPointerValueScale':1000,
                             'aodCancelsTransitions':True,'aodNativeScreenPreserved':True,'mainSecondsSingleController':'Lua',
                             'civilHandsInSameSceneToPreserveStacking':True,'clockFallback':'LVGL animation phase; os.time for sleep with one-second precision'}
         if b'never reverse the sweep' in pro_core:
             result['chronoPro']['transitionDirection']='clockwise-only'
-            result['limitations'][0]='Crono-Pro 1.1: primo test reale superato. Rientri orari e varianti indipendenti 1.2 da confermare sul S5.'
-        result['limitations']=['Crono-Pro 1.1 richiede conferma fisica; Crono separato mantiene il runtime 1.0 collaudato.',
+            result['limitations'][0]='Crono-Pro 1.2: test reale superato, inclusi rientri orari e varianti indipendenti.'
+        result['limitations']=['Crono-Pro 1.2 collaudato sul S5; la 1.3 cambia solo la durata dei rientri a 480 ms. Crono separato 1.0 collaudato.',
                                'Fallback fase Anim: precisione durante sospensioni limitata da os.time; senza clock civile non misura il tempo a schermo spento.',
                                'Cronografo locale: ricreazione della VM/cambio quadrante azzerano il conteggio. Consumo non misurato.']
     return result

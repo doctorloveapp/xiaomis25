@@ -85,8 +85,8 @@ class StudioBridge(QObject):
         self.timer=QTimer(self);self.timer.setInterval(20000);self.timer.timeout.connect(self.autosave)
         if not smoke:self.timer.start()
 
-    def image_url(self,p,aod=False):
-        return 'data:image/png;base64,'+base64.b64encode(png_bytes(render(p,self.values,aod))).decode()
+    def image_url(self,p,aod=False,*,values=None):
+        return 'data:image/png;base64,'+base64.b64encode(png_bytes(render(p,self.values if values is None else values,aod))).decode()
 
     def state(self):
         self.state_sequence+=1
@@ -117,7 +117,7 @@ class StudioBridge(QObject):
                       background=resolved.background,
                       stateSequence=self.state_sequence,
                       preview=self.image_url(resolved,self.aod),
-                      thumbnails=[self.image_url(self.project.variant_project(i)) for i in range(len(self.project.variants))],
+                      thumbnails=[self.image_url(self.project.variant_project(i),values=SCENARIOS['Normale']) for i in range(len(self.project.variants))],
                       resolvedElements=[asdict(e) for e in resolved.elements],
                       layers=[asdict(e) if isinstance(e,Element) else {**e,'kind':'complication','aod':False}
                               for mode in (False,True) for e in resolved.ordered_layers(mode)],
