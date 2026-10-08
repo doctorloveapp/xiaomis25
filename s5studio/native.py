@@ -468,7 +468,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.3',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.4.1',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -491,7 +491,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.3","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.4.1","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -581,9 +581,9 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.3 — CRONO PRO
+TRANSFER_GUIDE = """S5 STUDIO 1.4.1 — CRONO PRO
 
-Apri il progetto nella 1.3, salva una copia e genera un nuovo ZIP.
+Apri il progetto nella 1.4.1, salva una copia e genera un nuovo ZIP.
 Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
 Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
 Piccole: scegli Ore Crono, Minuti Crono e la nuova voce Decimi crono.
@@ -592,7 +592,7 @@ Sequenza Pro: primo tap rientro allo zero, secondo tap Avvio,
 terzo tap Stop lettura, quarto tap Reset/rientro all'ora corrente.
 Conteggio sempre a scatti: secondi interi e decimi interi.
 Il flag Movimento Fluido non cambia il conteggio Pro.
-I rientri del gruppo sono sempre orari, fluidi, simultanei, durata 480 ms (velocita ridotta di un terzo).
+I rientri del gruppo sono sempre orari, fluidi, simultanei, durata 720 ms (velocita ridotta di un altro terzo rispetto alla 1.3).
 Stili: ogni variante ha i propri livelli, immagini, lancette e complicazioni.
 Scegli lo stile nel pannello Livelli e proprieta: le modifiche restano locali.
 Il salvataggio usa schema 3: conserva una copia del progetto precedente.
@@ -600,7 +600,8 @@ AOD: cancella i rientri, sospende timer/animazioni e usa la schermata
 AOD del progetto. Secondi e tutte le App Lua sono esclusi dall'AOD.
 
 Il test reale 1.2 e superato, rientri orari e stili indipendenti inclusi.
-La 1.3 cambia solo la durata dei rientri: 320 -> 480 ms. Il runtime usa il clock
+La 1.4.1 allinea la geometria dell’anteprima alle lancette Crono Pro esportate.
+Mantiene rientri da 720 ms e anteprime statiche _preview. Il runtime usa il clock
 monotono quando disponibile; il fallback usa la fase LVGL e os.time
 per le sospensioni, con precisione di un secondo durante il sonno.
 Non è il cronometro dell'app di sistema. Cambio VM/quadrante resetta.

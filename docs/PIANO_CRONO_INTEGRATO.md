@@ -4,6 +4,8 @@
 
 **Aggiornamento 1.2:** primo test reale Pro 1.1 superato con fluidità confermata. La 1.2 rende tutti i rientri orari e separa i livelli degli stili. Guida corrente: [EDITOR_1.2.md](EDITOR_1.2.md); punto di ripristino Pro: [stable-baseline-1.1.json](stable-baseline-1.1.json).
 
+**Aggiornamento 1.4:** durata Pro comune 720 ms, anteprime statiche `_preview/` e analisi della cartella locale NASA. Guida corrente: [EDITOR_1.4.md](EDITOR_1.4.md); [confronto uploader/catalogo](ANALISI_UPLOADER_1.4.md). La preview della mod resta da confermare sul telefono.
+
 Valutazione dell’8 ottobre 2026. La 1.0 ha superato il test reale riferito dall’utente su tutte le lancette piccole. Anche **Decimi di secondo è già implementato e collaudato sull’S5**, come nuovamente confermato dall’utente: non è una funzione da rifare. Questa è una proposta di evoluzione: non modifica il runtime, i progetti o l’EXE collaudati.
 
 ## Giudizio di fattibilità

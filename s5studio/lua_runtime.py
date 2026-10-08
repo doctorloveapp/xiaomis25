@@ -267,7 +267,7 @@ def interaction_report(project, data, manifest_bytes):
         if b'never reverse the sweep' in pro_core:
             result['chronoPro']['transitionDirection']='clockwise-only'
             result['limitations'][0]='Crono-Pro 1.2: test reale superato, inclusi rientri orari e varianti indipendenti.'
-        result['limitations']=['Crono-Pro 1.2 collaudato sul S5; la 1.3 cambia solo la durata dei rientri a 480 ms. Crono separato 1.0 collaudato.',
+        result['limitations']=['Crono-Pro 1.2 collaudato sul S5; la 1.4 porta la durata comune dei rientri a 720 ms. Crono separato 1.0 collaudato.',
                                'Fallback fase Anim: precisione durante sospensioni limitata da os.time; senza clock civile non misura il tempo a schermo spento.',
                                'Cronografo locale: ricreazione della VM/cambio quadrante azzerano il conteggio. Consumo non misurato.']
     return result

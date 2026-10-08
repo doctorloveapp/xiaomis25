@@ -1,0 +1,2436 @@
+{
+  "date": "2026-10-08",
+  "sourceFolder": "Documenti/L00000000001",
+  "userHardwareReport": "Crono Pro operates; transitions still too fast; mod preview displays background only.",
+  "installedApplicationVersion": "1.3",
+  "archiveMembers": 300,
+  "extractedExtraFiles": 5752,
+  "archiveVsFolder": {
+    "missingMembers": [],
+    "changedMembers": [
+      "resource.bin"
+    ],
+    "resourceBinSameLength": true,
+    "changedByteOffsets": [
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "originalBinaryId": "793822443",
+    "modBinaryId": "L00000000001",
+    "onlyIdFieldChanged": true
+  },
+  "previews": [
+    {
+      "path": "resources/studio/Studio_02000002.png",
+      "size": [
+        480,
+        480
+      ],
+      "frames": 1,
+      "sha256": "5ec62a2f65e83f5f5839281cefaa68a98279320f95b2b7d742e09eff42044168"
+    },
+    {
+      "path": "preview/style_1_animated.webp",
+      "size": [
+        480,
+        480
+      ],
+      "frames": 1,
+      "sha256": "b62afbeb2a59e654f1a2617156b5e050b058e9d0c62c1d2d2f2d4912db321b60"
+    },
+    {
+      "path": "resources/studio/Studio_0200000a.png",
+      "size": [
+        480,
+        480
+      ],
+      "frames": 1,
+      "sha256": "3b74f5cc050460f8f08d33ceb41c1d0d74ff4649587000d54a2f0f76dbfe60cd"
+    },
+    {
+      "path": "resources/studio/Studio_0200000d.png",
+      "size": [
+        480,
+        480
+      ],
+      "frames": 1,
+      "sha256": "dcc475f984124b737e071a26d8c1de786de79ca47159cb032aed3a1c0bbe4347"
+    },
+    {
+      "path": "preview/style_2_animated.webp",
+      "size": [
+        480,
+        480
+      ],
+      "frames": 1,
+      "sha256": "313a4d5807031b41915e21499fa65144a298da6e90d556fa53a728f29ba6549f"
+    },
+    {
+      "path": "resources/studio/Studio_02000015.png",
+      "size": [
+        480,
+        480
+      ],
+      "frames": 1,
+      "sha256": "3b74f5cc050460f8f08d33ceb41c1d0d74ff4649587000d54a2f0f76dbfe60cd"
+    }
+  ],
+  "corpus": {
+    "folders": 39,
+    "configurations": 33,
+    "previewPathPrefixes": {
+      "_preview": 133
+    },
+    "nestedChildTypes": {
+      "Image": 2772,
+      "ImageArray": 822,
+      "Widget": 1063,
+      "ProgressBar": 307,
+      "Sprite": 7,
+      "Slot": 122,
+      "Text": 17,
+      "Rive": 4,
+      "PhotoAlbumBg": 1
+    },
+    "entries": [
+      {
+        "id": "120917375286",
+        "configurationAvailable": true,
+        "themeCount": 3,
+        "imageFormatsCount": 51,
+        "childTypes": {
+          "Image": 15,
+          "ImageArray": 8,
+          "Widget": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "璀璨宝石",
+          "deviceType": "P62",
+          "pkgName": "120917375286",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917375286",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917382285",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 265,
+        "childTypes": {
+          "Image": 37,
+          "ImageArray": 2,
+          "Widget": 9,
+          "ProgressBar": 1,
+          "Sprite": 1,
+          "Slot": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "粉凝陀飞轮",
+          "deviceType": "P62",
+          "pkgName": "120917382285",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.3"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917382285",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917382325",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 155,
+        "childTypes": {
+          "Image": 15,
+          "Widget": 4,
+          "ProgressBar": 1,
+          "ImageArray": 8,
+          "Text": 1
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "黑豹",
+          "deviceType": "P62",
+          "pkgName": "120917382325",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917382325",
+          "compressMethod": "RLEReversed",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917383606",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 38,
+        "childTypes": {
+          "Image": 9,
+          "ImageArray": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": "style_1_animated.webp"
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "艺术时空",
+          "deviceType": "P62",
+          "pkgName": "120917383606",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917383606",
+          "compressMethod": "RLEReversed",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917383973",
+        "configurationAvailable": true,
+        "themeCount": 5,
+        "imageFormatsCount": 350,
+        "childTypes": {
+          "Image": 51,
+          "ImageArray": 40,
+          "Widget": 12
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "户外探险家",
+          "deviceType": "P62",
+          "pkgName": "120917383973",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917383973",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917384572",
+        "configurationAvailable": true,
+        "themeCount": 3,
+        "imageFormatsCount": 141,
+        "childTypes": {
+          "Image": 29,
+          "ImageArray": 4,
+          "ProgressBar": 2,
+          "Widget": 4
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "雕琢",
+          "deviceType": "P62",
+          "pkgName": "120917384572",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917384572",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386537",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 74,
+        "childTypes": {
+          "Image": 42,
+          "ImageArray": 12,
+          "Widget": 9,
+          "ProgressBar": 3
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "X-racer",
+          "deviceType": "P62",
+          "pkgName": "120917386537",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386537",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386538",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 174,
+        "childTypes": {
+          "Image": 26,
+          "ImageArray": 8,
+          "Widget": 9,
+          "ProgressBar": 3
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Arc light",
+          "deviceType": "P62",
+          "pkgName": "120917386538",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386538",
+          "compressMethod": "None",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386565",
+        "configurationAvailable": true,
+        "themeCount": 6,
+        "imageFormatsCount": 124,
+        "childTypes": {
+          "Image": 34,
+          "ImageArray": 30,
+          "Widget": 10,
+          "ProgressBar": 5
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式5",
+            "type": "normal",
+            "preview": "_preview/样式5亮屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "One way 1",
+          "deviceType": "P62",
+          "pkgName": "120917386565",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386565",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386580",
+        "configurationAvailable": true,
+        "themeCount": 6,
+        "imageFormatsCount": 98,
+        "childTypes": {
+          "Image": 24,
+          "ImageArray": 12
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "AOD",
+            "preview": "_preview/样式3息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Time spiral",
+          "deviceType": "P62",
+          "pkgName": "120917386580",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386580",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386586",
+        "configurationAvailable": true,
+        "themeCount": 3,
+        "imageFormatsCount": 126,
+        "childTypes": {
+          "Image": 25,
+          "Widget": 8,
+          "ImageArray": 6,
+          "Slot": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Under the sea",
+          "deviceType": "P62",
+          "pkgName": "120917386586",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386586",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386589",
+        "configurationAvailable": true,
+        "themeCount": 3,
+        "imageFormatsCount": 311,
+        "childTypes": {
+          "Image": 22,
+          "ImageArray": 14,
+          "Slot": 2,
+          "Widget": 12,
+          "ProgressBar": 3
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Neat 4",
+          "deviceType": "P62",
+          "pkgName": "120917386589",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386589",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386592",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 265,
+        "childTypes": {
+          "Image": 37,
+          "ImageArray": 2,
+          "Widget": 9,
+          "ProgressBar": 1,
+          "Sprite": 1,
+          "Slot": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Tourbillon",
+          "deviceType": "P62",
+          "pkgName": "120917386592",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.3"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386592",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386640",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 173,
+        "childTypes": {
+          "Image": 18,
+          "ImageArray": 8
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Wilderness",
+          "deviceType": "P62",
+          "pkgName": "120917386640",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386640",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386745",
+        "configurationAvailable": true,
+        "themeCount": 10,
+        "imageFormatsCount": 343,
+        "childTypes": {
+          "Image": 161,
+          "Slot": 10,
+          "Widget": 75,
+          "ImageArray": 20,
+          "ProgressBar": 5
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": "style_1_animated.webp"
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": "style_2_animated.webp"
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": "style_3_animated.webp"
+          },
+          {
+            "name": "样式3",
+            "type": "AOD",
+            "preview": "_preview/样式3息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": "style_4_animated.webp"
+          },
+          {
+            "name": "样式4",
+            "type": "AOD",
+            "preview": "_preview/样式4息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式5",
+            "type": "normal",
+            "preview": "_preview/样式5亮屏预览图.png",
+            "previewAni": "style_5_animated.webp"
+          },
+          {
+            "name": "样式5",
+            "type": "AOD",
+            "preview": "_preview/样式5息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Suit and tie",
+          "deviceType": "P62",
+          "pkgName": "120917386745",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386745",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386770",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 87,
+        "childTypes": {
+          "Image": 40,
+          "ImageArray": 4,
+          "Widget": 6,
+          "ProgressBar": 3
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Obsidian",
+          "deviceType": "P62",
+          "pkgName": "120917386770",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386770",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386805",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 108,
+        "childTypes": {
+          "Image": 30,
+          "ImageArray": 6,
+          "Widget": 4,
+          "ProgressBar": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": "style_1_animated.webp"
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": "style_2_animated.webp"
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Mechanical core 1.0",
+          "deviceType": "P62",
+          "pkgName": "120917386805",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386805",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386818",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 190,
+        "childTypes": {
+          "Image": 120,
+          "ImageArray": 8,
+          "Slot": 6,
+          "Widget": 36
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": "style_1_animated.webp"
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": "style_2_animated.webp"
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": "style_3_animated.webp"
+          }
+        ],
+        "description": {
+          "name": "Triple threat",
+          "deviceType": "P62",
+          "pkgName": "120917386818",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386818",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917386835",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 261,
+        "childTypes": {
+          "Image": 79,
+          "Slot": 6,
+          "Widget": 45,
+          "ImageArray": 55,
+          "ProgressBar": 24
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Bouldering",
+          "deviceType": "P62",
+          "pkgName": "120917386835",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917386835",
+          "compressMethod": "None",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917387075",
+        "configurationAvailable": true,
+        "themeCount": 3,
+        "imageFormatsCount": 109,
+        "childTypes": {
+          "Image": 21,
+          "ImageArray": 14,
+          "Widget": 8,
+          "ProgressBar": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "轨迹",
+          "deviceType": "P62",
+          "pkgName": "120917387075",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917387075",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917393370",
+        "configurationAvailable": true,
+        "themeCount": 8,
+        "imageFormatsCount": 905,
+        "childTypes": {
+          "Image": 716,
+          "Slot": 24,
+          "Widget": 176,
+          "ProgressBar": 24,
+          "ImageArray": 48
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "AOD",
+            "preview": "_preview/样式3息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "AOD",
+            "preview": "_preview/样式4息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Around and around",
+          "deviceType": "P62",
+          "pkgName": "120917393370",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917393370",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917393375",
+        "configurationAvailable": true,
+        "themeCount": 8,
+        "imageFormatsCount": 849,
+        "childTypes": {
+          "Rive": 4,
+          "Image": 229,
+          "Widget": 72,
+          "ImageArray": 48,
+          "Slot": 8,
+          "ProgressBar": 56
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "AOD",
+            "preview": "_preview/样式3息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "AOD",
+            "preview": "_preview/样式4息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Forest checker",
+          "deviceType": "P62",
+          "pkgName": "120917393375",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917393375",
+          "compressMethod": "None",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917393388",
+        "configurationAvailable": true,
+        "themeCount": 10,
+        "imageFormatsCount": 1110,
+        "childTypes": {
+          "Image": 295,
+          "ImageArray": 55,
+          "Slot": 20,
+          "Widget": 140,
+          "ProgressBar": 120
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "AOD",
+            "preview": "_preview/样式3息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "AOD",
+            "preview": "_preview/样式4息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式5",
+            "type": "normal",
+            "preview": "_preview/样式5亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式5",
+            "type": "AOD",
+            "preview": "_preview/样式5息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Moonbeam",
+          "deviceType": "P62",
+          "pkgName": "120917393388",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917393388",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917393389",
+        "configurationAvailable": true,
+        "themeCount": 10,
+        "imageFormatsCount": 788,
+        "childTypes": {
+          "Image": 230,
+          "Sprite": 5,
+          "ImageArray": 125,
+          "Slot": 10,
+          "Widget": 85,
+          "ProgressBar": 50
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": "style_1_animated.webp"
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": "style_2_animated.webp"
+          },
+          {
+            "name": "样式3",
+            "type": "normal",
+            "preview": "_preview/样式3亮屏预览图.png",
+            "previewAni": "style_3_animated.webp"
+          },
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": "style_4_animated.webp"
+          },
+          {
+            "name": "样式5",
+            "type": "normal",
+            "preview": "_preview/样式5亮屏预览图.png",
+            "previewAni": "style_5_animated.webp"
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式3",
+            "type": "AOD",
+            "preview": "_preview/样式3息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "AOD",
+            "preview": "_preview/样式4息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式5",
+            "type": "AOD",
+            "preview": "_preview/样式5息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Gear jungle",
+          "deviceType": "P62",
+          "pkgName": "120917393389",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917393389",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917406065",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 285,
+        "childTypes": {
+          "Image": 38,
+          "ImageArray": 14,
+          "Widget": 4,
+          "ProgressBar": 2
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "normal",
+            "preview": "_preview/样式2亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式2",
+            "type": "AOD",
+            "preview": "_preview/样式2息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Beyond time",
+          "deviceType": "P62",
+          "pkgName": "120917406065",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917406065",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917409727",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 73,
+        "childTypes": {
+          "Image": 14,
+          "Widget": 3,
+          "ImageArray": 11
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": "style_1_animated.webp"
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "彩色刻度",
+          "deviceType": "P62",
+          "pkgName": "120917409727",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917409727",
+          "compressMethod": "RLEReversed",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "120917418637",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 40,
+        "childTypes": {
+          "PhotoAlbumBg": 1,
+          "ImageArray": 1,
+          "Image": 5
+        },
+        "themes": [
+          {
+            "name": "样式1",
+            "type": "normal",
+            "preview": "_preview/样式1亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式1",
+            "type": "AOD",
+            "preview": "_preview/样式1息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Custom analog",
+          "deviceType": "P62",
+          "pkgName": "120917418637",
+          "deviceRegion": "international",
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "120917418637",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700009",
+        "configurationAvailable": true,
+        "themeCount": 1,
+        "imageFormatsCount": 143,
+        "childTypes": {
+          "Image": 20,
+          "ImageArray": 8,
+          "Widget": 11
+        },
+        "themes": [
+          {
+            "name": "Theme1",
+            "type": "normal",
+            "preview": "_preview/Theme1NormalPreview.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Ferrari",
+          "deviceType": "P62",
+          "pkgName": "000000000000",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "000000000000",
+          "compressMethod": "RLEReversed",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700014",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 33,
+        "childTypes": {
+          "Widget": 3,
+          "Image": 26
+        },
+        "themes": [
+          {
+            "name": "Theme1",
+            "type": "normal",
+            "preview": "_preview/Theme1NormalPreview.png",
+            "previewAni": null
+          },
+          {
+            "name": "Theme1",
+            "type": "AOD",
+            "preview": "_preview/Theme1AODPreview.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "Rolex Daytona Black",
+          "deviceType": "P62",
+          "pkgName": "000000000000",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.1"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "000000000000",
+          "compressMethod": "None",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700015",
+        "configurationAvailable": true,
+        "themeCount": 2,
+        "imageFormatsCount": 249,
+        "childTypes": {
+          "Image": 134,
+          "Text": 2,
+          "Widget": 178,
+          "ImageArray": 123,
+          "Slot": 8
+        },
+        "themes": [
+          {
+            "name": "样式4",
+            "type": "normal",
+            "preview": "_preview/样式4亮屏预览图.png",
+            "previewAni": null
+          },
+          {
+            "name": "样式4",
+            "type": "AOD",
+            "preview": "_preview/样式4息屏预览图.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "luminox",
+          "deviceType": "P62",
+          "pkgName": "000000000000",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "000000000000",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700027",
+        "configurationAvailable": false
+      },
+      {
+        "id": "562700039",
+        "configurationAvailable": true,
+        "themeCount": 1,
+        "imageFormatsCount": 120,
+        "childTypes": {
+          "Image": 14,
+          "ImageArray": 10
+        },
+        "themes": [
+          {
+            "name": "Theme1",
+            "type": "normal",
+            "preview": "_preview/Theme1NormalPreview.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "SealthHunter",
+          "deviceType": "P62",
+          "pkgName": "000000000000",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "000000000000",
+          "compressMethod": "RLEReversed",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700050",
+        "configurationAvailable": true,
+        "themeCount": 1,
+        "imageFormatsCount": 49,
+        "childTypes": {
+          "Image": 17,
+          "ImageArray": 6
+        },
+        "themes": [
+          {
+            "name": "Theme1",
+            "type": "normal",
+            "preview": "_preview/Theme1NormalPreview.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "SkyHawk",
+          "deviceType": "P62",
+          "pkgName": "000000000000",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.9.4"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "000000000000",
+          "compressMethod": "RLEReversed",
+          "editable": "false",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700078",
+        "configurationAvailable": false
+      },
+      {
+        "id": "562700083",
+        "configurationAvailable": false
+      },
+      {
+        "id": "562700090",
+        "configurationAvailable": false
+      },
+      {
+        "id": "562700091",
+        "configurationAvailable": false
+      },
+      {
+        "id": "562700103",
+        "configurationAvailable": true,
+        "themeCount": 4,
+        "imageFormatsCount": 2279,
+        "childTypes": {
+          "Image": 199,
+          "Slot": 22,
+          "Widget": 129,
+          "ImageArray": 110,
+          "Text": 14
+        },
+        "themes": [
+          {
+            "name": "Ru",
+            "type": "normal",
+            "preview": "_preview/RuNormalPreview.png",
+            "previewAni": null
+          },
+          {
+            "name": "En",
+            "type": "normal",
+            "preview": "_preview/EnNormalPreview.png",
+            "previewAni": null
+          },
+          {
+            "name": "Ru",
+            "type": "AOD",
+            "preview": "_preview/RuAODPreview.png",
+            "previewAni": null
+          },
+          {
+            "name": "En",
+            "type": "AOD",
+            "preview": "_preview/EnAODPreview.png",
+            "previewAni": null
+          }
+        ],
+        "description": {
+          "name": "LLATH",
+          "deviceType": "P62",
+          "pkgName": "000000000000",
+          "deviceRegion": null,
+          "imageFormat": "indexed8"
+        },
+        "capability": {
+          "protocol": [
+            "1.8.17"
+          ],
+          "resolution": [
+            "XMHD02"
+          ],
+          "region": [
+            "CN"
+          ],
+          "packet": [
+            "BIN"
+          ]
+        },
+        "manifest": {
+          "width": "480",
+          "height": "480",
+          "id": "000000000000",
+          "compressMethod": "RLEReversed",
+          "editable": "true",
+          "interactive": "false",
+          "advanced": "false"
+        }
+      },
+      {
+        "id": "562700106",
+        "configurationAvailable": false
+      }
+    ],
+    "capabilityRegionCounts": {
+      "['CN']": 33
+    },
+    "compressionCounts": {
+      "RLEReversed": 29,
+      "None": 4
+    }
+  },
+  "findings": [
+    "NASA full composite PNG previews contain main and small hands; inspected visually.",
+    "Mod extracted all archived metadata/preview files without changes. Only resource.bin ID changed to local L00000000001.",
+    "All 133 themes across 33 available editor configurations use _preview/ paths. Six of the 39 folders have no editor configuration.",
+    "No App nodes were found in the 33 editor configurations; NASA uses App nodes for Lua-rendered hands.",
+    "Extracted folder contains extra files not in designer.zip; provenance and use by mod are not proven.",
+    "A local catalog/database record and the mod rendering implementation are absent. The folder alone cannot establish exactly which preview source the app chooses."
+  ],
+  "changes14": [
+    "Crono Pro shared transition duration 480 -> 720 ms.",
+    "Full preview resource paths aligned with _preview/ convention.",
+    "Remove previewAni references to one-frame WebP files; static fallback.",
+    "Populate image formats map and stock Image resource fields."
+  ],
+  "limits": [
+    "No firmware or capability changes. Online and local uploader catalog metadata cannot be made identical from this cache alone.",
+    "App support for rendering Lua Apps is not demonstrated by supplied online examples; preview fix requires physical verification in the mod."
+  ],
+  "localDescription": {
+    "name": "NASA S5 Crono Pro 1.2",
+    "deviceType": "P62",
+    "pkgName": "793822443",
+    "deviceRegion": "international",
+    "imageFormat": "indexed8"
+  },
+  "localCapability": {
+    "protocol": [
+      "1.9.4"
+    ],
+    "resolution": [
+      "XMHD02"
+    ],
+    "region": [
+      "CN"
+    ],
+    "packet": [
+      "BIN"
+    ],
+    "image_compress": [
+      "01"
+    ],
+    "image_fmt": [
+      "00000000000000001"
+    ],
+    "data_source": [
+      "10010010000000000000100100100000,00000000000000000000000000000000,00000000000000010000000100001000,00000100010000000000000000000000,00000000000000000000000000000000,0000000001"
+    ]
+  }
+}

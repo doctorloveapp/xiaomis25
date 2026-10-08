@@ -265,6 +265,8 @@ def test_real_compiler_sweep_lua_all_variants_aod_and_report_tampering(tmp_path)
             if screen['aod']:assert not seconds and not tables[5]
             else:
                 assert len(seconds)==2 and all(struct.unpack_from('<H',b,6)[0]==40 for b in seconds)
+                civil=[b for _,_,b in tables[7] if b[:2] in (bytes.fromhex('0811'),bytes.fromhex('1011')) and b[3]>>4==3]
+                assert len(civil)==2 and all(struct.unpack_from('<H',b,6)[0]==1000 for b in civil)
                 for _,_,b in tables[5]:
                     name,content=unpack_app(b);assert z.read('app/'+name)==content
     assert validate_package(ROOT/'quadrante_funzionante.zip',archive)['status']=='passed'

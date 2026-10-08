@@ -1,0 +1,70 @@
+{
+  "applicationVersion": "1.4.1",
+  "date": "2026-10-08",
+  "status": "passed",
+  "sourceTests": {
+    "passed": 30,
+    "failures": 0,
+    "errors": 0,
+    "elapsedSeconds": 13.832,
+    "command": "PYTHONPATH=build/test-deps python -m pytest tests/test_chrono_pro.py tests/test_independent_variants.py::test_style_thumbnails_include_all_visible_layers_and_are_independent_of_live_preview tests/test_motion_interaction.py::test_real_compiler_sweep_lua_all_variants_aod_and_report_tampering -q",
+    "report": "build/tests-1.4.1.xml"
+  },
+  "previewCorrection": {
+    "cause": "initial main-hand preview used analog geometry, whereas Pro export used the length/scaling of Lua pointers",
+    "fix": "preview uses pro_views and their Pointer geometry; export rules unchanged",
+    "adjustmentCombinationsTested": [
+      "neither",
+      "length-only",
+      "width-only",
+      "both"
+    ],
+    "firstRenderWithoutEditsTested": true,
+    "renderAfterControlEditTested": true,
+    "actualNasaGraphicsChecked": 12,
+    "actualNasaExportedPngIdenticalToUserZip": true,
+    "actualNasaLuaScenesIdenticalToUserZip": true,
+    "actualNasaPreviewMatchesExport": true,
+    "actualNasaSourceModified": false,
+    "analysis": "docs/nasa-geometry-analysis-1.4.1.json",
+    "compiledPackageMinutePngVerified": true
+  },
+  "normalAnalogSweep": {
+    "groupFlagAffectsOnlyMainSeconds": true,
+    "compiledSecondsPeriodMs": 40,
+    "compiledHourAndMinutePeriodMs": 1000,
+    "aodSecondsExcluded": true,
+    "runtimeChanges": false
+  },
+  "runtime": {
+    "luaModulesUnchangedFromNasa": {
+      "studio_core.lua": true,
+      "studio_core_pro.lua": true
+    },
+    "transitionDurationMs": 720,
+    "chronoProRunningQuantized": true,
+    "chronoProTransitionsAlwaysSmooth": true
+  },
+  "releaseWorkflow": {
+    "fullSuiteRepeated": false,
+    "graphicalEditorSmokeRepeated": false,
+    "newRegressionBackup": false,
+    "isolatedExeTest": false,
+    "temporaryCompilerIntegrationTests": 2,
+    "demoWatchfaceDelivered": false,
+    "documentsUpdated": true
+  },
+  "checks": {
+    "frontendSyntax": "passed",
+    "diffWhitespace": "passed"
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.4.1",
+    "embeddedFilesVerified": 708,
+    "exeSize": 234936227,
+    "exeSha256": "a064d636f571996bf058c309773931c43edc87b7345bfc602d8474504e90761d",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  }
+}

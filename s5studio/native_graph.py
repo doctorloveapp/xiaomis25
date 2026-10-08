@@ -282,12 +282,14 @@ def metadata(project,screens,nodes,face_id):
     editor['isSlotFollowing']=not any(v.get('independent') for v in project.variants)
     title=ET.SubElement(resources,'Translation',name='watchfaceName')
     for language in LANGUAGES:ET.SubElement(title,'Item',language=language,str=project.name)
+    preview_paths={uid:f'_preview/Style_{vi+1}_{"AOD" if aod else "Normal"}Preview.png' for _,_,aod,vi,uid in screens}
     for uid,node in sorted(nodes.items()):
         name=uid_name(uid);mapping.append(f'{name}: {uid:x}')
         attrs={k:('@'+uid_name(v) if type(v) is int else str(v)) for k,v in node['attrs'].items()}
         el=ET.SubElement(resources,node['tag'],name=name,**attrs)
         if node['tag']=='Image':
-            path=f'studio/{name}.png';el.set('src',path);files['resources/'+path]=node['bitmap']
+            path=preview_paths.get(uid,f'studio/{name}.png');el.set('src',path);files['resources/'+path]=node['bitmap']
+            editor['formats'][path]='indexed8'
         elif node['tag']=='App':
             path=node['attrs']['src']
             if path in files and files[path]!=node['app']:raise ValueError('Risorsa Lua condivisa incoerente.')
@@ -295,6 +297,7 @@ def metadata(project,screens,nodes,face_id):
         elif node['tag']=='ImageArray':
             for n,b in enumerate(node['bitmaps']):
                 path=f'studio/{name}_{n}.png';ET.SubElement(el,'Image',src=path);files['resources/'+path]=b
+                editor['formats'][path]='indexed8'
         elif node['tag']=='Translation':
             for language in LANGUAGES:ET.SubElement(el,'Item',language=language,str=node['text'])
         elif node['tag']=='DataItemImageValues':
@@ -304,7 +307,7 @@ def metadata(project,screens,nodes,face_id):
         elif node['tag']=='Widget':
             for x,y,ref,flags in node['children']:ET.SubElement(el,'Item',ref='@'+uid_name(ref),x=str(x),y=str(y))
     for n,(tables,name,aod,vi,preview_uid) in enumerate(screens):
-        preview=f'studio/{uid_name(preview_uid)}.png'
+        preview=preview_paths[preview_uid]
         theme=ET.SubElement(manifest,'Theme',name=name,type='AOD' if aod else 'normal',preview='@'+uid_name(preview_uid),bgColor='#000000' if aod else project.variant_project(vi).background,isPhotoAlbumWatchface='false')
         children=[]
         for _,_,payload in tables[0]:
@@ -322,16 +325,24 @@ def metadata(project,screens,nodes,face_id):
                              resources={'editBox':{'studio':[f'studio/{uid_name(first["attrs"]["editBox"])}.png']}},positions=[],curSlotPosition=0,
                              w=node['width'],h=node['height'])
                 children.append({'id':uid_name(ref),'type':'Slot','attrs':attrs,'children':options})
-            else:children.append({'id':uid_name(ref),'type':node['tag'],'attrs':{**attrs,**{k:v for k,v in node['attrs'].items() if type(v) is not int}}})
+            else:
+                if node['tag']=='Image':
+                    from PIL import Image
+                    from io import BytesIO
+                    with Image.open(BytesIO(node['bitmap'])) as bitmap:width,height=bitmap.size
+                    path=preview_paths.get(ref,f'studio/{uid_name(ref)}.png')
+                    attrs.update(w=width,h=height,rotation=0,sourceEnabled=False,
+                                 resources={'pointer0':{'studio':[path]}})
+                children.append({'id':uid_name(ref),'type':node['tag'],'attrs':{**attrs,**{k:v for k,v in node['attrs'].items() if type(v) is not int}}})
         etheme={'id':f'studio_theme_{n:02}','name':name,'type':'AOD' if aod else 'normal','children':children,'bgColor':'#000000' if aod else project.variant_project(vi).background,'colorGroupTable':[{'id':'studio','name':'Studio','color':'#ffffff'}],'ifttts':[],'preview':preview}
-        if not aod:etheme['previewAni']=f'style_{vi+1}_animated.webp'
         editor['themes'].append(etheme)
     for uid,node in nodes.items():
         if node['tag']=='Translation':editor['i18n']['translations'][uid_name(uid)]={language:node['text'] for language in LANGUAGES}
     ET.indent(manifest);files['resources/manifest.xml']=ET.tostring(manifest,encoding='utf-8',xml_declaration=True)
     files['editor.config.json']=json.dumps(editor,ensure_ascii=False,indent=2).encode();files['uidmap.map']=('\n'.join(mapping)+'\n').encode()
-    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.3','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
-         'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','app/lua/'))},
+    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.4.1','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
+         'phonePreview':{'staticOnly':True,'resourceDirectory':'_preview','completeLayers':True,'modHardwareVerified':False},
+         'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','resources/_preview/','app/lua/'))},
          'metadataHashes':{k:hashlib.sha256(files[k]).hexdigest() for k in ('resources/manifest.xml','editor.config.json','uidmap.map')},
          'hardwareVerified':False},ensure_ascii=False,indent=2).encode()
     return files

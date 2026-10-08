@@ -19,6 +19,7 @@ def validate_semantics(z):
     nodes={n.get('name'):n for n in manifest.find('Resources')}
     uidmap={name:int(uid,16) for name,uid in re.findall(r'^([^:\r\n]+):\s*([a-fA-F0-9]+)\s*$',z.read('uidmap.map').decode('utf8'),re.M)}
     editor=json.loads(z.read('editor.config.json'));ethemes=editor.get('themes',[])
+    schema=json.loads(z.read('s5studio-schema.json'));static_phone_preview=schema.get('phonePreview',{}).get('staticOnly',False)
     if len(ethemes)!=len(themes):raise ValueError('Editor: numero temi diverso dal binario.')
     for si,(screen,theme,etheme) in enumerate(zip(info['screens'],themes,ethemes)):
         expected_type='AOD' if screen['aod'] else 'normal'
@@ -29,6 +30,16 @@ def validate_semantics(z):
         if preview_uid not in resources or resources[preview_uid][0]!=2:raise ValueError('Anteprima tema senza risorsa nativa.')
         preview_src=nodes[preview_name].get('src')
         if etheme.get('preview')!=preview_src:raise ValueError('Anteprima editor diversa dal manifest.')
+        if static_phone_preview:
+            if not preview_src.startswith('_preview/') or 'previewAni' in etheme:
+                raise ValueError('Anteprima telefono: percorso statico _preview obbligatorio.')
+            if editor.get('formats',{}).get(preview_src)!='indexed8':
+                raise ValueError('Formato anteprima telefono mancante o incoerente.')
+            for child in etheme['children']:
+                if child.get('type')!='Image':continue
+                attrs=child['attrs'];node=nodes.get(child['id'])
+                if node is None or attrs.get('resources',{}).get('pointer0',{}).get('studio')!=[node.get('src')]:
+                    raise ValueError('Risorsa Image del telefono diversa dal manifest.')
         animation=etheme.get('previewAni')
         if animation and (screen['aod'] or 'preview/'+animation not in z.namelist()):
             raise ValueError('Anteprima animata editor inesistente o attribuita ad AOD.')
@@ -93,7 +104,6 @@ def validate_semantics(z):
                 app_name,content=unpack_app(b)
                 if node.tag!='App' or node.get('src')!='app/'+app_name or z.read('app/'+app_name)!=content:
                     raise ValueError('Script/risorsa Lua diversi dal binario.')
-    schema=json.loads(z.read('s5studio-schema.json'))
     for path,digest in {**schema['resourceFiles'],**schema['metadataHashes'],**schema['previewFiles']}.items():
         if hashlib.sha256(z.read(path)).hexdigest()!=digest:raise ValueError('Risorsa/anteprima modificata dopo la compilazione: '+path)
     if 'build-report.json' in z.namelist():
@@ -117,7 +127,7 @@ def validate_package(template,output,expected=None):
         old=archive_members(base);new=archive_members(actual)
         if set(old)-set(new):raise ValueError('File del template eliminati.')
         additions=set(new)-set(old)
-        if any(n not in ('s5studio-schema.json','build-report.json') and not n.startswith(('resources/studio/','app/lua/')) for n in additions):raise ValueError('Aggiunta estranea al packaging Studio.')
+        if any(n not in ('s5studio-schema.json','build-report.json') and not n.startswith(('resources/studio/','app/lua/')) and not (n.startswith('resources/_preview/') and n.endswith('.png')) for n in additions):raise ValueError('Aggiunta estranea al packaging Studio.')
         original_records=local_records(base,Path(template).read_bytes());new_records=local_records(actual,Path(output).read_bytes())
         preserved=0
         for name,item in old.items():

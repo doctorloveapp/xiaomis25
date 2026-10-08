@@ -1,0 +1,71 @@
+{
+  "applicationVersion": "1.4",
+  "date": "2026-10-08",
+  "status": "passed",
+  "sourceTests": {
+    "passed": 25,
+    "failures": 0,
+    "errors": 0,
+    "elapsedSeconds": 7.669,
+    "command": "PYTHONPATH=build/test-deps python -m pytest tests/test_chrono_pro.py tests/test_independent_variants.py::test_style_thumbnails_include_all_visible_layers_and_are_independent_of_live_preview -q",
+    "report": "build/tests-1.4.xml"
+  },
+  "chronoPro": {
+    "previousDurationMs": 480,
+    "transitionDurationMs": 720,
+    "relativeSpeed": 0.6666666666666666,
+    "clockwise": true,
+    "commonCompletionTime": true,
+    "constantAngularSpeed": false,
+    "targetFps": 25,
+    "aodCancellationTested": true,
+    "runtimeChangeOnlyDuration": true,
+    "classicLuaUnchanged": true
+  },
+  "preview": {
+    "staticDirectory": "resources/_preview",
+    "fakePreviewAniReferencesRemoved": true,
+    "formatsMapPopulated": true,
+    "imageResourceReferencesPopulated": true,
+    "validatorRejectsInconsistentPreviewFormats": true,
+    "nativeBinPreviewVerifiedAgainstCompiledFullImage": true,
+    "editorThumbnailVisibleLayersTested": true,
+    "modHardwareConfirmed": false
+  },
+  "analysis": {
+    "source": "Documenti/L00000000001",
+    "record": "docs/local-uploader-analysis-1.4.json",
+    "corpusFolders": 39,
+    "availableConfigs": 33,
+    "themes": 133,
+    "recoveredPngPreviewsAlreadyComplete": true,
+    "onlyBinIdChangedByMod": true
+  },
+  "hardwareEvidence": {
+    "version13": "chrono-functional-mod-preview-failed-as-reported-by-user",
+    "record": "docs/hardware-test-1.3.json",
+    "version14": "awaiting-physical-test"
+  },
+  "releaseWorkflow": {
+    "fullSuiteRepeated": false,
+    "graphicalEditorSmokeRepeated": false,
+    "newRegressionBackup": false,
+    "isolatedExeTest": false,
+    "temporaryCompilerIntegrationTest": true,
+    "demoWatchfaceDelivered": false,
+    "documentsUpdated": true
+  },
+  "checks": {
+    "frontendSyntax": "passed",
+    "diffWhitespace": "passed"
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.4",
+    "embeddedFilesVerified": 708,
+    "exeSize": 234936697,
+    "exeSha256": "a117eb9ed1ae5788d555ccabce36cf4a7b6dd000708a22ae418d8cd3f168de6e",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  }
+}

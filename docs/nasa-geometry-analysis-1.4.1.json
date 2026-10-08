@@ -1,0 +1,262 @@
+{
+  "applicationVersion": "1.4.1",
+  "initialObservation": {
+    "sourceDirectory": "Quadranti Compilati/NASA_S5_Crono_Pro_1_4_zoom-793822443-20261008-190844",
+    "sourceProjectSha256": "394f7c2d90b3aed0d2ad32ec9cff391fb195b8fc15a8088dd3ba2493b9092947",
+    "sourceZipSha256": "96ab6208b38bfe483e80c575aaf1cda99abc34719aa81885994f53fed3155f71",
+    "minuteLength": 10,
+    "minuteLengthAdjusted": false,
+    "previewSize": [
+      40,
+      480
+    ],
+    "exportedSize": [
+      5,
+      46
+    ],
+    "note": "The initial folder was replaced by the user while adjusting the hands; the final comparison uses the newer NASA package."
+  },
+  "sourceDirectory": "Quadranti Compilati/NASA_S5_Crono_Pro_1_4_zoom-793822443-20261008-192419",
+  "sourceProjectSha256": "e6eaf9eafea5be10a91e0193707aace9ef6965305373b91f04c0a8e84979ced1",
+  "sourceZipSha256": "7f81e4541a7db4cf324f0a68928abaaff17c3643f18e02f542d3b29fe45cd396",
+  "sourceModified": false,
+  "scope": "preview-only fix; generated Lua graphics and scenes compared to the existing newer NASA ZIP",
+  "hands": [
+    {
+      "variant": 0,
+      "hand": "hour",
+      "shadow": false,
+      "storedLength": 35,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        35,
+        173
+      ],
+      "pivot": [
+        18,
+        126
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "68ab783e142aebfa379cba22135bace747b47d4b2c2bac45463041fc4b6fec65"
+    },
+    {
+      "variant": 0,
+      "hand": "hour",
+      "shadow": true,
+      "storedLength": 35,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        54,
+        184
+      ],
+      "pivot": [
+        27,
+        131
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "6c9e7c439daad883f52589b8276f081ba4de3a1c0aa97877e98980d86f814ac8"
+    },
+    {
+      "variant": 0,
+      "hand": "minute",
+      "shadow": false,
+      "storedLength": 58,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        35,
+        264
+      ],
+      "pivot": [
+        18,
+        209
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "861cacfa6fbb06b0d2d074497385388bff6a686d925f103f2f0acd91f4177fa8"
+    },
+    {
+      "variant": 0,
+      "hand": "minute",
+      "shadow": true,
+      "storedLength": 58,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        61,
+        276
+      ],
+      "pivot": [
+        30,
+        215
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "28dd504c6c1762f90784c89f5cddb85bc4a8f321becc974b6e63fa63bee2b53e"
+    },
+    {
+      "variant": 0,
+      "hand": "second",
+      "shadow": false,
+      "storedLength": 63,
+      "lengthAdjusted": true,
+      "widthAdjusted": false,
+      "exportedSize": [
+        23,
+        296
+      ],
+      "pivot": [
+        11,
+        227
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "545dcf4a5753cee38d486fe4689561732da4ceca6add8cad84766c96758bf0eb"
+    },
+    {
+      "variant": 0,
+      "hand": "second",
+      "shadow": true,
+      "storedLength": 63,
+      "lengthAdjusted": true,
+      "widthAdjusted": false,
+      "exportedSize": [
+        33,
+        307
+      ],
+      "pivot": [
+        17,
+        232
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "9b0a0da644efd20ddcb075a826dac9294f6b4ac65515c28283b7f20233190d7f"
+    },
+    {
+      "variant": 1,
+      "hand": "hour",
+      "shadow": false,
+      "storedLength": 35,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        35,
+        173
+      ],
+      "pivot": [
+        18,
+        126
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "1ac69b5ccfe9ebb6aba964560a1b7f2d442454aa0aa2e8a42cd3178c612df1eb"
+    },
+    {
+      "variant": 1,
+      "hand": "hour",
+      "shadow": true,
+      "storedLength": 35,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        54,
+        184
+      ],
+      "pivot": [
+        27,
+        131
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "6c9e7c439daad883f52589b8276f081ba4de3a1c0aa97877e98980d86f814ac8"
+    },
+    {
+      "variant": 1,
+      "hand": "minute",
+      "shadow": false,
+      "storedLength": 58,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        35,
+        264
+      ],
+      "pivot": [
+        18,
+        209
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "861cacfa6fbb06b0d2d074497385388bff6a686d925f103f2f0acd91f4177fa8"
+    },
+    {
+      "variant": 1,
+      "hand": "minute",
+      "shadow": true,
+      "storedLength": 58,
+      "lengthAdjusted": true,
+      "widthAdjusted": true,
+      "exportedSize": [
+        61,
+        276
+      ],
+      "pivot": [
+        30,
+        215
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "28dd504c6c1762f90784c89f5cddb85bc4a8f321becc974b6e63fa63bee2b53e"
+    },
+    {
+      "variant": 1,
+      "hand": "second",
+      "shadow": false,
+      "storedLength": 64,
+      "lengthAdjusted": true,
+      "widthAdjusted": false,
+      "exportedSize": [
+        23,
+        301
+      ],
+      "pivot": [
+        12,
+        230
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "661bfcb17139832e4f6e173caf9b30261257233d25bef4b5f951efdb1a5c3a58"
+    },
+    {
+      "variant": 1,
+      "hand": "second",
+      "shadow": true,
+      "storedLength": 64,
+      "lengthAdjusted": true,
+      "widthAdjusted": false,
+      "exportedSize": [
+        34,
+        311
+      ],
+      "pivot": [
+        17,
+        236
+      ],
+      "exportedPngIdenticalToOriginalZip": true,
+      "exportedSha256": "2e6e30da1b2a7bf5cfd47fc10864a71108d323cdf8c1a21ed423d9540f3e1d75"
+    }
+  ],
+  "styles": [
+    {
+      "index": 0,
+      "firstRenderMatchesExportedGeometry": true,
+      "luaSceneIdenticalToOriginalZip": true,
+      "originalUntouchedMinuteControlsReproduced": true
+    },
+    {
+      "index": 1,
+      "firstRenderMatchesExportedGeometry": true,
+      "luaSceneIdenticalToOriginalZip": true,
+      "originalUntouchedMinuteControlsReproduced": true
+    }
+  ],
+  "luaRuntimeUnchanged": {
+    "studio_core.lua": true,
+    "studio_core_pro.lua": true
+  },
+  "status": "passed",
+  "checkedHands": 12
+}

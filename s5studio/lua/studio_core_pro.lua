@@ -5,7 +5,7 @@ local lvgl = require("lvgl")
 local base = require("studio_core")
 local M = {state="rest", elapsed=0, started=0, views={}, active=true,
     screenOn=true, pendingTap=false, civil={hour=0,minute=0,second=0},
-    civilReady=false, transitionMs=480, engineTick=0, lastPhase=0}
+    civilReady=false, transitionMs=720, engineTick=0, lastPhase=0}
 _G.S5StudioChronoPro120 = M
 
 local function wall()

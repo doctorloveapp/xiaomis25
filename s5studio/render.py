@@ -321,11 +321,19 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
             if e.smooth_seconds and e.source in ('second','timeSecond') and value is not None:value=(value+values.get('__secondFraction',0))%60
             fraction=0 if value is None else max(0,min(1,(float(value)-e.value_start)/e.value_range))
             hands=[('second',e.angle_start+fraction*e.angle_range)]
+        # Pro exports the main hands as Lua pointers. Preview their exact
+        # geometry even before an adjustment control has been touched.
+        pro_geometry={}
+        if e.kind=='analog' and e.chrono_pro and e.second_hand and not e.aod:
+            from .lua_runtime import pro_views
+            pro_geometry=dict(zip(('hour','minute','second'),pro_views(e)))
         for shadow in ([True,False] if e.show_shadows else [False]):
             for which, angle in hands:
-                pair=hand_image(e,which,p,shadow=shadow)
+                graphic=pro_geometry.get(which,e)
+                graphic_hand='second' if which in pro_geometry else which
+                pair=hand_image(graphic,graphic_hand,p,shadow=shadow)
                 if pair is None:continue
-                hand,anchor=pair;dx,dy=hand_shadow_offset(e,which,p) if shadow else (0,0)
+                hand,anchor=pair;dx,dy=hand_shadow_offset(graphic,graphic_hand,p) if shadow else (0,0)
                 centre=(cx+dx,cy+dy)
                 layer=Image.new('RGBA',im.size)
                 layer.alpha_composite(hand,(centre[0]-anchor[0],centre[1]-anchor[1]))

@@ -55,7 +55,8 @@
     "previousVersion": "1.2",
     "status": "passed-as-reported-by-user",
     "record": "docs/hardware-test-1.2.json",
-    "version13": "not-yet-physically-tested"
+    "version13": "chrono-functional-mod-preview-failed-as-reported-by-user",
+    "version13Record": "docs/hardware-test-1.3.json"
   },
   "releaseWorkflow": {
     "newRegressionBackups": false,

@@ -1,10 +1,40 @@
-# S5 Studio 1.2 — Stili indipendenti e Crono-Pro orario
+# S5 Studio 1.4.1 — Anteprima Crono Pro coerente con i valori impostati
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.3.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-1.4.1.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Correzione 1.4.1
+
+**L’anteprima Crono Pro mostra subito le dimensioni impostate**, anche aprendo un progetto senza modificare i controlli. Nel primo NASA analizzato, Lunghezza minuti 10% generava correttamente una grafica di 5×46 px. L’anteprima usava invece la geometria analogica originale di 40×480 px finché non venivano modificati i controlli, dando un’idea sbagliata della misura esportata.
+
+Il renderer dell’anteprima usa ora le stesse viste `pro_views` dell’esportazione Lua, inclusi pivot, colori e ombre. **La geometria nello ZIP resta invariata:** tutte le 12 PNG delle lancette/ombre e le due scene Lua rigenerate dal nuovo progetto NASA sono byte per byte identiche al pacchetto creato dall’utente dopo la regolazione. La prova riproduce anche i controlli iniziali minuti 10% e spessore 5 senza regolazioni attivate. Le anteprime complete e degli stili usano lo stesso renderer.
+
+**Movimento Fluido durante l’ora normale:** il flag del gruppo analogico riguarda soltanto la grande dei secondi; non abilita il movimento fluido sulle grandi di ore e minuti. Il Crono Pro mantiene il conteggio a scatti e i rientri coordinati sempre fluidi da 720 ms, indipendenti dal flag. Il runtime resta invariato.
+
+**30 test mirati superati**, inclusi anteprima al primo render e dopo una modifica, quattro combinazioni di regolazione, compilazioni temporanee, varianti e AOD. Il binario nativo verifica secondi a 25 fps e ore/minuti al periodo normale di 1.000 ms. [Analisi del NASA](docs/nasa-geometry-analysis-1.4.1.json), [verifica](docs/validation-editor-1.4.1.json). Nessun nuovo backup, nessuna prova EXE isolata e nessun quadrante dimostrativo.
+
+Apri il progetto con **S5Studio-1.4.1.exe**: vedrai subito la dimensione esportata. Modifica Lunghezza/Spessore per ottenere la misura desiderata, poi genera lo ZIP. Non serve toccare un controllo per risvegliare l’anteprima.
+
+## Novità 1.4
+
+**Crono Pro più lento:** preparazione e Reset passano da **480 a 720 ms**, riducendo la velocità di un altro terzo rispetto alla 1.3. Il tempo resta comune e deterministico, con rientri orari, simultanei, target 25 fps e annullamento immediato in AOD. Anche la simulazione usa 720 ms. A parità di durata, una lancetta che percorre più gradi ruota più velocemente: questa differenza rimane per conservare il completamento simultaneo del gruppo; la 1.4 rallenta tutti i percorsi di un terzo.
+
+**Anteprime della mod:** il confronto del materiale NASA recuperato con tutte le **39 cartelle** del corpus trova **33 configurazioni disponibili e 133 temi**, tutti con anteprime nella cartella `_preview/`. Le PNG NASA della 1.3 contengono già tutte le lancette; la mod le estrae senza modificarle. Nel binario cambia soltanto l’ID, che diventa `L00000000001`. Le configurazioni online esaminate non contengono oggetti `App`, mentre le nostre lancette Pro sono gestite da una scena Lua `App`: il comportamento del renderer della mod resta da confermare.
+
+La 1.4 usa PNG complete in `resources/_preview/`, riferimenti statici nel manifest e in `editor.config.json`, mappa `formats` e risorse `Image` conformi agli esempi. Il riferimento `previewAni` ai WebP con un solo fotogramma viene rimosso. Un validator controlla questi riferimenti prima dell’esportazione. Le capacità, il template e i livelli del quadrante operativo non vengono alterati da questa correzione dei metadati.
+
+**La correzione della preview nella mod richiede il prossimo test reale:** la cartella non include il database del catalogo locale né il codice dell’app. Non consente di dimostrare che la mod usi le PNG statiche anziché ricostruire una preview ignorando Lua. Nome locale e controllo capabilities dipendono ancora dal percorso di importazione della mod. Analisi: [ANALISI_UPLOADER_1.4.md](docs/ANALISI_UPLOADER_1.4.md), [rapporto tecnico](docs/local-uploader-analysis-1.4.json). Guida: [EDITOR_1.4.md](docs/EDITOR_1.4.md).
+
+**25 verifiche mirate superate**, comprese una compilazione temporanea, integrità delle anteprime e rifiuto dei riferimenti incoerenti. Nessun nuovo backup e nessun avvio EXE in ambiente isolato. [Rapporto di verifica](docs/validation-editor-1.4.json).
+
+Per il test: apri il progetto nella 1.4, esporta un nuovo ZIP e importalo sul telefono. Usa il nuovo pacchetto e verifica le anteprime dello stile normale e dello Stile 2; aggiornare soltanto l’EXE non modifica il pacchetto già installato.
+
+## Novità 1.3
+
+La 1.3 aveva portato i rientri da 320 a 480 ms e rasterizzato tutte le lancette prima della codifica delle anteprime native. Il test reale conferma il funzionamento del Crono Pro, ma la mod mostra ancora una preview con il solo sfondo. [Esito reale](docs/hardware-test-1.3.json). La 1.4 allinea i metadati delle anteprime al catalogo online e rallenta ulteriormente le transizioni.
 
 ## Novità 1.2
 
@@ -14,7 +44,7 @@ Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e
 
 I progetti precedenti vengono convertiti in memoria conservando l’aspetto di ogni stile. Il salvataggio usa lo **schema 3**, con risorse di tutti gli stili; salva una copia per conservarne una apribile nelle versioni precedenti. L’AOD rimane una schermata comune abbinata agli stili. Il compiler genera risorse, anteprime reali e complicazioni da ciascuna lista indipendente. Guida: [EDITOR_1.2.md](docs/EDITOR_1.2.md).
 
-Il **primo test reale Crono Pro 1.1 è superato**, con fluidità confermata dall’utente. Sorgenti, risorse ed EXE 1.1 sono conservati nel [backup verificato](docs/stable-baseline-1.1.json); il crono separato mantiene il core 1.0. Le novità 1.2 richiedono la nuova prova sull’S5. Verifica PC: **127 test automatici e 100 controlli dell’editor superati**. Rapporti: [validation-editor-1.2.json](docs/validation-editor-1.2.json), [executable-build-1.2.json](docs/executable-build-1.2.json). Nessuna prova EXE in ambiente isolato; viene consegnato solo l’eseguibile.
+Il **primo test reale Crono Pro 1.1 è superato**, con fluidità confermata dall’utente. Sorgenti, risorse ed EXE 1.1 sono conservati nel [backup verificato](docs/stable-baseline-1.1.json); il crono separato mantiene il core 1.0. Il test reale della 1.2 è pienamente superato: [conferma dell’utente](docs/hardware-test-1.2.json). Verifica PC: **127 test automatici e 100 controlli dell’editor superati**. Rapporti: [validation-editor-1.2.json](docs/validation-editor-1.2.json), [executable-build-1.2.json](docs/executable-build-1.2.json). Nessuna prova EXE in ambiente isolato; viene consegnato solo l’eseguibile.
 
 ## Novità 1.1 — Crono-Pro
 
@@ -141,7 +171,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-1.3.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-1.4.1.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.
@@ -176,7 +206,7 @@ python main.py validate-template quadrante_funzionante.zip S5_Analogico_Libero_0
 
 `apply-template` riconosce i FPRJ esportati da Studio e ricostruisce anche stili/slot dal progetto incorporato, controllando gli hash dei sorgenti. Per FPRJ esterni supporta immagini, cifre, liste di immagini e lancette; altri widget sono rifiutati quando non è possibile rigenerare metadati coerenti.
 
-CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 708 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 1.3 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
+CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 708 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 1.4.1 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
 
 ## Workflow delle prossime release
 

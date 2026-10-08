@@ -85,7 +85,7 @@ def test_pro_all_reset_hands_sweep_together_and_return_to_latest_civil_time(tmp_
     for _,v in core.views.items():v.smooth=smooth
     start(lua,core);lua.globals().TICK=core.started+3661456;core.tap(core)
     lua.globals().TICK+=500;core.tap(core);assert core.state=='resetting'
-    assert len(core.transition.entries)==4 and core.transitionAnimation.duration==480
+    assert len(core.transition.entries)==4 and core.transitionAnimation.duration==720
     starts={e.view.id:e.start for _,e in core.transition.entries.items()}
     lua.execute('DATA.timeSecond(52*256)')
     core.progress(core,500)
@@ -127,7 +127,7 @@ def test_pro_aod_immediately_cancels_animation_and_never_processes_hidden_taps(t
 def test_pro_wall_fallback_uses_animation_phase_for_real_visible_decisecond_steps(tmp_path):
     p,lua,core=pro_runtime(tmp_path,fallback=True)
     assert core.clockMode=='lvgl-animation-phase'
-    core.tap(core);core.clockAnimation.exec_cb(core.root,0);core.clockAnimation.exec_cb(core.root,480)
+    core.tap(core);core.clockAnimation.exec_cb(core.root,0);core.clockAnimation.exec_cb(core.root,720)
     core.progress(core,1000)
     core.tapUnlockAnimation.exec_cb(core.root,1000);core.tap(core);assert core.state=='running'
     core.clockAnimation.exec_cb(core.root,0);core.clockAnimation.exec_cb(core.root,456)
@@ -147,10 +147,10 @@ def test_pro_tick_wrap_and_touch_pause_preserve_state(tmp_path):
     p,lua,core=pro_runtime(tmp_path)
     lua.globals().TICK=4294967000;start(lua,core)
     # start() uses an unbounded test integer; cross the actual uint32 boundary.
-    lua.globals().TICK=500;core.update(core,core.clock(core))
+    lua.globals().TICK=(lua.globals().TICK+250)%4294967296;core.update(core,core.clock(core))
     assert core.elapsed>=100
     lua.globals().pageOnPause();core.tap(core);assert core.pendingTap
-    lua.globals().TICK=900;lua.globals().pageOnResume()
+    lua.globals().TICK+=400;lua.globals().pageOnResume()
     assert core.state=='stopped' and not core.pendingTap
 
 
@@ -263,31 +263,89 @@ def test_pro_scene_change_and_delete_do_not_leave_old_callbacks_in_control(tmp_p
     assert core.configured and core.active and len(core.views)==6
 
 
-def test_pro_preserves_imported_geometry_colour_and_shadow_offsets(tmp_path):
+def assert_pro_canvas_matches_scene(project,main,directory):
+    from PIL import Image
+    from s5studio.render import element_image,hand_image,hand_shadow_offset
+    from s5studio.lua_runtime import pro_views
+    name=write_scene(project,scene_layers(project),directory,0)
+    code=(directory/'app'/name).read_text(encoding='utf8')
+    expected=Image.new('RGBA',(480,480))
+    angles=(64,48,282)  # 14:08:47
+    cx,cy=main.x+main.width//2,main.y+main.height//2
+    for shadow in ([True,False] if main.show_shadows else [False]):
+        for hand,view,angle in zip(('hour','minute','second'),pro_views(main),angles):
+            path=f'gfx/v0_{main.id}_{hand}'+('_shadow' if shadow else '')+'.png'
+            pair=hand_image(view,'second',project,shadow=shadow)
+            if pair is None:continue
+            bitmap,anchor=pair
+            with Image.open(directory/'app/lua'/path) as image:
+                assert image.size==bitmap.size
+                assert image.convert('RGBA').tobytes()==bitmap.tobytes()
+            dx,dy=hand_shadow_offset(view,'second',project) if shadow else (0,0)
+            center=(cx+dx,cy+dy);x,y=center[0]-anchor[0],center[1]-anchor[1]
+            assert f'x={x},y={y},pivot={{x={anchor[0]},y={anchor[1]}}},value=0,src=SCRIPT_PATH.."{path}"' in code
+            layer=Image.new('RGBA',(480,480));layer.alpha_composite(bitmap,(x,y))
+            expected.alpha_composite(layer.rotate(-angle,resample=Image.Resampling.BICUBIC,center=center))
+    with Image.open(directory/f'app/lua/gfx/v0_{main.id}_center.png') as dot:
+        expected.alpha_composite(dot.convert('RGBA'),(cx-7,cy-7))
+    actual=element_image(project,main,{'hour':14,'minute':8,'second':47},viewport=(480,480),origin=(main.x,main.y))
+    assert actual.tobytes()==expected.tobytes()
+
+
+@pytest.mark.parametrize('length_adjusted,width_adjusted',[(False,False),(True,False),(False,True),(True,True)])
+def test_pro_preview_matches_exported_hands_colour_and_shadow_offsets(tmp_path,length_adjusted,width_adjusted):
     from PIL import Image
     from io import BytesIO
-    from s5studio.render import hand_image,hand_shadow_offset
-    from s5studio.lua_runtime import pro_views
     p=pro_project();main=next(e for e in p.elements if e.kind=='analog' and not e.aod)
+    main.show_ticks=False;main.show_shadows=True
     for index,hand in enumerate(('hour','minute','second')):
         raw=BytesIO();Image.new('RGBA',(12+index,50+index),(190,100,40,220)).save(raw,'PNG');data=raw.getvalue()
         asset='assets/'+hashlib.sha256(data).hexdigest()[:24]+'.png';p.assets[asset]=data
         for suffix in ('','_shadow'):
             setattr(main,hand+suffix+'_asset',asset)
             setattr(main,hand+suffix+'_anchor_x',3+index);setattr(main,hand+suffix+'_anchor_y',45+index)
-        setattr(main,hand+'_color','#3344ff');setattr(main,hand+'_length_adjusted',True)
-        setattr(main,hand+'_width_adjusted',True);setattr(main,hand+'_shadow_offset_x',index+2)
-    for hand,v in zip(('hour','minute','second'),pro_views(main)):
-        for shadow in (False,True):
-            expected,anchor=hand_image(main,hand,p,shadow=shadow)
-            actual,cloned_anchor=hand_image(v,'second',p,shadow=shadow)
-            assert expected.tobytes()==actual.tobytes() and expected.size==actual.size and anchor==cloned_anchor
-        assert hand_shadow_offset(main,hand,p)==hand_shadow_offset(v,'second',p)
+        setattr(main,hand+'_color','#3344ff');setattr(main,hand+'_length_adjusted',length_adjusted)
+        setattr(main,hand+'_width_adjusted',width_adjusted);setattr(main,hand+'_shadow_offset_x',index+2)
+    assert_pro_canvas_matches_scene(p,main,tmp_path)
+
+
+def nasa_minute_graphic(project):
+    """Reproduce the NASA canvas, pivot and untouched length=10 setting."""
+    from PIL import Image,ImageDraw
+    from io import BytesIO
+    main=next(e for e in project.elements if e.kind=='analog' and not e.aod)
+    for suffix,size,anchor,box in (('',(40,480),(20,240),(5,33,34,294)),
+                                  ('_shadow',(52,480),(26,240),(0,27,51,300))):
+        image=Image.new('RGBA',size);ImageDraw.Draw(image).rectangle(box,fill=(210,170,100,180))
+        raw=BytesIO();image.save(raw,'PNG');data=raw.getvalue()
+        asset='assets/'+hashlib.sha256(data).hexdigest()[:24]+'.png';project.assets[asset]=data
+        setattr(main,'minute'+suffix+'_asset',asset)
+        for axis,value in zip(('x','y'),anchor):setattr(main,'minute'+suffix+'_anchor_'+axis,value)
+    main.minute_length=10;main.minute_width=5
+    main.minute_length_adjusted=False;main.minute_width_adjusted=False
+    main.minute_color='#ffffff';main.minute_shadow_offset_y=7;main.show_shadows=True
+    return main
+
+
+def test_pro_nasa_preview_is_correct_on_first_render_without_touching_controls(tmp_path):
+    from s5studio.lua_runtime import pro_views
+    from s5studio.render import hand_image
+    p=pro_project();main=nasa_minute_graphic(p);main.show_ticks=False
+    minute=pro_views(main)[1]
+    bitmap,anchor=hand_image(minute,'second',p)
+    assert bitmap.size==(5,46) and anchor==(3,36)
+    assert not main.minute_length_adjusted and main.minute_length==10
+    assert_pro_canvas_matches_scene(p,main,tmp_path)
+    # The preview follows subsequent edits too; it never changes project flags.
+    main.minute_length=55;main.minute_length_adjusted=True
+    assert_pro_canvas_matches_scene(p,main,tmp_path)
+    assert main.minute_length==55 and main.minute_length_adjusted
 
 
 @pytest.mark.integration
 def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch):
     p=pro_project();p.variants.append({'id':'blue','name':'Blu','accent':'#ffffff','background':'','imageAsset':'','overrides':{}})
+    main=nasa_minute_graphic(p)
     from s5studio import native_graph
     encoded={};factory=native_graph.preview_factory
     def capture(project,work,compiler,progress):
@@ -308,6 +366,26 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
     # Runtime Lua hands and every visible layer are rasterized before encoding.
     with zipfile.ZipFile(archive) as z:
         config=json.loads(z.read('editor.config.json'))
+        assert json.loads(z.read('s5studio-schema.json'))['phonePreview']['staticOnly']
+        for theme in config['themes']:
+            assert theme['preview'].startswith('_preview/') and 'previewAni' not in theme
+            assert config['formats'][theme['preview']]=='indexed8'
+            for child in theme['children']:
+                if child['type']=='Image':
+                    path=child['attrs']['resources']['pointer0']['studio'][0]
+                    assert 'resources/'+path in z.namelist() and config['formats'][path]=='indexed8'
+        from s5studio.render import hand_image
+        from s5studio.lua_runtime import pro_views
+        from io import BytesIO
+        for i in range(len(p.variants)):
+            variant=p.variant_project(i)
+            minute=pro_views(next(e for e in variant.elements if e.id==main.id))[1]
+            for shadow in (False,True):
+                expected,_=hand_image(minute,'second',variant,shadow=shadow)
+                path=f'app/lua/gfx/v{i}_{main.id}_minute'+('_shadow' if shadow else '')+'.png'
+                with Image.open(BytesIO(z.read(path))) as image:
+                    assert image.size==expected.size
+                    assert image.convert('RGBA').tobytes()==expected.tobytes()
         for i,theme in enumerate(t for t in config['themes'] if t['type']=='normal'):
             from io import BytesIO
             from s5studio.render import render
@@ -316,8 +394,8 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
     with zipfile.ZipFile(archive) as z:
         report=json.loads(z.read('build-report.json'));pro=report['interactive']['chronoPro']
         assert pro['runningSmoothForcedOff'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
-        assert pro['transitionDurationMs']==480 and pro['transitionTargetFps']==25
-        assert report['applicationVersion']=='1.3' and report['interactive']['appLayoutCount']==2
+        assert pro['transitionDurationMs']==720 and pro['transitionTargetFps']==25
+        assert report['applicationVersion']=='1.4.1' and report['interactive']['appLayoutCount']==2
         assert all(len(s['pointerIds'])==6 for s in report['interactive']['luaArchitecture']['scenes'])
         for screen in inspect_binary(data)['screens']:
             tables=read_tables(data,screen['index'])
@@ -336,21 +414,36 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
             dst.writestr(item,content)
     with zipfile.ZipFile(tampered) as z:
         with pytest.raises(ValueError,match='Rapporto'):validate_semantics(z)
+    bad_preview=tmp_path/'bad-preview.zip'
+    with zipfile.ZipFile(archive) as src:
+        config=json.loads(src.read('editor.config.json'))
+        config['formats'][config['themes'][0]['preview']]='wrong-format'
+        edited=json.dumps(config,ensure_ascii=False,indent=2).encode('utf8')
+        schema=json.loads(src.read('s5studio-schema.json'))
+        schema['metadataHashes']['editor.config.json']=hashlib.sha256(edited).hexdigest()
+        with zipfile.ZipFile(bad_preview,'w') as dst:
+            for item in src.infolist():
+                content=src.read(item)
+                if item.filename=='editor.config.json':content=edited
+                elif item.filename=='s5studio-schema.json':content=json.dumps(schema,ensure_ascii=False,indent=2).encode('utf8')
+                dst.writestr(item,content)
+    with zipfile.ZipFile(bad_preview) as z:
+        with pytest.raises(ValueError,match='Formato anteprima telefono'):validate_semantics(z)
 
 
-def test_preview_prepare_and_reset_complete_after_480ms():
+def test_preview_prepare_and_reset_complete_after_720ms():
     from s5studio.chrono_pro import ProPreview
     p=pro_project();preview=ProPreview()
-    assert preview.duration==480
+    assert preview.duration==720
     second=next(v for v in preview.bindings(p) if v.source=='studioIntegratedSecond')
     preview.tap(p,0,47)
     halfway=preview.values(p,320,47)
     assert preview.state=='arming' and 47<halfway[second.id]<60
-    preview.values(p,479,47);assert preview.state=='arming'
-    preview.values(p,480,47);assert preview.state=='ready'
-    preview.tap(p,480,47);preview.tap(p,65936,52)
+    preview.values(p,719,47);assert preview.state=='arming'
+    preview.values(p,720,47);assert preview.state=='ready'
+    preview.tap(p,720,47);preview.tap(p,66176,52)
     assert preview.state=='stopped'
-    preview.tap(p,66036,52);preview.values(p,66356,52)
+    preview.tap(p,66276,52);preview.values(p,66756,52)
     assert preview.state=='resetting'
-    preview.values(p,66516,52)
-    assert preview.state=='rest' and preview.values(p,66516,52)[second.id]==52
+    preview.values(p,66996,52)
+    assert preview.state=='rest' and preview.values(p,66996,52)[second.id]==52

@@ -1,0 +1,13 @@
+{
+  "applicationVersion": "1.3",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "date": "2026-10-08",
+  "status": "chrono-functional-preview-in-mod-failed-as-reported-by-user",
+  "chronoFunctional": true,
+  "requestedChange": "Reduce transition speed by another third; longer paths currently rotate faster under a shared duration.",
+  "modPreviewComplete": false,
+  "source": "Documenti/L00000000001",
+  "agentPerformedPhysicalTest": false,
+  "exeSha256": "a7e4c62f6a49cc3719f7ebe50fca0aac45f78d5b6c39a4ab0b4f4a8a0a90fcf7",
+  "analysis": "docs/local-uploader-analysis-1.4.json"
+}
