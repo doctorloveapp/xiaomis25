@@ -1,10 +1,28 @@
-# S5 Studio 1.0
+# S5 Studio 1.2 — Stili indipendenti e Crono-Pro orario
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.0.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-1.2.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Novità 1.2
+
+**Rientri Crono Pro sempre in senso orario**: preparazione allo zero e Reset del gruppo usano il percorso orario, anche quando è più lungo. Restano sincronizzati, fluidi per 320 ms con target 25 fps; conteggio a scatti e annullamento immediato in AOD. La simulazione usa lo stesso criterio. Sono gestite anche scale parziali o con rotazione inversa: il rientro fisico resta orario.
+
+**Ogni stile possiede i propri livelli.** Nel pannello **Livelli e proprietà → Stile in modifica** scegli la variante. Duplica uno stile, poi aggiungi, cancella, nascondi, trascina, riordina e modifica le sue immagini, lancette, sorgenti o complicazioni: gli altri stili non vengono alterati. Non serve più il flag “Modifica soltanto questo stile”. “Sfondo da immagine” sostituisce lo sfondo dello stile selezionato, senza lasciare l’immagine coperta dal quadrante principale.
+
+I progetti precedenti vengono convertiti in memoria conservando l’aspetto di ogni stile. Il salvataggio usa lo **schema 3**, con risorse di tutti gli stili; salva una copia per conservarne una apribile nelle versioni precedenti. L’AOD rimane una schermata comune abbinata agli stili. Il compiler genera risorse, anteprime reali e complicazioni da ciascuna lista indipendente. Guida: [EDITOR_1.2.md](docs/EDITOR_1.2.md).
+
+Il **primo test reale Crono Pro 1.1 è superato**, con fluidità confermata dall’utente. Sorgenti, risorse ed EXE 1.1 sono conservati nel [backup verificato](docs/stable-baseline-1.1.json); il crono separato mantiene il core 1.0. Le novità 1.2 richiedono la nuova prova sull’S5. Verifica PC: **127 test automatici e 100 controlli dell’editor superati**. Rapporti: [validation-editor-1.2.json](docs/validation-editor-1.2.json), [executable-build-1.2.json](docs/executable-build-1.2.json). Nessuna prova EXE in ambiente isolato; viene consegnato solo l’eseguibile.
+
+## Novità 1.1 — Crono-Pro
+
+Nuovo flag **Crono Pro** nelle proprietà della lancetta grande dei secondi, disattivato per default. Attivo: Riposo → Prepara allo zero → Avvia → Stop → Reset fluido e ritorno all’ora corrente. Le piccole possono usare **Decimi crono**, Minuti Crono e Ore Crono. Durante il conteggio il flag Movimento Fluido viene ignorato: secondi e decimi avanzano a scatti; nei rientri tutto il gruppo usa obbligatoriamente un’animazione comune da 320 ms, target 25 fps. Il runtime aggiorna soltanto gli angoli cambiati e usa 100 ms con i decimi, 1.000 ms negli altri casi. In AOD interrompe i rientri, nasconde la scena e usa l’AOD del progetto, sempre senza secondi o Lua.
+
+Il **Crono separato 1.0 rimane distinto e conserva il runtime collaudato**. I decimi continui già funzionanti mantengono la propria voce; Decimi crono è la nuova voce legata allo stato Pro. Per rispettare i livelli, l’analogico Pro viene disegnato nella scena Lua, ricevendo l’ora tramite dataman; i secondi hanno un solo controller. Guida: [EDITOR_1.1.md](docs/EDITOR_1.1.md).
+
+Verifica PC: **112 test automatici superati**, compilazioni temporanee con varianti/AOD e **91 controlli nell’editor da sorgente**. **Primo test reale Pro 1.1 superato**, con rientro fluido confermato dall’utente; consumo non misurato. [Evidenza riferita dall’utente](docs/hardware-test-1.1.json). L’EXE 1.0 e il backup verificato restano conservati. Nessun quadrante dimostrativo prodotto e nessuna prova EXE in ambiente isolato.
 
 ## Novità 1.0
 
@@ -123,7 +141,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-1.0.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-1.2.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.
@@ -158,4 +176,8 @@ python main.py validate-template quadrante_funzionante.zip S5_Analogico_Libero_0
 
 `apply-template` riconosce i FPRJ esportati da Studio e ricostruisce anche stili/slot dal progetto incorporato, controllando gli hash dei sorgenti. Per FPRJ esterni supporta immagini, cifre, liste di immagini e lancette; altri widget sono rifiutati quando non è possibile rigenerare metadati coerenti.
 
-CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 707 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 1.0 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
+CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 708 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 1.2 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
+
+## Workflow delle prossime release
+
+Su richiesta dell’utente dell’8 ottobre 2026, **non creare nuovi backup di regressione**. Aggiornare README, guida della versione e rapporti con modifiche e risultati effettivi dei test. Eseguire le verifiche pertinenti alle parti modificate, ampliandole soltanto quando necessario; creare soltanto l’eseguibile richiesto. Verificare staticamente risorse e codice incorporati, senza avviare l’EXE in ambiente isolato. Non creare quadranti dimostrativi salvo stretta necessità. I backup già esistenti restano documentati.

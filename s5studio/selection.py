@@ -19,6 +19,14 @@ def layers(project, ids, variant, aod):
 
 def move(project, ids, dx, dy, variant=0, aod=False, variant_only=False):
     if any(type(v) is not int or abs(v)>8192 for v in (dx,dy)):raise ValueError('Spostamento gruppo non valido.')
+    if project.variants and all(v.get('independent') for v in project.variants):
+        from .model import Project
+        view=project.editable_variant(variant,aod)
+        owned=Project(elements=view.elements,complications=view.complications,layer_order=view.layer_order,
+                      assets=view.assets,variants=[])
+        delta=move(owned,ids,dx,dy,aod=aod)
+        project.commit_variant(variant,view,aod)
+        return delta
     selected=layers(project,ids,variant,aod);bounds=[]
     for key,e in selected:
         bounds.append(e)

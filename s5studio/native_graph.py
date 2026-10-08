@@ -197,9 +197,10 @@ def compose(compiled,project,reference,source_dir,previews,options,option_keys,s
                 payload=bytes(header)+b''.join(struct.pack('<hhII',*c) for c in children)+struct.pack('<IHH',edit,slot['height'],slot['width'])
                 normal[9].append((uid,0,payload));choices.append(uid)
                 nodes[uid]={'tag':'Widget','attrs':{'widgetName':caption,'groupType':'general','preview':preview,'editBox':edit,'w':str(slot['width']),'h':str(slot['height'])},'children':children,'key':key}
-            uid=alloc.new(8);group=str(si+1).encode('utf-8');padded=group.ljust((len(group)+3)//4*4,b'\0')
+            group_name=f'{vi+1}_{si+1}' if v.get('independent') else str(si+1)
+            uid=alloc.new(8);group=group_name.encode('utf-8');padded=group.ljust((len(group)+3)//4*4,b'\0')
             payload=struct.pack('<HH',len(choices),2)+struct.pack('<'+'I'*len(choices),*choices)+struct.pack('<I',len(padded))+padded
-            normal[8].append((uid,0,payload));nodes[uid]={'tag':'Slot','attrs':{'type':'widget','SlotGroupName':str(si+1)},'choices':choices,'slotId':slot['id'],'width':slot['width'],'height':slot['height']}
+            normal[8].append((uid,0,payload));nodes[uid]={'tag':'Slot','attrs':{'type':'widget','SlotGroupName':group_name},'choices':choices,'slotId':slot['id'],'width':slot['width'],'height':slot['height']}
             if slot['id'] not in placeholders:raise ValueError('Livello della complicazione assente nei sorgenti FPRJ.')
             position=placeholders[slot['id']]
             old_layout=normal[0][position]
@@ -240,15 +241,16 @@ def compose(compiled,project,reference,source_dir,previews,options,option_keys,s
             offset=append(bytes(len(rows)*16));struct.pack_into('<II',out,base+8+8*index,len(rows),offset)
             for row,(uid,flags,b) in enumerate(rows):struct.pack_into('<IIII',out,offset+16*row,uid,flags,append(b),len(b))
     data=bytes(out);info=inspect_binary(data)
-    if info['nativeSlots']!=sum(normalized_slot(s)['visible'] for s in project.complications)*len(variants):raise ValueError('Slot mancanti nel risultato nativo.')
+    if info['nativeSlots']!=sum(normalized_slot(s)['visible'] for vi in range(len(variants)) for s in project.variant_project(vi).complications):raise ValueError('Slot mancanti nel risultato nativo.')
     return data,metadata(project,screens,all_nodes,info['faceId'])
 
 def metadata(project,screens,nodes,face_id):
     from .render import render,png_bytes
-    manifest=ET.Element('Watchface',name='@watchfaceName',width='480',height='480',id=face_id,compressMethod='RLEReversed',editable=str(bool(any(normalized_slot(s)['visible'] for s in project.complications) or len(project.variants)>1)).lower())
+    manifest=ET.Element('Watchface',name='@watchfaceName',width='480',height='480',id=face_id,compressMethod='RLEReversed',editable=str(bool(any(normalized_slot(s)['visible'] for vi in range(max(1,len(project.variants))) for s in project.variant_project(vi).complications) or len(project.variants)>1)).lower())
     manifest.set('interactive',str(any(node['tag']=='App' for node in nodes.values())).lower())
     manifest.set('advanced',manifest.get('interactive'))
     resources=ET.SubElement(manifest,'Resources');files={};mapping=['watchfaceName: 6000000'];editor={'themes':[],'i18n':{'translations':{'watchfaceName':{language:project.name for language in LANGUAGES}},'locales':LANGUAGES},'formats':{},'dataSource':{},'isSlotFollowing':True,'introData':{},'aodDisplayMode':'multiColor'}
+    editor['isSlotFollowing']=not any(v.get('independent') for v in project.variants)
     title=ET.SubElement(resources,'Translation',name='watchfaceName')
     for language in LANGUAGES:ET.SubElement(title,'Item',language=language,str=project.name)
     for uid,node in sorted(nodes.items()):
@@ -299,7 +301,7 @@ def metadata(project,screens,nodes,face_id):
         if node['tag']=='Translation':editor['i18n']['translations'][uid_name(uid)]={language:node['text'] for language in LANGUAGES}
     ET.indent(manifest);files['resources/manifest.xml']=ET.tostring(manifest,encoding='utf-8',xml_declaration=True)
     files['editor.config.json']=json.dumps(editor,ensure_ascii=False,indent=2).encode();files['uidmap.map']=('\n'.join(mapping)+'\n').encode()
-    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.0','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
+    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.2','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
          'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','app/lua/'))},
          'metadataHashes':{k:hashlib.sha256(files[k]).hexdigest() for k in ('resources/manifest.xml','editor.config.json','uidmap.map')},
          'hardwareVerified':False},ensure_ascii=False,indent=2).encode()

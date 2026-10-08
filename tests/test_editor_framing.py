@@ -91,7 +91,8 @@ def test_keyboard_nudges_accumulate_and_undo_with_variant(bridge):
     command(b,'undo');assert b.element({'id':e.id}).x==original+4
     command(b,'add-variant');command(b,'edit',id=e.id,variantOnly=True,changes={'x':100})
     command(b,'nudge',id=e.id,variantOnly=True,dx=-10,dy=1)
-    assert b.project.variant_project(1).elements[0].x==90 and b.element({'id':e.id}).x==original+4
+    assert b.project.variant_project(1).elements[0].x==90 and b.project.elements[0].x==original+4
+    assert b.element({'id':e.id}).x==90
     assert b.project.variant_project(1).elements[0].y==e.y+1
 
 def test_nudge_images_beyond_canvas_and_locked_slot(bridge):
@@ -113,11 +114,11 @@ def test_image_geometry_in_variant_is_checked_and_clipped():
     assert p.validate()
 
 
-def test_common_nudge_translates_styles_and_aod_and_respects_lock(bridge):
+def test_nudge_is_local_to_the_style_and_aod_remains_common_and_locked(bridge):
     b=bridge;e=b.project.elements[0];x=e.x
     command(b,'add-variant');command(b,'edit',id=e.id,variantOnly=True,changes={'x':100})
     command(b,'nudge',id=e.id,dx=-10,dy=0)
-    assert b.element({'id':e.id}).x==x-10 and b.project.variant_project(1).elements[0].x==90
+    assert b.element({'id':e.id}).x==90 and b.project.elements[0].x==x
     aod=next(e for e in b.project.elements if e.aod);command(b,'aod',value=True)
     y=aod.y;command(b,'nudge',id=aod.id,variantOnly=True,dx=0,dy=1)
     assert b.element({'id':aod.id}).y==y+1

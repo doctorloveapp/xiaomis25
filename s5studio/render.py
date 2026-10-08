@@ -309,11 +309,15 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
         cx,cy=origin[0]+e.width//2,origin[1]+e.height//2
         # Preview uses native hand raster assets, rotated around the same anchor.
         hands=[("hour",((values.get('hour') or 0)%12)*30+(values.get('minute') or 0)*0.5), ("minute",(values.get('minute') or 0)*6)]
-        if e.second_hand and not e.aod:hands.append(('second',(((values.get('second') or 0)+(values.get('__secondFraction',0) if e.smooth_seconds else int(values.get('__secondFraction',0))))%60)*6))
+        if e.second_hand and not e.aod:
+            second=values.get('__proValues',{}).get(e.id+'_second') if e.chrono_pro else None
+            if second is None:second=((values.get('second') or 0)+(values.get('__secondFraction',0) if e.smooth_seconds else int(values.get('__secondFraction',0))))%60
+            hands.append(('second',second*6))
         if e.kind in ('pointer','compass'):
-            from .motion import LUA_SOURCES, lua_value
-            value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in LUA_SOURCES else values.get(e.source)
+            from .motion import ALL_LUA_SOURCES, lua_value
+            value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in ALL_LUA_SOURCES else values.get(e.source)
             if e.source=='studioDecisecond':value=e.value_start+value/10*e.value_range
+            if e.id in values.get('__proValues',{}):value=values['__proValues'][e.id]
             if e.smooth_seconds and e.source in ('second','timeSecond') and value is not None:value=(value+values.get('__secondFraction',0))%60
             fraction=0 if value is None else max(0,min(1,(float(value)-e.value_start)/e.value_range))
             hands=[('second',e.angle_start+fraction*e.angle_range)]

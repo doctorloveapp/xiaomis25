@@ -33,7 +33,7 @@ SOURCES.update({key:(label,SOURCES[source][1],SOURCES[source][2]) for key,label,
     ('spo2','SpO₂','healthOxygenSpO2'),('sleep','Sonno','healthSleepDuration'),('movement','Movimento','healthExerciseDuration')) if source in SOURCES})
 HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asset','_shadow_asset'))
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
-VARIANT_PROPERTIES={'x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
+VARIANT_PROPERTIES={'x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
 MAX_SLOTS=16  # Studio guardrail, not a declared firmware limit.
 
 def valid_design_geometry(kind,x,y,width,height):
@@ -106,6 +106,7 @@ class Element:
     show_ticks: bool = True
     second_hand: bool = False
     smooth_seconds: bool = False
+    chrono_pro: bool = False
     hour_length: int = 28
     minute_length: int = 40
     second_length: int = 44
@@ -175,6 +176,22 @@ class Element:
 
 
 @dataclass
+class VariantDesign:
+    """Owned normal-screen layers; assets and AOD belong to the project."""
+    background: str
+    elements: list[Element] = field(default_factory=list)
+    complications: list[dict] = field(default_factory=list)
+    layer_order: list[str] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(cls, data):
+        if not isinstance(data,dict) or set(data)-{'background','elements','complications','layer_order'}:
+            raise ValueError('Struttura dello stile indipendente non valida.')
+        return cls(background=data['background'],elements=[Element.from_dict(e) for e in data['elements']],
+                   complications=deepcopy(data.get('complications',[])),layer_order=list(data.get('layer_order',[])))
+
+
+@dataclass
 class Project:
     name: str = "Il mio S5"
     author: str = ""
@@ -194,10 +211,13 @@ class Project:
         return deepcopy(self)
 
     def metadata(self):
+        variants=deepcopy(self.variants)
+        for variant in variants:
+            if isinstance(variant.get('design'),VariantDesign):variant['design']=asdict(variant['design'])
         return {"schemaVersion": self.schema_version, "name": self.name, "author": self.author,
                 "faceId": self.face_id, "version": self.version, "background": self.background,
                 "aodEnabled": self.aod_enabled, "deviceProfile": self.profile,
-                "elements": [asdict(el) for el in self.elements],"variants":deepcopy(self.variants),"complications":deepcopy(self.complications),"layerOrder":list(self.layer_order)}
+                "elements": [{k:v for k,v in asdict(el).items() if k!='chrono_pro' or v} for el in self.elements],"variants":variants,"complications":deepcopy(self.complications),"layerOrder":list(self.layer_order)}
 
     def ordered_layers(self,aod=False):
         """Back to front, including editable slots; preserve legacy placement."""
@@ -226,6 +246,15 @@ class Project:
         p=self.copy()
         v=self.variants[index] if self.variants else {}
         p.variants=[]
+        if v.get('independent'):
+            if index:
+                design=v['design']
+                if isinstance(design,dict):design=VariantDesign.from_dict(design)
+                p.background=design.background
+                p.elements=deepcopy(design.elements)+[deepcopy(e) for e in self.elements if e.aod]
+                p.complications=deepcopy(design.complications)
+                p.layer_order=list(design.layer_order)+[e.id for e in self.ordered_layers(True)]
+            return p
         p.background=v.get('background') or self.background
         for e in p.elements:
             if e.color.lower()=='#6ce5c1':e.color=v.get('accent','#6ce5c1')
@@ -238,6 +267,70 @@ class Project:
             p.elements.insert(0,background)
             if p.layer_order:p.layer_order.insert(0,background.id)
         return p
+
+    def ensure_independent_variants(self):
+        if not self.variants:self.variants=[{'id':'base','name':'Originale','accent':'#6ce5c1'}]
+        if all(v.get('independent') for v in self.variants):return
+        # Resolve every old override before changing the shared base. This
+        # preserves existing appearances while severing inheritance.
+        resolved=[self.variant_project(i) for i in range(len(self.variants))]
+        for i,(variant,p) in enumerate(zip(self.variants,resolved)):
+            variant.update(independent=True,background=p.background)
+            variant.pop('overrides',None);variant.pop('imageAsset',None)
+            if i:variant['design']=VariantDesign(p.background,[e for e in p.elements if not e.aod],p.complications,
+                                                 [e.id if isinstance(e,Element) else e['id'] for e in p.ordered_layers(False)])
+            else:
+                # Preserve references held by the editor while materializing
+                # the first style. Other styles already own detached snapshots.
+                existing={e.id:e for e in self.elements};elements=[]
+                for e in p.elements:
+                    original=existing.get(e.id,e)
+                    for key in Element.__dataclass_fields__:setattr(original,key,deepcopy(getattr(e,key)))
+                    elements.append(original)
+                slots={s['id']:s for s in self.complications};complications=[]
+                for s in p.complications:
+                    original=slots.get(s['id'],{});original.update(deepcopy(s));complications.append(original)
+                self.elements=elements;self.complications=complications
+                self.layer_order=p.layer_order;self.background=p.background
+        self.schema_version=3
+
+    def editable_variant(self,index=0,aod=False):
+        """An owned mutable view, committed after an editor transaction."""
+        self.ensure_independent_variants()
+        if aod or not index:return self
+        design=self.variants[index]['design']
+        return Project(name=self.name,author=self.author,face_id=self.face_id,version=self.version,
+                       background=design.background,aod_enabled=self.aod_enabled,schema_version=3,profile=self.profile,
+                       elements=design.elements,assets=self.assets,variants=[],complications=design.complications,layer_order=design.layer_order)
+
+    def commit_variant(self,index,view,aod=False):
+        if aod:return
+        if index:
+            self.variants[index]['design']=VariantDesign(view.background,[e for e in view.elements if not e.aod],
+                                                       view.complications,view.layer_order)
+        self.variants[index]['background']=view.background
+
+    def add_variant(self,index=0):
+        self.ensure_independent_variants()
+        if len(self.variants)>=5:raise ValueError('Sono disponibili fino a cinque stili.')
+        p=self.variant_project(index)
+        used={v['name'].casefold() for v in self.variants};number=2
+        while f'Stile {number}'.casefold() in used:number+=1
+        self.variants.append({'id':identifier(),'name':f'Stile {number}','accent':self.variants[index].get('accent','#6ce5c1'),
+                              'background':p.background,'independent':True,
+                              'design':VariantDesign(p.background,[e for e in p.elements if not e.aod],p.complications,
+                                                     [e.id if isinstance(e,Element) else e['id'] for e in p.ordered_layers(False)])})
+        return len(self.variants)-1
+
+    def delete_variant(self,index):
+        self.ensure_independent_variants()
+        if len(self.variants)==1:raise ValueError('Mantieni almeno uno stile.')
+        if not index:
+            replacement=self.variant_project(1)
+            self.elements=replacement.elements;self.complications=replacement.complications
+            self.layer_order=replacement.layer_order;self.background=replacement.background
+            self.variants[1].pop('design',None)
+        self.variants.pop(index)
 
     def add_image(self, path: Path, *, background=False, aod=False) -> Element:
         with Image.open(path) as im:
@@ -280,10 +373,8 @@ class Project:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_name(path.name + ".tmp")
-        referenced = {key for e in self.elements for key in (*[getattr(e,k) for k in ASSET_FIELDS],*e.value_assets.values()) if key}
-        referenced.update(v.get('imageAsset') for v in self.variants if v.get('imageAsset'))
-        for v in self.variants:
-            for change in v.get('overrides',{}).values():referenced.update(change[k] for k in ASSET_FIELDS if change.get(k))
+        referenced = {key for i in range(max(1,len(self.variants))) for e in self.variant_project(i).elements
+                      for key in (*[getattr(e,k) for k in ASSET_FIELDS],*e.value_assets.values()) if key}
         try:
             with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
                 z.writestr("project.json", json.dumps(self.metadata(), ensure_ascii=False, indent=2))
@@ -303,13 +394,15 @@ class Project:
             if "project.json" not in members:
                 raise ValueError("Questo file non è un progetto S5 Studio.")
             d = json.loads(z.read("project.json"))
-            if d.get("schemaVersion") not in (1,2):
+            if d.get("schemaVersion") not in (1,2,3):
                 raise ValueError("Versione del progetto non supportata: aggiorna S5 Studio.")
             p = cls(name=d["name"], author=d.get("author", ""), face_id=d["faceId"],
                     version=d.get("version", "1.0.0"), background=d["background"],
                     aod_enabled=d.get("aodEnabled", False), profile=d["deviceProfile"],
-                    elements=[Element.from_dict(e) for e in d["elements"]])
+                    elements=[Element.from_dict(e) for e in d["elements"]],schema_version=max(2,d['schemaVersion']))
             p.variants=d.get('variants') or p.variants
+            for variant in p.variants:
+                if variant.get('design') is not None:variant['design']=VariantDesign.from_dict(variant['design'])
             p.complications=d.get('complications',[])
             p.layer_order=d.get('layerOrder',[])
             p.assets = {name: z.read(name) for name in members if name.startswith("assets/") and not members[name].is_dir()}
@@ -322,7 +415,7 @@ class Project:
         errors = []
         if len(self.variants)>5:errors.append('Massimo cinque varianti grafiche.')
         variant_ids=set();variant_names=set()
-        for v in self.variants:
+        for index,v in enumerate(self.variants):
             if not isinstance(v,dict) or not re.fullmatch(r'[a-zA-Z0-9_-]{1,30}',str(v.get('id',''))) or v.get('id') in variant_ids:
                 errors.append('ID variante non valido o duplicato.');continue
             variant_ids.add(v['id'])
@@ -332,6 +425,20 @@ class Project:
             for color in ('accent','background'):
                 if v.get(color) and not re.fullmatch(r'#[a-fA-F0-9]{6}',v[color]):errors.append('Colore variante non valido.')
             if v.get('imageAsset') and v['imageAsset'] not in self.assets:errors.append('Sfondo variante mancante.')
+            if v.get('independent'):
+                if v.get('overrides') or v.get('imageAsset'):errors.append('Uno stile indipendente non può ereditare proprietà o immagini.')
+                if not index:
+                    if 'design' in v:errors.append('Il primo stile usa i livelli principali del progetto.')
+                else:
+                    try:
+                        design=v['design']
+                        if isinstance(design,dict):design=VariantDesign.from_dict(design)
+                        if not isinstance(design,VariantDesign):raise ValueError('Design mancante.')
+                        if any(e.aod for e in design.elements):errors.append('L’AOD è comune e non appartiene ai livelli dello stile.')
+                        resolved=self.copy();resolved.variants=[];resolved.background=design.background
+                        resolved.elements=design.elements;resolved.complications=design.complications;resolved.layer_order=design.layer_order
+                        errors.extend(f'{v["name"]}: {error}' for error in resolved.validate())
+                    except (ValueError,TypeError,KeyError,AttributeError) as exc:errors.append(f'{v.get("name","Stile")}: struttura dei livelli non valida ({exc}).')
             for eid,changes in v.get('overrides',{}).items():
                 element=next((e for e in self.elements if e.id==eid),None)
                 if element is None or set(changes)-VARIANT_PROPERTIES:errors.append('Proprietà variante non valide.')
@@ -374,10 +481,13 @@ class Project:
             ids.add(el.id)
             if el.kind not in {"image", "image_values", "text", "number", "clock", "date", "analog", "pointer", "compass", "rect", "circle"}:
                 errors.append(f"{label}: tipo non supportato ({el.kind}).")
-            from .motion import LUA_SOURCES
-            if el.source not in SOURCES and not (el.kind == 'pointer' and el.source in LUA_SOURCES):
+            from .motion import ALL_LUA_SOURCES
+            if el.source not in SOURCES and not (el.kind == 'pointer' and el.source in ALL_LUA_SOURCES):
                 errors.append(f"{label}: sorgente dati non supportata.")
             if type(el.smooth_seconds) is not bool: errors.append(f'{label}: Movimento Fluido deve essere un flag.')
+            if type(el.chrono_pro) is not bool: errors.append(f'{label}: Crono Pro deve essere un flag.')
+            if el.chrono_pro and (el.kind!='analog' or el.aod or not el.second_hand):
+                errors.append(f'{label}: Crono Pro richiede la lancetta grande dei secondi nello schermo normale.')
             if any(type(v) is not int for v in (el.x, el.y, el.width, el.height, el.size, el.digits, el.opacity)):
                 errors.append(f"{label}: geometria o stile non validi.")
                 continue
@@ -418,6 +528,11 @@ class Project:
                             with Image.open(BytesIO(self.assets[asset])) as image:
                                 if image.width>480 or image.height>480:errors.append(f'{label}: immagine lancetta troppo grande (massimo 480×480).')
                     if any(type(getattr(el,hand+'_shadow_offset_'+axis)) is not int or abs(getattr(el,hand+'_shadow_offset_'+axis))>480 for axis in ('x','y')):errors.append(f'{label}: offset ombra non valido.')
+        from .motion import pro_enabled
+        if sum(e.visible and not e.aod and e.kind=='analog' and e.chrono_pro for e in self.elements)>1:
+            errors.append('Usa un solo gruppo di lancette con Crono Pro per stile.')
+        if any(e.visible and not e.aod and e.source=='studioChronoDecisecond' for e in self.elements) and not pro_enabled(self):
+            errors.append('Decimi crono richiede il flag Crono Pro sulla lancetta grande dei secondi.')
         return errors
 
 

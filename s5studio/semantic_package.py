@@ -97,9 +97,12 @@ def validate_semantics(z):
     for path,digest in {**schema['resourceFiles'],**schema['metadataHashes'],**schema['previewFiles']}.items():
         if hashlib.sha256(z.read(path)).hexdigest()!=digest:raise ValueError('Risorsa/anteprima modificata dopo la compilazione: '+path)
     if 'build-report.json' in z.namelist():
-        from .model import Project,Element
+        from .model import Project,Element,VariantDesign
         from .lua_runtime import interaction_report
-        d=schema['project'];project=Project(elements=[Element.from_dict(e) for e in d['elements']],variants=d['variants'])
+        d=schema['project'];project=Project(elements=[Element.from_dict(e) for e in d['elements']],variants=d['variants'],
+                                          complications=d.get('complications',[]),layer_order=d.get('layerOrder',[]))
+        for variant in project.variants:
+            if variant.get('design') is not None:variant['design']=VariantDesign.from_dict(variant['design'])
         expected=interaction_report(project,data,z.read('resources/manifest.xml'))
         report=json.loads(z.read('build-report.json'))
         from .motion import native_motion_report

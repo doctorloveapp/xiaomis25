@@ -37,7 +37,7 @@ def verify_precision(window,app):
     assert not js('document.querySelector("[data-prop=pointer_end_pivot]").checked')
     checks.extend(['source-pixel-pivot-click','pivot-click-disables-endpoint','manual-pivot-fields-update','click-preview-is-applied-asset'])
 
-    assert js('document.querySelector("[data-prop=source]").options.length')==62
+    assert js('document.querySelector("[data-prop=source]").options.length')==63
     original=bridge.element({'id':pointer.id}).source
     js('document.querySelector("[data-prop=source]").parentElement.querySelector(".select-trigger").click();[...document.querySelectorAll(".select-option")].find(e=>e.dataset.value==="timeHourLow").dispatchEvent(new MouseEvent("mouseover",{bubbles:true}));true')
     assert js('document.querySelector(".select-description").textContent.includes("vale 4")')
@@ -45,7 +45,7 @@ def verify_precision(window,app):
     js('[...document.querySelectorAll(".select-option")].find(e=>e.dataset.value==="timeHourHigh").dispatchEvent(new MouseEvent("mouseover",{bubbles:true}));true')
     assert js('document.querySelector(".select-description").textContent.includes("vale 1")')
     js('S5Selectors.close();true')
-    checks.extend(['58-native-and-four-lua-pointer-sources-without-alias-duplicates','source-help-on-hover','hour-digit-options-have-distinct-labels','source-help-does-not-commit'])
+    checks.extend(['58-native-and-five-lua-pointer-sources-without-alias-duplicates','source-help-on-hover','hour-digit-options-have-distinct-labels','source-help-does-not-commit'])
 
     analog=next(e for e in bridge.project.elements if e.kind=='analog' and not e.aod)
     js('selected='+json.dumps(analog.id)+';paint();true')

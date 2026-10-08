@@ -4,7 +4,7 @@
 <body class="bg-[#070913] text-slate-100 font-sans antialiased">
 <div id="app" class="flex h-screen overflow-hidden">
   <aside class="w-56 shrink-0 flex flex-col p-5 border-r border-white/5 bg-[#090c18]">
-    <div class="flex items-center gap-3 mb-10"><div class="brand">S5</div><div><strong class="text-lg tracking-tight">S5 Studio</strong><div class="text-[11px] text-slate-500">Version 1.0</div></div></div>
+    <div class="flex items-center gap-3 mb-10"><div class="brand">S5</div><div><strong class="text-lg tracking-tight">S5 Studio</strong><div class="text-[11px] text-slate-500">Version 1.2</div></div></div>
     <div class="text-[10px] uppercase tracking-[.2em] text-slate-500 mb-3">Il tuo spazio creativo</div>
     <nav class="space-y-2" id="navigation">
       <button data-tab="design" class="nav active"><span>◷</span> Quadrante</button>
@@ -34,7 +34,7 @@
         <div class="flex items-center gap-3 mt-3"><label class="text-xs text-slate-400"><input id="motion-preview" type="checkbox"> Anteprima animata</label><button class="btn" id="chrono-preview">Avvia Crono</button><span id="chrono-state" class="text-xs text-slate-400">Crono azzerato</span></div>
         <div id="validation" class="mt-4 text-xs text-amber-200"></div>
       </section>
-      <aside id="inspector" class="w-[300px] shrink-0 border-l border-white/5 bg-[#0b0f1c] overflow-y-auto p-5"><div class="flex justify-between mb-4"><h2 class="text-xs font-semibold">Livelli e proprietà</h2><span id="layers-count" class="text-[10px] text-slate-500"></span></div><div id="layers" class="space-y-1"></div><div id="properties" class="mt-6"></div></aside>
+      <aside id="inspector" class="w-[300px] shrink-0 border-l border-white/5 bg-[#0b0f1c] overflow-y-auto p-5"><div class="flex justify-between mb-4"><h2 class="text-xs font-semibold">Livelli e proprietà</h2><span id="layers-count" class="text-[10px] text-slate-500"></span></div><label class="block mb-4"><span class="field">Stile in modifica</span><select id="editing-style" class="input w-full" aria-label="Stile in modifica"></select></label><div id="layers" class="space-y-1"></div><div id="properties" class="mt-6"></div></aside>
     </div>
     <footer class="h-11 px-7 border-t border-white/5 flex items-center justify-between gap-4 shrink-0"><span id="status" class="text-[11px] text-slate-500 truncate">Pronto per creare</span><button id="show-output" class="text-[11px] text-blue-300 hidden">Apri esportazione ↗</button><span class="text-[10px] text-slate-600 shrink-0">EasyFace 4.23 · S5</span></footer>
   </main>

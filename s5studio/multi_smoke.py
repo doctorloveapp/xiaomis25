@@ -61,8 +61,8 @@ def verify_multi(window,app):
     key=command('add',kind='pointer')['selectedLayer']
     until(lambda:js('state.layers.some(e=>e.id==='+json.dumps(key)+')'),'Lancetta piccola non pronta')
     js('selected='+json.dumps(key)+';paint();true')
-    assert js('Object.keys(state.luaSources).length')==4
-    assert js('document.querySelector("[data-prop=source]").options.length')==62
+    assert js('Object.keys(state.luaSources).length')==5
+    assert js('document.querySelector("[data-prop=source]").options.length')==63
     js('const s=document.querySelector("[data-prop=source]");s.value="studioDecisecond";s.dispatchEvent(new Event("change"));true')
     until(lambda:bridge.element({'id':key}).source=='studioDecisecond','Abbinamento decimi non salvato')
     assert bridge.element({'id':key}).value_range==10
@@ -70,7 +70,7 @@ def verify_multi(window,app):
     js('const s=document.querySelector("[data-prop=source]");s.value="studioChronoSecond";s.dispatchEvent(new Event("change"));true')
     until(lambda:bridge.element({'id':key}).source=='studioChronoSecond','Abbinamento Crono non salvato')
     assert bridge.element({'id':key}).value_range==60
-    checks+=['four-distinct-lua-bindings-in-small-hand-menu','decisecond-binding-sets-ten-values','chrono-binding-sets-sixty-values']
+    checks+=['five-distinct-lua-bindings-in-small-hand-menu','decisecond-binding-sets-ten-values','chrono-binding-sets-sixty-values']
     for expected in ('running','stopped','reset'):
         js('document.getElementById("chrono-preview").click();true')
         until(lambda:bridge.chrono_state==expected,'Ciclo Crono anteprima non valido')

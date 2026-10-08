@@ -8,10 +8,20 @@ LUA_SOURCES = {
     'studioChronoSecond': ('Secondi Crono', 60),
 }
 SECOND_SOURCES = {'second', 'timeSecond', 'timeSecondLow', 'timeSecondHigh', 'studioDecisecond', 'studioChronoSecond'}
+ALL_LUA_SOURCES = {**LUA_SOURCES, 'studioChronoDecisecond': ('Decimi crono · Crono Pro', 10)}
+SECOND_SOURCES.add('studioChronoDecisecond')
+
+
+def pro_enabled(project):
+    return any(e.visible and not e.aod and e.kind=='analog' and e.chrono_pro and e.second_hand for e in project.elements)
+
+
+def lua_element(e):
+    return e.kind=='pointer' and e.source in ALL_LUA_SOURCES or e.kind=='analog' and e.chrono_pro and e.second_hand
 
 
 def excluded_from_aod(e):
-    return e.kind == 'pointer' and (e.source in SECOND_SOURCES or e.source in LUA_SOURCES)
+    return e.kind == 'pointer' and (e.source in SECOND_SOURCES or e.source in ALL_LUA_SOURCES)
 
 
 def pointer_period(e, aod=False):
@@ -19,7 +29,7 @@ def pointer_period(e, aod=False):
 
 
 def lua_value(source, milliseconds, smooth=False):
-    if source == 'studioDecisecond': return (milliseconds % 1000) / 100 if smooth else (milliseconds % 1000) // 100
+    if source in ('studioDecisecond','studioChronoDecisecond'): return (milliseconds % 1000) / 100 if smooth else (milliseconds % 1000) // 100
     divisor = {'studioChronoHour': 3600000, 'studioChronoMinute': 60000, 'studioChronoSecond': 1000}[source]
     value = milliseconds / divisor
     return (value if smooth else int(value)) % LUA_SOURCES[source][1]

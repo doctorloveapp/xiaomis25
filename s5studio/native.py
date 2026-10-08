@@ -483,7 +483,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.0',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.2',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -506,7 +506,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.0","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.2","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -515,6 +515,9 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                 "templatePackage":packaged,
                 'editable':{'variantCount':max(1,len(p.variants)),'slotCount':len(p.complications),
                             'nativeSlotInstances':inspection['nativeSlots'],'aodPerVariant':p.aod_enabled,
+                            'independentLayers':all(v.get('independent') for v in p.variants),
+                            'styles':[{'name':v['name'],'layerCount':len(p.variant_project(i).ordered_layers(False)),
+                                       'slotCount':len(p.variant_project(i).complications)} for i,v in enumerate(p.variants)],
                             'options':p.complications,'hardwareVerified':False,
                             'complicationGraphics':'Gruppi originali Studio: cornice, cifre native, etichetta, unità, anteprima e sorgente per ogni opzione.'},
                 "remaining":["Provare il ZIP modificato nell’uploader locale: le installazioni precedenti non certificano questo nuovo payload.",
@@ -593,54 +596,30 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.0 — PROVA SUL WATCH S5
+TRANSFER_GUIDE = """S5 STUDIO 1.2 — CRONO PRO
 
-Build compilata per M2530W1, target EasyFace 562, e controllata sul PC.
-La prova analogica 0.5 ha superato installazione, cambio stili e scelta
-complicazioni secondo l'utente. Il movimento fluido della 0.10 è stato
-confermato sul S5. Nella 0.11 funzionavano decimi, tap Crono e secondi,
-ma un test più lungo ha rilevato minuti Crono fermi; ore non ancora provate.
-La 1.0 usa una sola scena Lua per stile: un conteggio aggiorna tutte
-le lancette. Il nuovo payload richiede la conferma sul dispositivo.
+Apri il progetto nella 1.2, salva una copia e genera un nuovo ZIP.
+Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
+Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
+Piccole: scegli Ore Crono, Minuti Crono e la nuova voce Decimi crono.
 
-1. Copia *_TEMPLATE.zip sul telefono senza estrarlo.
-2. Apri Local watchfaces uploader con S5 connesso e sincronizzato.
-3. Se capabilities fallisce, usa Verify capability test disattivato,
-   come nelle prove precedenti autorizzate dall'utente.
-4. Seleziona e installa lo ZIP. I nuovi progetti hanno un ID personale;
-   quelli vecchi conservano il loro ID fino alla modifica nel pannello Progetto.
-5. Dall'orologio e da Modifica prova ogni stile e ogni slot separatamente.
-   Scegli due dati diversi per verificare che le selezioni siano indipendenti.
-6. Controlla anteprima sull'orologio, ore/minuti/secondi, pulsazioni/passi
-   rispetto alle schermate di sistema, meteo sincronizzato e AOD dopo sleep/wake.
-7. Decimi: scala consigliata 0/10 e rotazione 360°. L'animazione completa
-   la rotazione configurata ogni secondo, anche con un vecchio intervallo 60.
-8. Crono: tap sul quadrante per Avvia, Ferma, Azzera. Il fallback os.time
-   ha precisione di un secondo e risente di cambi dell'ora. Stato locale
-   alla VM Lua, senza collegamento al cronometro di sistema.
-9. Dopo 65 secondi di Crono, minuti = 1 e secondi circa 5.
-   Verifica Stop e Reset su tutte le lancette. Per ore Crono su un
-   sottoquadrante da 12 ore, scala consigliata 0/12 e rotazione 360°.
+Sequenza Pro: primo tap rientro allo zero, secondo tap Avvio,
+terzo tap Stop lettura, quarto tap Reset/rientro all'ora corrente.
+Conteggio sempre a scatti: secondi interi e decimi interi.
+Il flag Movimento Fluido non cambia il conteggio Pro.
+I rientri del gruppo sono sempre orari, fluidi, simultanei, durata 320 ms.
+Stili: ogni variante ha i propri livelli, immagini, lancette e complicazioni.
+Scegli lo stile nel pannello Livelli e proprieta: le modifiche restano locali.
+Il salvataggio usa schema 3: conserva una copia del progetto precedente.
+AOD: cancella i rientri, sospende timer/animazioni e usa la schermata
+AOD del progetto. Secondi e tutte le App Lua sono esclusi dall'AOD.
 
-La lista locale della mod può ancora mostrare nome generico o nessuna immagine:
-questo comportamento è stato osservato anche col pacchetto originale.
-Le anteprime esportate sono immagini reali del progetto con valori simulati.
-Il quadrante legge le sorgenti native, non i valori delle immagini di esempio.
-Le immagini di lavoro possono superare 480 px: il progetto conserva dimensioni
-e coordinate, mentre le bitmap compilate includono solo la finestra 480x480.
-
-Capability.json, hashCode opaco e gli altri record protetti del template sono
-conservati. Description, manifest, uidmap ed editor sono rigenerati insieme
-al payload. Il controllo confronta temi, UID, layout, sorgenti, opzioni e preview.
-Non certifica la firma Xiaomi né l'accettazione della verifica capabilities.
-
-CONTENUTO
-resource.bin e .face: stesso payload.
-.s5faceproj: progetto completo portabile, con immagini e font personali.
-sorgenti-easyface: FPRJ, bitmap, studio.s5faceproj e manifest di riproduzione.
-apply-template sul FPRJ Studio riconosce questi sorgenti e ricostruisce anche
-stili e complicazioni; modifiche manuali ai sorgenti vengono rilevate.
-build-report.json e compiler.log: evidenze tecniche e limiti della prova.
-exportTiming nel report esterno: tempi delle fasi, pubblicazione e pulizia;
-dall'editor include anche il ritardo della notifica di fine nella UI.
+Il primo test Pro 1.1 e superato. Rientri orari e stili indipendenti 1.2
+devono essere provati sul dispositivo. Il runtime usa il clock
+monotono quando disponibile; il fallback usa la fase LVGL e os.time
+per le sospensioni, con precisione di un secondo durante il sonno.
+Non è il cronometro dell'app di sistema. Cambio VM/quadrante resetta.
+Installa lo ZIP senza estrarlo; la mod locale può non mostrare preview
+oppure richiedere di disattivare Verify capability test, come già noto.
+Dopo 65 s verifica minuti 1, secondi circa 5, poi Stop e Reset.
 """

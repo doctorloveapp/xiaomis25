@@ -1,5 +1,9 @@
 # Piano del cronografo integrato — base stabile 1.0
 
+**Aggiornamento 1.1:** il piano è implementato con il flag Crono Pro e le modifiche energetiche richieste: conteggio sempre a scatti, rientri sempre fluidi e coordinati, annullamento AOD. Per conservare ordine e ombre, il livello analogico Pro completo è nella scena Lua; le lancette dell’ora ricevono i dati di sistema. Questo sostituisce la proposta iniziale di lasciare ore/minuti principali nativi. Il Crono separato 1.0 mantiene il suo runtime invariato. Stato e istruzioni correnti: [EDITOR_1.1.md](EDITOR_1.1.md). Il testo seguente conserva la valutazione e il piano iniziali.
+
+**Aggiornamento 1.2:** primo test reale Pro 1.1 superato con fluidità confermata. La 1.2 rende tutti i rientri orari e separa i livelli degli stili. Guida corrente: [EDITOR_1.2.md](EDITOR_1.2.md); punto di ripristino Pro: [stable-baseline-1.1.json](stable-baseline-1.1.json).
+
 Valutazione dell’8 ottobre 2026. La 1.0 ha superato il test reale riferito dall’utente su tutte le lancette piccole. Anche **Decimi di secondo è già implementato e collaudato sull’S5**, come nuovamente confermato dall’utente: non è una funzione da rifare. Questa è una proposta di evoluzione: non modifica il runtime, i progetti o l’EXE collaudati.
 
 ## Giudizio di fattibilità

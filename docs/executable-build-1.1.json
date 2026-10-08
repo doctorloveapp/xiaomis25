@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.1",
+  "embeddedFilesVerified": 708,
+  "exeSize": 234922642,
+  "exeSha256": "c1e56f5d265856c2d06695b70366f1f31ed20282b2eca5fb65164367889e82c9",
+  "executableLaunched": false,
+  "isolatedEnvironmentTested": false
+}

@@ -51,12 +51,15 @@ class StudioBridge(QObject):
     def __init__(self,window,*,smoke=False):
         super().__init__(window)
         self.window=window;self.root=application_root();self.resources=resource_root();self.project=template('Analogico')
+        self.project.ensure_independent_variants();self._design=None
         self.path=None;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
         self.variant=0;self.aod=False;self.scenario='Normale';self.values=dict(SCENARIOS['Normale'])
         self.worker=None;self.output=None;self.smoke=smoke
         self.state_sequence=0
         self.compiler=default_compiler()
         self.chrono_state='reset';self.chrono_elapsed=0;self.chrono_started=0;self.motion_preview=False;self.motion_started=0
+        from .chrono_pro import ProPreview
+        self.pro_preview=ProPreview();self.preview_pro_mode=False
         # Wait after rendering instead of keeping a permanently overdue timer
         # when a large imported bitmap costs more than the frame interval.
         self.motion_timer=QTimer(self);self.motion_timer.setInterval(200);self.motion_timer.setSingleShot(True);self.motion_timer.timeout.connect(self.preview_tick)
@@ -90,41 +93,43 @@ class StudioBridge(QObject):
         from .complications import ALIASES
         # Lossless migration of old Studio aliases to the observed source names:
         # both keys have the same native code, but should appear only once.
-        for s in self.project.complications:
+        for s in self.design.complications:
             s['options']=list(dict.fromkeys(ALIASES.get(k,k) for k in s['options']))
             s['default']=ALIASES.get(s['default'],s['default'])
         selectable={'none':'Nessuna',**{k:v[0] for k,v in SOURCES.items() if k not in ALIASES}}
         resolved=self.project.variant_project(0 if self.aod else self.variant)
+        self.update_pro_preview()
         from .source_help import source_choices
         pointer_sources,source_descriptions=source_choices(SOURCES)
-        from .motion import LUA_SOURCES
+        from .motion import ALL_LUA_SOURCES
         from .motion import excluded_from_aod
-        lua_sources={k:v[0] for k,v in LUA_SOURCES.items()}
+        lua_sources={k:v[0] for k,v in ALL_LUA_SOURCES.items()}
         source_descriptions.update({
-            'studioDecisecond':'Decimi da 0 a 9: scala consigliata 0/10 e rotazione 360°. Animazione Lua di 1 secondo; copre la scala configurata anche nei progetti che hanno ancora intervallo 60. Esclusa in AOD; da riprovare sul S5.',
-            'studioChronoHour':'Ore trascorse del cronografo su 12 ore. Tap sul quadrante: Avvia → Ferma → Azzera. Le lancette Crono condividono il conteggio. Lua da verificare sul S5.',
+            'studioDecisecond':'Decimi da 0 a 9: scala 0/10 e rotazione 360°. Animazione continua indipendente, già collaudata sull’S5. Copre la scala configurata anche nei vecchi progetti con intervallo 60. Per collegarla a Start/Stop/Reset scegli Decimi crono. Esclusa in AOD.',
+            'studioChronoHour':'Ore trascorse su 12 ore; conteggio condiviso. Crono separato 1.0 già collaudato: Avvia → Ferma → Azzera. Con Crono Pro: Prepara → Avvia → Ferma → Rientro. Primo test Pro 1.1 superato; rientri sempre orari nella 1.2.',
             'studioChronoMinute':'Minuti trascorsi del cronografo (0–59). Tap sul quadrante: Avvia → Ferma → Azzera. Esclusa in AOD.',
-            'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Tap sul quadrante: Avvia → Ferma → Azzera. Esclusa in AOD; se il firmware offre soltanto il clock os.time, precisione di un secondo.'})
+            'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Crono normale: Avvia → Ferma → Azzera. Crono Pro: Prepara → Avvia → Ferma → Rientro; conteggio a scatti. Esclusa in AOD.',
+            'studioChronoDecisecond':'Decimi collegati ad Avvio/Ferma/Reset. Richiede Crono Pro sulla lancetta grande secondi. In movimento: dieci scatti al secondo; rientro sempre fluido e simultaneo alle altre lancette. Esclusa in AOD.'})
         hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
                        for e in resolved.elements if e.kind in ('analog','pointer')}
         result=self.project.metadata()
         result.update(variantIndex=self.variant,aod=self.aod,dirty=self.dirty,path=str(self.path or ''),
+                      background=resolved.background,
                       stateSequence=self.state_sequence,
                       preview=self.image_url(resolved,self.aod),
                       thumbnails=[self.image_url(self.project.variant_project(i)) for i in range(len(self.project.variants))],
-                      resolvedElements=[asdict(e) for e in resolved.elements if e.id in {x.id for x in self.project.elements}],
+                      resolvedElements=[asdict(e) for e in resolved.elements],
                       layers=[asdict(e) if isinstance(e,Element) else {**e,'kind':'complication','aod':False}
-                              for mode in (False,True) for e in resolved.ordered_layers(mode)
-                              if (e.id if isinstance(e,Element) else e['id']) in
-                              ({x.id for x in self.project.elements}|{s['id'] for s in self.project.complications})],
+                              for mode in (False,True) for e in resolved.ordered_layers(mode)],
                       errors=self.project.validate()+layout_errors(resolved),
                       busy=bool(self.worker and self.worker.isRunning()),output=str(self.output or ''),
                       sources={key:label for key,(label,_,_) in SOURCES.items()},scenario=self.scenario,values=self.values,
-                      complications=[normalized_slot(s) for s in self.project.complications],maxSlots=MAX_SLOTS,handPresets=self.hand_presets,
+                      complications=[normalized_slot(s) for s in resolved.complications],maxSlots=MAX_SLOTS,handPresets=self.hand_presets,
+                      independentVariants=True,
                       pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
                       luaSources=lua_sources,
                       aodExcluded=[e.id for e in resolved.elements if e.aod and excluded_from_aod(e)],
-                      chronoState=self.chrono_state,motionPreview=self.motion_preview,
+                      chronoState=self.chrono_state,chronoPro=self.preview_pro_mode,motionPreview=self.motion_preview,
                       complicationSources=selectable,
                       scenarios=list(SCENARIOS),
                       maxImageSize=MAX_DESIGN_IMAGE_SIZE,
@@ -139,12 +144,29 @@ class StudioBridge(QObject):
         self.values['__clockMs']=now
         self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
         self.values['__secondFraction']=(now-self.motion_started)/1000 if self.motion_preview else 0
-        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values)
+        self.update_pro_preview(now)
+        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values,chronoState=self.chrono_state)
         self.resume_preview()
 
     def resume_preview(self):
-        if not self.smoke and not self.worker and not self.aod and (self.motion_preview or self.chrono_state=='running'):
+        if not self.smoke and not self.worker and not self.aod and (self.motion_preview or self.chrono_state in ('running','arming','resetting')):
             self.motion_timer.start()
+
+    def update_pro_preview(self,now=None):
+        from .motion import pro_enabled
+        from .chrono_pro import ProPreview
+        resolved=self.project.variant_project(self.variant);mode=pro_enabled(resolved)
+        if mode!=self.preview_pro_mode:
+            self.pro_preview=ProPreview();self.chrono_state='rest' if mode else 'reset'
+            self.chrono_elapsed=0;self.preview_pro_mode=mode
+        if mode:
+            if self.aod:self.pro_preview.aod()
+            now=now if now is not None else time.monotonic_ns()//1000000
+            civil=((self.values.get('second') or 0)+self.values.get('__secondFraction',0))%60
+            self.values['__proValues']=self.pro_preview.values(resolved,now,civil)
+            self.chrono_state=self.pro_preview.state;self.chrono_elapsed=self.pro_preview.elapsed
+            self.motion_timer.setInterval(40 if self.pro_preview.transition else 100 if any(e.source=='studioChronoDecisecond' for e in resolved.elements) else 200)
+        else:self.values.pop('__proValues',None);self.motion_timer.setInterval(200)
 
     def autosave(self):
         if self.dirty and not self.project.validate():
@@ -177,23 +199,26 @@ class StudioBridge(QObject):
         if not self.smoke:self.recovery.unlink(missing_ok=True)
         return True
 
+    @property
+    def design(self):
+        return self._design if self._design is not None else self.project.editable_variant(self.variant,self.aod)
+
     def element(self,req):
-        return next(e for e in self.project.elements if e.id==req['id'])
+        return next(e for e in self.design.elements if e.id==req['id'])
 
     def layer(self,key):
-        for e in self.project.elements:
+        for e in self.design.elements:
             if e.id==key:return e
-        for slot in self.project.complications:
+        for slot in self.design.complications:
             if slot['id']==key:return slot
         raise ValueError('Livello non trovato.')
 
     def remove_layer(self,key):
         layer=self.layer(key)
         if isinstance(layer,Element):
-            self.project.elements.remove(layer)
-            for v in self.project.variants:v.get('overrides',{}).pop(key,None)
-        else:self.project.complications.remove(layer)
-        self.project.layer_order=[k for k in self.project.layer_order if k!=key]
+            self.design.elements.remove(layer)
+        else:self.design.complications.remove(layer)
+        self.design.layer_order=[k for k in self.design.layer_order if k!=key]
 
     def reorder_layer(self,key,target,placement):
         if key==target:return
@@ -202,7 +227,7 @@ class StudioBridge(QObject):
         other_aod=other.aod if isinstance(other,Element) else False
         if source_aod!=other_aod:raise ValueError('Riordina i livelli nella stessa schermata.')
         if placement not in ('above','below'):raise ValueError('Posizione di riordino non valida.')
-        order=self.project.layer_order
+        order=self.design.layer_order
         order.remove(key);position=order.index(target)+(placement=='above')
         order.insert(position,key)
 
@@ -220,30 +245,38 @@ class StudioBridge(QObject):
             painter=QPainter(image);svg.render(painter);painter.end()
             user_data_root().mkdir(parents=True,exist_ok=True)
             with tempfile.TemporaryDirectory(dir=user_data_root()) as temp:
-                path=Path(temp)/'import.png';image.save(str(path));el=self.project.add_image(path)
+                path=Path(temp)/'import.png';image.save(str(path));el=self.design.add_image(path)
             el.name=Path(filename).stem
             return el
-        return self.project.add_image(Path(filename))
+        return self.design.add_image(Path(filename))
 
     @Slot(str,result=str)
     def command(self,raw):
-        before=None;selection=None
+        before=None;selection=None;self._design=None
         try:
             req=json.loads(raw);action=req.get('action')
             mutations={'move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
                 if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
+                self.project.ensure_independent_variants()
                 before=self.project.copy()
-                self.project.sync_layer_order()
+                if action in ('variant-image','add-variant','edit-variant','delete-variant'):self.aod=False
+                self._design=self.project.editable_variant(self.variant,self.aod)
+                self.design.sync_layer_order()
             if action=='state':pass
             elif action=='chrono-preview':
                 now=time.monotonic_ns()//1000000
-                if self.chrono_state=='reset':self.chrono_started=now;self.chrono_state='running'
+                self.update_pro_preview(now)
+                if self.preview_pro_mode:
+                    civil=((self.values.get('second') or 0)+self.values.get('__secondFraction',0))%60
+                    self.pro_preview.tap(self.project.variant_project(self.variant),now,civil)
+                    self.update_pro_preview(now)
+                elif self.chrono_state=='reset':self.chrono_started=now;self.chrono_state='running'
                 elif self.chrono_state=='running':self.chrono_elapsed=now-self.chrono_started;self.chrono_state='stopped'
                 else:self.chrono_elapsed=0;self.chrono_state='reset'
-                self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
+                self.values['__chronoMs']=self.chrono_elapsed if self.preview_pro_mode else now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
                 if not self.smoke:
-                    if self.motion_preview or self.chrono_state=='running':self.motion_timer.start()
+                    if self.motion_preview or self.chrono_state in ('running','arming','resetting'):self.motion_timer.start()
                     else:self.motion_timer.stop()
             elif action=='motion-preview':
                 self.motion_preview=bool(req.get('value'));self.motion_started=time.monotonic_ns()//1000000
@@ -266,7 +299,7 @@ class StudioBridge(QObject):
             elif action=='undo' and self.undo_stack:
                 self.redo_stack.append(self.project.copy());self.project=self.undo_stack.pop();self.variant=min(self.variant,len(self.project.variants)-1);self.dirty=True
             elif action=='redo' and self.redo_stack:
-                self.undo_stack.append(self.project.copy());self.project=self.redo_stack.pop();self.dirty=True
+                self.undo_stack.append(self.project.copy());self.project=self.redo_stack.pop();self.variant=min(self.variant,len(self.project.variants)-1);self.dirty=True
             elif action=='add':
                 kind=req['kind']
                 defaults={'clock':dict(name='Ora',x=57,y=144,width=366,height=108,size=90),'date':dict(name='Data',x=158,y=258,width=164,height=40,size=30),'analog':dict(name='Lancette',x=60,y=60,width=360,height=360,color='#6ce5c1',second_hand=not self.aod),'number':dict(name='Dato',x=166,y=340,width=148,height=46,size=30),'text':dict(name='Testo',x=140,y=100,width=200,height=40,size=24),'rect':dict(name='Rettangolo'),'circle':dict(name='Cerchio')}
@@ -274,58 +307,30 @@ class StudioBridge(QObject):
                 defaults['compass']=dict(name='Bussola analogica',x=180,y=180,width=120,height=120,source='systemSensorCompass',
                                          value_range=360,angle_range=-360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
                 if kind not in defaults:raise ValueError('Componente non supportato.')
-                added=Element(kind=kind,aod=self.aod,**defaults[kind]);self.project.elements.append(added);selection=added.id
+                added=Element(kind=kind,aod=self.aod,**defaults[kind]);self.design.elements.append(added);selection=added.id
                 if kind=='compass':
                     from .compass_catalog import preset_changes as compass_changes
                     preset=next((c for c in self.compass_presets if c['name']=='Ferrari' and c['kind']=='Rosa completa'),self.compass_presets[0] if self.compass_presets else None)
                     if preset is None:raise ValueError('Catalogo bussole non disponibile.')
-                    for k,v in compass_changes(self.project,self.resources,preset).items():setattr(added,k,v)
+                    for k,v in compass_changes(self.design,self.resources,preset).items():setattr(added,k,v)
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
                 if e.kind in ('analog','pointer'):
-                    resolved=next(x for x in self.project.variant_project(0 if self.aod else self.variant).elements if x.id==e.id)
-                    changes=hand_edit_changes(resolved,changes,self.project)
+                    changes=hand_edit_changes(e,changes,self.design)
                 allowed=set(Element.__dataclass_fields__)-{'id','kind'}
                 if set(changes)-allowed:raise ValueError('Proprietà non supportata.')
-                if req.get('variantOnly'):
-                    if self.aod:raise ValueError('L’AOD è comune agli stili: togli “Modifica soltanto questo stile”.')
-                    permitted=VARIANT_PROPERTIES
-                    if set(changes)-permitted:raise ValueError('Questa proprietà si applica a tutte le varianti.')
-                    overrides=self.project.variants[self.variant].setdefault('overrides',{}).setdefault(e.id,{})
-                    overrides.update(changes)
-                else:
-                    for k,v in changes.items():setattr(e,k,v)
-                    if e.kind in ('analog','pointer'):
-                        for variant in self.project.variants:
-                            overrides=variant.get('overrides',{}).get(e.id,{})
-                            for k in changes:
-                                if k.startswith(('hour_','minute_','second_')) or k=='pointer_end_pivot':overrides.pop(k,None)
+                for k,v in changes.items():setattr(e,k,v)
             elif action=='nudge':
                 layer=self.layer(req['id']);dx=req.get('dx',0);dy=req.get('dy',0)
                 if type(dx) is not int or type(dy) is not int or abs(dx)>100 or abs(dy)>100:raise ValueError('Spostamento non valido.')
                 if isinstance(layer,Element):
-                    resolved=next(e for e in self.project.variant_project(0 if self.aod else self.variant).elements if e.id==layer.id)
+                    resolved=layer
                     if not layer.locked:
                         low=-MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else 0
                         xmax=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-resolved.width)
                         ymax=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-resolved.height)
                         changes={'x':max(low,min(xmax,resolved.x+dx)),'y':max(low,min(ymax,resolved.y+dy))}
-                        if req.get('variantOnly') and not self.aod:self.project.variants[self.variant].setdefault('overrides',{}).setdefault(layer.id,{}).update(changes)
-                        else:
-                            # Translate explicit positions too, so a common edit
-                            # visibly moves the selected style and all others.
-                            base_xmax=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-layer.width)
-                            base_ymax=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-layer.height)
-                            changes={'x':max(low,min(base_xmax,layer.x+dx)),'y':max(low,min(base_ymax,layer.y+dy))}
-                            for k,v in changes.items():setattr(layer,k,v)
-                            if not layer.aod:
-                                for variant in self.project.variants:
-                                    override=variant.get('overrides',{}).get(layer.id,{})
-                                    for key,delta in [('x',dx),('y',dy)]:
-                                        if key in override:
-                                            size=override.get('width' if key=='x' else 'height',getattr(layer,'width' if key=='x' else 'height'))
-                                            high=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-size)
-                                            override[key]=max(low,min(high,override[key]+delta))
+                        for k,v in changes.items():setattr(layer,k,v)
                     else:self.project=before;before=None
                 else:
                     layer=normalized_slot(layer)
@@ -334,23 +339,26 @@ class StudioBridge(QObject):
                     else:self.project=before;before=None
             elif action in ('move-group','align-group'):
                 from .selection import move,align
-                args=(self.project,req['ids'])
-                settings=dict(variant=self.variant,aod=self.aod,variant_only=bool(req.get('variantOnly')))
+                args=(self.design.copy() if self.design is self.project else self.design,req['ids'])
+                if self.design is self.project:args[0].variants=[]
+                settings=dict(aod=self.aod)
                 if action=='move-group':move(*args,req['dx'],req['dy'],**settings)
                 else:align(*args,req['alignment'],**settings)
+                # Group transforms operate on the selected design only.
+                self.design.elements=args[0].elements;self.design.complications=args[0].complications
             elif action=='delete':
                 self.remove_layer(req['id']);selection=''
             elif action=='duplicate':
                 from copy import deepcopy
                 original=self.layer(req['id']);e=deepcopy(original)
-                if isinstance(e,Element):e.id=identifier();e.name+=' copia';self.project.elements.append(e);selection=e.id
+                if isinstance(e,Element):e.id=identifier();e.name+=' copia';self.design.elements.append(e);selection=e.id
                 else:
-                    if len(self.project.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
-                    e['id']=identifier();e['name']+=' copia';self.project.complications.append(e);selection=e['id']
-                self.project.sync_layer_order();self.reorder_layer(selection,req['id'],'above')
+                    if len(self.design.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
+                    e['id']=identifier();e['name']+=' copia';self.design.complications.append(e);selection=e['id']
+                self.design.sync_layer_order();self.reorder_layer(selection,req['id'],'above')
             elif action=='move-layer':
                 e=self.layer(req['id']);mode=e.aod if isinstance(e,Element) else False
-                order=[x.id if isinstance(x,Element) else x['id'] for x in self.project.ordered_layers(mode)]
+                order=[x.id if isinstance(x,Element) else x['id'] for x in self.design.ordered_layers(mode)]
                 index=order.index(req['id']);direction=1 if int(req['direction'])>0 else -1
                 if 0<=index+direction<len(order):self.reorder_layer(req['id'],order[index+direction],'above' if direction>0 else 'below')
             elif action=='reorder-layer':self.reorder_layer(req['id'],req['targetId'],req['placement'])
@@ -358,16 +366,14 @@ class StudioBridge(QObject):
                 e=self.element(req)
                 if e.kind!='image' or req.get('fit','cover') not in ('cover','contain'):raise ValueError('Seleziona un livello immagine.')
                 changes={'x':0,'y':0,'width':480,'height':480,'fit':req.get('fit','cover')}
-                if req.get('variantOnly') and not self.aod:self.project.variants[self.variant].setdefault('overrides',{}).setdefault(e.id,{}).update(changes)
-                else:
-                    for k,v in changes.items():setattr(e,k,v)
+                for k,v in changes.items():setattr(e,k,v)
             elif action in ('image','variant-image','hand-image','compass-image'):
                 el=self.import_image()
                 if el:
                     if action=='image':el.aod=self.aod;selection=el.id
                     else:
-                        self.project.elements.remove(el)
-                        if action=='variant-image':self.project.variants[self.variant]['imageAsset']=el.asset
+                        self.design.elements.remove(el)
+                        if action=='variant-image':self.set_background_image(el)
                         elif action=='compass-image':
                             if self.element(req).kind!='compass':raise ValueError('Seleziona una bussola.')
                             self.set_compass(req,{'asset':el.asset,'compass_preset':''})
@@ -377,52 +383,69 @@ class StudioBridge(QObject):
                             self.set_hand(req,clear_hand_changes(hand,el.asset))
             elif action=='hand-preset':
                 preset=next(h for h in self.hand_presets if h['id']==req['preset'])
-                self.set_hand(req,preset_changes(self.project,self.element(req),self.resources,preset,req['hand'],self.hand_presets))
+                self.set_hand(req,preset_changes(self.design,self.element(req),self.resources,preset,req['hand'],self.hand_presets))
             elif action=='hand-pivot':
-                e=next(x for x in self.project.variant_project(0 if self.aod else self.variant).elements if x.id==req['id'])
+                e=self.element(req)
                 hand=req['hand']
                 if hand not in ('hour','minute','second') or not getattr(e,hand+'_asset') or req.get('asset')!=getattr(e,hand+'_asset'):
                     raise ValueError('Applica la grafica prima di scegliere il suo pivot.')
                 if any(type(req.get(a)) is not int or not 0<=req[a]<480 for a in ('x','y')):raise ValueError('Clicca un punto valido nella grafica della lancetta.')
                 changes={hand+'_anchor_x':req['x'],hand+'_anchor_y':req['y']}
-                self.set_hand(req,hand_edit_changes(e,changes,self.project))
+                self.set_hand(req,hand_edit_changes(e,changes,self.design))
             elif action=='compass-preset':
                 from .compass_catalog import preset_changes as compass_changes
                 preset=next(c for c in self.compass_presets if c['id']==req['preset'])
-                self.set_compass(req,compass_changes(self.project,self.resources,preset))
+                self.set_compass(req,compass_changes(self.design,self.resources,preset))
             elif action=='clear-hand':
                 self.set_hand(req,clear_hand_changes(req['hand']))
             elif action=='font':
                 filename,_=QFileDialog.getOpenFileName(self.window,'Importa font',str(self.root),'Font (*.ttf *.otf)')
-                if filename:self.element(req).font_asset=self.project.add_font(Path(filename))
+                if filename:self.element(req).font_asset=self.design.add_font(Path(filename))
             elif action=='add-variant':
-                if len(self.project.variants)>=5:raise ValueError('Sono disponibili fino a cinque stili.')
-                from copy import deepcopy
-                v=deepcopy(self.project.variants[self.variant]);v['id']=identifier();v['name']=f'Stile {len(self.project.variants)+1}'
-                self.project.variants.append(v);self.variant=len(self.project.variants)-1
+                self.variant=self.project.add_variant(self.variant);self.aod=False;selection=''
             elif action=='edit-variant':
-                allowed={'name','accent','background','imageAsset','overrides'}
+                allowed={'name','accent','background','imageAsset'}
                 if set(req['changes'])-allowed:raise ValueError('Proprietà variante non valida.')
-                self.project.variants[self.variant].update(req['changes'])
+                changes=dict(req['changes']);variant=self.project.variants[self.variant]
+                if 'accent' in changes:
+                    old=variant.get('accent','#6ce5c1')
+                    for element in self.design.elements:
+                        if not element.aod and element.color.lower()==old.lower():element.color=changes['accent']
+                    for slot in self.design.complications:
+                        if slot['color'].lower()==old.lower():slot['color']=changes['accent']
+                if 'background' in changes:self.design.background=changes['background'] or '#080f1b'
+                if 'imageAsset' in changes:
+                    asset=changes.pop('imageAsset')
+                    if asset:
+                        if asset not in self.project.assets:raise ValueError('Sfondo variante mancante.')
+                        self.set_background_image(Element(kind='image',asset=asset))
+                    else:
+                        background=self.background_layer()
+                        variant.pop('backgroundLayerId',None)
+                        if background:self.remove_layer(background.id)
+                variant.update(changes)
             elif action=='delete-variant':
-                if len(self.project.variants)==1:raise ValueError('Mantieni almeno uno stile.')
-                self.project.variants.pop(self.variant);self.variant=0
-            elif action=='select-variant':self.variant=max(0,min(int(req['index']),len(self.project.variants)-1))
+                self.project.delete_variant(self.variant);self.variant=0;self.aod=False;selection=''
+            elif action=='select-variant':
+                self.variant=max(0,min(int(req['index']),len(self.project.variants)-1));self.aod=False;selection=''
+                from .chrono_pro import ProPreview
+                self.pro_preview=ProPreview();self.chrono_state='rest' if self.preview_pro_mode else 'reset'
+                self.chrono_elapsed=0;self.values.pop('__proValues',None);self.values.pop('__choices',None)
             elif action=='add-slot':
-                if len(self.project.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
-                n=len(self.project.complications)
+                if len(self.design.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
+                n=len(self.design.complications)
                 x,y=[(90,112),(280,112),(28,228),(342,228),(185,332)][n%5]
                 slot=normalized_slot({'id':identifier(),'name':f'Complicazione {n+1}','x':x,'y':y,'width':110,'height':44,'size':32,
                                       'frame':'none','showLabel':False,'showUnit':False,'weatherMode':'value',
                                       'options':['none','steps','heartRate','weatherCurrentTemperature','systemSensorCompass','weatherCurrentWeather'],
                                       'default':['steps','heartRate','weatherCurrentTemperature','systemSensorCompass','weatherCurrentWeather'][n%5]})
-                self.project.complications.append(slot);selection=slot['id']
+                self.design.complications.append(slot);selection=slot['id']
             elif action=='edit-slot':
-                slot=next(s for s in self.project.complications if s['id']==req['id'])
+                slot=next(s for s in self.design.complications if s['id']==req['id'])
                 if set(req['changes'])-{'name','x','y','width','height','size','decimals','digits','unit','color','background','frame','showLabel','showUnit','weatherMode','visible','locked','opacity','align','options','default'}:raise ValueError('Proprietà slot non valida.')
                 slot.update(req['changes'])
             elif action=='slot-preview':
-                slot=next(s for s in self.project.complications if s['id']==req['id'])
+                slot=next(s for s in self.design.complications if s['id']==req['id'])
                 if req['choice'] not in slot['options']:raise ValueError('Opzione non disponibile.')
                 self.values.setdefault('__choices',{})[slot['id']]=req['choice']
             elif action=='delete-slot':self.remove_layer(req['id']);selection=''
@@ -430,7 +453,7 @@ class StudioBridge(QObject):
                 mapping={'name':'name','author':'author','version':'version','background':'background','aodEnabled':'aod_enabled','faceId':'face_id'}
                 for key,value in req['changes'].items():
                     if key not in mapping:raise ValueError('Impostazione non valida.')
-                    setattr(self.project,mapping[key],value)
+                    setattr(self.design if key=='background' else self.project,mapping[key],value)
                 if self.project.aod_enabled and not any(e.aod and e.kind in ('clock','analog') for e in self.project.elements):
                     self.project.elements.append(Element(kind='analog',name='Lancette AOD',x=80,y=80,width=320,height=320,color='#808080',aod=True))
             elif action=='aod':self.aod=bool(req['value']) and self.project.aod_enabled
@@ -457,17 +480,21 @@ class StudioBridge(QObject):
                 filename,_=QFileDialog.getSaveFileName(self.window,'Salva anteprima',str(self.root/'preview.png'),'PNG (*.png)')
                 if filename:Path(filename).write_bytes(png_bytes(render(self.project.variant_project(0 if self.aod else self.variant),self.values,self.aod)))
             if before:
+                if action not in ('add-variant','delete-variant'):
+                    self.design.sync_layer_order();self.project.commit_variant(self.variant,self.design,self.aod)
                 self.project.sync_layer_order()
                 errors=self.project.validate()
                 if errors:raise ValueError('\n'.join(errors))
                 if self.project.metadata()!=before.metadata():
                     self.undo_stack.append(before);self.undo_stack=self.undo_stack[-40:];self.redo_stack=[];self.dirty=True
+            self._design=None
             reply={'state':self.state()}
             self.resume_preview()
             if selection is not None:reply['selectedLayer']=selection
             return json.dumps(reply,ensure_ascii=False)
         except Exception as exc:
             if before:self.project=before;self.variant=min(self.variant,len(self.project.variants)-1)
+            self._design=None
             return json.dumps({'error':str(exc)},ensure_ascii=False)
 
     @Slot()
@@ -500,29 +527,38 @@ class StudioBridge(QObject):
         if req.get('hand') not in ('hour','minute','second'):raise ValueError('Lancetta non valida.')
         e=self.element(req)
         if e.kind not in ('analog','pointer'):raise ValueError('Seleziona un livello lancette.')
-        if req.get('variantOnly') and not self.aod:self.project.variants[self.variant].setdefault('overrides',{}).setdefault(e.id,{}).update(changes)
-        else:
-            for k,v in changes.items():setattr(e,k,v)
-            if not e.aod:
-                for variant in self.project.variants:
-                    override=variant.get('overrides',{}).get(e.id,{})
-                    for key in changes:override.pop(key,None)
+        for k,v in changes.items():setattr(e,k,v)
 
     def set_compass(self,req,changes):
         e=self.element(req)
         if e.kind!='compass':raise ValueError('Seleziona un livello bussola.')
-        if req.get('variantOnly') and not self.aod:self.project.variants[self.variant].setdefault('overrides',{}).setdefault(e.id,{}).update({k:v for k,v in changes.items() if k in VARIANT_PROPERTIES})
+        for k,v in changes.items():setattr(e,k,v)
+
+    def background_layer(self):
+        variant=self.project.variants[self.variant]
+        normal=[e for e in self.design.ordered_layers(False) if isinstance(e,Element)]
+        existing=next((e for e in normal if e.id==variant.get('backgroundLayerId')),None)
+        if existing is None:
+            candidates=[e for e in normal if e.kind=='image' and e.x<=0 and e.y<=0 and
+                        e.x+e.width>=480 and e.y+e.height>=480]
+            existing=next((e for e in candidates if e.name!='Sfondo variante'),candidates[0] if candidates else None)
+        return existing
+
+    def set_background_image(self,image):
+        if self.aod:raise ValueError('Seleziona uno stile normale per cambiarne lo sfondo.')
+        variant=self.project.variants[self.variant];existing=self.background_layer()
+        if existing:
+            existing.asset=image.asset;existing.visible=True;existing.opacity=255;existing.tint=False
+            variant['backgroundLayerId']=existing.id
         else:
-            for k,v in changes.items():setattr(e,k,v)
-            for variant in self.project.variants:
-                overrides=variant.get('overrides',{}).get(e.id,{})
-                for key in changes:overrides.pop(key,None)
+            image.name='Sfondo';image.x=image.y=0;image.width=image.height=480;image.locked=True;image.aod=False
+            self.design.elements.insert(0,image);self.design.layer_order.insert(0,image.id);variant['backgroundLayerId']=image.id
 
 
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 1.0 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 1.2 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

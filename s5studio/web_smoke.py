@@ -26,8 +26,8 @@ def smoke(screenshot: Path):
         if ready and ready[0]:break
     else:raise ValueError('Interfaccia WebEngine non pronta entro 30 secondi.')
     # Real bridge mutations, rendering and undo, followed by DOM interaction.
-    for action in ('add-variant',*(['add-slot']*5)):
-        result=json.loads(w.bridge.command(json.dumps({'action':action})))
+    for action in ('add-variant','select-variant',*(['add-slot']*5)):
+        result=json.loads(w.bridge.command(json.dumps({'action':action,**({'index':0} if action=='select-variant' else {})})))
         if result.get('error'):raise ValueError(result['error'])
     available=w.bridge.state()['complicationSources']
     if len(available)!=59 or len(set(available.values()))!=59:
@@ -61,14 +61,13 @@ def smoke(screenshot: Path):
     deadline=time.monotonic()+5
     while time.monotonic()<deadline:
         app.processEvents()
-        if w.bridge.project.variants[1]['accent']=='#5f87ff':break
+        if w.bridge.project.variants[0]['accent']=='#5f87ff':break
     else:raise ValueError('La modifica del colore dal DOM non raggiunge il progetto Python.')
     # Apply a real gallery bitmap through the visible selector and button.
     w.view.page().runJavaScript('setTab("design");selected=state.resolvedElements.find(e=>e.kind==="analog"&&!e.aod).id;paint();const model=document.querySelector("[data-preset=hour]");model.selectedIndex=1;model.dispatchEvent(new Event("change"));document.querySelector("[data-use-preset=hour]").click();true')
     deadline=time.monotonic()+5
     while time.monotonic()<deadline:
         app.processEvents()
-        if w.bridge.project.variants[1].get('overrides'):break
         if w.bridge.project.elements[0].hour_asset:break
     else:raise ValueError('Il modello lancetta non viene incorporato nel progetto.')
     w.view.page().runJavaScript('setTab("slots");const card=document.querySelector("[data-slot]");const choice=card.querySelector("[data-simulate]");choice.value="weatherCurrentTemperature";choice.dispatchEvent(new Event("change"));true')
@@ -85,6 +84,10 @@ def smoke(screenshot: Path):
     editor_checks+=verify_multi(w,app)
     from .export_smoke import verify_export
     editor_checks+=verify_export(w,app)
+    from .pro_smoke import verify_pro
+    editor_checks+=verify_pro(w,app)
+    from .variant_smoke import verify_variants
+    editor_checks+=verify_variants(w,app)
     screenshot=Path(screenshot);screenshot.parent.mkdir(parents=True,exist_ok=True)
     w.view.page().runJavaScript('document.getElementById("workspace").scrollTop=0;document.getElementById("inspector").scrollTop=0;true')
     # Let asynchronous PNG decoding and compositor catch up before grabbing.
