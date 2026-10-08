@@ -26,10 +26,12 @@ Se inserisci un elemento dinamico nativo, come una complicazione o una bussola, 
 
 ## Validazione e prova
 
+**Conferma reale dell’8 ottobre 2026:** l’utente dichiara il test pienamente superato e il crono funzionante su tutte le lancette piccole dell’S5. Evidenza: [hardware-test-1.0.json](hardware-test-1.0.json). Il messaggio non specifica durata della prova o misure di consumo/precisione; questi dati non vengono dedotti dalla conferma.
+
 La release supera **95 test automatici**, **84 controlli dell’interfaccia da sorgente** e la verifica statica dei **707 file incorporati nell’EXE**. Il Lua incorporato coincide con il sorgente sottoposto ai test. I risultati e gli hash sono in [validation-editor-1.0.json](validation-editor-1.0.json) e [executable-build-1.0.json](executable-build-1.0.json).
 
 Il validator verifica un solo entry point Lua per ogni stile che ne ha bisogno, tutte le lancette e sorgenti previste, un solo gestore del tap e l’assenza di Lua/secondi nell’AOD. `build-report.json` espone `interactive.luaArchitecture`, l’elenco degli ID per scena e `crossWidgetVmSharingRequired=false`. Gli ZIP precedenti restano verificabili con i loro rapporti originali.
 
 I test Lua avanzano il clock a 59,999 s, 60 s, 61 s, 3.599,999 s, 3.600 s e oltre 12 ore, verificando anche Stop/Reset e il fallback a un secondo. Le compilazioni di verifica sono temporanee. Per richiesta dell’utente non si esegue l’EXE in un ambiente isolato: il controllo del bundle verifica file e hash senza avviarlo.
 
-Per il test sull’orologio, apri il tuo progetto nella 1.0 ed **esporta un nuovo ZIP**. Installa il nuovo pacchetto e avvia Crono: dopo 65 secondi i minuti devono indicare 1 e i secondi circa 5. Stop deve fermare tutte le lancette; il tap successivo deve azzerarle insieme. Le ore sono verificate con clock simulato; il nuovo payload deve ancora essere confermato sul dispositivo.
+Per ripetere il test sull’orologio, apri il tuo progetto nella 1.0 ed **esporta un nuovo ZIP**. Installa il nuovo pacchetto e avvia Crono: dopo 65 secondi i minuti devono indicare 1 e i secondi circa 5. Stop deve fermare tutte le lancette; il tap successivo deve azzerarle insieme. I passaggi a un’ora e oltre 12 ore sono verificati anche con clock simulato; la conferma fisica riferita dall’utente riguarda tutte le lancette, senza una durata dettagliata della prova.

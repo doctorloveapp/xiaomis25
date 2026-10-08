@@ -123,8 +123,8 @@
     "normalAppLayoutCountInTwoVariantFixture": 2,
     "previousChronoPackageStillValid": true
   },
-  "hardwareTested": false,
-  "hardwareEvidence": "User reported 0.11 chrono minutes frozen; new 1.0 payload requires hardware confirmation. Hours tested with simulated clocks.",
+  "hardwareTested": true,
+  "hardwareEvidence": "User reports the physical 1.0 chrono test fully passed on all small hands on 2026-10-08; duration and clock precision not specified.",
   "standaloneExecutableTest": {
     "performed": false,
     "reason": "Not run at explicit user request"
@@ -138,5 +138,12 @@
     "embeddedLuaSha256": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9",
     "executableLaunched": false,
     "isolatedEnvironmentTested": false
+  },
+  "agentPerformedPhysicalHardwareTest": false,
+  "userReportedHardwareTest": {
+    "status": "passed-as-reported-by-user",
+    "date": "2026-10-08",
+    "scope": "Chronograph on all small hands",
+    "evidence": "docs/hardware-test-1.0.json"
   }
 }

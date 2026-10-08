@@ -1,0 +1,32 @@
+{
+  "applicationVersion": "1.0",
+  "date": "2026-10-08",
+  "scope": "Stable source, required runtime resources and exact standalone executable",
+  "hardwareEvidence": "docs/hardware-test-1.0.json",
+  "gitCommitAtCapture": "26f1ae1bd42a8df899bfc9501edb96bc59037596",
+  "capturesWorkingTreeBytes": true,
+  "runtimeResourceCount": 707,
+  "payloadFileCount": 786,
+  "excluded": [
+    "user projects",
+    "original watchface corpus",
+    "dependency caches",
+    "Git metadata",
+    "Python/Node build environments"
+  ],
+  "standaloneExeIncluded": true,
+  "restoreDestination": "Extract to a new directory; preserve existing user projects and future modifications",
+  "archive": "build/recovery/S5Studio-1.0-stable-20261008.zip",
+  "archiveSize": 262957778,
+  "archiveSha256": "521f7b931f5ee5de10b819cd8c6b739ef3665c1e22a353bb277816fd41ca5cfe",
+  "verification": "All archived payloads match their SHA256 hashes; ZIP CRC verified without launching executable",
+  "executable": {
+    "path": "S5Studio-1.0.exe",
+    "sha256": "0fb4d9185ecac8c9e35b74aa8a3e6083cd63cb240ded812fcb5d611c09f770c8",
+    "size": 234904669
+  },
+  "applicationCodeModified": false,
+  "executableRebuilt": false,
+  "executableLaunched": false,
+  "isolatedEnvironmentTested": false
+}

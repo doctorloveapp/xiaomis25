@@ -5,5 +5,11 @@
   "exeSize": 234904669,
   "exeSha256": "0fb4d9185ecac8c9e35b74aa8a3e6083cd63cb240ded812fcb5d611c09f770c8",
   "executableLaunched": false,
-  "isolatedEnvironmentTested": false
+  "isolatedEnvironmentTested": false,
+  "userReportedHardwareTest": {
+    "status": "passed-as-reported-by-user",
+    "date": "2026-10-08",
+    "scope": "Chronograph on all small hands",
+    "evidence": "docs/hardware-test-1.0.json"
+  }
 }

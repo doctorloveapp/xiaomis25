@@ -1,0 +1,25 @@
+{
+  "applicationVersion": "1.0",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "date": "2026-10-08",
+  "hardwareTest": "passed-as-reported-by-user",
+  "scope": "Chronograph on all small hands after the 1.0 shared-scene correction",
+  "source": "User confirmation in conversation after physical testing on their Xiaomi Watch S5",
+  "userConfirmation": "Dopo un test reale ti confermo che adesso il crono funziona in tutte le lancette piccole, test pienamente superato, sei riuscito a risolvere tutti i problemi.",
+  "results": {
+    "allSmallChronoHands": "passed-as-reported-by-user",
+    "previousMinuteFailure": "resolved-as-reported-by-user",
+    "startStopReset": "already confirmed in the previous physical test; complete chrono now reported passed",
+    "existingDecisecondHand": "passed-as-reported-by-user; reconfirmed on 2026-10-08"
+  },
+  "decisecondUserConfirmation": "abbiamo gia' implementato i decimi e ho fatto dei test reali che verificano che la lancetta piccola impostata su decimi funziona perfettamente",
+  "exactTestDurationSeconds": null,
+  "oneHourPhysicalTestDurationExplicitlyReported": false,
+  "clockModeMeasured": null,
+  "batteryConsumptionMeasured": false,
+  "subsecondPrecisionMeasured": false,
+  "exeSha256": "0fb4d9185ecac8c9e35b74aa8a3e6083cd63cb240ded812fcb5d611c09f770c8",
+  "agentPerformedPhysicalHardwareTest": false,
+  "isolatedExecutableTestPerformed": false,
+  "updateScope": "Documentation, feasibility plan and recovery snapshot only; application code and executable unchanged"
+}
