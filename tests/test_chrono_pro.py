@@ -397,7 +397,7 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
         report=json.loads(z.read('build-report.json'));pro=report['interactive']['chronoPro']
         assert pro['runningSmoothForcedOff'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
         assert pro['transitionDurationMs']==720 and pro['transitionTargetFps']==25
-        assert report['applicationVersion']=='1.7.2' and report['interactive']['appLayoutCount']==2
+        assert report['applicationVersion']=='1.7.3' and report['interactive']['appLayoutCount']==2
         assert all(len(s['pointerIds'])==6 for s in report['interactive']['luaArchitecture']['scenes'])
         for screen in inspect_binary(data)['screens']:
             tables=read_tables(data,screen['index'])

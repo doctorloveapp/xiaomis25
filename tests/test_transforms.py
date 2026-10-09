@@ -131,7 +131,7 @@ def test_real_compile_transformed_images_text_shapes_weather_lua_and_aod(tmp_pat
     assert inspect_binary(data)['screenCount']==4 and p.assets==before
     assert validate_package(ROOT/'quadrante_funzionante.zip',archive)['status']=='passed'
     with zipfile.ZipFile(archive) as z:
-        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.7.2'
+        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.7.3'
         for i in (0,1):
             variant=p.variant_project(i);e=next(e for e in variant.elements if e.id==text.id)
             bitmap,x,y=canvas_static(variant,e)

@@ -70,7 +70,11 @@
       "status": "passed-as-reported-by-user",
       "evidence": "docs/hardware-test-1.7.1.json"
     },
-    "1.7.2": "pending-user-test"
+    "1.7.2": {
+      "status": "result-confirmed-as-reported-by-user",
+      "testContextNotSpecified": true,
+      "evidence": "docs/user-test-1.7.2.json"
+    }
   },
   "executable": {
     "status": "passed",

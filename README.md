@@ -1,10 +1,22 @@
-# S5 Studio 1.7.2 — Ombre tra le lancette
+# S5 Studio 1.7.3 — Calendario inglese e allineamento dati
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.7.2.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-1.7.3.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Correzioni 1.7.3 — Calendario inglese e allineamento
+
+**Dato live → Giorno settimana:** mostra **MON, TUE, WED, THU, FRI, SAT, SUN**, sempre tre lettere maiuscole. L’anteprima iniziale è **MON**. **Dato live → Mese:** mostra i nomi completi inglesi, da **January** a **December**, come richiesto dall’utente. Font importato, dimensione, grassetto memorizzato, colore, opacità e allineamento si applicano a tutti i nomi. Cifre, decimali e zeri iniziali sono nascosti quando la sorgente è un calendario testuale; restano disponibili per gli altri dati numerici.
+
+Le parole sono rasterizzate sul PC con il font scelto e compilate in un **DataItemImageValues nativo**, collegato a `dateWeek` o `dateMonth`. Il dispositivo seleziona quindi la scritta del giorno/mese effettivo, senza Lua e senza dipendere dalla lingua del telefono. La codifica dei quadranti forniti è `dateWeek: 0=SUN, 1=MON, …, 6=SAT`; i mesi usano valori espliciti `1…12`. [Evidenza del formato](docs/calendar-native-mapping-1.7.3.json). Le anteprime complete e degli stili usano lo stesso testo dell’esportazione. Il normale oggetto **Data DD/MM** conserva il mese numerico; anche le sorgenti che guidano le lancette rimangono numeriche.
+
+Alla selezione di una sorgente calendario il campo viene allargato, solo se necessario, per ospitare tutti i nomi con il font corrente, mantenendolo sul canvas. Le geometrie già salvate non vengono riscritte all’apertura: se un campo esistente è troppo piccolo per il nome più lungo, aumenta la larghezza o riduci il font. La validazione controlla l’intero elenco, non soltanto il nome mostrato nell’anteprima.
+
+**Dato live → Giorno del mese, allineamento Destra:** un giorno come **6** occupa la posizione delle unità di **16**, sul lato destro del campo. Era errata sia l’anteprima, che aggiungeva spazi a destra, sia l’esportazione, che forzava sempre l’allineamento sinistro. Ora Sinistra/Centro/Destra allineano il valore visibile; gli zeri iniziali continuano a produrre **06** quando richiesti. I metadati e il validator verificano anche l’allineamento effettivo del binario.
+
+**22 test mirati e 9 controlli dell’editor superati**, incluse compilazioni binarie temporanee di calendario e allineamenti, associazioni giorno/mese, AOD, font, colore/opacità, anteprime, giorno singolo e conservazione del DD/MM numerico. [Rapporto](docs/validation-editor-1.7.3.json). Nessun quadrante ZIP dimostrativo, nuovo backup o avvio dell’EXE in ambiente isolato. Runtime Crono/Pro e catalogo originale invariati. Le ombre della 1.7.2 sono confermate corrette dall’utente; il calendario 1.7.3 resta da provare sul dispositivo.
 
 ## Correzione 1.7.2 — Ombre tra le lancette
 
@@ -16,7 +28,7 @@ La correzione si applica ad **anteprima, miniature degli stili, esportazione nat
 
 **58 test mirati superati**: verifica dei pixel delle ombre su lancette sovrapposte, miniature, ordine dei figli nella scena Lua realmente eseguita, ombre disattivate, geometria e generazione dei set. Una sola compilazione binaria temporanea verifica ordine, sorgenti, centri e periodi nel formato nativo, incluso AOD senza secondi; nessun quadrante ZIP dimostrativo. Il movimento fluido ordinario riguarda ancora soltanto i secondi; ore/minuti rimangono a 1.000 ms. I due runtime Lua restano invariati. [Rapporto](docs/validation-editor-1.7.2.json). Nessun nuovo backup e nessun avvio dell’EXE in ambiente isolato.
 
-**Il test della correzione 1.7.1 è confermato dall’utente**, che riferisce «il problema è stato risolto». La 1.7.2 è verificata sul PC; la resa sul dispositivo resta da confermare con il prossimo test reale.
+**Il test della correzione 1.7.1 è confermato dall’utente**, che riferisce «il problema è stato risolto». L’utente conferma successivamente «perfetto adesso le ombre sono perfette»: [esito](docs/user-test-1.7.2.json).
 
 ## Correzione 1.7.1 — Decimi e visibilità Crono Pro
 
@@ -240,7 +252,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-1.7.2.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-1.7.3.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.

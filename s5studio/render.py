@@ -8,9 +8,10 @@ import os
 
 from PIL import Image, ImageColor, ImageDraw, ImageFont, ImageOps
 from .model import Element, Project
+from .calendar_labels import labels_for, sample_label
 
 SCENARIOS = {
-    "Normale": dict(hour=10, minute=8, second=30, day=15, month=10, batteryPercent=82, heartRate=72, steps=8540, calories=420),
+    "Normale": dict(hour=10, minute=8, second=30, day=15, month=10, dateWeek=1, batteryPercent=82, heartRate=72, steps=8540, calories=420),
     "Mezzanotte": dict(hour=0, minute=0, second=0, day=1, month=1, batteryPercent=0, heartRate=60, steps=0, calories=0),
     "Valori alti": dict(hour=23, minute=59, second=59, day=31, month=12, batteryPercent=100, heartRate=180, steps=99999, calories=9999),
     "Dati assenti": dict(hour=12, minute=34, second=0, day=6, month=10, batteryPercent=None, heartRate=None, steps=None, calories=None),
@@ -78,6 +79,17 @@ def number_parts(p: Project, e: Element):
     total = e.digits*cw
     offset = 0 if e.align == "left" else (e.width-total if e.align == "right" else (e.width-total)//2)
     return [(e.source, e.digits, offset, (e.height-ch)//2)], None
+
+
+def calendar_metrics(p, e):
+    font = font_for(p, e)
+    boxes = [font.getbbox(word) for word in labels_for(e).values()]
+    return max(b[2]-b[0] for b in boxes), max(b[3]-b[1] for b in boxes)
+
+
+def calendar_image(p, e, word):
+    from dataclasses import replace
+    return static_image(p, replace(e, kind='text', text=word))
 
 
 def static_image(p: Project, e: Element):
@@ -303,6 +315,8 @@ def hand_image(e: Element, which: str, p: Project | None=None, *, shadow=False):
 
 
 def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=(0,0)):
+    if labels_for(e):
+        return calendar_image(p, e, sample_label(e, values))
     if e.kind=='image_values':
         from dataclasses import replace
         value=values.get(e.source)
@@ -361,7 +375,10 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
                 text=f'{float(value):.{e.decimals}f}'
                 if len(text)>count:text='-'*count
             else:text = str(max(-(10**(count-1)-1),min(int(value),10**count-1)))
-            text = text.zfill(count) if e.leading_zero or e.kind in {"clock","date"} else text.ljust(count)
+            if e.leading_zero or e.kind in {"clock","date"}:text = text.zfill(count)
+        if e.kind=='number' and not e.leading_zero:
+            if e.align=='right':x+=(count-len(text))*cw
+            elif e.align=='center':x+=count*cw//2-len(text)*cw//2
         for index,char in enumerate(text):
             if char != " ":
                 im.alpha_composite(digit_image(p,e,char),(x+index*cw,y))
@@ -419,7 +436,11 @@ def layout_errors(p: Project) -> list[str]:
     for e in p.elements:
         if not e.visible:
             continue
-        if e.kind in {"number","clock","date"}:
+        if labels_for(e):
+            width,height=calendar_metrics(p,e)
+            if width>e.width or height>e.height:
+                errors.append(f"{e.name}: aumenta larghezza/altezza o riduci la dimensione del font per tutti i nomi del calendario.")
+        elif e.kind in {"number","clock","date"}:
             cw,ch,_=digit_metrics(p,e)
             groups,sep=number_parts(p,e)
             if any(x<0 or y<0 or x+n*cw>e.width or y+ch>e.height for _,n,x,y in groups):

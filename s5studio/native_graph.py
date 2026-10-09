@@ -52,7 +52,7 @@ def collect_nodes(data,screen,fprj):
                 candidates=[key for key,value in SOURCES.items() if value[1]==code]
                 source=ALIASES.get(candidates[0],candidates[0])
                 attrs={'source':source,'ref':target,'rotation':'0','supportRecolor':'false'}
-                if shape=='32':attrs.update(totalDigits=str(payload[2]&15),decimalDigits=str(payload[2]>>4),align='left',space='0',unitIcon='',leadingZero=str(bool(payload[3]&4)).lower(),trailingZero='false',decimalOffsetX='0',parameter='1000',renderRule='alwaysShow')
+                if shape=='32':attrs.update(totalDigits=str(payload[2]&15),decimalDigits=str(payload[2]>>4),align={0:'right',1:'left',2:'center'}[payload[3]&3],space='0',unitIcon='',leadingZero=str(bool(payload[3]&4)).lower(),trailingZero='false',decimalOffsetX='0',parameter='1000',renderRule='alwaysShow')
                 nodes[uid]={'tag':'DataItemImageNumber' if shape=='32' else 'DataItemImageValues','attrs':attrs}
                 if shape=='31':nodes[uid]['values']=[int(n.split(':')[0].strip('()')) for n in items]
             elif shape=='27':
@@ -340,7 +340,7 @@ def metadata(project,screens,nodes,face_id):
         if node['tag']=='Translation':editor['i18n']['translations'][uid_name(uid)]={language:node['text'] for language in LANGUAGES}
     ET.indent(manifest);files['resources/manifest.xml']=ET.tostring(manifest,encoding='utf-8',xml_declaration=True)
     files['editor.config.json']=json.dumps(editor,ensure_ascii=False,indent=2).encode();files['uidmap.map']=('\n'.join(mapping)+'\n').encode()
-    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.7.2','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
+    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.7.3','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
          'phonePreview':{'staticOnly':True,'resourceDirectory':'_preview','completeLayers':True,'modHardwareVerified':False},
          'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','resources/_preview/','app/lua/'))},
          'metadataHashes':{k:hashlib.sha256(files[k]).hexdigest() for k in ('resources/manifest.xml','editor.config.json','uidmap.map')},

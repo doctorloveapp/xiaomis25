@@ -340,6 +340,13 @@ class StudioBridge(QObject):
                 allowed=set(Element.__dataclass_fields__)-{'id','kind'}
                 if set(changes)-allowed:raise ValueError('Proprietà non supportata.')
                 for k,v in changes.items():setattr(e,k,v)
+                if 'source' in changes:
+                    from .calendar_labels import labels_for
+                    if labels_for(e):
+                        from .render import calendar_metrics
+                        width,height=calendar_metrics(self.design,e)
+                        e.width=min(480,max(e.width,width));e.height=min(480,max(e.height,height))
+                        e.x=min(e.x,480-e.width);e.y=min(e.y,480-e.height)
             elif action=='nudge':
                 layer=self.layer(req['id']);dx=req.get('dx',0);dy=req.get('dy',0)
                 if type(dx) is not int or type(dy) is not int or abs(dx)>100 or abs(dy)>100:raise ValueError('Spostamento non valido.')
@@ -622,7 +629,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 1.7.2 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 1.7.3 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

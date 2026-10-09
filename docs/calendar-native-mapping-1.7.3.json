@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-09",
+  "device": "Xiaomi Watch S5",
+  "weekdaySource": {
+    "name": "dateWeek",
+    "code": "2012",
+    "observedManifest": "ORIGINALE_quadrante/resources/manifest.xml",
+    "imageArray": "ImageArray3",
+    "explicitValues": false,
+    "order": [
+      "SUN",
+      "MON",
+      "TUE",
+      "WED",
+      "THU",
+      "FRI",
+      "SAT"
+    ],
+    "visuallyInspectedImages": {
+      "0": "ORIGINALE_quadrante/resources/images/0011_95d4902.png",
+      "6": "ORIGINALE_quadrante/resources/images/0017_3c8a57e.png"
+    }
+  },
+  "monthSource": {
+    "name": "dateMonth",
+    "code": "1012",
+    "observedManifest": "quadranti/562700103/234aed4df19b41992243a8e4be44a7ec/resources/manifest.xml",
+    "imageArray": "ImageArray32",
+    "explicitValues": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "numericAlignment": {
+    "pinnedCompiler": "EasyFace 4.23",
+    "compilerType": "MiWatchCompiler.Packers.DefaultPacker",
+    "fprjAlignment": {
+      "left": 0,
+      "center": 1,
+      "right": 2
+    },
+    "nativeLowTwoBits": {
+      "left": 1,
+      "center": 2,
+      "right": 0
+    },
+    "observedMethods": [
+      "ParseAlignment",
+      "SetElementProp"
+    ],
+    "compilerAddsAnchorOffsetForCenterAndRight": true
+  }
+}

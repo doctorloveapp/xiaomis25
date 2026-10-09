@@ -39,8 +39,8 @@ def check():
             ready('Boolean(window.s5Ready && state && document.getElementById("preview").complete)','Editor startup')
             js('document.querySelector("[data-tab=hands]").click();true')
             assert js('!document.getElementById("hands-panel").classList.contains("hidden")&&document.getElementById("stage-wrap").classList.contains("hidden")&&document.getElementById("inspector").classList.contains("hidden")')
-            assert js('document.body.textContent.includes("Version 1.7.2")')
-            checks+=['new-navigation-panel','catalog-uses-full-workspace','version-1.7.2']
+            assert js('document.body.textContent.includes("Version 1.7.3")')
+            checks+=['new-navigation-panel','catalog-uses-full-workspace','version-1.7.3']
             js('document.getElementById("hand-set-name").value="NASA Custom UI";document.getElementById("hand-set-name").dispatchEvent(new Event("change"));true')
             until(lambda:bridge.hand_set_draft['name']=='NASA Custom UI','Name not received')
             ready('state.handSetDraft.name==="NASA Custom UI"','Name not repainted')
@@ -125,7 +125,7 @@ def check():
             until(lambda:js('document.querySelector(".hand-set-pivot img").getBoundingClientRect().height>0'),'Bitmap layout')
             deadline=time.monotonic()+.7
             while time.monotonic()<deadline:app.processEvents()
-            screenshot=ROOT/'build/hand-sets-editor-1.7.2.png'
+            screenshot=ROOT/'build/hand-sets-editor-1.7.3.png'
             assert window.grab().save(str(screenshot))
             original=bridge.project.metadata();assets=dict(bridge.project.assets)
             js('window.confirm=()=>true;document.querySelector("[data-set-delete]").click();true')
@@ -134,10 +134,10 @@ def check():
             assert bridge.project.metadata()==original and bridge.project.assets==assets
             checks+=['edit-existing-set','catalog-delete','applied-project-independent-of-catalog']
             window.close();app.processEvents()
-    report={'status':'passed','applicationVersion':'1.7.2','checks':checks,'checkCount':len(checks),
+    report={'status':'passed','applicationVersion':'1.7.3','checks':checks,'checkCount':len(checks),
             'sourceEditorTested':True,'executableLaunched':False,'hardwareTested':False,
-            'screenshot':'build/hand-sets-editor-1.7.2.png'}
-    (ROOT/'docs/hand-sets-editor-1.7.2.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
+            'screenshot':'build/hand-sets-editor-1.7.3.png'}
+    (ROOT/'docs/hand-sets-editor-1.7.3.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps(report,indent=2))
 
 

@@ -1,0 +1,82 @@
+{
+  "applicationVersion": "1.7.3",
+  "date": "2026-10-09",
+  "status": "passed",
+  "pytest": {
+    "passed": 22,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 6.135,
+    "report": "build/tests-1.7.3.xml"
+  },
+  "sourceEditor": {
+    "status": "passed",
+    "applicationVersion": "1.7.3",
+    "checks": [
+      "version-1.7.3",
+      "weekday-source-help-and-mon-default",
+      "numeric-format-controls-hidden-for-calendar",
+      "font-change-refreshes-decoded-preview",
+      "full-english-month-help",
+      "source-selection-fits-longest-month",
+      "day-keeps-numeric-controls",
+      "right-alignment-selected-through-ui",
+      "single-day-preview-refreshes-without-validation-error"
+    ],
+    "checkCount": 9,
+    "sourceEditorTested": true,
+    "executableLaunched": false,
+    "hardwareTested": false
+  },
+  "javascriptSyntax": "passed",
+  "calendar": {
+    "weekday": "three uppercase English letters",
+    "previewWeekday": "MON",
+    "months": "full English names",
+    "nativeSourcesPreserved": true,
+    "dateDDMMRemainsNumeric": true,
+    "monthAliasSupported": true,
+    "noLuaRequired": true
+  },
+  "numericAlignment": {
+    "leftCenterRightPassed": true,
+    "singleDayAtRightmostDigit": true,
+    "leadingZeroPreserved": true,
+    "compiledAnchorsAndFlagsChecked": true,
+    "metadataAndValidatorUpdated": true
+  },
+  "temporaryNativeCompilations": 2,
+  "unchangedFrom172": {
+    "s5studio/lua/studio_core.lua": true,
+    "s5studio/lua/studio_core_pro.lua": true,
+    "data/watchface-library.json": true
+  },
+  "workflow": {
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "regressionBackupCreated": false,
+    "demoWatchfaceZipCreated": false
+  },
+  "userTests": {
+    "1.7.2": "docs/user-test-1.7.2.json",
+    "1.7.3": "pending-user-test"
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.7.3",
+    "embeddedFilesVerified": 709,
+    "exeSize": 234996748,
+    "exeSha256": "3a0661f4815293349f19b19db0542cecd7aa35797ee7c356cf7571df847155e0",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "bundledPythonMatchesTestedSource": [
+    "s5studio.calendar_labels",
+    "s5studio.render",
+    "s5studio.native",
+    "s5studio.native_graph",
+    "s5studio.semantic_package",
+    "s5studio.web_ui",
+    "s5studio.complications"
+  ]
+}

@@ -72,6 +72,7 @@ def validate_semantics(z):
                 source=node.get('source');target=struct.unpack_from('<I',b,8)[0]
                 if source not in SOURCES or SOURCES[source][1]!=b[:2].hex().upper() or uidmap.get(node.get('ref','').lstrip('@'))!=target:raise ValueError('Sorgente/riferimento dati incoerente: '+name)
                 if node.tag=='DataItemImageNumber' and (int(node.get('totalDigits'))!=(b[2]&15) or int(node.get('decimalDigits'))!=(b[2]>>4) or int(node.get('parameter'))!=struct.unpack_from('<H',b,6)[0]):raise ValueError('Formato/parametro numerico diverso dal binario.')
+                if node.tag=='DataItemImageNumber' and node.get('align')!={0:'right',1:'left',2:'center'}.get(b[3]&3):raise ValueError('Allineamento numerico diverso dal binario.')
                 if node.tag=='DataItemImageValues':
                     values=[int(n.get('value')) for n in node]
                     if len(b)!=16+4*len(values) or list(struct.unpack_from('<'+'i'*len(values),b,16))!=values:raise ValueError('Mappa valori/icone diversa dal binario.')

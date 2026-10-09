@@ -21,6 +21,7 @@ import zipfile
 
 from PIL import Image, ImageDraw
 from .model import Project, Element, SOURCES, archive_members
+from .calendar_labels import labels_for
 from .render import (render, png_bytes, static_image, digit_image, digit_metrics,
                      number_parts, font_for, rgba, analog_face, hand_image, hand_shadow_offset, layout_errors, canvas_image)
 
@@ -241,6 +242,16 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             code=SOURCES[e.source][1];expected.append(code)
             if not names:continue
             widget(31,prefix,x,y,bitmap.width,bitmap.height,BitmapList='|'.join(names),Index_Src=code,DefaultIndex=list(e.value_assets).index('99') if '99' in e.value_assets else 0)
+        elif labels_for(e):
+            from .render import calendar_image
+            names=[]
+            for value,word in labels_for(e).items():
+                name=f'{prefix}_calendar_{value}.png'
+                calendar_image(p,e,word).save(images/name)
+                names.append(f'({value}):{name}')
+            code=SOURCES[e.source][1];expected.append(code)
+            widget(31,prefix,e.x,e.y,e.width,e.height,BitmapList='|'.join(names),Index_Src=code,
+                   DefaultIndex=1 if e.source=='dateWeek' else 0)
         elif e.kind in {"clock","date","number"}:
             cw,ch,_=digit_metrics(p,e)
             groups,sep=number_parts(p,e)
@@ -253,7 +264,8 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                     digit_image(p,e,digit).save(images/name)
                     names.append(name)
                 widget(32,f"{prefix}_{n}",e.x+x,e.y+y,count*cw,ch,
-                       BitmapList="|".join(names),Digits=count|(e.decimals<<4 if e.kind=='number' else 0),Alignment=0,Value_Src=code,
+                       BitmapList="|".join(names),Digits=count|(e.decimals<<4 if e.kind=='number' else 0),
+                       Alignment={'left':0,'center':1,'right':2}[e.align] if e.kind=='number' else 0,Value_Src=code,
                        Spacing=0,Blanking=0 if e.leading_zero or e.kind in {"clock","date"} else 1)
             if sep:
                 char,x,y,w,h=sep
@@ -465,7 +477,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.7.2',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.7.3',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -488,7 +500,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.7.2","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.7.3","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -578,9 +590,9 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.7.2 — OMBRE TRA LE LANCETTE
+TRANSFER_GUIDE = """S5 STUDIO 1.7.3 — CALENDARIO INGLESE E ALLINEAMENTO
 
-Apri il progetto nella 1.7.2 e genera un nuovo ZIP quando necessario.
+Apri il progetto nella 1.7.3 e genera un nuovo ZIP quando necessario.
 Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
 Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
 Piccole: scegli Ore Crono, Minuti Crono e Decimi crono - Start/Stop/Reset.
@@ -605,6 +617,10 @@ La 1.7.1 corregge il falso blocco dei decimi crono con livello grande nascosto.
 La 1.7.2 ordina ombra ore, ore, ombra minuti, minuti, ombra secondi, secondi.
 Le ombre delle lancette superiori si vedono anche su quelle inferiori.
 Attiva Mostra ombre sul livello e genera nuovamente lo ZIP.
+La 1.7.3 mostra Giorno settimana come MON-SUN e Mese come January-December.
+Sono dati nativi dinamici: seguono il calendario reale dell’orologio.
+Il giorno del mese a una cifra rispetta l’allineamento Destra.
+Data DD/MM resta numerica. Anteprima iniziale del giorno settimana: MON.
 Salva il set e riapplica Usa modello per aggiornare il quadrante.
 Conserva le ombre importate e i default 50% e 15 px.
 Il giorno del mese simulato e 15. I progetti mantengono i valori salvati.

@@ -12,7 +12,7 @@ def label(key):
     return 'Nessuna' if key=='none' else SOURCES[key][0]
 
 UNITS.update(healthSleepDuration='h',healthStepKiloMeter='km')
-SAMPLES.update(healthSleepDuration=8.3,healthStepKiloMeter=4.25)
+SAMPLES.update(healthSleepDuration=8.3,healthStepKiloMeter=4.25,dateWeek=1)
 
 def sample_values(values):
     result=dict(SAMPLES)
@@ -58,7 +58,11 @@ def option_project(slot,key):
         digits=s['digits'] or max(SOURCES[key][2],decimals+3 if decimals else 1)
         if decimals and digits<decimals+2:raise ValueError('Aumenta il numero di cifre per includere i decimali.')
         e=Element(kind='number',name=label(key),source=key,digits=digits,decimals=decimals,size=s['size'],color=s['color'],x=0,y=top,width=w,height=h-top-bottom,opacity=s['opacity'],align=s['align'])
-        while e.size>8 and (e.digits*digit_metrics(p,e)[0]>e.width or digit_metrics(p,e)[1]>e.height):e.size-=1
+        from .calendar_labels import labels_for
+        from .render import calendar_metrics
+        def dimensions():
+            return calendar_metrics(p,e) if labels_for(e) else (e.digits*digit_metrics(p,e)[0],digit_metrics(p,e)[1])
+        while e.size>8 and (dimensions()[0]>e.width or dimensions()[1]>e.height):e.size-=1
         p.elements.append(e)
     return p
 

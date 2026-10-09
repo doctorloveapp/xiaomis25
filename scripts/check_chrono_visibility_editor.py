@@ -46,7 +46,7 @@ def check():
                 js('document.querySelector(' + json.dumps('[data-visible="' + identifier + '"]') + ').click();true')
 
             ready('Boolean(window.s5Ready && state)', 'Editor startup')
-            assert js('document.body.textContent.includes("Version 1.7.2")')
+            assert js('document.body.textContent.includes("Version 1.7.3")')
             analog = next(e for e in bridge.project.elements if e.kind == 'analog' and not e.aod)
             js('selectLayer(' + json.dumps(analog.id) + ');document.querySelector("[data-prop=chrono_pro]").click();true')
             ready('state.chronoPro', 'Enable the general Crono Pro flag')
@@ -57,7 +57,7 @@ def check():
             ready('state.resolvedElements.some(e=>e.source==="studioChronoDecisecond")', 'Choose chrono deciseconds')
             assert js('state.luaSources.studioDecisecond.includes("continui")&&state.luaSources.studioChronoDecisecond.includes("Start/Stop/Reset")')
             assert js('state.sourceDescriptions.studioDecisecond.includes("Non misura il tempo")&&state.sourceDescriptions.studioChronoDecisecond.includes("unico flag generale")')
-            checks += ['version-1.7.2', 'distinct-source-labels-and-help', 'one-general-pro-flag']
+            checks += ['version-1.7.3', 'distinct-source-labels-and-help', 'one-general-pro-flag']
 
             visible_button(analog.id)
             ready('!state.resolvedElements.find(e=>e.kind==="analog"&&!e.aod).visible', 'Hide analog layer')
@@ -96,10 +96,10 @@ def check():
             checks += ['real-dependency-error-still-blocks-and-restores-flag']
             window.close()
             app.processEvents()
-    report = {'status': 'passed', 'applicationVersion': '1.7.2', 'checks': checks,
+    report = {'status': 'passed', 'applicationVersion': '1.7.3', 'checks': checks,
               'checkCount': len(checks), 'sourceEditorTested': True,
               'executableLaunched': False, 'hardwareTested': False}
-    (ROOT / 'docs/chrono-visibility-editor-1.7.2.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf8')
+    (ROOT / 'docs/chrono-visibility-editor-1.7.3.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf8')
     print(json.dumps(report, indent=2))
 
 

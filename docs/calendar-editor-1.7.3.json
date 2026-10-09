@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.7.3",
+  "checks": [
+    "version-1.7.3",
+    "weekday-source-help-and-mon-default",
+    "numeric-format-controls-hidden-for-calendar",
+    "font-change-refreshes-decoded-preview",
+    "full-english-month-help",
+    "source-selection-fits-longest-month",
+    "day-keeps-numeric-controls",
+    "right-alignment-selected-through-ui",
+    "single-day-preview-refreshes-without-validation-error"
+  ],
+  "checkCount": 9,
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "hardwareTested": false
+}
