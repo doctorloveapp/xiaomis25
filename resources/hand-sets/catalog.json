@@ -1,0 +1,552 @@
+{
+  "schemaVersion": 1,
+  "sets": [
+    {
+      "id": "custom-6f6a7ad536d047bd89280d8e114b7fd6",
+      "name": "Hamilton Lancette",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/6795d890e7d9fc3604fda281d5c70f8d2abd1121949840d52030c3dbc707ee78.png",
+          "sourceSha256": "6795d890e7d9fc3604fda281d5c70f8d2abd1121949840d52030c3dbc707ee78",
+          "size": [
+            99,
+            480
+          ],
+          "pivot": [
+            49,
+            435
+          ],
+          "filename": "Ore_hamilton_lancette.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/d3948852adeab9dff36864b634ac8224124d7304fecced3c4484b7a71deaaf20.png",
+            "sourceSha256": "d3948852adeab9dff36864b634ac8224124d7304fecced3c4484b7a71deaaf20",
+            "size": [
+              115,
+              480
+            ],
+            "pivot": [
+              57,
+              435
+            ],
+            "filename": "Ore_hamilton_lancette_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "6795d890e7d9fc3604fda281d5c70f8d2abd1121949840d52030c3dbc707ee78",
+              "pivot": [
+                49,
+                435
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/dacbc8de34a210f4cf5599c514f7b7cba2b2b2292f6693978cd7b24f9b5decfd.png",
+          "sourceSha256": "dacbc8de34a210f4cf5599c514f7b7cba2b2b2292f6693978cd7b24f9b5decfd",
+          "size": [
+            66,
+            480
+          ],
+          "pivot": [
+            34,
+            395
+          ],
+          "filename": "Minuti_hamilton_lancette.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/f9bcec447ac4e4f4fecbf4462f7b56a00bbfca32a5f7de5a3d1401094597263b.png",
+            "sourceSha256": "f9bcec447ac4e4f4fecbf4462f7b56a00bbfca32a5f7de5a3d1401094597263b",
+            "size": [
+              82,
+              480
+            ],
+            "pivot": [
+              42,
+              395
+            ],
+            "filename": "Minuti_hamilton_lancette_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "dacbc8de34a210f4cf5599c514f7b7cba2b2b2292f6693978cd7b24f9b5decfd",
+              "pivot": [
+                34,
+                395
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/2552404153c843b9f7aeb4b466b58c793df84e727242d4e3b49e54596db19db3.png",
+          "sourceSha256": "2552404153c843b9f7aeb4b466b58c793df84e727242d4e3b49e54596db19db3",
+          "size": [
+            51,
+            480
+          ],
+          "pivot": [
+            25,
+            375
+          ],
+          "filename": "Secondi_hamilton_lancette.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/63a7a3deec275a074662f61bf246e0edd52cc28960d43921c36ef658569315c8.png",
+            "sourceSha256": "63a7a3deec275a074662f61bf246e0edd52cc28960d43921c36ef658569315c8",
+            "size": [
+              67,
+              480
+            ],
+            "pivot": [
+              33,
+              375
+            ],
+            "filename": "Secondi_hamilton_lancette_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "2552404153c843b9f7aeb4b466b58c793df84e727242d4e3b49e54596db19db3",
+              "pivot": [
+                25,
+                375
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 50,
+        "blur": 2.5,
+        "offset": [
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
+      "name": "Seiko 5 ombra",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/7eb68b5091f4561060fbb8c4884e71414ca64a5c3796f198862222e0a3e7cc50.png",
+          "sourceSha256": "7eb68b5091f4561060fbb8c4884e71414ca64a5c3796f198862222e0a3e7cc50",
+          "size": [
+            135,
+            480
+          ],
+          "pivot": [
+            67,
+            425
+          ],
+          "filename": "ore_seiko5_lancetta.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/71aaa5d9c7721cde4eed961337fb1075ab6a419fa8fa6037424fc8cb91789637.png",
+            "sourceSha256": "71aaa5d9c7721cde4eed961337fb1075ab6a419fa8fa6037424fc8cb91789637",
+            "size": [
+              145,
+              480
+            ],
+            "pivot": [
+              72,
+              425
+            ],
+            "filename": "ore_seiko5_lancetta_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "7eb68b5091f4561060fbb8c4884e71414ca64a5c3796f198862222e0a3e7cc50",
+              "pivot": [
+                67,
+                425
+              ],
+              "opacity": 50,
+              "blur": 1.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/c64ba21a6c85729e506267b17cb65aa346e67619aefcadd0296e0fcf847d0405.png",
+          "sourceSha256": "c64ba21a6c85729e506267b17cb65aa346e67619aefcadd0296e0fcf847d0405",
+          "size": [
+            97,
+            480
+          ],
+          "pivot": [
+            47,
+            410
+          ],
+          "filename": "minuti_seiko5_lancetta.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/f9a1ffeafc7222b75708d1887196ced437a012737fd56ebe6f02bf17bc7f8194.png",
+            "sourceSha256": "f9a1ffeafc7222b75708d1887196ced437a012737fd56ebe6f02bf17bc7f8194",
+            "size": [
+              107,
+              480
+            ],
+            "pivot": [
+              52,
+              410
+            ],
+            "filename": "minuti_seiko5_lancetta_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "c64ba21a6c85729e506267b17cb65aa346e67619aefcadd0296e0fcf847d0405",
+              "pivot": [
+                47,
+                410
+              ],
+              "opacity": 50,
+              "blur": 1.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/dd13187ef2b8796c5d09818185ba6a25927c1fa84a7622a39db3ce576c13cf80.png",
+          "sourceSha256": "dd13187ef2b8796c5d09818185ba6a25927c1fa84a7622a39db3ce576c13cf80",
+          "size": [
+            60,
+            480
+          ],
+          "pivot": [
+            30,
+            364
+          ],
+          "filename": "secondi_seiko5_lancetta.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/1bcb83a8c21b36bb7251df894719a7582268a066682fc3d6b455802ee1eaa100.png",
+            "sourceSha256": "1bcb83a8c21b36bb7251df894719a7582268a066682fc3d6b455802ee1eaa100",
+            "size": [
+              70,
+              480
+            ],
+            "pivot": [
+              35,
+              364
+            ],
+            "filename": "secondi_seiko5_lancetta_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "dd13187ef2b8796c5d09818185ba6a25927c1fa84a7622a39db3ce576c13cf80",
+              "pivot": [
+                30,
+                364
+              ],
+              "opacity": 50,
+              "blur": 1.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 50,
+        "blur": 1.5,
+        "offset": [
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
+      "name": "Swatch Orange ombra",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/48d7637799c6b0ff415cd14ed83f1afcc1d040cd97c8d745162123bc313cfc11.png",
+          "sourceSha256": "48d7637799c6b0ff415cd14ed83f1afcc1d040cd97c8d745162123bc313cfc11",
+          "size": [
+            104,
+            418
+          ],
+          "pivot": [
+            53,
+            367
+          ],
+          "filename": "swatch2 ORE.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/dd5a1573c490b4298a5129fc7c944284da6195d04e88e4d97111c504f8467ac7.png",
+            "sourceSha256": "dd5a1573c490b4298a5129fc7c944284da6195d04e88e4d97111c504f8467ac7",
+            "size": [
+              120,
+              434
+            ],
+            "pivot": [
+              61,
+              375
+            ],
+            "filename": "swatch2 ORE_shadow_auto.png",
+            "offset": [
+              4,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "48d7637799c6b0ff415cd14ed83f1afcc1d040cd97c8d745162123bc313cfc11",
+              "pivot": [
+                53,
+                367
+              ],
+              "opacity": 55,
+              "blur": 2.5,
+              "offset": [
+                4,
+                4
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/67c01ccdf5d0cb28b2dc2574322840a2993152f08631bd780b21c0a4f334a320.png",
+          "sourceSha256": "67c01ccdf5d0cb28b2dc2574322840a2993152f08631bd780b21c0a4f334a320",
+          "size": [
+            74,
+            480
+          ],
+          "pivot": [
+            36,
+            445
+          ],
+          "filename": "swatch2 MINUTI.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/a92874863c7af189c5322413b829849f19d5573c741f25eb121082a785b0b5be.png",
+            "sourceSha256": "a92874863c7af189c5322413b829849f19d5573c741f25eb121082a785b0b5be",
+            "size": [
+              90,
+              480
+            ],
+            "pivot": [
+              44,
+              445
+            ],
+            "filename": "swatch2 MINUTI_shadow_auto.png",
+            "offset": [
+              4,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "67c01ccdf5d0cb28b2dc2574322840a2993152f08631bd780b21c0a4f334a320",
+              "pivot": [
+                36,
+                445
+              ],
+              "opacity": 55,
+              "blur": 2.5,
+              "offset": [
+                4,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/b71b7c521e52458cfdd001b2d81d1935e4c74b32ecbdf0d6494252429b8b22ba.png",
+          "sourceSha256": "b71b7c521e52458cfdd001b2d81d1935e4c74b32ecbdf0d6494252429b8b22ba",
+          "size": [
+            36,
+            408
+          ],
+          "pivot": [
+            18,
+            338
+          ],
+          "filename": "swatch2 SECONDI OK.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/2c049fd17946adaa1ea24fcefbfd5a9cc4bc6bfe6ba0a880eaec106b5934237d.png",
+            "sourceSha256": "2c049fd17946adaa1ea24fcefbfd5a9cc4bc6bfe6ba0a880eaec106b5934237d",
+            "size": [
+              52,
+              424
+            ],
+            "pivot": [
+              26,
+              346
+            ],
+            "filename": "swatch2 SECONDI OK_shadow_auto.png",
+            "offset": [
+              4,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "b71b7c521e52458cfdd001b2d81d1935e4c74b32ecbdf0d6494252429b8b22ba",
+              "pivot": [
+                18,
+                338
+              ],
+              "opacity": 55,
+              "blur": 2.5,
+              "offset": [
+                4,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 55,
+        "blur": 2.5,
+        "offset": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "id": "custom-6fb7cf28c7414c449f18046d047d13be",
+      "name": "Swatch orange piccole",
+      "small": true,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/873b944df2ce7b70885d2b62a1b675607b3aa9c25d3e32e156dc4ac173ae0a91.png",
+          "sourceSha256": "873b944df2ce7b70885d2b62a1b675607b3aa9c25d3e32e156dc4ac173ae0a91",
+          "size": [
+            70,
+            241
+          ],
+          "pivot": [
+            34,
+            207
+          ],
+          "filename": "swatch2 lancetta piccola.png",
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "minute": {
+          "assetPath": "assets/873b944df2ce7b70885d2b62a1b675607b3aa9c25d3e32e156dc4ac173ae0a91.png",
+          "sourceSha256": "873b944df2ce7b70885d2b62a1b675607b3aa9c25d3e32e156dc4ac173ae0a91",
+          "size": [
+            70,
+            241
+          ],
+          "pivot": [
+            35,
+            207
+          ],
+          "filename": "swatch2 lancetta piccola.png",
+          "offset": [
+            0,
+            0
+          ]
+        },
+        "second": {
+          "assetPath": "assets/873b944df2ce7b70885d2b62a1b675607b3aa9c25d3e32e156dc4ac173ae0a91.png",
+          "sourceSha256": "873b944df2ce7b70885d2b62a1b675607b3aa9c25d3e32e156dc4ac173ae0a91",
+          "size": [
+            70,
+            241
+          ],
+          "pivot": [
+            35,
+            207
+          ],
+          "filename": "swatch2 lancetta piccola.png",
+          "offset": [
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ]
+}

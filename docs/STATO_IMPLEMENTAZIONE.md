@@ -1,4 +1,10 @@
-# Stato operativo — S5 Studio 0.10
+# Stato operativo — S5 Studio 1.7.6
+
+Aggiornamento 1.7.6 (2026-10-09): Dato live ruotabile e arcuabile, con aggiornamenti reali dataman e geometria condivisa con la preview. Selettore colore universale; Nessun colore sul colore generale nasconde solo il tappo centrale. 81 test e 20 controlli UI superati, comprese compilazioni temporanee con varianti/AOD e verifica del grafo finale in memoria. Crono e Crono Pro invariati; nuovo runtime numerico trasformato da confermare sul dispositivo. Nessun nuovo set personale da integrare. Eseguibile autonomo `S5Studio-1.7.6.exe`, verificato staticamente. [Guida](EDITOR_1.7.6.md), [test](validation-editor-1.7.6.json).
+
+Aggiornamento 1.7.5 (2026-10-09): casella “Nessun colore — mantieni i colori originali” nella finestra Select Color di PNG, lancette importate e bussole. Conserva la trasparenza originale; OK, Annulla e cronologia verificati. Nuovo set Hamilton Lancette integrato automaticamente; catalogo totale 607 modelli. 21 test e 10 controlli UI sorgente superati. [Verifica](validation-editor-1.7.5.json).
+
+Aggiornamento 1.7.4 (2026-10-09): integrati i tre set personali Seiko/Swatch (9 modelli, 13 PNG); catalogo totale 604 modelli. Tutti i set originali sono modificabili con override locali e ripristino. Controllo e integrazione dei nuovi set automatici nel packaging e richiesti a ogni nuova modifica da AGENTS.md. Eseguibile autonomo `S5Studio-1.7.4.exe`. [Guida](EDITOR_1.7.4.md). Nessun nuovo backup, quadrante ZIP dimostrativo o avvio EXE isolato.
 
 Aggiornamento 0.10 (2026-10-07): sweep 25 fps, AOD senza secondi/Lua, quattro abbinamenti Lua per lancette piccole, Ctrl-selezione e trasformazioni atomiche. Compilatore S5 Shape 34 verificato; logica Lua eseguita nei test. Accettazione delle nuove funzioni sul firmware ancora da provare. Vedi [EDITOR_0.10.md](EDITOR_0.10.md) e i rapporti della 0.10. Il test reale della 0.9, bussola compresa, è superato secondo la conferma dell’utente.
 

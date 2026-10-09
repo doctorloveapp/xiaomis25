@@ -670,17 +670,19 @@ class MainWindow(QMainWindow):
     def element_color(self):
         e=self.selected_element()
         if e:
-            color=QColorDialog.getColor(QColor(e.color),self,'Colore componente')
-            if color.isValid():
+            from .color_picker import choose_graphic_color
+            changes=choose_graphic_color(e,'color',self)
+            if changes is not None:
                 self.checkpoint()
-                e.color=color.name()
+                for key,value in changes.items():setattr(e,key,value)
                 self.finish_change()
 
     def background_color(self):
-        color=QColorDialog.getColor(QColor(self.project.background),self,'Sfondo')
-        if color.isValid():
+        from .color_picker import choose_graphic_color
+        changes=choose_graphic_color({'background':self.project.background},'background',self)
+        if changes is not None:
             self.checkpoint()
-            self.project.background=color.name()
+            self.project.background=changes['background']
             self.finish_change()
 
     def center_element(self):

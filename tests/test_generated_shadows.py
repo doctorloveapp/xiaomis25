@@ -153,5 +153,5 @@ def test_bridge_generates_on_import_and_preserves_manual_shadow(tmp_path,monkeyp
     assert 'generated' not in manual
     off=command('hand-set-meta',changes={'generateShadows':False});assert off['hands']['second']['shadow']==manual
     assert b.project.metadata()==original and not b.dirty
-    command('hand-set-save');assert not b.hand_set_catalog.sets()[0]['generateShadows']
+    command('hand-set-save');assert not next(s for s in b.hand_set_catalog.sets() if s['name']=='Small generated')['generateShadows']
     b.timer.stop();b.motion_timer.stop()

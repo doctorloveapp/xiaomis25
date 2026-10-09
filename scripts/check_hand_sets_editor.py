@@ -39,8 +39,32 @@ def check():
             ready('Boolean(window.s5Ready && state && document.getElementById("preview").complete)','Editor startup')
             js('document.querySelector("[data-tab=hands]").click();true')
             assert js('!document.getElementById("hands-panel").classList.contains("hidden")&&document.getElementById("stage-wrap").classList.contains("hidden")&&document.getElementById("inspector").classList.contains("hidden")')
-            assert js('document.body.textContent.includes("Version 1.7.3")')
-            checks+=['new-navigation-panel','catalog-uses-full-workspace','version-1.7.3']
+            assert js('document.body.textContent.includes("Version 1.7.6")')
+            checks+=['new-navigation-panel','catalog-uses-full-workspace','version-1.7.6']
+            initial_count=len(bridge.hand_set_catalog.sets())
+            assert len(bridge.hand_presets)==595+sum(len(s['hands']) for s in bridge.hand_set_catalog.personal_sets())
+            assert js('document.querySelectorAll("[data-set-load]").length===state.handSets.length')
+            assert js('JSON.stringify(state.handSets.filter(s=>s.bundled).map(s=>s.name))').count('Swatch')==2
+            original_set=next(s for s in bridge.hand_set_catalog.sets() if s['id'].startswith('builtin-') and not s['small'])
+            original_project=bridge.project.metadata()
+            js('document.querySelector('+json.dumps('[data-set-load="'+original_set['id']+'"]')+').click();true')
+            until(lambda:bridge.hand_set_draft['id']==original_set['id'],'Load original set')
+            ready('state.handSetDraft.id==='+json.dumps(original_set['id']),'Original draft repaint')
+            ready('Array.from(document.querySelectorAll(".hand-set-pivot img")).every(i=>i.complete&&i.naturalWidth>0)','Original graphics decode')
+            js('document.getElementById("hand-set-name").value="Edited original UI";document.getElementById("hand-set-name").dispatchEvent(new Event("change"));true')
+            until(lambda:bridge.hand_set_draft['name']=='Edited original UI','Original rename')
+            ready('state.handSetDraft.name==="Edited original UI"','Original rename repaint')
+            js('document.getElementById("hand-set-save").click();true')
+            until(lambda:any(s['name']=='Edited original UI' for s in bridge.hand_set_catalog.sets()),'Save original edit')
+            ready('Boolean(document.querySelector('+json.dumps('[data-set-restore="'+original_set['id']+'"]')+'))','Original restore button')
+            js('window.confirm=()=>true;document.querySelector('+json.dumps('[data-set-restore="'+original_set['id']+'"]')+').click();true')
+            until(lambda:not any(s['name']=='Edited original UI' for s in bridge.hand_set_catalog.sets()),'Restore original')
+            ready('state.handSetDraft.name===""&&!state.handSets.some(s=>s.name==="Edited original UI")','Original restore repaint')
+            assert bridge.project.metadata()==original_project
+            js('document.getElementById("hand-set-search").value="Swatch";document.getElementById("hand-set-search").dispatchEvent(new Event("input"));true')
+            assert js('document.querySelectorAll("#hand-set-list [data-set-load]").length===2')
+            js('document.getElementById("hand-set-search").value="";document.getElementById("hand-set-search").dispatchEvent(new Event("input"));true')
+            checks+=['bundled-personal-sets-present-on-fresh-pc','every-original-set-has-edit-button','original-set-images-decode','edit-and-save-original-set','restore-original-without-changing-project','catalog-search-filters-results']
             js('document.getElementById("hand-set-name").value="NASA Custom UI";document.getElementById("hand-set-name").dispatchEvent(new Event("change"));true')
             until(lambda:bridge.hand_set_draft['name']=='NASA Custom UI','Name not received')
             ready('state.handSetDraft.name==="NASA Custom UI"','Name not repainted')
@@ -86,14 +110,14 @@ def check():
             checks+=['generate-missing-shadows-checkbox','generated-shadow-preview-decodes','automatic-pivot-follows-mother','generated-shadow-opacity-and-offset-controls','generation-off-preserves-imported-shadow','generation-on-restores-only-missing-shadows']
 
             js('document.getElementById("hand-set-save").click();true')
-            until(lambda:len(bridge.hand_set_catalog.sets())==1,'Save catalog')
-            ready('state.handSets.length===1&&state.handSetDraft.name===""','Save repaint')
+            until(lambda:len(bridge.hand_set_catalog.sets())==initial_count+1,'Save catalog')
+            ready('state.handSets.length==='+str(initial_count+1)+'&&state.handSetDraft.name===""','Save repaint')
             assert not bridge.dirty
-            saved=bridge.hand_set_catalog.sets()[0]
+            saved=next(s for s in bridge.hand_set_catalog.sets() if s['name']=='NASA Custom UI')
             checks+=['save-named-set','draft-cleared-after-save','catalog-does-not-dirty-project']
             js('setTab("design");selected=state.resolvedElements.find(e=>e.kind==="analog"&&!e.aod).id;paint();true')
             analog=bridge.element({'id':js('selected')})
-            preset=next(p for p in bridge.hand_presets if p.get('custom') and p['hand']=='hour')
+            preset=next(p for p in bridge.hand_presets if p.get('custom') and p['hand']=='hour' and p['setId']==saved['id'])
             assert js('Array.from(document.querySelector("[data-preset=hour]").options).some(o=>o.textContent.includes("NASA Custom UI"))')
             js('const model=document.querySelector("[data-preset=hour]");model.value='+json.dumps(preset['id'])+';model.dispatchEvent(new Event("change"));document.querySelector("[data-use-preset=hour]").click();true')
             until(lambda:bridge.element({'id':analog.id}).hour_preset==preset['id'],'Apply new set')
@@ -101,7 +125,7 @@ def check():
             assert all(getattr(applied,r+'_preset')==preset['setMembers'][r] for r in ('hour','minute','second'))
             assert applied.hour_anchor_y==clicked[1] and applied.hour_shadow_offset_x==3
             assert all(getattr(applied,r+'_shadow_asset') in bridge.project.assets for r in ('hour','minute','second'))
-            assert bridge.hand_set_catalog.sets()[0]['generateShadows']
+            assert next(s for s in bridge.hand_set_catalog.sets() if s['id']==saved['id'])['generateShadows']
             checks+=['generated-shadows-persist-in-catalog','generated-shadows-auto-pair-into-project']
             checks+=['set-visible-in-hand-menu','hour-applies-matching-minute-second','stored-pivot-and-shadow-applied']
             assert all(getattr(applied,r+'_length')==50 and getattr(applied,r+'_width')==15 for r in ('hour','minute','second'))
@@ -117,7 +141,7 @@ def check():
             assert bridge.values['day']==15
             checks+=['new-hand-defaults-50-and-15','model-activates-both-size-controls','model-preview-decoded-before-any-size-edit','same-value-edit-does-not-wake-or-change-preview','old-animation-frame-cannot-overwrite-applied-model','two-digit-day-preview-15']
 
-            js('setTab("hands");document.querySelector("[data-set-load]").click();true')
+            js('setTab("hands");document.querySelector(\'[data-set-load="'+saved['id']+'"]\').click();true')
             until(lambda:bridge.hand_set_draft['id']==saved['id'],'Load set for edit')
             ready('state.handSetDraft.id==='+json.dumps(saved['id']),'Edit draft repaint')
             # Save a screenshot of the populated dedicated panel for visual QA.
@@ -125,19 +149,19 @@ def check():
             until(lambda:js('document.querySelector(".hand-set-pivot img").getBoundingClientRect().height>0'),'Bitmap layout')
             deadline=time.monotonic()+.7
             while time.monotonic()<deadline:app.processEvents()
-            screenshot=ROOT/'build/hand-sets-editor-1.7.3.png'
+            screenshot=ROOT/'build/hand-sets-editor-1.7.6.png'
             assert window.grab().save(str(screenshot))
             original=bridge.project.metadata();assets=dict(bridge.project.assets)
-            js('window.confirm=()=>true;document.querySelector("[data-set-delete]").click();true')
-            until(lambda:not bridge.hand_set_catalog.sets(),'Delete personal set')
-            ready('state.handSets.length===0','Delete repaint')
+            js('window.confirm=()=>true;document.querySelector(\'[data-set-delete="'+saved['id']+'"]\').click();true')
+            until(lambda:len(bridge.hand_set_catalog.sets())==initial_count,'Delete personal set')
+            ready('state.handSets.length==='+str(initial_count),'Delete repaint')
             assert bridge.project.metadata()==original and bridge.project.assets==assets
             checks+=['edit-existing-set','catalog-delete','applied-project-independent-of-catalog']
             window.close();app.processEvents()
-    report={'status':'passed','applicationVersion':'1.7.3','checks':checks,'checkCount':len(checks),
+    report={'status':'passed','applicationVersion':'1.7.6','checks':checks,'checkCount':len(checks),
             'sourceEditorTested':True,'executableLaunched':False,'hardwareTested':False,
-            'screenshot':'build/hand-sets-editor-1.7.3.png'}
-    (ROOT/'docs/hand-sets-editor-1.7.3.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
+            'screenshot':'build/hand-sets-editor-1.7.6.png'}
+    (ROOT/'docs/hand-sets-editor-1.7.6.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps(report,indent=2))
 
 

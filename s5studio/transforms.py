@@ -8,7 +8,7 @@ from io import BytesIO
 import math
 from PIL import Image,ImageChops
 
-KINDS=frozenset(('image','image_values','text','rect','circle'))
+KINDS=frozenset(('image','image_values','text','number','rect','circle'))
 
 
 def active(e):
@@ -72,7 +72,7 @@ def mesh(x,y,w,h,rotation,arc,left,top,right,bottom):
     return tuple(output)
 
 
-def raster(p,e):
+def raster(p,e,source=None):
     """Return a transformed (bitmap, x, y), with no oversized fitted canvas."""
     from .render import static_image,tint_image
     problem=errors(e)
@@ -80,7 +80,9 @@ def raster(p,e):
     left,top,right,bottom=bounds(e)
     if right<=left or bottom<=top:return None
     sx=sy=1.;ox=oy=0.
-    if e.kind=='image':
+    if source is not None:
+        source=source.convert('RGBA')
+    elif e.kind=='image':
         with Image.open(BytesIO(p.assets[e.asset])) as source:source=source.convert('RGBA')
         if e.tint:source=tint_image(source,e.color)
         if e.opacity!=255:source.putalpha(source.getchannel('A').point(lambda a:a*e.opacity//255))

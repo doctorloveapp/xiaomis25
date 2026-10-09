@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.7.6",
+  "embeddedFilesVerified": 730,
+  "exeSize": 235479426,
+  "exeSha256": "49f1b052a1388c614adb62d39a1d259492c0a472a34f4e32d039e03a8ab694a0",
+  "executableLaunched": false,
+  "isolatedEnvironmentTested": false,
+  "sourceModulesMatch": [
+    "s5studio.colors",
+    "s5studio.color_picker",
+    "s5studio.model",
+    "s5studio.render",
+    "s5studio.live_data",
+    "s5studio.lua_runtime",
+    "s5studio.native",
+    "s5studio.web_ui",
+    "s5studio.complications",
+    "s5studio.ui"
+  ],
+  "sourceModulesMatchCount": 10
+}

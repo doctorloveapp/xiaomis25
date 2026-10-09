@@ -1,10 +1,48 @@
-# S5 Studio 1.7.3 — Calendario inglese e allineamento dati
+# S5 Studio 1.7.6 — Dato live ruotato e arcuato
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.7.3.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-1.7.6.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Novità 1.7.6 — Dato live e selettore colore universale
+
+Seleziona un livello **Dato live** e usa **Orientamento e arco → Rotazione (°) / Arco (°)**: ora puoi inclinare il dato e adattarlo al bordo del quadrante. Anteprima, selezione, salvataggio, stili e immagini di esportazione usano la stessa geometria. Il valore continua ad aggiornarsi dal sensore sull’orologio: non viene trasformato in una scritta fissa. Giorni della settimana e mesi conservano le rispettive etichette inglesi dinamiche. **Raddrizza livello** riporta entrambi i valori a zero.
+
+La casella **Nessun colore** è ora disponibile in **tutte le finestre colore**, incluse lancette generali, testo, forme, Dato live, complicazioni, sfondo e accento degli stili. Nel colore generale delle lancette nasconde **soltanto il tappo centrale**; nelle PNG mantiene i colori originali; nei colori di testo/forme/sfondo rende il riempimento trasparente. Le singole lancette restano configurabili separatamente. Annulla, Ripeti e salvataggio conservano la scelta.
+
+Verificati **81 test mirati e 20 controlli dell’interfaccia**, inclusi aggiornamenti sensore eseguiti in Lua, confronto pixel con l’anteprima, decimali/allineamento, compilazioni binarie temporanee di due stili Crono Pro e di un progetto senza crono, AOD, grafo finale e manifest. Nessun ZIP dimostrativo e nessun avvio dell’eseguibile. Il nuovo rendering numerico Lua trasformato richiede ancora il test reale sul S5; i runtime già collaudati di Crono e Crono Pro restano invariati. Controllati i set personali: quattro set incorporati, nessun nuovo aggiornamento, 607 modelli totali.
+
+**Eseguibile 1.7.6 creato: 730 risorse incorporate e 10 moduli Python corrispondenti ai sorgenti testati**, verificati senza avviarlo.
+
+[Guida e dettagli tecnici](docs/EDITOR_1.7.6.md) · [Test](docs/validation-editor-1.7.6.json) · [Verifica EXE](docs/executable-build-1.7.6.json).
+
+## Novità 1.7.5 — Nessun colore
+
+Nella finestra **Select Color** delle grafiche importate è disponibile la casella **Nessun colore — mantieni i colori originali**. Selezionala e premi **OK** per togliere la ricolorazione da una singola lancetta principale/piccola, da un’immagine o dalla bussola. La grafica mantiene la propria trasparenza e resta visibile con i colori della PNG. Nel pannello compare **Colore originale** quando la tinta è disattivata.
+
+Scegliere un colore nella finestra disattiva automaticamente la casella e applica la nuova tinta. **Annulla** lascia invariati il progetto e la cronologia; il cambio colore supporta Annulla/Ripeti ed è conservato al salvataggio. L’opzione è disponibile sulle grafiche importate; testo e forme continuano a usare il normale colore del componente.
+
+Il controllo dei cataloghi personali ha trovato e integrato **Hamilton Lancette**, con tutte e tre le lancette e le rispettive ombre. La release include ora **quattro set personali**, **12 modelli aggiuntivi**, **19 PNG distinte** e **607 modelli totali**. [Integrazione](docs/hand-set-integration-1.7.5.json).
+
+**Eseguibile 1.7.5 creato; 729 risorse incorporate verificate staticamente**, senza avviarlo. [Verifica EXE](docs/executable-build-1.7.5.json).
+
+**21 test mirati e 10 controlli dell’interfaccia superati**, compresa la vera finestra colore Qt, ripristino dei pixel/trasparenza, salvataggio, esportazione PNG nativa, annullamento e disponibilità di Hamilton su un catalogo utente vuoto. [Verifica](docs/validation-editor-1.7.5.json). Runtime Lua e risorse originali invariati; nessun backup, quadrante dimostrativo o avvio dell’EXE isolato.
+
+## Novità 1.7.4 — Tutti i set modificabili
+
+**Integrati nell’eseguibile:** **Seiko 5 ombra**, **Swatch Orange ombra** e **Swatch orange piccole**. Le nove lancette e le tredici PNG distinte, incluse le ombre, mantengono pivot, spostamenti e impostazioni di generazione. Sono disponibili anche copiando il solo EXE su un nuovo PC. Il catalogo comprende ora **604 modelli**, rispetto ai 595 originali.
+
+Apri **Set lancette**, cerca il nome e premi **Modifica**: ora puoi modificare anche **ogni set del catalogo originale**, incluse le lancette piccole e AOD. Puoi cambiare nome, PNG, pivot, ombre e generazione automatica. Gli stili e le varianti originali sono distinguibili nel nome; i filtri separano principali, piccole, personali/integrati e catalogo originale. I set originali privi dei secondi mantengono i loro ruoli esistenti. **Ripristina** recupera la versione incorporata di un set modificato.
+
+Le modifiche sono persistenti in `%LOCALAPPDATA%/S5Studio/hand-sets/` e hanno precedenza sui valori incorporati, senza duplicare i set. I file originali restano intatti. I quadranti già creati conservano le proprie PNG: per applicare un set aggiornato a un livello esistente scegli nuovamente **Usa modello**. Il comando **Elimina** sui set personali/integrati agisce sul catalogo locale e non sui progetti.
+
+**Controllo automatico a ogni release:** `scripts/package.ps1` esegue, tramite `prepare_runtime.py`, la sincronizzazione dei cataloghi in `data/hand-sets/` e `%LOCALAPPDATA%/S5Studio/hand-sets/` dentro `resources/hand-sets/`. Include sia nuovi set sia aggiornamenti, verifica hash/PNG/pivot e interrompe il packaging se una risorsa è danneggiata. Il catalogo dell’app Windows ha precedenza in caso dello stesso ID; la sincronizzazione non scrive nei cataloghi sorgente. Il controllo è richiamabile anche con `python -X utf8 scripts/sync_hand_sets.py` ed è richiesto dalle istruzioni del progetto a ogni nuova modifica. [Guida](docs/EDITOR_1.7.4.md), [integrazione](docs/hand-set-integration-1.7.4.json).
+
+**Eseguibile 1.7.4 creato e 723 risorse incorporate verificate staticamente**, senza avviarlo. [Verifica EXE](docs/executable-build-1.7.4.json).
+
+**41 test mirati e 38 controlli dell’interfaccia superati**, comprese modifica di tutte le 595 grafiche originali, pivot esterni, abbinamenti, ombre, persistenza, ripristino, disponibilità dei set integrati senza dati utente e integrità delle PNG. Runtime Lua e risorse originali invariati. [Rapporto](docs/validation-editor-1.7.4.json). Nessun nuovo backup, quadrante ZIP dimostrativo o avvio dell’EXE in ambiente isolato.
 
 ## Correzioni 1.7.3 — Calendario inglese e allineamento
 
@@ -16,7 +54,7 @@ Alla selezione di una sorgente calendario il campo viene allargato, solo se nece
 
 **Dato live → Giorno del mese, allineamento Destra:** un giorno come **6** occupa la posizione delle unità di **16**, sul lato destro del campo. Era errata sia l’anteprima, che aggiungeva spazi a destra, sia l’esportazione, che forzava sempre l’allineamento sinistro. Ora Sinistra/Centro/Destra allineano il valore visibile; gli zeri iniziali continuano a produrre **06** quando richiesti. I metadati e il validator verificano anche l’allineamento effettivo del binario.
 
-**22 test mirati e 9 controlli dell’editor superati**, incluse compilazioni binarie temporanee di calendario e allineamenti, associazioni giorno/mese, AOD, font, colore/opacità, anteprime, giorno singolo e conservazione del DD/MM numerico. [Rapporto](docs/validation-editor-1.7.3.json). Nessun quadrante ZIP dimostrativo, nuovo backup o avvio dell’EXE in ambiente isolato. Runtime Crono/Pro e catalogo originale invariati. Le ombre della 1.7.2 sono confermate corrette dall’utente; il calendario 1.7.3 resta da provare sul dispositivo.
+**22 test mirati e 9 controlli dell’editor superati**, incluse compilazioni binarie temporanee di calendario e allineamenti, associazioni giorno/mese, AOD, font, colore/opacità, anteprime, giorno singolo e conservazione del DD/MM numerico. [Rapporto](docs/validation-editor-1.7.3.json). Nessun quadrante ZIP dimostrativo, nuovo backup o avvio dell’EXE in ambiente isolato. Runtime Crono/Pro e catalogo originale invariati. Le ombre della 1.7.2 sono confermate corrette dall’utente; l’utente ha successivamente confermato che il lavoro della 1.7.3 è ben fatto.
 
 ## Correzione 1.7.2 — Ombre tra le lancette
 
@@ -71,7 +109,7 @@ Nuova sezione **Set lancette** nella barra laterale. Assegna un **nome**, scegli
 
 Premi **Salva set nel catalogo**. Torna su **Quadrante**, seleziona il livello Lancette e scegli il nuovo nome nel menu delle ore: **Usa modello** abbina automaticamente anche minuti, secondi e ombre. Resti libero di sostituire ogni lancetta separatamente. Per le lancette piccole scegli la grafica dal loro menu; il pivot salvato viene rispettato, mentre la sorgente del dato resta quella scelta nel livello. Puoi modificare, rinominare o eliminare i set dal pannello dedicato.
 
-Il catalogo personale è persistente in **`%LOCALAPPDATA%/S5Studio/hand-sets/`** nell’eseguibile, oppure `data/hand-sets/` avviando i sorgenti. È separato dalle 595 grafiche incorporate e non viene incluso nelle nuove build dell’EXE. Per trasferire il catalogo su un altro PC copia questa cartella. **Le PNG applicate sono incorporate nei progetti e nell’esportazione:** modificare o eliminare un set non altera i quadranti già salvati. L’importazione singola PNG/SVG rimane disponibile nelle proprietà delle lancette.
+Il catalogo personale è persistente in **`%LOCALAPPDATA%/S5Studio/hand-sets/`** nell’eseguibile, oppure `data/hand-sets/` avviando i sorgenti. Dalla 1.7.4 i set presenti sul PC di sviluppo vengono integrati automaticamente nelle nuove release; la cartella continua a contenere le modifiche locali. Per trasferire modifiche non ancora incluse in una release puoi copiarla su un altro PC. **Le PNG applicate sono incorporate nei progetti e nell’esportazione:** modificare o eliminare un set non altera i quadranti già salvati. L’importazione singola PNG/SVG rimane disponibile nelle proprietà delle lancette.
 
 **30 test mirati e 18 controlli del nuovo pannello superati**, compresi importazione, pivot, ombre, persistenza e applicazione del set. La 1.6 conserva tutte le funzioni della 1.5, poi incluse nella 1.6.1 collaudata dall’utente. Nessuna modifica al runtime Crono/Pro sul S5. [Guida set lancette](docs/EDITOR_1.6.md), [verifica della release](docs/validation-editor-1.6.json).
 
@@ -252,7 +290,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-1.7.3.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-1.7.5.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.

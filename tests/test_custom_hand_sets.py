@@ -112,7 +112,7 @@ def test_main_set_images_and_pivots_are_exported_by_native_path(catalog,tmp_path
     catalog.save(draft);p=Project();e=Element(kind='analog',show_ticks=False);p.elements=[e]
     apply(catalog,p,e,next(x for x in catalog.presets() if x['hand']=='hour'),'hour')
     generated=generate_fprj(p,tmp_path/'native-main');widgets=ET.parse(generated.project_path).getroot().find('Screen')
-    analog=next(w for w in widgets if w.get('Shape')=='27')
+    analog=next(w for w in widgets if w.get('Shape')=='27' and w.get('MinuteImage_rotate_yc') is not None)
     assert int(analog.get('MinuteImage_rotate_yc'))==hand_image(e,'minute',p)[1][1]
     assert e.minute_asset in p.assets and not p.validate()
 
@@ -140,16 +140,16 @@ def test_bridge_import_cancel_pivot_persistence_and_edit_isolated_from_project(c
     command('hand-set-part',role='hour',changes={'pivot':[12,140]})
     bad=json.loads(bridge.command(json.dumps({'action':'hand-set-part','role':'hour','changes':{'pivot':[24,0]}})))
     assert 'error' in bad and bridge.hand_set_draft['hands']['hour']['pivot']==[12,140]
-    result=command('hand-set-save');record=result['state']['handSets'][0]
+    result=command('hand-set-save');record=next(s for s in result['state']['handSets'] if s['name']=='Bridge set')
     assert bridge.project.metadata()==initial and not bridge.dirty and not bridge.undo_stack
     other=ui.StudioBridge(owner,smoke=True)
-    assert other.state()['handSets'][0]['name']=='Bridge set'
-    chosen=next(p for p in bridge.hand_presets if p.get('custom') and p['hand']=='hour')
+    assert any(s['name']=='Bridge set' for s in other.state()['handSets'])
+    chosen=next(p for p in bridge.hand_presets if p.get('custom') and p['hand']=='hour' and p['setId']==record['id'])
     analog=next(e for e in bridge.design.elements if e.kind=='analog')
     command('hand-preset',id=analog.id,hand='hour',preset=chosen['id'])
     after=deepcopy(bridge.project.assets);metadata=bridge.project.metadata()
     command('hand-set-load',id=record['id']);command('hand-set-meta',changes={'name':'Updated name'});command('hand-set-save')
     assert bridge.project.assets==after and bridge.project.metadata()==metadata
     command('hand-set-delete',id=record['id']);assert bridge.project.assets==after and bridge.project.metadata()==metadata
-    assert not bridge.state()['handSets'] and bridge.state()['handSetDraft']==empty_draft()
+    assert not any(s['id']==record['id'] for s in bridge.state()['handSets']) and bridge.state()['handSetDraft']==empty_draft()
     bridge.timer.stop();bridge.motion_timer.stop();other.timer.stop();other.motion_timer.stop()

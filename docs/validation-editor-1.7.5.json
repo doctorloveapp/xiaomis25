@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.7.5",
+  "pytest": {
+    "passed": 21,
+    "report": "build/tests-1.7.5.xml"
+  },
+  "sourceEditor": {
+    "status": "passed",
+    "applicationVersion": "1.7.5",
+    "checks": [
+      "analog-hour_color-restores-original",
+      "analog-minute_color-restores-original",
+      "analog-second_color-restores-original",
+      "pointer-second_color-restores-original",
+      "image-color-restores-original",
+      "compass-color-restores-original",
+      "choosing-color-reenables-tint",
+      "cancel-preserves-project-and-undo",
+      "color-change-supports-undo",
+      "new-hamilton-set-is-bundled"
+    ],
+    "checkCount": 10,
+    "sourceEditorTested": true,
+    "executableLaunched": false
+  },
+  "originalResourcesUnchanged": 656,
+  "catalog": {
+    "bundledSets": 4,
+    "bundledHands": 12,
+    "bundledPngs": 19,
+    "effectiveHands": 607
+  },
+  "gitignoreUnchanged": true,
+  "executableLaunched": false,
+  "isolatedEnvironmentTested": false,
+  "demoWatchfaceCreated": false,
+  "regressionBackupCreated": false,
+  "hardwareTested": false,
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.7.5",
+    "embeddedFilesVerified": 729,
+    "exeSize": 235468621,
+    "exeSha256": "8780ba87dd0478692ff6a6483e91896de8bfeff8b2314313097b3af14b70902a",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "embeddedPythonMatchesSource": [
+    "s5studio.color_picker",
+    "s5studio.web_ui",
+    "s5studio.native",
+    "s5studio.native_graph"
+  ]
+}

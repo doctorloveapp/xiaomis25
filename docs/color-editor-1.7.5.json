@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.7.5",
+  "checks": [
+    "analog-hour_color-restores-original",
+    "analog-minute_color-restores-original",
+    "analog-second_color-restores-original",
+    "pointer-second_color-restores-original",
+    "image-color-restores-original",
+    "compass-color-restores-original",
+    "choosing-color-reenables-tint",
+    "cancel-preserves-project-and-undo",
+    "color-change-supports-undo",
+    "new-hamilton-set-is-bundled"
+  ],
+  "checkCount": 10,
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

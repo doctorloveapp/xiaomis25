@@ -23,17 +23,18 @@ def sample_values(values):
 
 def option_project(slot,key):
     from .render import png_bytes,system_font,digit_metrics
+    from .colors import color_rgba
     s=normalized_slot(slot);w,h=s['width'],s['height']
     p=Project(name=label(key),background='#000000',aod_enabled=False,variants=[],complications=[])
     bitmap=Image.new('RGBA',(w,h));draw=ImageDraw.Draw(bitmap)
     if key!='none':
-        if s['frame']=='circle':draw.ellipse((1,1,w-2,h-2),fill=s['background'],outline=s['color'],width=2)
-        elif s['frame']=='rounded':draw.rounded_rectangle((1,1,w-2,h-2),radius=min(16,h//4),fill=s['background'],outline=s['color'],width=1)
+        if s['frame']=='circle':draw.ellipse((1,1,w-2,h-2),fill=color_rgba(s['background']),outline=color_rgba(s['color']),width=2)
+        elif s['frame']=='rounded':draw.rounded_rectangle((1,1,w-2,h-2),radius=min(16,h//4),fill=color_rgba(s['background']),outline=color_rgba(s['color']),width=1)
         title=label(key).split(' · ')[0]
         font=system_font(min(13,max(9,h//6)),False)
         while font.getlength(title)>w-10 and len(title)>3:title=title[:-2]+'…'
         if s['showLabel']:
-            box=font.getbbox(title);draw.text(((w-font.getlength(title))/2,6-box[1]),title,font=font,fill=s['color'])
+            box=font.getbbox(title);draw.text(((w-font.getlength(title))/2,6-box[1]),title,font=font,fill=color_rgba(s['color']))
         unit=s['unit'] or UNITS.get(ALIASES.get(key,key),'%' if key.endswith('Progress') else '')
         if unit and s['showUnit']:
             box=font.getbbox(unit);draw.text(((w-font.getlength(unit))/2,h-16-box[1]),unit,font=font,fill='#a3b0c2')

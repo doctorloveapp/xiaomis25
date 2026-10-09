@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "sourcesChecked": [
+    {
+      "catalog": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\data\\hand-sets\\catalog.json",
+      "status": "absent"
+    },
+    {
+      "catalog": "C:\\Users\\hp_wi\\AppData\\Local\\S5Studio\\hand-sets\\catalog.json",
+      "status": "checked",
+      "sets": 3
+    }
+  ],
+  "updates": [],
+  "bundledSets": 3,
+  "bundledHands": 9,
+  "bundledAssets": 13,
+  "sets": [
+    {
+      "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
+      "name": "Seiko 5 ombra",
+      "small": false
+    },
+    {
+      "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
+      "name": "Swatch Orange ombra",
+      "small": false
+    },
+    {
+      "id": "custom-6fb7cf28c7414c449f18046d047d13be",
+      "name": "Swatch orange piccole",
+      "small": true
+    }
+  ],
+  "catalogSha256": "b81bde5c46347bdf7ee38369c0b0c4d1003d2fa5b50a3c6ac26049a7eb82175a",
+  "originalCatalogHands": 595,
+  "effectiveCatalogHands": 604,
+  "sourceCatalogsModified": false
+}

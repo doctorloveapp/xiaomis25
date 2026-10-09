@@ -81,3 +81,34 @@ window.S5Selectors=(()=>{
   window.addEventListener('resize',close);
   return {mount,close,isOpen:()=>Boolean(popup)};
 })();
+
+// Every color control uses the same dialog, including project/style colors.
+window.S5Colors=(()=>{
+ let choosing=false;
+ function mountAll(root=document){
+  root.querySelectorAll('input[type=color]').forEach(input=>{
+   if(input.dataset.studioColorPicker)return;
+   const property=input.dataset.prop||'';let target,key,context='layer',identity;
+   if(property.startsWith('project-')){context='project';key=property.slice(8);target={background:state.background};}
+   else if(property.startsWith('variant-')){context='variant';key=property.slice(8);target=state.variants[state.variantIndex];}
+   else{key=property;target=state.layers.find(e=>e.id===selected);identity=target?.id;}
+   if(!target||!key)return;
+   let absent=target[key]==='none',original=false,cap=false;
+   if(context==='variant'&&key==='accent')absent=!target[key]||target[key]==='none';
+   if(context==='layer'){
+    const role=key.replace(/_color$/,'');
+    if(['hour_color','minute_color','second_color'].includes(key)&&['analog','pointer'].includes(target.kind)){
+     original=Boolean(target[role+'_asset']);absent=original?!target[key]||target[key]==='none':target[key]==='none';
+    }else if(key==='color'&&target.kind==='analog'){cap=true;absent=target.show_center_cap===false;}
+    else if(key==='color'&&target.kind==='pointer'){original=Boolean(target.second_asset);absent=original?!target.second_color||target.second_color==='none':target.second_color==='none';}
+    else if(key==='color'&&['image','compass','image_values'].includes(target.kind)){original=true;absent=!target.tint;}
+   }
+   input.dataset.studioColorPicker='true';input.dataset.originalColor=String(absent);
+   input.title=absent?(cap?'Tappo centrale nascosto':original?'Colori originali, nessuna ricolorazione':'Nessun colore'):'Clicca per scegliere un colore o Nessun colore';
+   if(absent){const caption=document.createElement('small');caption.className='original-color-caption';caption.textContent=cap?'Tappo centrale nascosto':original?'Colore originale':'Nessun colore';input.after(caption);}
+   const choose=event=>{event.preventDefault();if(choosing||input.disabled)return;choosing=true;send('choose-color',{context,id:identity,key}).finally(()=>choosing=false);};
+   input.onclick=choose;input.onkeydown=event=>{if(['Enter',' '].includes(event.key))choose(event);};
+  });
+ }
+ return {mountAll};
+})();

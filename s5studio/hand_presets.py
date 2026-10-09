@@ -12,7 +12,7 @@ def clear_hand_changes(hand,asset=''):
             hand+'_length_adjusted':False,hand+'_width_adjusted':False,
             hand+'_pivot_reference_x':-1,hand+'_pivot_reference_y':-1}
 
-def preset_changes(project,element,root,preset,hand,presets,*,custom_root=None):
+def preset_changes(project,element,root,preset,hand,presets,*,custom_root=None,custom_catalog=None):
     if hand not in HANDS or element.kind not in ('analog','pointer'):
         raise ValueError('Seleziona una lancetta valida.')
     if element.kind=='pointer' and hand!='second':raise ValueError('La lancetta piccola usa una sola grafica.')
@@ -21,7 +21,7 @@ def preset_changes(project,element,root,preset,hand,presets,*,custom_root=None):
         if custom:
             from .hand_sets import HandSetCatalog
             from .paths import user_data_root
-            path=HandSetCatalog(custom_root or user_data_root()/'hand-sets').bitmap_path(item)
+            path=(custom_catalog or HandSetCatalog(custom_root or user_data_root()/'hand-sets')).bitmap_path(item)
         else:
             path=(root/item['assetPath']).resolve()
             if not path.is_relative_to((root/'data/hand-presets').resolve()):

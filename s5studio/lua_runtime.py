@@ -4,6 +4,7 @@ import struct
 from .motion import LUA_SOURCES, ALL_LUA_SOURCES, lua_element, pro_enabled
 from .render import hand_image, hand_shadow_offset, png_bytes, canvas_image, static_image, canvas_static
 from .paths import resource_root
+from .live_data import live_element,live_lines
 
 
 def unpack_app(payload):
@@ -32,7 +33,7 @@ def scene_layers(project, aod=False):
     if not indices:return []
     span=layers[indices[0]:indices[-1]+1]
     for e in span:
-        if isinstance(e,dict) or e.kind not in ('image','text','rect','circle') and not lua_element(e):
+        if isinstance(e,dict) or e.kind not in ('image','text','rect','circle') and not lua_element(e) and not live_element(e):
             name=e.get('name','Complicazione') if isinstance(e,dict) else e.name
             raise ValueError(f'Sposta il livello dinamico «{name}» sopra o sotto il gruppo di lancette Crono/Decimi. Le lancette Lua devono condividere una scena; immagini, testi e forme possono restare tra loro.')
     return span
@@ -61,6 +62,9 @@ def write_scene(project, layers, directory, variant, *, key=None):
              'scene:clear_flag(lvgl.FLAG.SCROLLABLE)', 'scene:clear_flag(lvgl.FLAG.CLICKABLE)']
     pointers=[e for e in layers if e.kind=='pointer' and e.source in LUA_SOURCES]
     for e in layers:
+        if live_element(e):
+            lines+=live_lines(project,e,base,variant)
+            continue
         if e not in pointers:
             pair=canvas_static(project,e)
             if pair:
@@ -117,6 +121,9 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
         (base/'gfx'/name).write_bytes(png_bytes(image))
         lines.extend([f'local img = scene:Image {{x={x},y={y},src=SCRIPT_PATH.."gfx/{name}"}}','img:clear_flag(lvgl.FLAG.CLICKABLE)'])
     for e in layers:
+        if live_element(e):
+            lines+=live_lines(project,e,base,variant)
+            continue
         if not lua_element(e):
             pair=canvas_static(project,e)
             if pair:bitmap(*pair,f'v{variant}_{e.id}_static.png')
@@ -135,8 +142,9 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
             for index,view in enumerate(analog_views,1):
                 lines += [f'core:add {{id="{view.id}",root=root,hands=groups[{index}],source="{view.source}",range={view.value_range},valueStart=0,valueRange={view.value_range},angleRange=360,scale=1000,smooth={str(view.smooth_seconds).lower()}}}']
             lines+=['end']
-            dot=Image.new('RGBA',(14,14));ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
-            bitmap(dot,e.x+e.width//2-7,e.y+e.height//2-7,f'v{variant}_{e.id}_center.png')
+            if e.show_center_cap:
+                dot=Image.new('RGBA',(14,14));ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
+                bitmap(dot,e.x+e.width//2-7,e.y+e.height//2-7,f'v{variant}_{e.id}_center.png')
             continue
         for view in pro_views(e):
             lines+=['do','local root = lvgl.Object(scene, {x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})',
@@ -175,7 +183,6 @@ def interaction_report(project, data, manifest_bytes):
     files={}; app_layouts=0;screen_apps=[]
     for screen in inspect_binary(data)['screens']:
         tables=read_tables(data,screen['index'])
-        if screen['aod'] and tables[5]: raise ValueError('Script Lua presente in AOD.')
         for uid, _, payload in tables[5]:
             name,content=unpack_app(payload)
             if name in files and files[name]!=content: raise ValueError('File Lua omonimi con contenuti diversi.')
@@ -183,8 +190,15 @@ def interaction_report(project, data, manifest_bytes):
         apps={uid for uid,_,_ in tables[5]}
         entries=[unpack_app(next(payload for uid,_,payload in tables[5] if uid==struct.unpack_from('<I',b)[0]))[0]
                  for _,_,b in tables[0] if struct.unpack_from('<I',b)[0] in apps]
+        if screen['aod']:
+            # EasyFace repeats the common app file table in every screen.
+            # Only the actual AOD entry points may execute the inert live renderer.
+            for entry in entries:
+                code=files[entry].decode('utf8')
+                if '_live_' not in entry or 'require("studio_live_data")' not in code or 'studio_core' in code or 'tap:onevent' in code:
+                    raise ValueError('Runtime animato/interattivo non consentito in AOD.')
         app_layouts+=len(entries)
-        if not screen['aod']:screen_apps.append(entries)
+        if not screen['aod']:screen_apps.append([n for n in entries if '_live_' not in n])
         if screen['aod']:
             from .motion import SECOND_SOURCES
             from .model import SOURCES
@@ -192,7 +206,7 @@ def interaction_report(project, data, manifest_bytes):
             if any(b[3]>>4==3 and b[:2] in codes for _,_,b in tables[7]):
                 raise ValueError('Lancetta secondi presente in AOD.')
     manifest=ET.fromstring(manifest_bytes)
-    requested=any(e.visible and not e.aod and lua_element(e)
+    requested=any(e.visible and (live_element(e) or not e.aod and lua_element(e))
                   for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements)
     if requested != bool(app_layouts) or manifest.get('interactive')!=str(requested).lower():
         raise ValueError('Interattività richiesta ma script/layout/manifest incoerenti.')
@@ -202,6 +216,9 @@ def interaction_report(project, data, manifest_bytes):
             'manifestInteractive':manifest.get('interactive'),'aodSecondsExcluded':True,'hardwareVerified':False,
             'limitations':(['Runtime Lua, clock monotono e VM condivisa da verificare sul firmware S5.',
                             'Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio.'] if requested else [])}
+    if 'lua/studio_live_data.lua' in files:
+        result['liveDataTransforms']={'injected':True,'engine':'prewarped-font-glyphs','updates':'dataman-Q8-notifications',
+                                      'sampleValueBaked':False,'timers':False,'aodAnimation':False,'hardwareVerified':False}
     # Keep old exports independently verifiable with their original report.
     core=files.get('lua/studio_core.lua',b'')
     if b'S5StudioChrono011' in core or b'S5StudioChrono100' in core:

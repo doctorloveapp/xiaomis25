@@ -9,6 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from s5studio.native import compiler_probe
 from s5studio.template_package import resolve_template
+from s5studio.release_hand_sets import sync_hand_sets
 
 
 def prepare():
@@ -17,6 +18,8 @@ def prepare():
     library=json.loads(library_path.read_text(encoding='utf8'))
     if len(library.get('hands',[]))!=595 or not library.get('compasses') or library.get('errors'):
         raise ValueError('Catalogo incompleto: rigenera la libreria e il catalogo bussole prima di confezionare.')
+    integration=sync_hand_sets(ROOT)
+    (ROOT/'docs/hand-set-integration-1.7.6.json').write_text(json.dumps(integration,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     compiler_probe(ROOT/'tools/easyface-4.23/Compiler.exe')
     template=resolve_template()
     files={}
@@ -27,6 +30,12 @@ def prepare():
         if digest and digest!=actual:raise ValueError('Hash risorsa alterato: '+str(name))
         files[path.relative_to(ROOT).as_posix()]=actual
     add(library_path.relative_to(ROOT))
+    add('resources/hand-sets/catalog.json',integration['catalogSha256'])
+    catalog=json.loads((ROOT/'resources/hand-sets/catalog.json').read_text(encoding='utf8'))
+    for record in catalog['sets']:
+        for mother in record['hands'].values():
+            for item in [mother]+([mother['shadow']] if mother.get('shadow') else []):
+                add('resources/hand-sets/'+item['assetPath'],item['sourceSha256'])
     for item in library['hands']:
         add(item['assetPath'],item['sourceSha256'])
         if item['shadow']:add(item['shadow']['assetPath'],item['shadow']['sourceSha256'])
@@ -35,10 +44,10 @@ def prepare():
     for name in ['Compiler.exe','DeviceInfo.db']:add('tools/easyface-4.23/'+name)
     add('tools/toolchain.json');add(template.relative_to(ROOT));add('THIRD_PARTY_NOTICES.md');add('LICENSE')
     for name in ['index.html','app.js','hand-sets.js','editor-controls.js','editor-precision.js','editor-multi.js','studio.css','tailwind.css']:add('frontend/'+name)
-    add('s5studio/lua/studio_core.lua');add('s5studio/lua/studio_core_pro.lua')
+    add('s5studio/lua/studio_live_data.lua');add('s5studio/lua/studio_core.lua');add('s5studio/lua/studio_core_pro.lua')
     for path in (ROOT/'licenses').rglob('*'):
         if path.is_file():add(path.relative_to(ROOT))
-    target=(ROOT/'build/runtime-1.7.3').resolve()
+    target=(ROOT/'build/runtime-1.7.6').resolve()
     assert target.parent==(ROOT/'build').resolve() and target.is_relative_to(ROOT)
     if target.exists():
         if not (target/'runtime-manifest.json').is_file():raise ValueError('Cartella runtime preesistente non riconosciuta; nessun file viene eliminato.')
@@ -46,13 +55,14 @@ def prepare():
     target.mkdir(parents=True)
     for name in files:
         output=target/name;output.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/name,output)
-    report={'applicationVersion':'1.7.3','scope':'personal-offline-runtime-from-user-provided-corpus',
-            'hands':len(library['hands']),'compasses':len(library['compasses']),
+    report={'applicationVersion':'1.7.6','scope':'personal-offline-runtime-from-user-provided-corpus',
+            'hands':len(library['hands']),'bundledHandSets':integration['bundledSets'],'bundledHands':integration['bundledHands'],
+            'handSetIntegration':integration,'compasses':len(library['compasses']),
             'sources':len(library['sources']),'weatherIcons':len(library['weatherIcons']),
             'compilerFramework':'.NET Framework 4.7.2 or later','files':files,
-            'excluded':['projects','recovery','hardware-test-projects','original-watchface-corpus','ADB','EasyFace editor','custom hand sets']}
+            'excluded':['projects','recovery','hardware-test-projects','original-watchface-corpus','ADB','EasyFace editor']}
     (target/'runtime-manifest.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
-    (ROOT/'docs/runtime-manifest-1.7.3.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
+    (ROOT/'docs/runtime-manifest-1.7.6.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     print(json.dumps({'directory':str(target),'files':len(files),'hands':report['hands'],'compasses':report['compasses']},indent=2))
     return target
 

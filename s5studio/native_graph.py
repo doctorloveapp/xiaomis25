@@ -340,7 +340,7 @@ def metadata(project,screens,nodes,face_id):
         if node['tag']=='Translation':editor['i18n']['translations'][uid_name(uid)]={language:node['text'] for language in LANGUAGES}
     ET.indent(manifest);files['resources/manifest.xml']=ET.tostring(manifest,encoding='utf-8',xml_declaration=True)
     files['editor.config.json']=json.dumps(editor,ensure_ascii=False,indent=2).encode();files['uidmap.map']=('\n'.join(mapping)+'\n').encode()
-    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.7.3','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
+    files['s5studio-schema.json']=json.dumps({'version':1,'generator':'S5 Studio 1.7.6','themes':[{'name':name,'aod':aod} for _,name,aod,_,_ in screens],
          'phonePreview':{'staticOnly':True,'resourceDirectory':'_preview','completeLayers':True,'modHardwareVerified':False},
          'project':project.metadata(),'resourceFiles':{k:hashlib.sha256(v).hexdigest() for k,v in files.items() if k.startswith(('resources/studio/','resources/_preview/','app/lua/'))},
          'metadataHashes':{k:hashlib.sha256(files[k]).hexdigest() for k in ('resources/manifest.xml','editor.config.json','uidmap.map')},

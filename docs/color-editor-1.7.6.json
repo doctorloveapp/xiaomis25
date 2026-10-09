@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.7.6",
+  "checks": [
+    "analog-hour_color-restores-original",
+    "analog-minute_color-restores-original",
+    "analog-second_color-restores-original",
+    "pointer-second_color-restores-original",
+    "image-color-restores-original",
+    "compass-color-restores-original",
+    "choosing-color-reenables-tint",
+    "universal-a5e1837d881f-color",
+    "universal-4840bff40782-color",
+    "universal-33bdaf64a512-color",
+    "universal-ff1e65b5d25b-color",
+    "universal-colorslot-color",
+    "project-background-absent",
+    "variant-accent-absent",
+    "variant-background-absent",
+    "live-data-rotation-and-arc-controls",
+    "every-color-control-uses-universal-picker",
+    "cancel-preserves-project-and-undo",
+    "color-change-supports-undo",
+    "new-hamilton-set-is-bundled"
+  ],
+  "checkCount": 20,
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

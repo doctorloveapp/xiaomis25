@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "sourcesChecked": [
+    {
+      "catalog": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\data\\hand-sets\\catalog.json",
+      "status": "absent"
+    },
+    {
+      "catalog": "C:\\Users\\hp_wi\\AppData\\Local\\S5Studio\\hand-sets\\catalog.json",
+      "status": "checked",
+      "sets": 4
+    }
+  ],
+  "updates": [],
+  "bundledSets": 4,
+  "bundledHands": 12,
+  "bundledAssets": 19,
+  "sets": [
+    {
+      "id": "custom-6f6a7ad536d047bd89280d8e114b7fd6",
+      "name": "Hamilton Lancette",
+      "small": false
+    },
+    {
+      "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
+      "name": "Seiko 5 ombra",
+      "small": false
+    },
+    {
+      "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
+      "name": "Swatch Orange ombra",
+      "small": false
+    },
+    {
+      "id": "custom-6fb7cf28c7414c449f18046d047d13be",
+      "name": "Swatch orange piccole",
+      "small": true
+    }
+  ],
+  "catalogSha256": "4753a20701c8656e80e7fe243b4644e44ba144f8bf94ff03ac700a490904aaf1",
+  "originalCatalogHands": 595,
+  "effectiveCatalogHands": 607,
+  "sourceCatalogsModified": false
+}

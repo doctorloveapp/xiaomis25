@@ -11,6 +11,7 @@ import secrets
 import zipfile
 
 from PIL import Image, ImageOps
+from .colors import valid_color
 
 MAX_ARCHIVE = 128 * 1024 * 1024
 MAX_IMAGE_PIXELS = 32_000_000
@@ -33,7 +34,7 @@ SOURCES.update({key:(label,SOURCES[source][1],SOURCES[source][2]) for key,label,
     ('spo2','SpO₂','healthOxygenSpO2'),('sleep','Sonno','healthSleepDuration'),('movement','Movimento','healthExerciseDuration')) if source in SOURCES})
 HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asset','_shadow_asset'))
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
-VARIANT_PROPERTIES={'rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
+VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
 MAX_SLOTS=16  # Studio guardrail, not a declared firmware limit.
 
 def valid_design_geometry(kind,x,y,width,height):
@@ -131,6 +132,7 @@ class Element:
     second_pivot_reference_y: int = -1
     compass_preset: str = ''
     hour_color: str = ''
+    show_center_cap: bool = True
     minute_color: str = ''
     second_color: str = ''
     hour_asset: str = ''
@@ -259,11 +261,11 @@ class Project:
             return p
         p.background=v.get('background') or self.background
         for e in p.elements:
-            if e.color.lower()=='#6ce5c1':e.color=v.get('accent','#6ce5c1')
+            if e.color.lower()=='#6ce5c1' and v.get('accent'):e.color=v['accent']
             for k,value in v.get('overrides',{}).get(e.id,{}).items():setattr(e,k,value)
         p.complications=[normalized_slot(s) for s in p.complications]
         for s in p.complications:
-            if s['color'].lower()=='#6ce5c1':s['color']=v.get('accent','#6ce5c1')
+            if s['color'].lower()=='#6ce5c1' and v.get('accent'):s['color']=v['accent']
         if v.get('imageAsset'):
             background=Element(kind='image',name='Sfondo variante',asset=v['imageAsset'],x=0,y=0,width=480,height=480)
             p.elements.insert(0,background)
@@ -425,7 +427,7 @@ class Project:
             elif v['name'].casefold() in variant_names:errors.append('Ogni stile deve avere un nome differente.')
             else:variant_names.add(v['name'].casefold())
             for color in ('accent','background'):
-                if v.get(color) and not re.fullmatch(r'#[a-fA-F0-9]{6}',v[color]):errors.append('Colore variante non valido.')
+                if v.get(color) and not valid_color(v[color]):errors.append('Colore variante non valido.')
             if v.get('imageAsset') and v['imageAsset'] not in self.assets:errors.append('Sfondo variante mancante.')
             if v.get('independent'):
                 if v.get('overrides') or v.get('imageAsset'):errors.append('Uno stile indipendente non può ereditare proprietà o immagini.')
@@ -461,7 +463,7 @@ class Project:
             if len(set(slot['options']))!=len(slot['options']) or slot.get('default') not in slot['options']:errors.append('Default/opzioni complicazione non validi.')
             if len(slot['options'])>64:errors.append('Massimo 64 opzioni per slot.')
             if any(type(slot.get(k)) is not int for k in ('x','y','width','height','size')) or not 16<=slot['width']<=480 or not 16<=slot['height']<=480 or not 0<=slot['x']<=480-slot['width'] or not 0<=slot['y']<=480-slot['height'] or not 8<=slot['size']<=160:errors.append('Geometria/font della complicazione non validi.')
-            if slot['frame'] not in ('rounded','circle','none') or any(not re.fullmatch(r'#[a-fA-F0-9]{6}',slot[k]) for k in ('color','background')):errors.append('Stile complicazione non valido.')
+            if slot['frame'] not in ('rounded','circle','none') or any(not valid_color(slot[k]) for k in ('color','background')):errors.append('Stile complicazione non valido.')
             if slot['showLabel'] and slot['height']<64:errors.append('Complicazione: usa almeno 64 px di altezza per etichetta, numero e unità.')
             if slot['showUnit'] and slot['height']<36:errors.append('Complicazione: usa almeno 36 px di altezza per valore e unità.')
             if type(slot['decimals']) is not int or not -1<=slot['decimals']<=3 or type(slot['digits']) is not int or not 0<=slot['digits']<=6 or not isinstance(slot['unit'],str) or len(slot['unit'])>12:errors.append('Formato numerico della complicazione non valido.')
@@ -475,7 +477,7 @@ class Project:
             errors.append("ID richiesto: 9–12 cifre, diverso dal valore predefinito EasyFace. Il pacchetto esportato usa questo ID.")
         if not isinstance(self.name, str) or not self.name.strip() or len(self.name.encode("utf-8")) > 60:
             errors.append("Il nome deve contenere da 1 a 60 byte UTF-8.")
-        if not re.fullmatch(r"#[0-9a-fA-F]{6}", self.background):
+        if not valid_color(self.background):
             errors.append("Colore sfondo non valido.")
         if len(self.elements) > 100:
             errors.append("Limite di 100 componenti superato.")
@@ -493,6 +495,7 @@ class Project:
             if el.source not in SOURCES and not (el.kind == 'pointer' and el.source in ALL_LUA_SOURCES):
                 errors.append(f"{label}: sorgente dati non supportata.")
             if type(el.smooth_seconds) is not bool: errors.append(f'{label}: Movimento Fluido deve essere un flag.')
+            if type(el.show_center_cap) is not bool: errors.append(f'{label}: visibilità del tappo centrale non valida.')
             if type(el.chrono_pro) is not bool: errors.append(f'{label}: Crono Pro deve essere un flag.')
             if el.chrono_pro and (el.kind!='analog' or el.aod or not el.second_hand):
                 errors.append(f'{label}: Crono Pro richiede la lancetta grande dei secondi nello schermo normale.')
@@ -506,7 +509,7 @@ class Project:
             if type(el.decimals) is not int or not 0<=el.decimals<=3 or el.decimals and el.digits<el.decimals+2:errors.append(f'{label}: numero di cifre insufficiente per i decimali.')
             if el.align not in {"left", "center", "right"} or el.fit not in {"cover", "contain", "stretch"}:
                 errors.append(f"{label}: allineamento o adattamento non validi.")
-            if not re.fullmatch(r"#[0-9a-fA-F]{6}", el.color):
+            if not valid_color(el.color):
                 errors.append(f"{label}: colore non valido.")
             if len(el.text) > 200:
                 errors.append(f"{label}: testo troppo lungo.")
@@ -523,7 +526,7 @@ class Project:
                 if any(type(getattr(el,k)) is not bool for k in ('show_shadows','pointer_end_pivot')):errors.append(f'{label}: opzioni ombre/perno non valide.')
                 for hand in ('hour','minute','second'):
                     hand_color=getattr(el,hand+'_color')
-                    if hand_color and not re.fullmatch(r'#[0-9a-fA-F]{6}',hand_color):errors.append(f'{label}: colore lancetta non valido.')
+                    if hand_color and not valid_color(hand_color):errors.append(f'{label}: colore lancetta non valido.')
                     if type(getattr(el,hand+'_length')) is not int or not 1<=getattr(el,hand+'_length')<=100:errors.append(f'{label}: lunghezza lancetta non valida (1–100%).')
                     if type(getattr(el,hand+'_width')) is not int or not 1<=getattr(el,hand+'_width')<=100:errors.append(f'{label}: larghezza lancetta non valida (1–100 px).')
                     if any(type(getattr(el,hand+k)) is not bool for k in ('_length_adjusted','_width_adjusted')):errors.append(f'{label}: regolazione lancetta non valida.')

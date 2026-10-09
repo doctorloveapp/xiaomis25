@@ -6,7 +6,8 @@ from pathlib import Path
 import math
 import os
 
-from PIL import Image, ImageColor, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageColor, ImageDraw, ImageFont, ImageOps,ImageChops
+from .colors import color_rgba,NO_COLOR
 from .model import Element, Project
 from .calendar_labels import labels_for, sample_label
 
@@ -32,11 +33,12 @@ def font_for(p: Project, e: Element):
 
 
 def rgba(e: Element):
-    return (*ImageColor.getrgb(e.color), e.opacity)
+    return color_rgba(e.color,e.opacity)
 
 
 def tint_image(image,color):
     """Apply the chosen hue, preserving alpha and the bitmap's shading."""
+    if color==NO_COLOR:return image.copy()
     alpha=image.getchannel('A')
     shade=ImageOps.grayscale(image)
     # Transparent padding must not affect the brightest visible pixel.
@@ -310,7 +312,7 @@ def hand_image(e: Element, which: str, p: Project | None=None, *, shadow=False):
     endpoint=e.kind=='pointer' and e.pointer_end_pivot
     im = Image.new("RGBA", (width+4,length+1 if endpoint else length+14))
     color=getattr(e,which+'_color') or e.color
-    ImageDraw.Draw(im).rounded_rectangle((2,1,width+1,length if endpoint else length+12),radius=width//2,fill=(*ImageColor.getrgb(color),e.opacity))
+    ImageDraw.Draw(im).rounded_rectangle((2,1,width+1,length if endpoint else length+12),radius=width//2,fill=color_rgba(color,e.opacity))
     return im, (im.width//2,length)
 
 
@@ -361,7 +363,7 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
                 layer=Image.new('RGBA',im.size)
                 layer.alpha_composite(hand,(centre[0]-anchor[0],centre[1]-anchor[1]))
                 im.alpha_composite(layer.rotate(-angle,resample=Image.Resampling.BICUBIC,center=centre))
-        if e.kind=='analog':ImageDraw.Draw(im).ellipse((cx-6,cy-6,cx+6,cy+6),fill=rgba(e))
+        if e.kind=='analog' and e.show_center_cap:ImageDraw.Draw(im).ellipse((cx-6,cy-6,cx+6,cy+6),fill=rgba(e))
         return im
     im = Image.new("RGBA", (e.width,e.height))
     cw,ch,_=digit_metrics(p,e)
@@ -394,7 +396,7 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
     values = values or SCENARIOS["Normale"]
     from .complications import sample_values
     values=sample_values(values)
-    im = Image.new("RGBA",(480,480),"#000000" if aod else p.background)
+    im = Image.new("RGBA",(480,480),color_rgba("#000000" if aod else p.background))
     from .complications import option_image
     from .motion import excluded_from_aod
     for layer in p.ordered_layers(aod):
@@ -409,6 +411,10 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
                         graphic=replace(layer,kind='image',asset=asset,fit='contain')
                     clipped=canvas_static(p,graphic)
                     if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
+                elif layer.kind=='number' and (layer.rotation or layer.arc):
+                    from .transforms import raster
+                    clipped=raster(p,layer,element_image(p,layer,values))
+                    if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
                 elif layer.kind in ('analog','pointer','compass'):
                     # Native hands use the level centre as their pivot, but
                     # their bitmap is clipped by the watch canvas, not the
@@ -421,7 +427,7 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
     if circular:
         mask=Image.new('L',(480,480))
         ImageDraw.Draw(mask).ellipse((0,0,479,479),fill=255)
-        im.putalpha(mask)
+        im.putalpha(ImageChops.multiply(im.getchannel('A'),mask))
     return im
 
 

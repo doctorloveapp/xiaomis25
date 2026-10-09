@@ -64,7 +64,8 @@ class StudioBridge(QObject):
         # Wait after rendering instead of keeping a permanently overdue timer
         # when a large imported bitmap costs more than the frame interval.
         self.motion_timer=QTimer(self);self.motion_timer.setInterval(200);self.motion_timer.setSingleShot(True);self.motion_timer.timeout.connect(self.preview_tick)
-        self.hand_set_catalog=HandSetCatalog(user_data_root()/'hand-sets')
+        self.hand_set_catalog=HandSetCatalog(user_data_root()/'hand-sets',
+                bundled_root=self.resources/'resources/hand-sets',library_hands=library()['hands'],resources=self.resources)
         self.hand_set_draft=empty_draft()
         self.reload_hand_presets()
         from PIL import Image
@@ -82,7 +83,7 @@ class StudioBridge(QObject):
         from PIL import Image
         from io import BytesIO
         from .catalog_labels import display_preset
-        for preset in self.hand_set_catalog.presets()+library()['hands']:
+        for preset in self.hand_set_catalog.presets():
             preset=display_preset(preset)
             path=self.hand_set_catalog.bitmap_path(preset) if preset.get('custom') else self.resources/preset['assetPath']
             if not path.is_file():continue
@@ -134,7 +135,7 @@ class StudioBridge(QObject):
                       busy=bool(self.worker and self.worker.isRunning()),output=str(self.output or ''),
                       sources={key:label for key,(label,_,_) in SOURCES.items()},scenario=self.scenario,values=self.values,
                       complications=[normalized_slot(s) for s in resolved.complications],maxSlots=MAX_SLOTS,handPresets=self.hand_presets,
-                      handSets=[{'id':s['id'],'name':s['name'],'small':s['small'],'roles':list(s['hands'])} for s in self.hand_set_catalog.sets()],
+                      handSets=self.hand_set_catalog.summaries(),
                       handSetDraft=self.hand_set_catalog.public_draft(self.hand_set_draft),
                       independentVariants=True,
                       pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
@@ -266,6 +267,18 @@ class StudioBridge(QObject):
         before=None;selection=None;self._design=None
         try:
             req=json.loads(raw);action=req.get('action')
+            if action=='choose-color':
+                if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
+                from .color_picker import choose_graphic_color
+                context=req.get('context','layer')
+                if context=='project':target={'background':self.design.background};edit_action='settings'
+                elif context=='variant':target=self.project.variants[self.variant];edit_action='edit-variant'
+                elif context=='layer':
+                    target=self.layer(req['id']);edit_action='edit-slot' if isinstance(target,dict) else 'edit'
+                else:raise ValueError('Contesto colore non valido.')
+                changes=choose_graphic_color(target,req['key'],self.window)
+                action='state' if changes is None else edit_action
+                if changes is not None:req['changes']=changes
             mutations={'set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
                 if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
@@ -410,7 +423,7 @@ class StudioBridge(QObject):
                             self.set_hand(req,clear_hand_changes(hand,el.asset))
             elif action=='hand-preset':
                 preset=next(h for h in self.hand_presets if h['id']==req['preset'])
-                self.set_hand(req,preset_changes(self.design,self.element(req),self.resources,preset,req['hand'],self.hand_presets,custom_root=self.hand_set_catalog.root))
+                self.set_hand(req,preset_changes(self.design,self.element(req),self.resources,preset,req['hand'],self.hand_presets,custom_catalog=self.hand_set_catalog))
             elif action=='hand-pivot':
                 e=self.element(req)
                 hand=req['hand']
@@ -434,7 +447,7 @@ class StudioBridge(QObject):
                 allowed={'name','accent','background','imageAsset'}
                 if set(req['changes'])-allowed:raise ValueError('Proprietà variante non valida.')
                 changes=dict(req['changes']);variant=self.project.variants[self.variant]
-                if 'accent' in changes:
+                if changes.get('accent'):
                     old=variant.get('accent','#6ce5c1')
                     for element in self.design.elements:
                         if not element.aod and element.color.lower()==old.lower():element.color=changes['accent']
@@ -591,6 +604,9 @@ class StudioBridge(QObject):
         elif action=='hand-set-delete':
             self.hand_set_catalog.delete(req['id']);self.reload_hand_presets()
             if draft['id']==req['id']:draft=empty_draft()
+        elif action=='hand-set-restore':
+            self.hand_set_catalog.restore(req['id']);self.reload_hand_presets()
+            if draft['id']==req['id']:draft=empty_draft()
         else:raise ValueError('Comando set lancette non valido.')
         self.hand_set_draft=self.hand_set_catalog.refresh_generated(draft)
 
@@ -629,7 +645,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 1.7.3 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 1.7.6 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

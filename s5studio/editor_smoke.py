@@ -33,8 +33,8 @@ def verify_editor(window,app):
     until(lambda:bridge.scenario=='Normale','Scenario non ripristinato')
     wait_js('[...document.querySelectorAll("select")].every(e=>getComputedStyle(e).display==="none")','Un menu usa ancora il popup nativo')
     checks.extend(['dropdown-hover-does-not-commit','dropdown-hover-highlights-without-selection','dropdown-click-commits','all-native-selects-replaced'])
-    assert js('document.body.textContent.includes("Version 1.7.3")&&!document.body.textContent.includes("WATCHFACE DESIGNER")')
-    checks.append('header-Version-1.7.3')
+    assert js('document.body.textContent.includes("Version 1.7.6")&&!document.body.textContent.includes("WATCHFACE DESIGNER")')
+    checks.append('header-Version-1.7.6')
 
     analog=next(e for e in bridge.project.elements if e.kind=='analog' and not e.aod)
     js('selected='+json.dumps(analog.id)+';paint();true')

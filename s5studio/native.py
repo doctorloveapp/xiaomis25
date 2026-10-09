@@ -22,6 +22,7 @@ import zipfile
 from PIL import Image, ImageDraw
 from .model import Project, Element, SOURCES, archive_members
 from .calendar_labels import labels_for
+from .colors import NO_COLOR
 from .render import (render, png_bytes, static_image, digit_image, digit_metrics,
                      number_parts, font_for, rgba, analog_face, hand_image, hand_shadow_offset, layout_errors, canvas_image)
 
@@ -166,7 +167,7 @@ class NativeSource:
     expected_sources: list[str]
 
 
-def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', variant_index=0) -> NativeSource:
+def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', variant_index=0, app_directory=None) -> NativeSource:
     if not aod and p.variants:
         expected=[]
         main=None
@@ -178,6 +179,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             expected+=result.expected_sources
         return NativeSource(main,expected)
     from .motion import LUA_SOURCES, excluded_from_aod, pointer_period, SWEEP_PERIOD_MS
+    app_directory=app_directory or directory
     directory.mkdir(parents=True,exist_ok=True)
     images=directory/"images"
     images.mkdir(exist_ok=True)
@@ -200,8 +202,10 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
         im.save(images/filename)
         widget(30,name,x,y,im.width,im.height,Bitmap=filename,Visible_Src=visible)
 
-    image(f'background_{variant_index}',Image.new("RGB",(480,480),"#000000" if aod else p.background),0,0)
+    image(f'background_{variant_index}',Image.new("RGBA" if not aod and p.background==NO_COLOR else "RGB",(480,480),
+          (0,0,0,0) if not aod and p.background==NO_COLOR else "#000000" if aod else p.background),0,0)
     from .lua_runtime import scene_layers,write_scene
+    from .live_data import live_element,write_live
     lua_scene=scene_layers(p,aod)
     lua_ids={e.id for e in lua_scene}
     for e in p.ordered_layers(aod):
@@ -216,11 +220,15 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
         if e.id in lua_ids:
             if e.id==lua_scene[-1].id:
                 from urllib.parse import quote
-                name=write_scene(p,lua_scene,directory,variant_index)
+                name=write_scene(p,lua_scene,app_directory,variant_index)
                 widget(34,'app_'+quote(name,safe=''),0,0,480,480)
             continue
         prefix=f'el_{variant_index}_'+e.id
-        if e.kind=='image':
+        if live_element(e):
+            from urllib.parse import quote
+            name=write_live(p,e,app_directory,variant_index)
+            widget(34,'app_'+quote(name,safe=''),0,0,480,480)
+        elif e.kind=='image':
             clipped=canvas_image(p,e)
             if clipped:
                 bitmap,x,y=clipped;image(prefix,bitmap,x,y)
@@ -247,10 +255,16 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             names=[]
             for value,word in labels_for(e).items():
                 name=f'{prefix}_calendar_{value}.png'
-                calendar_image(p,e,word).save(images/name)
+                from .transforms import active,raster
+                bitmap=calendar_image(p,e,word);x,y=e.x,e.y
+                if active(e):
+                    pair=raster(p,e,bitmap)
+                    if pair is None:continue
+                    bitmap,x,y=pair
+                bitmap.save(images/name)
                 names.append(f'({value}):{name}')
             code=SOURCES[e.source][1];expected.append(code)
-            widget(31,prefix,e.x,e.y,e.width,e.height,BitmapList='|'.join(names),Index_Src=code,
+            widget(31,prefix,x,y,bitmap.width,bitmap.height,BitmapList='|'.join(names),Index_Src=code,
                    DefaultIndex=1 if e.source=='dateWeek' else 0)
         elif e.kind in {"clock","date","number"}:
             cw,ch,_=digit_metrics(p,e)
@@ -316,14 +330,22 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                     if h!='hour':x+=e.width//2-sa[0];y+=e.height//2-sa[1]
                     widget(27,prefix+'_'+h+suffix+(f'_smooth[{SWEEP_PERIOD_MS}]' if h=='second' and e.smooth_seconds and not aod else ''),x,y,e.width,e.height,**attrs)
                     expected.append(code)
-            dot=Image.new("RGBA",(14,14))
-            ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
-            image(prefix+"_center",dot,e.x+e.width//2-7,e.y+e.height//2-7)
+            if e.show_center_cap:
+                dot=Image.new("RGBA",(14,14))
+                ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
+                image(prefix+"_center",dot,e.x+e.width//2-7,e.y+e.height//2-7)
+    if not aod and p.aod_enabled and any(e.aod and e.visible and live_element(e) for e in p.elements) and not any(w.get('Shape')=='34' for w in screen):
+        # AOD App rows are completed from the main screen's compiled file table.
+        from urllib.parse import quote
+        base=app_directory/'app/lua';base.mkdir(parents=True,exist_ok=True)
+        name=f'lua/studio_v{variant_index}_live_aod_registry.lua'
+        (app_directory/'app'/name).write_text('-- Inert carrier for AOD live data resources.\nreturn\n',encoding='utf8')
+        widget(34,'app_'+quote(name,safe=''),0,0,1,1)
     path=directory/(filename+'.fprj')
     ET.indent(face)
     ET.ElementTree(face).write(path,encoding="utf-8",xml_declaration=True)
     if p.aod_enabled and not aod:
-        extra=generate_fprj(p,directory/"AOD",True)
+        extra=generate_fprj(p,directory/"AOD",True,app_directory=app_directory)
         expected+=extra.expected_sources
     return NativeSource(path,expected)
 
@@ -412,6 +434,9 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
     with tempfile.TemporaryDirectory(prefix=".s5-build-",dir=destination) as temp:
         work=Path(temp)
         source=generate_fprj(p,work/"source")
+        app_files=list((work/'source/app').rglob('*'))
+        if sum(f.is_file() for f in app_files)>256:
+            raise ValueError('Superato il limite EasyFace di 256 risorse Lua. Riduci i dati arcuati o gli stili con font/colori diversi prima di esportare.')
         p.save(work/'source/studio.s5faceproj')
         reproduction={'schemaVersion':1,'files':{f.relative_to(work/'source').as_posix():sha256(f.read_bytes())
                        for f in (work/'source').rglob('*') if f.is_file() and f.suffix in ('.fprj','.png','.s5faceproj')}}
@@ -445,7 +470,8 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
             failure=destination/f"errore-{p.face_id}-{stamp}.log"
             failure.write_text(log,encoding="utf-8")
             raise ValueError(f"Compilazione fallita. Log: {failure}\n{log[-1800:]}")
-        original=raw.read_bytes()
+        from .live_data import complete_aod_apps
+        original=complete_aod_apps(raw.read_bytes(),source.project_path)
         progress('Compilazione principale completata; preparazione delle risorse…')
         if original[40:49]!=b'167210065' or original[49]!=0:
             raise ValueError('Campo ID del compilatore diverso dal valore predefinito verificato.')
@@ -477,7 +503,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.7.3',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.7.6',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -500,7 +526,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.7.3","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.7.6","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -590,9 +616,9 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.7.3 — CALENDARIO INGLESE E ALLINEAMENTO
+TRANSFER_GUIDE = """S5 STUDIO 1.7.6 — CALENDARIO INGLESE E ALLINEAMENTO
 
-Apri il progetto nella 1.7.3 e genera un nuovo ZIP quando necessario.
+Apri il progetto nella 1.7.6 e genera un nuovo ZIP quando necessario.
 Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
 Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
 Piccole: scegli Ore Crono, Minuti Crono e Decimi crono - Start/Stop/Reset.
@@ -617,7 +643,7 @@ La 1.7.1 corregge il falso blocco dei decimi crono con livello grande nascosto.
 La 1.7.2 ordina ombra ore, ore, ombra minuti, minuti, ombra secondi, secondi.
 Le ombre delle lancette superiori si vedono anche su quelle inferiori.
 Attiva Mostra ombre sul livello e genera nuovamente lo ZIP.
-La 1.7.3 mostra Giorno settimana come MON-SUN e Mese come January-December.
+La 1.7.6 mostra Giorno settimana come MON-SUN e Mese come January-December.
 Sono dati nativi dinamici: seguono il calendario reale dell’orologio.
 Il giorno del mese a una cifra rispetta l’allineamento Destra.
 Data DD/MM resta numerica. Anteprima iniziale del giorno settimana: MON.

@@ -65,7 +65,7 @@ def test_transform_persistence_and_style_independence(tmp_path):
     assert plain.rotation==plain.arc==0 and canvas_static(q,plain)[0].size==(100,30)
 
 
-@pytest.mark.parametrize('kind,rotation,arc',[('analog',20,0),('pointer',0,10),('number',20,0),('text',float('nan'),0),('text',0,271),('rect',0,180)])
+@pytest.mark.parametrize('kind,rotation,arc',[('analog',20,0),('pointer',0,10),('text',float('nan'),0),('text',0,271),('rect',0,180)])
 def test_invalid_or_inapplicable_transform_is_rejected(kind,rotation,arc):
     p=Project(elements=[Element(kind=kind,rotation=rotation,arc=arc,width=50,height=100)])
     assert p.validate()
@@ -131,7 +131,7 @@ def test_real_compile_transformed_images_text_shapes_weather_lua_and_aod(tmp_pat
     assert inspect_binary(data)['screenCount']==4 and p.assets==before
     assert validate_package(ROOT/'quadrante_funzionante.zip',archive)['status']=='passed'
     with zipfile.ZipFile(archive) as z:
-        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.7.3'
+        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.7.6'
         for i in (0,1):
             variant=p.variant_project(i);e=next(e for e in variant.elements if e.id==text.id)
             bitmap,x,y=canvas_static(variant,e)
