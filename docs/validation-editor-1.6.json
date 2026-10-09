@@ -1,0 +1,85 @@
+{
+  "applicationVersion": "1.6",
+  "date": "2026-10-09",
+  "status": "passed",
+  "pytest": {
+    "passed": 30,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 11.736,
+    "report": "build/tests-1.6.xml"
+  },
+  "sourceEditor": {
+    "status": "passed",
+    "applicationVersion": "1.6",
+    "checks": [
+      "new-navigation-panel",
+      "catalog-uses-full-workspace",
+      "version-1.6",
+      "name-edit",
+      "three-role-png-import",
+      "source-pngs-decode",
+      "click-source-pivot",
+      "optional-shadow-import",
+      "shadow-offset-edit",
+      "save-named-set",
+      "draft-cleared-after-save",
+      "catalog-does-not-dirty-project",
+      "set-visible-in-hand-menu",
+      "hour-applies-matching-minute-second",
+      "stored-pivot-and-shadow-applied",
+      "edit-existing-set",
+      "catalog-delete",
+      "applied-project-independent-of-catalog"
+    ],
+    "checkCount": 18,
+    "sourceEditorTested": true,
+    "executableLaunched": false,
+    "hardwareTested": false,
+    "screenshot": "build/hand-sets-editor-1.6.png"
+  },
+  "visualCheck": "passed",
+  "javascriptSyntax": "passed",
+  "unchangedFrom15": {
+    "s5studio/lua/studio_core.lua": true,
+    "s5studio/lua/studio_core_pro.lua": true,
+    "data/watchface-library.json": true
+  },
+  "features": [
+    "named persistent custom PNG hand sets",
+    "main and small hand sets",
+    "automatic hour-minute-second pairing",
+    "optional paired shadows",
+    "clickable source-pixel pivots",
+    "catalog update and deletion",
+    "self-contained projects after set deletion",
+    "RGBA normalization without scaling or cropping",
+    "atomic catalog writes and SHA-256 verification"
+  ],
+  "personalCatalogLocation": {
+    "executable": "%LOCALAPPDATA%/S5Studio/hand-sets/",
+    "source": "data/hand-sets/"
+  },
+  "workflow": {
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "regressionBackupCreated": false,
+    "demonstrationWatchfaceCreated": false,
+    "fullTestSuiteRun": false
+  },
+  "hardware": {
+    "1.5": "pending-user-test",
+    "1.6": "pending-user-test"
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.6",
+    "embeddedFilesVerified": 709,
+    "exeSize": 234991540,
+    "exeSha256": "c61613b73c769ad2aa7ac07c5f11f58ed0bf7c9ebdc3fef635240244d9d56f6a",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "bundledCustomSetModuleVerified": true,
+  "personalSetsExcludedFromBundle": true
+}

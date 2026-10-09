@@ -1,0 +1,11 @@
+{
+  "applicationVersion": "1.7.1",
+  "date": "2026-10-09",
+  "status": "passed-as-reported-by-user",
+  "scope": "Correzione del falso blocco Crono Pro con livello nascosto.",
+  "evidence": "L’utente conferma: «ok perfetto il problema è stato risolto».",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "independentlyObserved": false,
+  "confirmationType": "editor-fix-resolved",
+  "newWatchHardwareTestConfirmed": false
+}

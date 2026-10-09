@@ -2,18 +2,23 @@
 SWEEP_FPS = 25
 SWEEP_PERIOD_MS = 1000 // SWEEP_FPS
 LUA_SOURCES = {
-    'studioDecisecond': ('Decimi di secondo · un giro al secondo', 10),
+    'studioDecisecond': ('Decimi di secondo · continui', 10),
     'studioChronoHour': ('Ore Crono', 12),
     'studioChronoMinute': ('Minuti Crono', 60),
     'studioChronoSecond': ('Secondi Crono', 60),
 }
 SECOND_SOURCES = {'second', 'timeSecond', 'timeSecondLow', 'timeSecondHigh', 'studioDecisecond', 'studioChronoSecond'}
-ALL_LUA_SOURCES = {**LUA_SOURCES, 'studioChronoDecisecond': ('Decimi crono · Crono Pro', 10)}
+ALL_LUA_SOURCES = {**LUA_SOURCES, 'studioChronoDecisecond': ('Decimi crono · Start/Stop/Reset', 10)}
 SECOND_SOURCES.add('studioChronoDecisecond')
 
 
 def pro_enabled(project):
-    return any(e.visible and not e.aod and e.kind=='analog' and e.chrono_pro and e.second_hand for e in project.elements)
+    """The style's configured mode is independent of layer visibility.
+
+    Hiding the analog artwork must not disable the controller used by visible
+    small chrono hands. Scene/preview bindings still omit hidden graphics.
+    """
+    return any(not e.aod and e.kind=='analog' and e.chrono_pro and e.second_hand for e in project.elements)
 
 
 def lua_element(e):

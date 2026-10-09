@@ -10,7 +10,7 @@ from PIL import Image, ImageColor, ImageDraw, ImageFont, ImageOps
 from .model import Element, Project
 
 SCENARIOS = {
-    "Normale": dict(hour=10, minute=8, second=30, day=6, month=10, batteryPercent=82, heartRate=72, steps=8540, calories=420),
+    "Normale": dict(hour=10, minute=8, second=30, day=15, month=10, batteryPercent=82, heartRate=72, steps=8540, calories=420),
     "Mezzanotte": dict(hour=0, minute=0, second=0, day=1, month=1, batteryPercent=0, heartRate=60, steps=0, calories=0),
     "Valori alti": dict(hour=23, minute=59, second=59, day=31, month=12, batteryPercent=100, heartRate=180, steps=99999, calories=9999),
     "Dati assenti": dict(hour=12, minute=34, second=0, day=6, month=10, batteryPercent=None, heartRate=None, steps=None, calories=None),
@@ -115,6 +115,8 @@ def canvas_image(p: Project, e: Element):
     Logical image sizes/offsets may exceed 480. The shared preview/export window
     never allocates or sends an oversized bitmap to EasyFace/the watch.
     """
+    from .transforms import active,raster
+    if active(e):return raster(p,e)
     left,top=max(0,e.x),max(0,e.y)
     right,bottom=min(480,e.x+e.width),min(480,e.y+e.height)
     if right<=left or bottom<=top:return None
@@ -145,6 +147,12 @@ def canvas_image(p: Project, e: Element):
         if e.opacity!=255:fitted.putalpha(fitted.getchannel('A').point(lambda n:n*e.opacity//255))
         im.alpha_composite(fitted,(x0-(left-e.x),y0-(top-e.y)))
     return im,left,top
+
+
+def canvas_static(p: Project,e: Element):
+    if e.kind=='image':return canvas_image(p,e)
+    from .transforms import active,raster
+    return raster(p,e) if active(e) else (static_image(p,e),e.x,e.y)
 
 
 def analog_face(e: Element):
@@ -327,8 +335,9 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
         if e.kind=='analog' and e.chrono_pro and e.second_hand and not e.aod:
             from .lua_runtime import pro_views
             pro_geometry=dict(zip(('hour','minute','second'),pro_views(e)))
-        for shadow in ([True,False] if e.show_shadows else [False]):
-            for which, angle in hands:
+        # Each upper hand casts its shadow onto the hands already below it.
+        for which, angle in hands:
+            for shadow in ([True,False] if e.show_shadows else [False]):
                 graphic=pro_geometry.get(which,e)
                 graphic_hand='second' if which in pro_geometry else which
                 pair=hand_image(graphic,graphic_hand,p,shadow=shadow)
@@ -374,8 +383,14 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
     for layer in p.ordered_layers(aod):
         if isinstance(layer,Element):
             if layer.visible and not (aod and excluded_from_aod(layer)):
-                if layer.kind=='image':
-                    clipped=canvas_image(p,layer)
+                if layer.kind in ('image','text','rect','circle','image_values'):
+                    graphic=layer
+                    if layer.kind=='image_values':
+                        from dataclasses import replace
+                        value=values.get(layer.source);key=str(int(value)) if value is not None else '99'
+                        asset=layer.value_assets.get(key,layer.value_assets.get('99',next(iter(layer.value_assets.values()))))
+                        graphic=replace(layer,kind='image',asset=asset,fit='contain')
+                    clipped=canvas_static(p,graphic)
                     if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
                 elif layer.kind in ('analog','pointer','compass'):
                     # Native hands use the level centre as their pivot, but

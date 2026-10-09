@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.7.1",
+  "checks": [
+    "version-1.7.1",
+    "distinct-source-labels-and-help",
+    "one-general-pro-flag",
+    "hide-main-without-blocking-message",
+    "pro-flag-preserved-while-hidden",
+    "small-chrono-hand-can-be-shown-with-main-hidden",
+    "hidden-main-pro-preview-starts",
+    "visibility-does-not-reset-running-measure",
+    "undo-redo-visibility-preserves-mode",
+    "real-dependency-error-still-blocks-and-restores-flag"
+  ],
+  "checkCount": 10,
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "hardwareTested": false
+}

@@ -1,10 +1,79 @@
-# S5 Studio 1.4.1 — Anteprima Crono Pro coerente con i valori impostati
+# S5 Studio 1.7.2 — Ombre tra le lancette
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.4.1.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-1.7.2.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Correzione 1.7.2 — Ombre tra le lancette
+
+Le lancette principali rispettano ora questo ordine, dal basso verso l’alto:
+**ombra ore → ore → ombra minuti → minuti → ombra secondi → secondi → copriperno centrale**.
+L’ombra dei minuti può quindi cadere sulla lancetta delle ore; quella dei secondi può cadere sulle lancette di ore e minuti. Prima tutte le ombre venivano disegnate sotto tutte le lancette: si vedevano sul quadrante, ma erano coperte dalle lancette stesse.
+
+La correzione si applica ad **anteprima, miniature degli stili, esportazione nativa e Crono Pro**, sia con ombre originali sia con quelle generate dal software. Nel percorso nativo le singole lancette sono emesse come puntatori separati, con la propria ombra immediatamente sotto: restano gli stessi sei puntatori quando sono presenti tre lancette e tre ombre. La scena Lua crea le immagini nello stesso ordine e conserva gli abbinamenti ombra/lancetta del controller. Pivot, dimensioni, colori, spostamenti, conteggio e animazioni non sono modificati. Il flag **Mostra ombre** continua a nasconderle tutte.
+
+**58 test mirati superati**: verifica dei pixel delle ombre su lancette sovrapposte, miniature, ordine dei figli nella scena Lua realmente eseguita, ombre disattivate, geometria e generazione dei set. Una sola compilazione binaria temporanea verifica ordine, sorgenti, centri e periodi nel formato nativo, incluso AOD senza secondi; nessun quadrante ZIP dimostrativo. Il movimento fluido ordinario riguarda ancora soltanto i secondi; ore/minuti rimangono a 1.000 ms. I due runtime Lua restano invariati. [Rapporto](docs/validation-editor-1.7.2.json). Nessun nuovo backup e nessun avvio dell’EXE in ambiente isolato.
+
+**Il test della correzione 1.7.1 è confermato dall’utente**, che riferisce «il problema è stato risolto». La 1.7.2 è verificata sul PC; la resa sul dispositivo resta da confermare con il prossimo test reale.
+
+## Correzione 1.7.1 — Decimi e visibilità Crono Pro
+
+Il flag **Crono Pro** della lancetta grande dei secondi rimane l’unico selettore del sistema integrato, per ogni stile. Il menu della lancetta piccola sceglie il dato da mostrare:
+
+| Sorgente | Comportamento |
+| --- | --- |
+| **Decimi di secondo · continui** | Un giro al secondo, indipendente dal cronografo. Continua anche a cronografo fermo e non segue Avvio, Stop o Reset. Non richiede Crono Pro. |
+| **Decimi crono · Start/Stop/Reset** | Decimi del tempo misurato dal Crono Pro: zero a riposo, dieci scatti al secondo durante la misura, fermi alla lettura su Stop, azzerati con il rientro fluido al Reset. Richiede il flag generale nello stesso stile. |
+
+Per un cronografo usa **Decimi crono · Start/Stop/Reset**; la voce non introduce una seconda modalità Pro. Entrambe le sorgenti restano escluse dall’AOD. I progetti mantengono le sorgenti salvate, senza conversioni automatiche.
+
+**Corretto il falso messaggio bloccante quando si nascondeva il livello delle lancette grandi.** Il controllo verificava contemporaneamente il flag e la visibilità del livello: occultare la grafica veniva interpretato come disattivare Crono Pro. Ora la modalità dipende dalla configurazione, mentre anteprima ed esportazione omettono la grafica dei livelli nascosti. Le piccole visibili continuano a usare il controller Pro; nascondere/mostrare, anche con Annulla/Ripeti, non azzera il conteggio nell’editor. L’avviso resta corretto se il flag manca davvero nello stile corrente o si tenta di disattivarlo lasciando visibili i decimi crono.
+
+**47 test mirati e 10 controlli dell’editor superati**, inclusi esecuzione della scena Lua con gruppo grande nascosto, conteggio di ore/minuti/decimi, Stop/Reset, persistenza e indipendenza degli stili. I due file runtime Lua sono identici alla 1.7. Nessuna compilazione di quadranti di prova, nessun nuovo backup e nessun avvio dell’EXE in ambiente isolato. [Verifica](docs/validation-editor-1.7.1.json). **L’utente conferma che la 1.7 ha funzionato bene sul proprio dispositivo**; l’utente conferma successivamente che la correzione 1.7.1 ha risolto il problema: [esito](docs/hardware-test-1.7.1.json).
+
+## Novità 1.7 — Genera ombre
+
+Apri **Set lancette**, crea un nuovo set oppure premi **Modifica** su uno dei tuoi set esistenti. Attiva **Genera ombre**: Studio crea subito le PNG mancanti ricavando la sagoma dalla trasparenza delle lancette. Funziona sia per i set principali sia per quelli piccoli. Le ombre importate manualmente vengono conservate; il flag completa soltanto quelle mancanti.
+
+Default: ombra nera, **opacità 45%**, **sfocatura 1,5 px**, **spostamento X +2 / Y +3 px** nelle coordinate della PNG. Puoi regolare opacità (1–100%), sfocatura (0–4 px) e spostamento (−20…20 px). Il pivot automatico segue quello della lancetta, con margini trasparenti quando disponibili, entro 480×480 px. Cambiando PNG, pivot o impostazioni, si aggiorna solo l’ombra automatica. Per una forma fedele usa PNG con sfondo trasparente.
+
+Premi **Salva/Aggiorna set nel catalogo**, poi torna sul livello del quadrante e premi **Usa modello** per applicare anche le ombre. Il flag **Mostra ombre** del livello le rende visibili o nascoste. Disattivare **Genera ombre** rimuove dalla bozza soltanto quelle automatiche; salva e riapplica il modello per aggiornare i livelli già creati. Puoi importare una tua PNG al posto di un’ombra automatica: diventa manuale e non viene più rigenerata. Le PNG originali delle lancette restano intatte e i progetti incorporano le ombre applicate.
+
+**37 test mirati e 32 controlli dell’editor superati**, inclusi set piccoli, pivot, aggiornamento, ombre importate, salvataggio e confronto delle PNG native/Lua. La generazione avviene sul PC e utilizza i componenti ombra esistenti, senza aggiungere timer o nuove API al firmware. Nessun backup, quadrante dimostrativo o test isolato dell’EXE. [Guida](docs/EDITOR_1.7.md), [verifica](docs/validation-editor-1.7.json). **Il test reale 1.6.1 è pienamente superato**, come confermato dall’utente il 9 ottobre 2026; l’utente conferma successivamente che la 1.7 ha funzionato bene: [esito](docs/hardware-test-1.7.json).
+
+## Correzioni 1.6.1
+
+**Nuovi livelli Lancette e Lancetta piccola:** Lunghezza **50%** e Spessore **15 px**. I progetti già salvati conservano i propri valori. Quando premi **Usa modello**, sia nel catalogo originale sia nei set personali, vengono attivate immediatamente entrambe le regolazioni per ogni lancetta applicata, comprese minuti/secondi abbinati e ombre. Il modello usa i valori visibili nei controlli fin dal primo render; non serve modificarli per aggiornare l’anteprima. Anche Crono Pro usa la medesima geometria. Riapplica il modello per attivare questo comportamento su un livello esistente; i suoi valori numerici non vengono azzerati.
+
+Il pulsante attende la decodifica della nuova immagine e i vecchi fotogrammi dell’anteprima animata vengono scartati, evitando che coprano una modifica recente. Il problema era nei flag di regolazione lasciati disattivati dopo l’applicazione del modello: una modifica manuale li attivava soltanto in seguito.
+
+**Dato → Giorno del mese:** lo scenario iniziale **Normale** mostra **15**, per valutare subito l’ingombro di due cifre. Gli scenari limite mantengono i loro dati e lo ZIP continua a usare la data reale del S5.
+
+**26 test mirati e 24 controlli dell’editor superati**, compresi confronto fra primo render e modifica a valori invariati, PNG native/Lua, modelli principali/piccoli, set personali e compatibilità Crono Pro. [Rapporto](docs/validation-editor-1.6.1.json). Nessun nuovo backup, nessun quadrante dimostrativo e nessun avvio dell’EXE in ambiente isolato. **Test reale della 1.6.1 pienamente superato**, confermato dall’utente: [esito](docs/hardware-test-1.6.1.json); i runtime Crono e Crono Pro rimangono invariati.
+
+## Novità 1.6
+
+Nuova sezione **Set lancette** nella barra laterale. Assegna un **nome**, scegli **Lancette principali** oppure **Lancette piccole**, poi importa le PNG nei ruoli Ore, Minuti e Secondi. Per un set principale servono tutte e tre; per le piccole basta una grafica. Ogni PNG deve essere statica, da 1 a 480 pixel per lato, preferibilmente trasparente e rivolta verso le ore 12. Clicca sull’immagine per impostare il pivot, oppure usa le coordinate in pixel. Puoi importare anche le ombre, con pivot e spostamento indipendenti.
+
+Premi **Salva set nel catalogo**. Torna su **Quadrante**, seleziona il livello Lancette e scegli il nuovo nome nel menu delle ore: **Usa modello** abbina automaticamente anche minuti, secondi e ombre. Resti libero di sostituire ogni lancetta separatamente. Per le lancette piccole scegli la grafica dal loro menu; il pivot salvato viene rispettato, mentre la sorgente del dato resta quella scelta nel livello. Puoi modificare, rinominare o eliminare i set dal pannello dedicato.
+
+Il catalogo personale è persistente in **`%LOCALAPPDATA%/S5Studio/hand-sets/`** nell’eseguibile, oppure `data/hand-sets/` avviando i sorgenti. È separato dalle 595 grafiche incorporate e non viene incluso nelle nuove build dell’EXE. Per trasferire il catalogo su un altro PC copia questa cartella. **Le PNG applicate sono incorporate nei progetti e nell’esportazione:** modificare o eliminare un set non altera i quadranti già salvati. L’importazione singola PNG/SVG rimane disponibile nelle proprietà delle lancette.
+
+**30 test mirati e 18 controlli del nuovo pannello superati**, compresi importazione, pivot, ombre, persistenza e applicazione del set. La 1.6 conserva tutte le funzioni della 1.5, poi incluse nella 1.6.1 collaudata dall’utente. Nessuna modifica al runtime Crono/Pro sul S5. [Guida set lancette](docs/EDITOR_1.6.md), [verifica della release](docs/validation-editor-1.6.json).
+
+## Novità 1.5
+
+Seleziona un livello **Testo, Immagine o Forma** e apri **Orientamento e arco** nelle proprietà. **Rotazione (°)** gira il livello attorno al suo centro: positivo in senso orario, negativo in senso antiorario. **Arco (°)** adatta la grafica al bordo rotondo: 0 mantiene il livello diritto, valori positivi creano un arco superiore e negativi uno inferiore. **Raddrizza livello** azzera entrambi. Il riquadro di selezione segue l’ingombro trasformato; puoi continuare a trascinare, ridimensionare e usare le frecce.
+
+La trasformazione è identica nell’anteprima, negli stili e nello ZIP: viene incorporata nelle PNG, ritagliando la parte oltre i 480×480 px. Anche immagini ingrandite fino a 4.096 px restano supportate. Le immagini a scelta dinamica, come le icone meteo, mantengono la sorgente nativa; ciascuna immagine riceve la stessa trasformazione. Non viene aggiunta logica Lua per queste operazioni. Lancette, bussola, numeri live, Ora/Data e complicazioni numeriche conservano i loro componenti nativi e non espongono questi controlli. Riduci l’arco o l’altezza se il software segnala che la grafica si ripiegherebbe su sé stessa.
+
+**Forma:** scegli **Rettangolare** o **Circolare** nelle proprietà. Il passaggio al cerchio mantiene il centro e usa dimensioni uguali; puoi poi ridimensionarlo. La scelta è indipendente per stile e supporta Annulla/Ripristina.
+
+**Catalogo lancette:** gli otto nomi cinesi presenti sono tradotti in inglese, compresi cinque nomi di stile e due nomi autore. Grafiche, ID, pivot, ombre e abbinamenti sono conservati; i nomi originali restano disponibili nei dati di provenienza. [Rapporto traduzioni](docs/catalog-english-1.5.json).
+
+**22 test mirati superati**, inclusa una compilazione temporanea con due stili, AOD, Crono Pro, sensori nativi e icone meteo trasformate. Controllo visivo di rotazione e dei due versi dell’arco superato. Nessun quadrante dimostrativo, nessun nuovo backup e nessun avvio EXE in ambiente isolato. [Guida](docs/EDITOR_1.5.md), [verifica](docs/validation-editor-1.5.json). Il test reale della **1.4.1 è confermato dall’utente il 9 ottobre 2026**; le trasformazioni sono poi incluse nella release 1.6.1, il cui test reale è stato confermato dall’utente.
 
 ## Correzione 1.4.1
 
@@ -171,7 +240,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-1.4.1.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-1.7.2.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.
@@ -206,7 +275,7 @@ python main.py validate-template quadrante_funzionante.zip S5_Analogico_Libero_0
 
 `apply-template` riconosce i FPRJ esportati da Studio e ricostruisce anche stili/slot dal progetto incorporato, controllando gli hash dei sorgenti. Per FPRJ esterni supporta immagini, cifre, liste di immagini e lancette; altri widget sono rifiutati quando non è possibile rigenerare metadati coerenti.
 
-CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 708 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 1.4.1 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
+CSS: `npm ci` e `npm run build` in `frontend/`. Desktop personale autonomo: `scripts/package.ps1`, con preflight dei 708 file tramite `scripts/prepare_runtime.py`. Controllo rapido degli hash del bundle: `scripts/verify_bundle.py`. Su richiesta dell’utente, dalla 0.11 non si esegue più la prova dell’EXE in una cartella isolata. L’app non richiede Node. Gli archivi storici fino alla 0.8 in `deliverables/` escludono compilatore e template; per la 1.5 viene prodotto soltanto l’EXE completo richiesto. Vedere [provenienza e licenze](THIRD_PARTY_NOTICES.md).
 
 ## Workflow delle prossime release
 

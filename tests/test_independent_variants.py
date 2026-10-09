@@ -179,7 +179,7 @@ def test_real_compiler_independent_images_bindings_slot_counts_and_aod(tmp_path)
     archive=next(output.glob('*_TEMPLATE.zip'))
     assert validate_package(ROOT/'quadrante_funzionante.zip',archive)['status']=='passed'
     with zipfile.ZipFile(archive) as z:
-        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.4.1'
+        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.7.2'
         assert report['interactive']['chronoPro']['transitionDirection']=='clockwise-only'
         config=json.loads(z.read('editor.config.json'));assert not config['isSlotFollowing']
         previews=[Image.open(BytesIO(z.read('resources/'+t['preview']))).convert('RGB').getpixel((240,420)) for t in config['themes'] if t['type']=='normal']

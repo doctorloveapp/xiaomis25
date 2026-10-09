@@ -1,0 +1,88 @@
+{
+  "applicationVersion": "1.6.1",
+  "date": "2026-10-09",
+  "status": "passed",
+  "pytest": {
+    "passed": 26,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 11.232,
+    "report": "build/tests-1.6.1.xml"
+  },
+  "sourceEditor": {
+    "status": "passed",
+    "applicationVersion": "1.6.1",
+    "checks": [
+      "new-navigation-panel",
+      "catalog-uses-full-workspace",
+      "version-1.6.1",
+      "name-edit",
+      "three-role-png-import",
+      "source-pngs-decode",
+      "click-source-pivot",
+      "optional-shadow-import",
+      "shadow-offset-edit",
+      "save-named-set",
+      "draft-cleared-after-save",
+      "catalog-does-not-dirty-project",
+      "set-visible-in-hand-menu",
+      "hour-applies-matching-minute-second",
+      "stored-pivot-and-shadow-applied",
+      "new-hand-defaults-50-and-15",
+      "model-activates-both-size-controls",
+      "model-preview-decoded-before-any-size-edit",
+      "same-value-edit-does-not-wake-or-change-preview",
+      "old-animation-frame-cannot-overwrite-applied-model",
+      "two-digit-day-preview-15",
+      "edit-existing-set",
+      "catalog-delete",
+      "applied-project-independent-of-catalog"
+    ],
+    "checkCount": 24,
+    "sourceEditorTested": true,
+    "executableLaunched": false,
+    "hardwareTested": false,
+    "screenshot": "build/hand-sets-editor-1.6.1.png"
+  },
+  "javascriptSyntax": "passed",
+  "unchangedFrom16": {
+    "s5studio/lua/studio_core.lua": true,
+    "s5studio/lua/studio_core_pro.lua": true,
+    "data/watchface-library.json": true
+  },
+  "fixes": {
+    "newHandLengthPercent": 50,
+    "newHandWidthPixels": 15,
+    "savedNumericValuesPreserved": true,
+    "applyModelActivatesBothSizeAxes": true,
+    "matchingHandsAndShadowsAdjustedImmediately": true,
+    "nativeAndProFirstRenderMatchesGeneratedPng": true,
+    "sameValueEditDoesNotChangePreview": true,
+    "modelButtonAwaitsImageDecode": true,
+    "obsoleteAnimatedFramesRejectedByStateSequence": true,
+    "normalScenarioDay": 15,
+    "watchDaySourceUnchanged": true
+  },
+  "workflow": {
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "regressionBackupCreated": false,
+    "demonstrationWatchfaceCreated": false,
+    "watchfaceZipCreated": false,
+    "fullTestSuiteRun": false
+  },
+  "hardware": {
+    "status": "passed-as-reported-by-user",
+    "evidence": "docs/hardware-test-1.6.1.json",
+    "date": "2026-10-09"
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.6.1",
+    "embeddedFilesVerified": 709,
+    "exeSize": 234990968,
+    "exeSha256": "b676b36f4b10e180c309c29d05c02a5a14ad80e31befa97b440b778176d60ec3",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  }
+}

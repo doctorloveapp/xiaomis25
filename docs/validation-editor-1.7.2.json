@@ -1,0 +1,90 @@
+{
+  "applicationVersion": "1.7.2",
+  "date": "2026-10-09",
+  "status": "passed",
+  "fix": "Each hand shadow is drawn directly before its mother, above lower hands.",
+  "stack": [
+    "hour-shadow",
+    "hour",
+    "minute-shadow",
+    "minute",
+    "second-shadow",
+    "second",
+    "center-cap"
+  ],
+  "paths": [
+    "editor-preview",
+    "style-thumbnails",
+    "native-pointers",
+    "chrono-pro-lua-scene"
+  ],
+  "pytest": {
+    "passed": 58,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 11.775,
+    "report": "build/tests-1.7.2.xml"
+  },
+  "pixelChecks": {
+    "secondsShadowOnMinute": [
+      127,
+      0,
+      0
+    ],
+    "minutesShadowOnHour": [
+      127,
+      127,
+      127
+    ],
+    "secondsOnTop": [
+      0,
+      255,
+      0
+    ],
+    "nativeAndProPassed": true
+  },
+  "temporaryNativeCompilation": {
+    "count": 1,
+    "passed": true,
+    "sourceBindingsPreserved": true,
+    "pivotsAndCentresPreserved": true,
+    "hourAndMinutePeriodMs": 1000,
+    "smoothSecondsPeriodMs": 40,
+    "aodSecondsExcluded": true,
+    "nativeGraphReconstructed": true
+  },
+  "luaSceneExecuted": true,
+  "unchangedFrom171": {
+    "s5studio/lua/studio_core.lua": true,
+    "s5studio/lua/studio_core_pro.lua": true,
+    "data/watchface-library.json": true
+  },
+  "workflow": {
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "regressionBackupCreated": false,
+    "demoWatchfaceZipCreated": false
+  },
+  "hardwareTests": {
+    "1.7.1": {
+      "status": "passed-as-reported-by-user",
+      "evidence": "docs/hardware-test-1.7.1.json"
+    },
+    "1.7.2": "pending-user-test"
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.7.2",
+    "embeddedFilesVerified": 709,
+    "exeSize": 234993842,
+    "exeSha256": "26a8b2d96b2507310f4e1ac39edc2a4bf341ce41084c41f1b55aff7e5b4a1477",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "bundledPythonMatchesTestedSource": [
+    "s5studio.render",
+    "s5studio.native",
+    "s5studio.lua_runtime",
+    "s5studio.motion"
+  ]
+}

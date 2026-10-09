@@ -2,7 +2,7 @@
 from pathlib import Path, PurePosixPath
 import struct
 from .motion import LUA_SOURCES, ALL_LUA_SOURCES, lua_element, pro_enabled
-from .render import hand_image, hand_shadow_offset, png_bytes, canvas_image, static_image
+from .render import hand_image, hand_shadow_offset, png_bytes, canvas_image, static_image, canvas_static
 from .paths import resource_root
 
 
@@ -62,7 +62,7 @@ def write_scene(project, layers, directory, variant, *, key=None):
     pointers=[e for e in layers if e.kind=='pointer' and e.source in LUA_SOURCES]
     for e in layers:
         if e not in pointers:
-            pair=canvas_image(project,e) if e.kind=='image' else (static_image(project,e),e.x,e.y)
+            pair=canvas_static(project,e)
             if pair:
                 bitmap,x,y=pair;name=f'v{variant}_{e.id}_static.png'
                 (base/'gfx'/name).write_bytes(png_bytes(bitmap))
@@ -118,7 +118,7 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
         lines.extend([f'local img = scene:Image {{x={x},y={y},src=SCRIPT_PATH.."gfx/{name}"}}','img:clear_flag(lvgl.FLAG.CLICKABLE)'])
     for e in layers:
         if not lua_element(e):
-            pair=canvas_image(project,e) if e.kind=='image' else (static_image(project,e),e.x,e.y)
+            pair=canvas_static(project,e)
             if pair:bitmap(*pair,f'v{variant}_{e.id}_static.png')
             continue
         if e.kind=='analog':
@@ -126,9 +126,9 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
             lines+=['do','local root = lvgl.Object(scene, {x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})',
                     'root:clear_flag(lvgl.FLAG.SCROLLABLE)','root:clear_flag(lvgl.FLAG.CLICKABLE)','local groups = {{},{},{}}']
             analog_views=pro_views(e)
-            # Match the native analog stack: all shadows precede all mothers.
-            for shadow in ([True,False] if e.show_shadows else [False]):
-                for index,view in enumerate(analog_views,1):
+            # Keep each shadow directly beneath its hand, above lower hands.
+            for index,view in enumerate(analog_views,1):
+                for shadow in ([True,False] if e.show_shadows else [False]):
                     lines+=['do',f'local hands = groups[{index}]']
                     lines+=pointer_lines(project,view,base,variant,shadow_modes=[shadow],value_scale=1000)
                     lines+=['end']

@@ -33,7 +33,7 @@ SOURCES.update({key:(label,SOURCES[source][1],SOURCES[source][2]) for key,label,
     ('spo2','SpO₂','healthOxygenSpO2'),('sleep','Sonno','healthSleepDuration'),('movement','Movimento','healthExerciseDuration')) if source in SOURCES})
 HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asset','_shadow_asset'))
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
-VARIANT_PROPERTIES={'x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
+VARIANT_PROPERTIES={'rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
 MAX_SLOTS=16  # Studio guardrail, not a declared firmware limit.
 
 def valid_design_geometry(kind,x,y,width,height):
@@ -100,6 +100,8 @@ class Element:
     fit: str = "cover"
     opacity: int = 255
     tint: bool = False
+    rotation: float = 0
+    arc: float = 0
     visible: bool = True
     locked: bool = False
     aod: bool = False
@@ -107,14 +109,14 @@ class Element:
     second_hand: bool = False
     smooth_seconds: bool = False
     chrono_pro: bool = False
-    hour_length: int = 28
-    minute_length: int = 40
-    second_length: int = 44
-    hour_width: int = 8
-    minute_width: int = 5
-    second_width: int = 2
-    # Existing projects retain their exact imported geometry until a control
-    # is edited. Each axis can then be adjusted independently.
+    hour_length: int = 50
+    minute_length: int = 50
+    second_length: int = 50
+    hour_width: int = 15
+    minute_width: int = 15
+    second_width: int = 15
+    # Existing projects retain their flags. Applying a catalog model enables
+    # both axes immediately, so its geometry follows the displayed controls.
     hour_length_adjusted: bool = False
     minute_length_adjusted: bool = False
     second_length_adjusted: bool = False
@@ -442,7 +444,11 @@ class Project:
             for eid,changes in v.get('overrides',{}).items():
                 element=next((e for e in self.elements if e.id==eid),None)
                 if element is None or set(changes)-VARIANT_PROPERTIES:errors.append('Proprietà variante non valide.')
-                elif not valid_design_geometry(element.kind,*(changes.get(k,getattr(element,k)) for k in ('x','y','width','height'))):
+                else:
+                    from dataclasses import replace
+                    from .transforms import errors as transform_errors
+                    errors.extend(transform_errors(replace(element,**changes)))
+                if element is not None and not valid_design_geometry(element.kind,*(changes.get(k,getattr(element,k)) for k in ('x','y','width','height'))):
                     errors.append(f'{element.name}: posizione o dimensioni dello stile fuori dai limiti.')
         if len(self.complications)>MAX_SLOTS:errors.append(f'Massimo {MAX_SLOTS} slot nel progetto Studio.')
         slot_ids=set()
@@ -476,6 +482,8 @@ class Project:
         ids = set()
         for el in self.elements:
             label = str(el.name)
+            from .transforms import errors as transform_errors
+            errors.extend(transform_errors(el))
             if not re.fullmatch(r"[a-f0-9]{12}", str(el.id)) or el.id in ids:
                 errors.append(f"{label}: ID componente non valido o duplicato.")
             ids.add(el.id)
@@ -532,7 +540,7 @@ class Project:
         if sum(e.visible and not e.aod and e.kind=='analog' and e.chrono_pro for e in self.elements)>1:
             errors.append('Usa un solo gruppo di lancette con Crono Pro per stile.')
         if any(e.visible and not e.aod and e.source=='studioChronoDecisecond' for e in self.elements) and not pro_enabled(self):
-            errors.append('Decimi crono richiede il flag Crono Pro sulla lancetta grande dei secondi.')
+            errors.append('Decimi crono: attiva il flag Crono Pro sulla lancetta grande dei secondi di questo stile. Nascondere il livello non disattiva il flag.')
         return errors
 
 

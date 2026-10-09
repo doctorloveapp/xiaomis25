@@ -1,0 +1,67 @@
+{
+  "applicationVersion": "1.7.1",
+  "date": "2026-10-09",
+  "status": "passed",
+  "fix": "Crono Pro configured mode is independent of analog-layer visibility; hidden graphics remain omitted.",
+  "sourceIdsPreserved": true,
+  "noAutomaticSourceConversion": true,
+  "pytest": {
+    "passed": 47,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 6.259,
+    "report": "build/tests-1.7.1.xml"
+  },
+  "sourceEditor": {
+    "status": "passed",
+    "applicationVersion": "1.7.1",
+    "checks": [
+      "version-1.7.1",
+      "distinct-source-labels-and-help",
+      "one-general-pro-flag",
+      "hide-main-without-blocking-message",
+      "pro-flag-preserved-while-hidden",
+      "small-chrono-hand-can-be-shown-with-main-hidden",
+      "hidden-main-pro-preview-starts",
+      "visibility-does-not-reset-running-measure",
+      "undo-redo-visibility-preserves-mode",
+      "real-dependency-error-still-blocks-and-restores-flag"
+    ],
+    "checkCount": 10,
+    "sourceEditorTested": true,
+    "executableLaunched": false,
+    "hardwareTested": false
+  },
+  "unchangedFrom17": {
+    "s5studio/lua/studio_core.lua": true,
+    "s5studio/lua/studio_core_pro.lua": true,
+    "data/watchface-library.json": true
+  },
+  "workflow": {
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "regressionBackupCreated": false,
+    "demoWatchfaceCreated": false,
+    "compilerInvokedForTestWatchface": false
+  },
+  "hardwareTests": {
+    "1.7": {
+      "status": "passed-as-reported-by-user",
+      "evidence": "docs/hardware-test-1.7.json"
+    },
+    "1.7.1": {
+      "status": "passed-as-reported-by-user",
+      "evidence": "docs/hardware-test-1.7.1.json"
+    }
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.7.1",
+    "embeddedFilesVerified": 709,
+    "exeSize": 234994749,
+    "exeSha256": "aacee7d1ef5f8899275dc18424127eba2ae8ee0d61ccea76483daf665359d4c9",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "bundledModeValidationVerified": true
+}

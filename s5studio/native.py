@@ -224,16 +224,23 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             if clipped:
                 bitmap,x,y=clipped;image(prefix,bitmap,x,y)
         elif e.kind in {"text","rect","circle"}:
-            image(prefix,static_image(p,e),e.x,e.y)
+            from .render import canvas_static
+            clipped=canvas_static(p,e)
+            if clipped:
+                bitmap,x,y=clipped;image(prefix,bitmap,x,y)
         elif e.kind=='image_values':
             names=[]
             for value,asset in e.value_assets.items():
                 name=f'{prefix}_value_{value}.png'
                 from dataclasses import replace
-                static_image(p,replace(e,kind='image',asset=asset,fit='contain')).save(images/name)
+                from .render import canvas_static
+                clipped=canvas_static(p,replace(e,kind='image',asset=asset,fit='contain'))
+                if clipped is None:continue
+                bitmap,x,y=clipped;bitmap.save(images/name)
                 names.append(f'({value}):{name}')
             code=SOURCES[e.source][1];expected.append(code)
-            widget(31,prefix,e.x,e.y,e.width,e.height,BitmapList='|'.join(names),Index_Src=code,DefaultIndex=list(e.value_assets).index('99') if '99' in e.value_assets else 0)
+            if not names:continue
+            widget(31,prefix,x,y,bitmap.width,bitmap.height,BitmapList='|'.join(names),Index_Src=code,DefaultIndex=list(e.value_assets).index('99') if '99' in e.value_assets else 0)
         elif e.kind in {"clock","date","number"}:
             cw,ch,_=digit_metrics(p,e)
             groups,sep=number_parts(p,e)
@@ -279,34 +286,24 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             expected.append('1011')
         elif e.kind == "analog":
             image(prefix+"_ticks",analog_face(e),e.x,e.y)
-            if e.show_shadows:
-                for h,title,attr,code in [('hour','Hour','HourHand_ImageName','0811'),('minute','Minute','MinuteHand_Image','1011'),('second','Second','SecondHand_Image','1811')]:
-                    if h=='second' and (not e.second_hand or aod):continue
-                    pair=hand_image(e,h,p,shadow=True)
+            # Separate native pointers let each shadow overlap the lower hands.
+            # Keep EasyFace's hour-centred / minute-second bitmap origins.
+            for h,title,attr,code in [('hour','Hour','HourHand_ImageName','0811'),('minute','Minute','MinuteHand_Image','1011'),('second','Second','SecondHand_Image','1811')]:
+                if h=='second' and (not e.second_hand or aod):continue
+                for is_shadow in ([True,False] if e.show_shadows else [False]):
+                    pair=hand_image(e,h,p,shadow=is_shadow)
                     if pair is None:continue
-                    shadow,sa=pair;name=prefix+'_'+h+'_shadow.png';shadow.save(images/name)
-                    dx,dy=hand_shadow_offset(e,h,p)
+                    bitmap,sa=pair;suffix='_shadow' if is_shadow else ''
+                    name=prefix+'_'+h+suffix+'.png';bitmap.save(images/name)
+                    dx,dy=hand_shadow_offset(e,h,p) if is_shadow else (0,0)
                     attrs=dict(HourHand_ImageName='',MinuteHand_Image='',SecondHand_Image='',
                                Background_ImageName='',BgImage_rotate_xc=0,BgImage_rotate_yc=0,
                                HourHandCorrection_En=1,MinuteHandCorrection_En=0)
                     attrs.update({attr:name,title+'Image_rotate_xc':sa[0],title+'Image_rotate_yc':sa[1]})
                     x,y=e.x+dx,e.y+dy
                     if h!='hour':x+=e.width//2-sa[0];y+=e.height//2-sa[1]
-                    widget(27,prefix+'_'+h+'_shadow'+(f'_smooth[{SWEEP_PERIOD_MS}]' if h=='second' and e.smooth_seconds and not aod else ''),x,y,e.width,e.height,**attrs)
+                    widget(27,prefix+'_'+h+suffix+(f'_smooth[{SWEEP_PERIOD_MS}]' if h=='second' and e.smooth_seconds and not aod else ''),x,y,e.width,e.height,**attrs)
                     expected.append(code)
-            hour,h_anchor=hand_image(e,"hour",p)
-            minute,m_anchor=hand_image(e,"minute",p)
-            hour.save(images/(prefix+"_hour.png"))
-            minute.save(images/(prefix+"_minute.png"))
-            second,s_anchor=hand_image(e,'second',p)
-            if e.second_hand and not aod:second.save(images/(prefix+'_second.png'))
-            widget(27,prefix+(f"_smooth[{SWEEP_PERIOD_MS}]" if e.smooth_seconds and not aod else ""),e.x,e.y,e.width,e.height,
-                   HourHand_ImageName=prefix+"_hour.png",HourImage_rotate_xc=h_anchor[0],HourImage_rotate_yc=h_anchor[1],
-                   MinuteHand_Image=prefix+"_minute.png",MinuteImage_rotate_xc=m_anchor[0],MinuteImage_rotate_yc=m_anchor[1],
-                   SecondHand_Image=prefix+'_second.png' if e.second_hand and not aod else '',Background_ImageName="",BgImage_rotate_xc=0,BgImage_rotate_yc=0,
-                   SecondImage_rotate_xc=s_anchor[0] if e.second_hand and not aod else 0,SecondImage_rotate_yc=s_anchor[1] if e.second_hand and not aod else 0,HourHandCorrection_En=1,MinuteHandCorrection_En=0)
-            expected += ["0811","1011"]
-            if e.second_hand and not aod:expected.append('1811')
             dot=Image.new("RGBA",(14,14))
             ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
             image(prefix+"_center",dot,e.x+e.width//2-7,e.y+e.height//2-7)
@@ -468,7 +465,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.4.1',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.7.2',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -491,7 +488,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.4.1","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.7.2","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -581,12 +578,15 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.4.1 — CRONO PRO
+TRANSFER_GUIDE = """S5 STUDIO 1.7.2 — OMBRE TRA LE LANCETTE
 
-Apri il progetto nella 1.4.1, salva una copia e genera un nuovo ZIP.
+Apri il progetto nella 1.7.2 e genera un nuovo ZIP quando necessario.
 Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
 Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
-Piccole: scegli Ore Crono, Minuti Crono e la nuova voce Decimi crono.
+Piccole: scegli Ore Crono, Minuti Crono e Decimi crono - Start/Stop/Reset.
+Decimi di secondo - continui gira indipendentemente dai tap.
+Nascondere le lancette grandi non disattiva il flag Crono Pro.
+Il flag richiesto dai decimi crono deve appartenere allo stesso stile.
 
 Sequenza Pro: primo tap rientro allo zero, secondo tap Avvio,
 terzo tap Stop lettura, quarto tap Reset/rientro all'ora corrente.
@@ -600,7 +600,23 @@ AOD: cancella i rientri, sospende timer/animazioni e usa la schermata
 AOD del progetto. Secondi e tutte le App Lua sono esclusi dall'AOD.
 
 Il test reale 1.2 e superato, rientri orari e stili indipendenti inclusi.
-La 1.4.1 allinea la geometria dell’anteprima alle lancette Crono Pro esportate.
+La 1.7 aggiunge Genera ombre in Set lancette, anche per i set piccoli.
+La 1.7.1 corregge il falso blocco dei decimi crono con livello grande nascosto.
+La 1.7.2 ordina ombra ore, ore, ombra minuti, minuti, ombra secondi, secondi.
+Le ombre delle lancette superiori si vedono anche su quelle inferiori.
+Attiva Mostra ombre sul livello e genera nuovamente lo ZIP.
+Salva il set e riapplica Usa modello per aggiornare il quadrante.
+Conserva le ombre importate e i default 50% e 15 px.
+Il giorno del mese simulato e 15. I progetti mantengono i valori salvati.
+Per i set personali di lancette PNG: apri Set lancette, scegli
+un nome, importa ore/minuti/secondi e clicca le grafiche per impostare i pivot.
+Salva il set, poi selezionalo dal menu delle ore per applicare il gruppo.
+Le PNG vengono incorporate nel progetto e nel quadrante compilato.
+Sono mantenute rotazione e arco per testi, immagini e forme.
+Le trasformazioni sono incorporate nelle PNG, con ritaglio a 480 px.
+Per le forme scegli Rettangolare o Circolare nelle proprietà.
+I nomi cinesi del catalogo lancette sono visualizzati in inglese.
+La geometria delle anteprime Pro rimane coerente con lo ZIP.
 Mantiene rientri da 720 ms e anteprime statiche _preview. Il runtime usa il clock
 monotono quando disponibile; il fallback usa la fase LVGL e os.time
 per le sospensioni, con precisione di un secondo durante il sonno.

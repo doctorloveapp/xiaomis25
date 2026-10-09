@@ -1,7 +1,7 @@
 {
   "name": "s5studio-ui",
   "private": true,
-  "version": "1.4.1",
+  "version": "1.7.2",
   "scripts": {
     "build": "tailwindcss -i ./input.css -o ./tailwind.css --minify"
   },

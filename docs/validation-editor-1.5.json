@@ -1,0 +1,83 @@
+{
+  "applicationVersion": "1.5",
+  "date": "2026-10-09",
+  "status": "passed",
+  "sourceTests": {
+    "passed": 22,
+    "failures": 0,
+    "errors": 0,
+    "elapsedSeconds": 7.554,
+    "report": "build/tests-1.5.xml"
+  },
+  "transforms": {
+    "supportedKinds": [
+      "image",
+      "image_values",
+      "text",
+      "rect",
+      "circle"
+    ],
+    "unsupportedKinds": [
+      "analog",
+      "pointer",
+      "compass",
+      "number",
+      "clock",
+      "date",
+      "numeric complications"
+    ],
+    "clockwisePositiveRotation": true,
+    "signedArc": true,
+    "sharedPreviewExportRasterizer": true,
+    "clippedToWatch480": true,
+    "maxDesignImage4096Tested": true,
+    "dynamicWeatherBindingPreserved": true,
+    "nativeNumericBindingsPreserved": true,
+    "proSceneStaticLayerTested": true,
+    "aodStaticLayerTested": true,
+    "stylePersistenceAndUndoTested": true,
+    "visualCheck": "passed",
+    "visualArtifact": "build/preview-transformations-1.5.png"
+  },
+  "catalog": {
+    "handModels": 595,
+    "translatedEntries": 555,
+    "translatedChineseTitles": 8,
+    "remainingChineseDisplayLabels": 0,
+    "assetIntegrityTested": true,
+    "report": "docs/catalog-english-1.5.json"
+  },
+  "releaseWorkflow": {
+    "temporaryCompilerIntegrationTests": 1,
+    "fullSuiteRepeated": false,
+    "isolatedExeTest": false,
+    "newRegressionBackup": false,
+    "demoWatchfaceDelivered": false
+  },
+  "hardware": {
+    "version141": "passed-as-reported-by-user",
+    "version15": "awaiting-physical-test"
+  },
+  "checks": {
+    "frontendSyntax": "passed",
+    "diffWhitespace": "passed"
+  },
+  "unchangedFrom141": {
+    "s5studio/lua/studio_core.lua": true,
+    "s5studio/lua/studio_core_pro.lua": true,
+    "data/watchface-library.json": true
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.5",
+    "embeddedFilesVerified": 708,
+    "exeSize": 234947360,
+    "exeSha256": "bc5ed7224944a36fbba29cb614495af83ad722b0f43414304d3c0d0c13e38107",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "bundledModulesVerified": [
+    "s5studio.transforms",
+    "s5studio.catalog_labels"
+  ]
+}

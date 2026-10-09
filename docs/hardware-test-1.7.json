@@ -1,0 +1,9 @@
+{
+  "applicationVersion": "1.7",
+  "date": "2026-10-09",
+  "status": "passed-as-reported-by-user",
+  "evidence": "L’utente conferma: «ok ha funzionato bene» dopo la consegna della 1.7.",
+  "scope": "Conferma generale della release; segnalato successivamente un blocco editor nella visibilità Crono Pro.",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "independentlyObserved": false
+}

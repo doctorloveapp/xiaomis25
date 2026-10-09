@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.6",
+  "checks": [
+    "new-navigation-panel",
+    "catalog-uses-full-workspace",
+    "version-1.6",
+    "name-edit",
+    "three-role-png-import",
+    "source-pngs-decode",
+    "click-source-pivot",
+    "optional-shadow-import",
+    "shadow-offset-edit",
+    "save-named-set",
+    "draft-cleared-after-save",
+    "catalog-does-not-dirty-project",
+    "set-visible-in-hand-menu",
+    "hour-applies-matching-minute-second",
+    "stored-pivot-and-shadow-applied",
+    "edit-existing-set",
+    "catalog-delete",
+    "applied-project-independent-of-catalog"
+  ],
+  "checkCount": 18,
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "hardwareTested": false,
+  "screenshot": "build/hand-sets-editor-1.6.png"
+}

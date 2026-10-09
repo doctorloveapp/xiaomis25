@@ -22,7 +22,7 @@ def pro_project(deci=True):
     return p
 
 
-def pro_runtime(tmp_path,*,fallback=False,deci=True):
+def pro_runtime(tmp_path,*,fallback=False,deci=True,hide_main=False):
     lua,_=lua_runtime()
     lua.execute('''
         DATA={}
@@ -36,7 +36,9 @@ def pro_runtime(tmp_path,*,fallback=False,deci=True):
     if fallback:lua.execute('LV.tick_get=nil;io.open=function()return nil end;WALL=1000;os.time=function()return WALL end')
     core=lua.execute((ROOT/'s5studio/lua/studio_core_pro.lua').read_text(encoding='utf8'))
     lua.globals().PRO=core;lua.execute('package.loaded.studio_core_pro=PRO')
-    p=pro_project(deci);name=write_scene(p,scene_layers(p),tmp_path,0)
+    p=pro_project(deci)
+    if hide_main:next(e for e in p.elements if e.kind=='analog' and not e.aod).visible=False
+    name=write_scene(p,scene_layers(p),tmp_path,0)
     lua.execute((tmp_path/'app'/name).read_text(encoding='utf8'))
     lua.execute('DATA.timeHour(14*256);DATA.timeMinute(8*256);DATA.timeSecond(47*256)')
     return p,lua,core
@@ -272,8 +274,8 @@ def assert_pro_canvas_matches_scene(project,main,directory):
     expected=Image.new('RGBA',(480,480))
     angles=(64,48,282)  # 14:08:47
     cx,cy=main.x+main.width//2,main.y+main.height//2
-    for shadow in ([True,False] if main.show_shadows else [False]):
-        for hand,view,angle in zip(('hour','minute','second'),pro_views(main),angles):
+    for hand,view,angle in zip(('hour','minute','second'),pro_views(main),angles):
+        for shadow in ([True,False] if main.show_shadows else [False]):
             path=f'gfx/v0_{main.id}_{hand}'+('_shadow' if shadow else '')+'.png'
             pair=hand_image(view,'second',project,shadow=shadow)
             if pair is None:continue
@@ -395,7 +397,7 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
         report=json.loads(z.read('build-report.json'));pro=report['interactive']['chronoPro']
         assert pro['runningSmoothForcedOff'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
         assert pro['transitionDurationMs']==720 and pro['transitionTargetFps']==25
-        assert report['applicationVersion']=='1.4.1' and report['interactive']['appLayoutCount']==2
+        assert report['applicationVersion']=='1.7.2' and report['interactive']['appLayoutCount']==2
         assert all(len(s['pointerIds'])==6 for s in report['interactive']['luaArchitecture']['scenes'])
         for screen in inspect_binary(data)['screens']:
             tables=read_tables(data,screen['index'])
@@ -447,3 +449,59 @@ def test_preview_prepare_and_reset_complete_after_720ms():
     assert preview.state=='resetting'
     preview.values(p,66996,52)
     assert preview.state=='rest' and preview.values(p,66996,52)[second.id]==52
+
+
+def test_hidden_pro_analog_keeps_mode_and_small_chrono_runtime(tmp_path):
+    p,lua,core=pro_runtime(tmp_path,hide_main=True)
+    analog=next(e for e in p.elements if e.kind=='analog' and not e.aod)
+    assert analog.chrono_pro and not analog.visible and pro_enabled(p)
+    assert not p.validate() and core.main is None
+    assert len(core.views)==3 and core.civilReady
+    script=(tmp_path/'app/lua/studio_v0_scene.lua').read_text(encoding='utf8')
+    assert 'require("studio_core_pro")' in script and 'studioChronoDecisecond' in script
+    assert analog.id+'_second' not in script and 'studioIntegratedSecond' not in script
+    start(lua,core)
+    lua.globals().TICK=core.started+3661456;core.update(core,lua.globals().TICK)
+    assert view(core,'studioChronoHour').last==1
+    assert view(core,'studioChronoMinute').last==1
+    assert view(core,'studioChronoDecisecond').last==4
+    core.tap(core);assert core.state=='stopped'
+    lua.globals().TICK+=1000;core.update(core,lua.globals().TICK)
+    assert view(core,'studioChronoDecisecond').last==4
+    core.tap(core);finish(lua,core)
+    assert core.state=='rest' and all(v.last==0 for _,v in core.views.items())
+    p.save(tmp_path/'hidden-pro.s5faceproj')
+    loaded=Project.load(tmp_path/'hidden-pro.s5faceproj')
+    assert loaded.metadata()==p.metadata() and pro_enabled(loaded)
+    analog.visible=True
+    assert pro_enabled(p) and not p.validate()
+    assert any(v.source=='studioIntegratedSecond' for v in scene_bindings(p))
+
+
+def test_hidden_pro_is_per_style_and_does_not_allow_a_missing_flag():
+    p=pro_project();analog=next(e for e in p.elements if e.kind=='analog' and not e.aod)
+    analog.visible=False
+    other=p.add_variant();design=p.editable_variant(other)
+    second=next(e for e in design.elements if e.kind=='analog' and not e.aod)
+    second.chrono_pro=False;p.commit_variant(other,design)
+    assert pro_enabled(p.variant_project(0)) and not pro_enabled(p.variant_project(other))
+    assert any(p.variants[other]['name'] in error and 'Decimi crono' in error for error in p.validate())
+    second.chrono_pro=True;p.commit_variant(other,design)
+    assert not p.validate()
+    analog.chrono_pro=False
+    assert any('Decimi crono' in error for error in p.validate())
+
+
+def test_hidden_pro_preview_keeps_running_and_excludes_hidden_graphics():
+    from s5studio.chrono_pro import ProPreview
+    p=pro_project();preview=ProPreview()
+    preview.tap(p,0,47);preview.values(p,720,47);preview.tap(p,800,47)
+    before=preview.values(p,2256,48)
+    analog=next(e for e in p.elements if e.kind=='analog' and not e.aod)
+    analog.visible=False
+    assert pro_enabled(p)
+    hidden=preview.values(p,2256,48)
+    assert preview.state=='running' and analog.id+'_second' not in hidden
+    assert all(hidden[k]==v for k,v in before.items() if k in hidden)
+    analog.visible=True
+    assert preview.values(p,2256,48)==before and preview.state=='running'

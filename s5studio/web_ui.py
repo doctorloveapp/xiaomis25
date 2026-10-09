@@ -18,6 +18,7 @@ from .watchface_library import library
 from .render import render,png_bytes,SCENARIOS,layout_errors,hand_preview,hand_edit_changes
 from .native import build
 from .hand_presets import preset_changes,clear_hand_changes
+from .hand_sets import HandSetCatalog,empty_draft,ROLES as HAND_ROLES
 from .paths import application_root,resource_root,user_data_root,default_compiler
 
 
@@ -63,19 +64,10 @@ class StudioBridge(QObject):
         # Wait after rendering instead of keeping a permanently overdue timer
         # when a large imported bitmap costs more than the frame interval.
         self.motion_timer=QTimer(self);self.motion_timer.setInterval(200);self.motion_timer.setSingleShot(True);self.motion_timer.timeout.connect(self.preview_tick)
-        self.hand_presets=[]
+        self.hand_set_catalog=HandSetCatalog(user_data_root()/'hand-sets')
+        self.hand_set_draft=empty_draft()
+        self.reload_hand_presets()
         from PIL import Image
-        from io import BytesIO
-        for preset in library()['hands']:
-            path=self.resources/preset['assetPath']
-            if not path.is_file():continue
-            with Image.open(path) as im:
-                im=im.convert('RGBA')
-                # Gallery-only crop: the imported bitmap and its pivot stay intact.
-                bounds=im.getchannel('A').getbbox()
-                if bounds:im=im.crop(bounds)
-                im.thumbnail((96,110));out=BytesIO();im.save(out,format='PNG')
-            self.hand_presets.append({**preset,'thumbnail':'data:image/png;base64,'+base64.b64encode(out.getvalue()).decode()})
         self.compass_presets=[]
         for preset in library().get('compasses',[]):
             with Image.open(self.resources/preset['assetPath']) as im:
@@ -84,6 +76,23 @@ class StudioBridge(QObject):
         self.recovery=user_data_root()/'recovery-web.s5faceproj'
         self.timer=QTimer(self);self.timer.setInterval(20000);self.timer.timeout.connect(self.autosave)
         if not smoke:self.timer.start()
+
+    def reload_hand_presets(self):
+        self.hand_presets=[]
+        from PIL import Image
+        from io import BytesIO
+        from .catalog_labels import display_preset
+        for preset in self.hand_set_catalog.presets()+library()['hands']:
+            preset=display_preset(preset)
+            path=self.hand_set_catalog.bitmap_path(preset) if preset.get('custom') else self.resources/preset['assetPath']
+            if not path.is_file():continue
+            with Image.open(path) as im:
+                im=im.convert('RGBA')
+                # Gallery-only crop: the imported bitmap and its pivot stay intact.
+                bounds=im.getchannel('A').getbbox()
+                if bounds:im=im.crop(bounds)
+                im.thumbnail((96,110));out=BytesIO();im.save(out,format='PNG')
+            self.hand_presets.append({**preset,'thumbnail':'data:image/png;base64,'+base64.b64encode(out.getvalue()).decode()})
 
     def image_url(self,p,aod=False,*,values=None):
         return 'data:image/png;base64,'+base64.b64encode(png_bytes(render(p,self.values if values is None else values,aod))).decode()
@@ -105,11 +114,11 @@ class StudioBridge(QObject):
         from .motion import excluded_from_aod
         lua_sources={k:v[0] for k,v in ALL_LUA_SOURCES.items()}
         source_descriptions.update({
-            'studioDecisecond':'Decimi da 0 a 9: scala 0/10 e rotazione 360°. Animazione continua indipendente, già collaudata sull’S5. Copre la scala configurata anche nei vecchi progetti con intervallo 60. Per collegarla a Start/Stop/Reset scegli Decimi crono. Esclusa in AOD.',
+            'studioDecisecond':'Animazione continua indipendente: un giro al secondo, da 0 a 9. Non misura il tempo del cronografo e non segue Avvio, Stop o Reset, anche con Crono Pro attivo. Scala consigliata 0/10 e rotazione 360°. Per misurare il tempo trascorso scegli Decimi crono · Start/Stop/Reset. Esclusa in AOD.',
             'studioChronoHour':'Ore trascorse su 12 ore; conteggio condiviso. Crono separato 1.0 già collaudato: Avvia → Ferma → Azzera. Con Crono Pro: Prepara → Avvia → Ferma → Rientro. Primo test Pro 1.1 superato; rientri sempre orari nella 1.2.',
             'studioChronoMinute':'Minuti trascorsi del cronografo (0–59). Tap sul quadrante: Avvia → Ferma → Azzera. Esclusa in AOD.',
             'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Crono normale: Avvia → Ferma → Azzera. Crono Pro: Prepara → Avvia → Ferma → Rientro; conteggio a scatti. Esclusa in AOD.',
-            'studioChronoDecisecond':'Decimi collegati ad Avvio/Ferma/Reset. Richiede Crono Pro sulla lancetta grande secondi. In movimento: dieci scatti al secondo; rientro sempre fluido e simultaneo alle altre lancette. Esclusa in AOD.'})
+            'studioChronoDecisecond':'Decimi del tempo misurato dal cronografo: a zero a riposo, dieci scatti al secondo durante il conteggio, fermi su Stop e azzerati al Reset con rientro fluido. Usa l’unico flag generale Crono Pro della lancetta grande secondi nello stesso stile; questa voce sceglie solo il dato della lancetta piccola. Nascondere il gruppo grande non disattiva Crono Pro. Esclusa in AOD.'})
         hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
                        for e in resolved.elements if e.kind in ('analog','pointer')}
         result=self.project.metadata()
@@ -125,6 +134,8 @@ class StudioBridge(QObject):
                       busy=bool(self.worker and self.worker.isRunning()),output=str(self.output or ''),
                       sources={key:label for key,(label,_,_) in SOURCES.items()},scenario=self.scenario,values=self.values,
                       complications=[normalized_slot(s) for s in resolved.complications],maxSlots=MAX_SLOTS,handPresets=self.hand_presets,
+                      handSets=[{'id':s['id'],'name':s['name'],'small':s['small'],'roles':list(s['hands'])} for s in self.hand_set_catalog.sets()],
+                      handSetDraft=self.hand_set_catalog.public_draft(self.hand_set_draft),
                       independentVariants=True,
                       pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
                       luaSources=lua_sources,
@@ -145,7 +156,7 @@ class StudioBridge(QObject):
         self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
         self.values['__secondFraction']=(now-self.motion_started)/1000 if self.motion_preview else 0
         self.update_pro_preview(now)
-        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values,chronoState=self.chrono_state)
+        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values,chronoState=self.chrono_state,previewSequence=self.state_sequence)
         self.resume_preview()
 
     def resume_preview(self):
@@ -255,7 +266,7 @@ class StudioBridge(QObject):
         before=None;selection=None;self._design=None
         try:
             req=json.loads(raw);action=req.get('action')
-            mutations={'move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
+            mutations={'set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
                 if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
                 self.project.ensure_independent_variants()
@@ -264,6 +275,8 @@ class StudioBridge(QObject):
                 self._design=self.project.editable_variant(self.variant,self.aod)
                 self.design.sync_layer_order()
             if action=='state':pass
+            elif action.startswith('hand-set-'):
+                self.hand_set_command(action,req)
             elif action=='chrono-preview':
                 now=time.monotonic_ns()//1000000
                 self.update_pro_preview(now)
@@ -303,7 +316,7 @@ class StudioBridge(QObject):
             elif action=='add':
                 kind=req['kind']
                 defaults={'clock':dict(name='Ora',x=57,y=144,width=366,height=108,size=90),'date':dict(name='Data',x=158,y=258,width=164,height=40,size=30),'analog':dict(name='Lancette',x=60,y=60,width=360,height=360,color='#6ce5c1',second_hand=not self.aod),'number':dict(name='Dato',x=166,y=340,width=148,height=46,size=30),'text':dict(name='Testo',x=140,y=100,width=200,height=40,size=24),'rect':dict(name='Rettangolo'),'circle':dict(name='Cerchio')}
-                defaults['pointer']=dict(name='Lancetta piccola',x=180,y=180,width=120,height=120,source='second',color='#f7be69',second_length=40,second_width=3,show_ticks=False)
+                defaults['pointer']=dict(name='Lancetta piccola',x=180,y=180,width=120,height=120,source='second',color='#f7be69',show_ticks=False)
                 defaults['compass']=dict(name='Bussola analogica',x=180,y=180,width=120,height=120,source='systemSensorCompass',
                                          value_range=360,angle_range=-360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
                 if kind not in defaults:raise ValueError('Componente non supportato.')
@@ -313,6 +326,13 @@ class StudioBridge(QObject):
                     preset=next((c for c in self.compass_presets if c['name']=='Ferrari' and c['kind']=='Rosa completa'),self.compass_presets[0] if self.compass_presets else None)
                     if preset is None:raise ValueError('Catalogo bussole non disponibile.')
                     for k,v in compass_changes(self.design,self.resources,preset).items():setattr(added,k,v)
+            elif action=='set-shape':
+                e=self.element(req);kind=req.get('kind')
+                if e.kind not in ('rect','circle') or kind not in ('rect','circle'):raise ValueError('Scegli una forma rettangolare o circolare.')
+                e.kind=kind
+                if kind=='circle':
+                    side=min(e.width,e.height);e.x+=(e.width-side)//2;e.y+=(e.height-side)//2
+                    e.width=e.height=side
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
                 if e.kind in ('analog','pointer'):
@@ -383,7 +403,7 @@ class StudioBridge(QObject):
                             self.set_hand(req,clear_hand_changes(hand,el.asset))
             elif action=='hand-preset':
                 preset=next(h for h in self.hand_presets if h['id']==req['preset'])
-                self.set_hand(req,preset_changes(self.design,self.element(req),self.resources,preset,req['hand'],self.hand_presets))
+                self.set_hand(req,preset_changes(self.design,self.element(req),self.resources,preset,req['hand'],self.hand_presets,custom_root=self.hand_set_catalog.root))
             elif action=='hand-pivot':
                 e=self.element(req)
                 hand=req['hand']
@@ -523,6 +543,50 @@ class StudioBridge(QObject):
         self.send(buildStatus={'stateSequence':self.state_sequence,'busy':False,'output':str(self.output or '')},
                   error=error,progress='ZIP pronto: '+path if path else 'Compilazione interrotta.',buildDone=bool(path))
 
+    def hand_set_command(self,action,req):
+        from copy import deepcopy
+        draft=deepcopy(self.hand_set_draft)
+        if action=='hand-set-new':draft=empty_draft()
+        elif action=='hand-set-load':draft=self.hand_set_catalog.draft(req['id'])
+        elif action=='hand-set-meta':
+            changes=req['changes']
+            if set(changes)-{'name','small','generateShadows','shadowOptions'}:raise ValueError('Proprietà del set non valida.')
+            if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError('Nome del set troppo lungo.')
+            if 'small' in changes and type(changes['small']) is not bool:raise ValueError('Tipo del set non valido.')
+            draft.update(changes)
+        elif action in ('hand-set-image','hand-set-part','hand-set-remove'):
+            role=req['role'];shadow=bool(req.get('shadow'))
+            if role not in HAND_ROLES:raise ValueError('Lancetta del set non valida.')
+            if shadow and role not in draft['hands']:raise ValueError('Importa prima la lancetta, poi la sua ombra.')
+            if action=='hand-set-image':
+                filename,_=QFileDialog.getOpenFileName(self.window,'Importa PNG '+role+(' — ombra' if shadow else ''),str(self.root),'Lancette PNG (*.png)')
+                if filename:
+                    item=self.hand_set_catalog.stage(Path(filename))
+                    if shadow:draft['hands'][role]['shadow']=item
+                    else:
+                        previous=draft['hands'].get(role,{})
+                        if previous.get('shadow'):item['shadow']=previous['shadow']
+                        draft['hands'][role]=item
+            elif action=='hand-set-remove':
+                if shadow:
+                    if draft['hands'][role].get('shadow',{}).get('generated'):
+                        raise ValueError('Disattiva Genera ombre per rimuovere le ombre automatiche.')
+                    draft['hands'][role].pop('shadow',None)
+                else:draft['hands'].pop(role,None)
+            else:
+                item=draft['hands'][role]['shadow'] if shadow else draft['hands'][role]
+                if shadow and item.get('generated'):raise ValueError('Il pivot automatico segue la lancetta. Regola lo spostamento nelle impostazioni Genera ombre.')
+                changes=req['changes']
+                if set(changes)-({'pivot','offset'} if shadow else {'pivot'}):raise ValueError('Proprietà della PNG non valida.')
+                item.update(changes);self.hand_set_catalog.validate_item(item)
+        elif action=='hand-set-save':
+            self.hand_set_catalog.save(draft);self.reload_hand_presets();draft=empty_draft()
+        elif action=='hand-set-delete':
+            self.hand_set_catalog.delete(req['id']);self.reload_hand_presets()
+            if draft['id']==req['id']:draft=empty_draft()
+        else:raise ValueError('Comando set lancette non valido.')
+        self.hand_set_draft=self.hand_set_catalog.refresh_generated(draft)
+
     def set_hand(self,req,changes):
         if req.get('hand') not in ('hour','minute','second'):raise ValueError('Lancetta non valida.')
         e=self.element(req)
@@ -558,7 +622,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 1.2 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 1.7.2 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

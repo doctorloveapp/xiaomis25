@@ -1,0 +1,44 @@
+{
+  "applicationVersion": "1.5",
+  "hands": 595,
+  "entriesWithTranslatedLabels": 555,
+  "chineseNamesTranslated": 8,
+  "chineseThemeNamesTranslated": 5,
+  "chineseAuthorNamesTranslated": 2,
+  "remainingChineseDisplayLabels": 0,
+  "assetIdsHashesPivotsShadowsAndSetsUnchanged": true,
+  "translations": [
+    {
+      "original": "璀璨宝石",
+      "english": "Brilliant Gemstones"
+    },
+    {
+      "original": "粉凝陀飞轮",
+      "english": "Pink Tourbillon"
+    },
+    {
+      "original": "黑豹",
+      "english": "Black Panther"
+    },
+    {
+      "original": "艺术时空",
+      "english": "Artistic Space-Time"
+    },
+    {
+      "original": "户外探险家",
+      "english": "Outdoor Explorer"
+    },
+    {
+      "original": "雕琢",
+      "english": "Sculpted"
+    },
+    {
+      "original": "轨迹",
+      "english": "Trajectory"
+    },
+    {
+      "original": "彩色刻度",
+      "english": "Colorful Markers"
+    }
+  ]
+}
