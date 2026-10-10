@@ -39,8 +39,8 @@ def check():
             ready('Boolean(window.s5Ready && state && document.getElementById("preview").complete)','Editor startup')
             js('document.querySelector("[data-tab=hands]").click();true')
             assert js('!document.getElementById("hands-panel").classList.contains("hidden")&&document.getElementById("stage-wrap").classList.contains("hidden")&&document.getElementById("inspector").classList.contains("hidden")')
-            assert js('document.body.textContent.includes("Version 1.7.6")')
-            checks+=['new-navigation-panel','catalog-uses-full-workspace','version-1.7.6']
+            assert js('document.body.textContent.includes("Version 1.8.1")')
+            checks+=['new-navigation-panel','catalog-uses-full-workspace','version-1.8.1']
             initial_count=len(bridge.hand_set_catalog.sets())
             assert len(bridge.hand_presets)==595+sum(len(s['hands']) for s in bridge.hand_set_catalog.personal_sets())
             assert js('document.querySelectorAll("[data-set-load]").length===state.handSets.length')
@@ -149,7 +149,7 @@ def check():
             until(lambda:js('document.querySelector(".hand-set-pivot img").getBoundingClientRect().height>0'),'Bitmap layout')
             deadline=time.monotonic()+.7
             while time.monotonic()<deadline:app.processEvents()
-            screenshot=ROOT/'build/hand-sets-editor-1.7.6.png'
+            screenshot=ROOT/'build/hand-sets-editor-1.8.1.png'
             assert window.grab().save(str(screenshot))
             original=bridge.project.metadata();assets=dict(bridge.project.assets)
             js('window.confirm=()=>true;document.querySelector(\'[data-set-delete="'+saved['id']+'"]\').click();true')
@@ -158,10 +158,10 @@ def check():
             assert bridge.project.metadata()==original and bridge.project.assets==assets
             checks+=['edit-existing-set','catalog-delete','applied-project-independent-of-catalog']
             window.close();app.processEvents()
-    report={'status':'passed','applicationVersion':'1.7.6','checks':checks,'checkCount':len(checks),
+    report={'status':'passed','applicationVersion':'1.8.1','checks':checks,'checkCount':len(checks),
             'sourceEditorTested':True,'executableLaunched':False,'hardwareTested':False,
-            'screenshot':'build/hand-sets-editor-1.7.6.png'}
-    (ROOT/'docs/hand-sets-editor-1.7.6.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
+            'screenshot':'build/hand-sets-editor-1.8.1.png'}
+    (ROOT/'docs/hand-sets-editor-1.8.1.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps(report,indent=2))
 
 

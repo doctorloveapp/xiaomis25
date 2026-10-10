@@ -3,6 +3,7 @@ local existing = rawget(_G, "S5StudioChronoPro120")
 if existing then return existing end
 local lvgl = require("lvgl")
 local base = require("studio_core")
+local civilClock = require("studio_civil_clock")
 local M = {state="rest", elapsed=0, started=0, views={}, active=true,
     screenOn=true, pendingTap=false, civil={hour=0,minute=0,second=0},
     civilReady=false, transitionMs=720, engineTick=0, lastPhase=0}
@@ -75,9 +76,9 @@ function M:update(now)
     for _,view in ipairs(self.views) do
         local source=view.source
         if source=="studioTimeHour" then
-            self:write(view,self.civil.hour%12+self.civil.minute/60)
+            self:write(view,self.civil.hour%12+self.civil.minute/60+(view.smooth and self.civil.second/3600 or 0))
         elseif source=="studioTimeMinute" then
-            self:write(view,self.civil.minute)
+            self:write(view,self.civil.minute+(view.smooth and self.civil.second/60 or 0))
         elseif source=="studioIntegratedSecond" then
             if self.state=="rest" then
                 if self.civilReady then self:write(view,self:civilSecond(now)) end
@@ -320,13 +321,16 @@ function M:configure(root,hasDeciseconds)
             if M.root==root and phase>=1000 then M.tapLocked=false;M.tapUnlockAnimation:set {run=false} end
         end}
     local dataman=require("dataman")
+    local clock=civilClock.new(function(sample)
+        if M.root~=root then return end
+        M.civil=sample;M.civilReady=true;M.civilTick=M:clock()
+        M:update(M:clock())
+    end)
     for _,channel in ipairs({"hour","minute","second"}) do
         local key=channel
         dataman.subscribe("time"..key:sub(1,1):upper()..key:sub(2),root,function(_,value)
-            if M.root~=root or type(value)~="number" then return end
-            M.civil[key]=math.floor(value/256)
-            if key=="second" then M.civilReady=true;M.civilTick=M:clock() end
-            M:update(M:clock())
+            if M.root~=root then return end
+            clock:push(key,value)
         end)
     end
     if not self.lifecycle then

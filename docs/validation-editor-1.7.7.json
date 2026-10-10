@@ -1,0 +1,82 @@
+{
+  "applicationVersion": "1.7.7",
+  "status": "passed",
+  "pytest": {
+    "passed": 17,
+    "suites": [
+      "test_civil_seconds",
+      "test_bundled_hand_sets"
+    ]
+  },
+  "sourceEditor": {
+    "applicationVersion": "1.7.7",
+    "status": "passed",
+    "checks": [
+      "civil-source-selected",
+      "source-select-restores-0-60-360",
+      "small-seconds-default-is-ticking",
+      "zero-and-simulation-help",
+      "second-zero-visible",
+      "tick-and-wrap-15",
+      "tick-and-wrap-30",
+      "tick-and-wrap-59",
+      "tick-and-wrap-60",
+      "normal-start-is-selected-thirty-seconds",
+      "normal-thirty-plus-four-is-thirty-four",
+      "manual-second-resets-running-phase",
+      "ticks-from-manually-selected-second",
+      "scenario-change-resets-running-phase",
+      "both-omega-sets-bundled"
+    ],
+    "checkCount": 15,
+    "sourceEditorTested": true,
+    "executableLaunched": false
+  },
+  "initialPositionWasNotABug": true,
+  "userConfirmedPreviewPosition": true,
+  "nativeBindingUnchanged": {
+    "source": "timeSecond",
+    "code": "1811",
+    "periodMs": 1000,
+    "valueRangeQ8": 15360
+  },
+  "binaryCompilerTests": {
+    "civilHandAndShadow": true,
+    "chronoProTwoStylesAndAod": true,
+    "nativePivotAndLayoutVerified": true,
+    "finalGraphAndManifestInMemory": true
+  },
+  "luaRuntimeHashes": {
+    "studio_core.lua": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9",
+    "studio_core_pro.lua": "192071abad3f2c1044b3ae0537086738733af5253a9fed20e1d62d83aef3620d",
+    "studio_live_data.lua": "35d421c7501f886147ed05440ad9a2bbdb4ec753170f85b64c1510a563251e9d"
+  },
+  "provenLuaCoresUnchanged": true,
+  "userProject": {
+    "path": "projects/omega_moon.s5faceproj",
+    "observedSha256": "2d35824b1991fdfcea75184588c3cc3e34514f1e3072f5a81a83b86bd341996a",
+    "modifiedByAgent": false
+  },
+  "personalSets": {
+    "bundledSets": 6,
+    "bundledHands": 17,
+    "effectiveCatalogHands": 612,
+    "added": [
+      "Omega moon",
+      "Omega moon piccole"
+    ],
+    "sourceCatalogsModified": false
+  },
+  "executableLaunched": false,
+  "watchfaceDemoZipCreated": false,
+  "regressionBackupCreated": false,
+  "newHardwareTestClaimed": false,
+  "executable": {
+    "status": "passed",
+    "embeddedFilesVerified": 740,
+    "exeSize": 235602884,
+    "exeSha256": "35f0229f9d2781081d7f2e07b733641635a2d6214802932ccf6da0429aff1003",
+    "sourceModulesMatchCount": 15,
+    "executableLaunched": false
+  }
+}

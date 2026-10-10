@@ -1,0 +1,24 @@
+{
+  "applicationVersion": "1.7.7",
+  "status": "passed",
+  "checks": [
+    "civil-source-selected",
+    "source-select-restores-0-60-360",
+    "small-seconds-default-is-ticking",
+    "zero-and-simulation-help",
+    "second-zero-visible",
+    "tick-and-wrap-15",
+    "tick-and-wrap-30",
+    "tick-and-wrap-59",
+    "tick-and-wrap-60",
+    "normal-start-is-selected-thirty-seconds",
+    "normal-thirty-plus-four-is-thirty-four",
+    "manual-second-resets-running-phase",
+    "ticks-from-manually-selected-second",
+    "scenario-change-resets-running-phase",
+    "both-omega-sets-bundled"
+  ],
+  "checkCount": 15,
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

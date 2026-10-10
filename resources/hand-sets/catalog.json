@@ -165,6 +165,283 @@
       }
     },
     {
+      "id": "custom-239bb4249cf0466db27a7446e0185190",
+      "name": "Omega moon",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/6f4e169062e93a6efb321901b7ea28aac16cef9e819700a0506dea540096642e.png",
+          "sourceSha256": "6f4e169062e93a6efb321901b7ea28aac16cef9e819700a0506dea540096642e",
+          "size": [
+            97,
+            434
+          ],
+          "pivot": [
+            49,
+            385
+          ],
+          "filename": "Ore_omega_moon.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/5c9149103cad8bb39b89f558019df3435068a5278edbd264ff6efec936da7329.png",
+            "sourceSha256": "5c9149103cad8bb39b89f558019df3435068a5278edbd264ff6efec936da7329",
+            "size": [
+              107,
+              444
+            ],
+            "pivot": [
+              54,
+              390
+            ],
+            "filename": "Ore_omega_moon_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "6f4e169062e93a6efb321901b7ea28aac16cef9e819700a0506dea540096642e",
+              "pivot": [
+                49,
+                385
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/e8b7ca4c453bc05e8fedc6f7b1e21fafdd6ab2662469d5b8d4fe2fec9446c1a9.png",
+          "sourceSha256": "e8b7ca4c453bc05e8fedc6f7b1e21fafdd6ab2662469d5b8d4fe2fec9446c1a9",
+          "size": [
+            55,
+            480
+          ],
+          "pivot": [
+            28,
+            453
+          ],
+          "filename": "Minuti_omega_moon.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/cf9be7733448dc7181e464844dbc0dd7f910eb05e1d0d0f5d95663e3bd2fb360.png",
+            "sourceSha256": "cf9be7733448dc7181e464844dbc0dd7f910eb05e1d0d0f5d95663e3bd2fb360",
+            "size": [
+              65,
+              480
+            ],
+            "pivot": [
+              33,
+              453
+            ],
+            "filename": "Minuti_omega_moon_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "e8b7ca4c453bc05e8fedc6f7b1e21fafdd6ab2662469d5b8d4fe2fec9446c1a9",
+              "pivot": [
+                28,
+                453
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/b219116b8bac60290c18e8211c96c50a34eba528e2532bec8592412bf15554b2.png",
+          "sourceSha256": "b219116b8bac60290c18e8211c96c50a34eba528e2532bec8592412bf15554b2",
+          "size": [
+            33,
+            480
+          ],
+          "pivot": [
+            16,
+            364
+          ],
+          "filename": "Secondi_omega_moon.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/12627c1bacd2dc20cf55295e28fe1e139c2308ddeec5f828838e07116f88850d.png",
+            "sourceSha256": "12627c1bacd2dc20cf55295e28fe1e139c2308ddeec5f828838e07116f88850d",
+            "size": [
+              43,
+              480
+            ],
+            "pivot": [
+              21,
+              364
+            ],
+            "filename": "Secondi_omega_moon_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "b219116b8bac60290c18e8211c96c50a34eba528e2532bec8592412bf15554b2",
+              "pivot": [
+                16,
+                364
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 45,
+        "blur": 1.5,
+        "offset": [
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "custom-9cdd7998cd644b86bf4fb3325faf8afe",
+      "name": "Omega moon piccole",
+      "small": true,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/3be6652c5657fffae2c078ab5f857dd762bdb63b285be3a4a4bed57378f4de8e.png",
+          "sourceSha256": "3be6652c5657fffae2c078ab5f857dd762bdb63b285be3a4a4bed57378f4de8e",
+          "size": [
+            49,
+            200
+          ],
+          "pivot": [
+            24,
+            174
+          ],
+          "filename": "lancetta_piccola_omega.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/62613b36a7101afb1eb5d2e10c987c3e9688ae06c222438144d2e51229ebb1f8.png",
+            "sourceSha256": "62613b36a7101afb1eb5d2e10c987c3e9688ae06c222438144d2e51229ebb1f8",
+            "size": [
+              59,
+              210
+            ],
+            "pivot": [
+              29,
+              179
+            ],
+            "filename": "lancetta_piccola_omega_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "3be6652c5657fffae2c078ab5f857dd762bdb63b285be3a4a4bed57378f4de8e",
+              "pivot": [
+                24,
+                174
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/529baa6bb889c21f707c155acb1ac9414211e22d8885a7405d6ee2f3b360c686.png",
+          "sourceSha256": "529baa6bb889c21f707c155acb1ac9414211e22d8885a7405d6ee2f3b360c686",
+          "size": [
+            44,
+            200
+          ],
+          "pivot": [
+            22,
+            132
+          ],
+          "filename": "secondi_lancetta_piccola_omega.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/18d81553c667dd85df4c19c11a168efbe52bf4d0838a632a7d072a0d745ddb0f.png",
+            "sourceSha256": "18d81553c667dd85df4c19c11a168efbe52bf4d0838a632a7d072a0d745ddb0f",
+            "size": [
+              54,
+              210
+            ],
+            "pivot": [
+              27,
+              137
+            ],
+            "filename": "secondi_lancetta_piccola_omega_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "529baa6bb889c21f707c155acb1ac9414211e22d8885a7405d6ee2f3b360c686",
+              "pivot": [
+                22,
+                132
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 45,
+        "blur": 1.5,
+        "offset": [
+          2,
+          3
+        ]
+      }
+    },
+    {
       "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
       "name": "Seiko 5 ombra",
       "small": false,

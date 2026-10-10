@@ -80,6 +80,8 @@ def lua_runtime():
     ''')
     core=lua.execute((ROOT/'s5studio/lua/studio_core.lua').read_text(encoding='utf8'))
     lua.globals().CORE=core;lua.execute('package.loaded.studio_core=CORE')
+    clock=lua.execute((ROOT/'s5studio/lua/studio_civil_clock.lua').read_text(encoding='utf8'))
+    lua.globals().CIVIL_CLOCK=clock;lua.execute('package.loaded.studio_civil_clock=CIVIL_CLOCK')
     return lua,core
 
 

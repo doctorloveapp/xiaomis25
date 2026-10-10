@@ -333,6 +333,12 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
         cx,cy=origin[0]+e.width//2,origin[1]+e.height//2
         # Preview uses native hand raster assets, rotated around the same anchor.
         hands=[("hour",((values.get('hour') or 0)%12)*30+(values.get('minute') or 0)*0.5), ("minute",(values.get('minute') or 0)*6)]
+        if e.kind=='analog' and not e.aod and (e.smooth_hours or e.smooth_minutes):
+            # Civil hour/minute pointers use real seconds, with integer-second
+            # precision and no per-frame clock interpolation on the firmware.
+            civil=(values.get('hour') or 0)*3600+(values.get('minute') or 0)*60+(values.get('second') or 0)+int(values.get('__secondFraction',0))
+            if e.smooth_hours:hands[0]=('hour',civil%43200/120)
+            if e.smooth_minutes:hands[1]=('minute',civil%3600/10)
         if e.second_hand and not e.aod:
             second=values.get('__proValues',{}).get(e.id+'_second') if e.chrono_pro else None
             if second is None:second=((values.get('second') or 0)+(values.get('__secondFraction',0) if e.smooth_seconds else int(values.get('__secondFraction',0))))%60
@@ -342,7 +348,12 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
             value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in ALL_LUA_SOURCES else values.get(e.source)
             if e.source=='studioDecisecond':value=e.value_start+value/10*e.value_range
             if e.id in values.get('__proValues',{}):value=values['__proValues'][e.id]
-            if e.smooth_seconds and e.source in ('second','timeSecond') and value is not None:value=(value+values.get('__secondFraction',0))%60
+            if e.source in ('second','timeSecond') and value is not None:
+                # Simulated civil time advances even when sweep is disabled.
+                # Small seconds normally tick once per second, like the native
+                # timeSecond binding; they are independent of the chrono clock.
+                elapsed=values.get('__secondFraction',0)
+                value=(value+(elapsed if e.smooth_seconds else int(elapsed)))%60
             fraction=0 if value is None else max(0,min(1,(float(value)-e.value_start)/e.value_range))
             hands=[('second',e.angle_start+fraction*e.angle_range)]
         # Pro exports the main hands as Lua pointers. Preview their exact

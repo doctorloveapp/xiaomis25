@@ -103,8 +103,8 @@ def check():
             assert any(s['name']=='Hamilton Lancette' for s in b.hand_set_catalog.sets())
             checks.append('new-hamilton-set-is-bundled')
             window.close();app.processEvents()
-    report={'status':'passed','applicationVersion':'1.7.6','checks':checks,'checkCount':len(checks),'sourceEditorTested':True,'executableLaunched':False}
-    (ROOT/'docs/color-editor-1.7.6.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
+    report={'status':'passed','applicationVersion':'1.8.1','checks':checks,'checkCount':len(checks),'sourceEditorTested':True,'executableLaunched':False}
+    (ROOT/'docs/color-editor-1.8.1.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps(report,indent=2))
 
 

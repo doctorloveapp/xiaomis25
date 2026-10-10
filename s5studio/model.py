@@ -35,6 +35,7 @@ SOURCES.update({key:(label,SOURCES[source][1],SOURCES[source][2]) for key,label,
 HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asset','_shadow_asset'))
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
 VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
+VARIANT_PROPERTIES.update({'smooth_hours','smooth_minutes'})
 MAX_SLOTS=16  # Studio guardrail, not a declared firmware limit.
 
 def valid_design_geometry(kind,x,y,width,height):
@@ -109,6 +110,8 @@ class Element:
     show_ticks: bool = True
     second_hand: bool = False
     smooth_seconds: bool = False
+    smooth_hours: bool = False
+    smooth_minutes: bool = False
     chrono_pro: bool = False
     hour_length: int = 50
     minute_length: int = 50
@@ -494,7 +497,8 @@ class Project:
             from .motion import ALL_LUA_SOURCES
             if el.source not in SOURCES and not (el.kind == 'pointer' and el.source in ALL_LUA_SOURCES):
                 errors.append(f"{label}: sorgente dati non supportata.")
-            if type(el.smooth_seconds) is not bool: errors.append(f'{label}: Movimento Fluido deve essere un flag.')
+            if any(type(getattr(el,key)) is not bool for key in ('smooth_hours','smooth_minutes','smooth_seconds')):
+                errors.append(f'{label}: Movimento Fluido deve essere un flag.')
             if type(el.show_center_cap) is not bool: errors.append(f'{label}: visibilità del tappo centrale non valida.')
             if type(el.chrono_pro) is not bool: errors.append(f'{label}: Crono Pro deve essere un flag.')
             if el.chrono_pro and (el.kind!='analog' or el.aod or not el.second_hand):

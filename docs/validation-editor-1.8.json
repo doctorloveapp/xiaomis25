@@ -1,0 +1,89 @@
+{
+  "applicationVersion": "1.8",
+  "status": "passed",
+  "pytest": {
+    "uniquePassed": 70,
+    "integrationDeselected": 2,
+    "suites": [
+      "test_civil_hand_motion",
+      "test_chrono_pro",
+      "test_civil_seconds",
+      "test_hand_stacking",
+      "test_motion_interaction"
+    ],
+    "correctedFixtureAndRerun": [
+      "AOD explicitly enabled in mixed-style compiler fixture"
+    ]
+  },
+  "sourceEditor": {
+    "applicationVersion": "1.8",
+    "status": "passed",
+    "checks": [
+      "hour-has-only-own-motion-flag",
+      "minute-has-only-own-motion-flag",
+      "second-has-only-own-motion-flag",
+      "legacy-second-setting-preserved",
+      "minute-motion-edit-keeps-section",
+      "hour-motion-edit-keeps-section",
+      "disabling-seconds-does-not-disable-hours-minutes",
+      "minute-enter-edit-keeps-only-current-section-open",
+      "second-enter-edit-keeps-only-current-section-open",
+      "undo-keeps-current-section",
+      "aod-flags-disabled-with-settings-preserved"
+    ],
+    "checkCount": 11,
+    "sourceEditorTested": true,
+    "executableLaunched": false
+  },
+  "civilHourMinuteMotion": {
+    "source": "dataman-timeSecond",
+    "nominalUpdatesPerSecond": 1,
+    "animationTimers": false,
+    "integerDomains": {
+      "hours": 43200,
+      "minutes": 3600
+    },
+    "independentFlags": true,
+    "preservesOriginalHandGeometry": true,
+    "aodUsesNativeHands": true,
+    "hardwareVerified": false
+  },
+  "secondSweepFps": 25,
+  "classicRuntimeUnchanged": true,
+  "proRuntimeChanges": [
+    "Optional seconds included in civil hour position",
+    "Optional seconds included in civil minute position"
+  ],
+  "proChronoStateMachineAndTimersUnchanged": true,
+  "mixedStylesBinaryValidated": {
+    "styles": 3,
+    "screensIncludingAod": 6,
+    "activeAppLayouts": 5,
+    "classicAndProChrono": true,
+    "civilEntriesExcludedFromAod": true
+  },
+  "personalSets": {
+    "bundledSets": 6,
+    "effectiveHands": 612,
+    "newUpdates": 0,
+    "sourceCatalogsModified": false
+  },
+  "executableLaunched": false,
+  "watchfaceDemoZipCreated": false,
+  "regressionBackupCreated": false,
+  "newHardwareTestClaimed": false,
+  "executable": {
+    "status": "passed",
+    "embeddedFilesVerified": 741,
+    "exeSize": 235608327,
+    "exeSha256": "f9169e2bf663c50b6837c2a5f1c00594050caf379584374cfc8dddf5da0a6c28",
+    "sourceModulesMatchCount": 16,
+    "executableLaunched": false
+  },
+  "luaResources": {
+    "studio_core.lua": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9",
+    "studio_core_pro.lua": "2c951aabf4feaf0c84f3ae3f163dd21683cdb2772886214b4444e349f9692a76",
+    "studio_live_data.lua": "35d421c7501f886147ed05440ad9a2bbdb4ec753170f85b64c1510a563251e9d",
+    "studio_civil_hand.lua": "9927fae44c5c7cadd48be6d9e013b2cafbc7920fcbb4b581c0bd38fad9013f4b"
+  }
+}

@@ -499,11 +499,18 @@ class StudioBridge(QObject):
             elif action=='aod':self.aod=bool(req['value']) and self.project.aod_enabled
             elif action=='scenario':
                 self.scenario=req['value'];self.values=dict(SCENARIOS[self.scenario])
+                self.motion_started=time.monotonic_ns()//1000000
+                self.values['__secondFraction']=0
             elif action=='time':
                 limits={'hour':23,'minute':59,'second':59,'systemSensorCompass':359}
                 changes={key:req[key] for key in limits if key in req}
                 if any(type(v) is not int or not 0<=v<=limits[k] for k,v in changes.items()):raise ValueError('Valore di simulazione fuori intervallo.')
                 self.values.update(changes)
+                if 'second' in changes:
+                    # A manual second is an exact new civil-time origin, even
+                    # while motion is running; never add the old elapsed phase.
+                    self.motion_started=time.monotonic_ns()//1000000
+                    self.values['__secondFraction']=0
             elif action=='compiler':
                 filename,_=QFileDialog.getOpenFileName(self.window,'Seleziona EasyFace 4.23',str(self.compiler.parent),'Compilatore (Compiler.exe)')
                 if filename:self.compiler=Path(filename)
@@ -645,7 +652,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 1.7.6 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 1.8.1 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

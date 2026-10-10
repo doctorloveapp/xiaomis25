@@ -1,0 +1,124 @@
+{
+  "applicationVersion": "1.8.1",
+  "status": "passed",
+  "date": "2026-10-10",
+  "pytest": {
+    "uniquePassed": 86,
+    "integrationDeselected": 2,
+    "log": "build/tests-hand-rollover-1.8.1.log",
+    "suites": [
+      "test_civil_rollover",
+      "test_civil_hand_motion",
+      "test_chrono_pro",
+      "test_civil_seconds",
+      "test_hand_stacking",
+      "test_motion_interaction"
+    ]
+  },
+  "rollover": {
+    "newTests": 16,
+    "orderedCases": 72,
+    "notificationPermutationsPerCase": 6,
+    "cases": [
+      "minute",
+      "hour",
+      "midnight",
+      "one missed second"
+    ],
+    "engines": [
+      "civil hour",
+      "civil minute",
+      "Pro civil hands"
+    ],
+    "everyIntermediatePointerWriteChecked": true,
+    "proSchedulerBetweenNotificationsChecked": true,
+    "duplicateNotificationsChecked": true,
+    "earlyUpperCountersWithOldQueuedSecondChecked": true,
+    "aodResumeChecked": true,
+    "invalidInputsChecked": true,
+    "immutableSamplesChecked": true,
+    "civilTimeCorrectionChecked": true,
+    "reproductionAt120459": {
+      "valueDomain": "minute * 60 + second",
+      "legacyImmediateUpdate": [
+        299,
+        359,
+        300
+      ],
+      "coherentSample": [
+        299,
+        299,
+        300
+      ]
+    }
+  },
+  "sourceEditor": {
+    "uiBehaviorUnchanged": true,
+    "rerun": false,
+    "lastValidation": "docs/hand-motion-editor-1.8.json"
+  },
+  "runtime": {
+    "coherentCivilSamples": true,
+    "newTimers": false,
+    "newAnimations": false,
+    "classicChronographUnchanged": true,
+    "proChronographStateMachineAndTimersUnchanged": true,
+    "transitionDurationMs": 720,
+    "aodNativeAndSecondsExcluded": true,
+    "clockModuleIncludedAndValidated": true,
+    "sha256": {
+      "studio_civil_clock.lua": "7afae5f924bb8f25fa10d61f4d4a5491d6c14d251bde1b7748ddfab542579065",
+      "studio_civil_hand.lua": "b03203f1acf8f3d30e0b21821d5f2bf0ba04ebc5e2e789064a96ef85ec4f9c6c",
+      "studio_core_pro.lua": "fd58482983f315542c4824f89e6c1a1a5e03e37e07bfa7d7939c006cf8078b4f",
+      "studio_core.lua": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9"
+    }
+  },
+  "personalSets": {
+    "bundledSets": 6,
+    "effectiveHands": 612,
+    "updates": [],
+    "sourceCatalogsModified": false
+  },
+  "hardware": {
+    "previousRelease": "1.8",
+    "userConfirmedProgressiveMinuteMotion": true,
+    "userReportedRolloverTransient": true,
+    "fixVerifiedOnDevice": false
+  },
+  "artifacts": {
+    "executable": "S5Studio-1.8.1.exe",
+    "backupCreated": false,
+    "demoWatchfaceZipCreated": false,
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.8.1",
+    "embeddedFilesVerified": 742,
+    "exeSize": 235610730,
+    "exeSha256": "bf81d80a4d3221c96bbd7ef7d77650678c04c0b779192354776542aebb91b97b",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "sourceModulesMatch": [
+      "s5studio.colors",
+      "s5studio.color_picker",
+      "s5studio.model",
+      "s5studio.render",
+      "s5studio.live_data",
+      "s5studio.lua_runtime",
+      "s5studio.native",
+      "s5studio.web_ui",
+      "s5studio.complications",
+      "s5studio.ui",
+      "s5studio.source_help",
+      "s5studio.native_graph",
+      "s5studio.motion",
+      "s5studio.hand_sets",
+      "s5studio.chrono_pro",
+      "s5studio.civil_hands"
+    ],
+    "sourceModuleCount": 16,
+    "correctedLuaModulesMatchSource": true
+  }
+}

@@ -96,6 +96,7 @@ def pro_views(e):
         changes={k:getattr(e,hand+k[6:]) for k in e.__dataclass_fields__ if k.startswith('second_') and k!='second_hand'}
         result.append(replace(e,**changes,kind='pointer',id=e.id+'_'+hand,source=source,
                               chrono_pro=False,second_hand=False,pointer_end_pivot=False,
+                              smooth_seconds=getattr(e,{'hour':'smooth_hours','minute':'smooth_minutes','second':'smooth_seconds'}[hand]),
                               value_start=0,value_range=period,angle_start=0,angle_range=360))
     return result
 
@@ -108,7 +109,7 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
     from PIL import Image,ImageDraw
     from .render import analog_face,rgba
     base=directory/'app/lua';(base/'gfx').mkdir(parents=True,exist_ok=True)
-    for module in ('studio_core','studio_core_pro'):
+    for module in ('studio_core','studio_core_pro','studio_civil_clock'):
         (base/(module+'.lua')).write_bytes((resource_root()/f's5studio/lua/{module}.lua').read_bytes())
     key=key or f'v{variant}_scene'
     views=scene_bindings(project)
@@ -160,15 +161,15 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
     return name
 
 
-def pointer_lines(project,e,base,variant,*,shadow_modes=None,value_scale=1):
+def pointer_lines(project,e,base,variant,*,shadow_modes=None,value_scale=1,graphic=None,hand='second'):
     key=f'v{variant}_{e.id}';lines=[]
     for shadow in (shadow_modes if shadow_modes is not None else [True, False] if e.show_shadows else [False]):
-        pair = hand_image(e, 'second', project, shadow=shadow)
+        pair = hand_image(graphic or e, hand, project, shadow=shadow)
         if pair is None: continue
         image, anchor = pair
         name = key + ('_shadow.png' if shadow else '.png')
         (base/'gfx'/name).write_bytes(png_bytes(image))
-        dx, dy = hand_shadow_offset(e, 'second', project) if shadow else (0,0)
+        dx, dy = hand_shadow_offset(graphic or e, hand, project) if shadow else (0,0)
         x,y=e.x+e.width//2-anchor[0]+dx,e.y+e.height//2-anchor[1]+dy
         lines += [f'local h = widgets.Pointer(root, {{x={x},y={y},pivot={{x={anchor[0]},y={anchor[1]}}},value=0,src=SCRIPT_PATH.."gfx/{name}"}})',
                   'h:set {range={angleStart=%d,angleRange=%d,valueStart=%d,valueRange=%d}}' % (e.angle_start*10,e.angle_range*10,e.value_start*value_scale,e.value_range*value_scale),
@@ -180,7 +181,8 @@ def interaction_report(project, data, manifest_bytes):
     import xml.etree.ElementTree as ET
     from .watchface_library import read_tables
     from .native import inspect_binary
-    files={}; app_layouts=0;screen_apps=[]
+    from .civil_hands import civil_roles,civil_entry
+    files={}; app_layouts=0;screen_apps=[];civil_apps=[]
     for screen in inspect_binary(data)['screens']:
         tables=read_tables(data,screen['index'])
         for uid, _, payload in tables[5]:
@@ -198,7 +200,9 @@ def interaction_report(project, data, manifest_bytes):
                 if '_live_' not in entry or 'require("studio_live_data")' not in code or 'studio_core' in code or 'tap:onevent' in code:
                     raise ValueError('Runtime animato/interattivo non consentito in AOD.')
         app_layouts+=len(entries)
-        if not screen['aod']:screen_apps.append([n for n in entries if '_live_' not in n])
+        if not screen['aod']:
+            screen_apps.append([n for n in entries if '_live_' not in n and '_civil_' not in n])
+            civil_apps.append([n for n in entries if '_civil_' in n])
         if screen['aod']:
             from .motion import SECOND_SOURCES
             from .model import SOURCES
@@ -206,16 +210,40 @@ def interaction_report(project, data, manifest_bytes):
             if any(b[3]>>4==3 and b[:2] in codes for _,_,b in tables[7]):
                 raise ValueError('Lancetta secondi presente in AOD.')
     manifest=ET.fromstring(manifest_bytes)
-    requested=any(e.visible and (live_element(e) or not e.aod and lua_element(e))
+    requested=any(e.visible and (live_element(e) or not e.aod and lua_element(e) or civil_roles(e))
                   for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements)
     if requested != bool(app_layouts) or manifest.get('interactive')!=str(requested).lower():
         raise ValueError('Interattività richiesta ma script/layout/manifest incoerenti.')
     import hashlib
+    synchronized_civil=any(b'require("studio_civil_clock")' in files.get('lua/'+module+'.lua',b'')
+                           for module in ('studio_civil_hand','studio_core_pro'))
+    if synchronized_civil and 'lua/studio_civil_clock.lua' not in files:
+        raise ValueError('Sincronizzazione ore/minuti/secondi mancante nel pacchetto Lua.')
     result = {'requested':requested,'injected':bool(app_layouts),'status':'injected-and-structurally-verified' if requested else 'not-requested',
             'appLayoutCount':app_layouts,'files':{f'app/{n}':hashlib.sha256(b).hexdigest() for n,b in files.items()},
             'manifestInteractive':manifest.get('interactive'),'aodSecondsExcluded':True,'hardwareVerified':False,
             'limitations':(['Runtime Lua, clock monotono e VM condivisa da verificare sul firmware S5.',
                             'Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio.'] if requested else [])}
+    if synchronized_civil:
+        result['civilClock']={'runtime':'studio_civil_clock.lua','coherentSamples':True,
+                              'rolloverWaitsForUpperCounters':True,'timers':False}
+    for i in range(max(1,len(project.variants))):
+        p=project.variant_project(i)
+        expected=[civil_entry(e,hand,i) for e in p.ordered_layers(False) if not isinstance(e,dict) for hand in civil_roles(e)]
+        if i>=len(civil_apps) or civil_apps[i]!=expected:
+            raise ValueError('Lancette civili fluide diverse dalla configurazione dello stile.')
+        for name in expected:
+            if 'require("studio_civil_hand")' not in files[name].decode('utf8') or 'lua/studio_civil_hand.lua' not in files:
+                raise ValueError('Runtime delle lancette civili mancante.')
+    if any(e.kind=='analog' and (e.smooth_hours or e.smooth_minutes) for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements):
+        result['civilHandMotion']={'hourMinuteUpdates':'dataman-timeSecond','timeSecondNominalHz':1,'writesOnlyChangedValues':True,
+                                  'animationTimers':False,'aodNativeOnly':True,'crossWidgetVmSharingRequired':False,
+                                  'hardwareVerified':False,'entries':civil_apps,
+                                  'styles':[[{'id':e.id,'hours':e.smooth_hours,'minutes':e.smooth_minutes,'seconds':e.smooth_seconds}
+                                              for e in project.variant_project(i).elements if e.kind=='analog' and not e.aod]
+                                            for i in range(max(1,len(project.variants)))]}
+        if 'lua/studio_core.lua' not in files:
+            result['limitations']=['Fluidità di ore/minuti da confermare sul dispositivo S5; aggiornata dai secondi reali, senza timer di animazione.']
     if 'lua/studio_live_data.lua' in files:
         result['liveDataTransforms']={'injected':True,'engine':'prewarped-font-glyphs','updates':'dataman-Q8-notifications',
                                       'sampleValueBaked':False,'timers':False,'aodAnimation':False,'hardwareVerified':False}

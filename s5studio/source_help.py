@@ -10,7 +10,7 @@ LABELS = {
 DESCRIPTIONS = {
     'timeHour': 'L’ora intera in formato 24 ore. Alle 14:37 vale 14. Per un sottoquadrante delle ore, 24 valori e 720° corrispondono a due giri al giorno.',
     'timeMinute': 'I minuti interi dell’ora corrente, da 0 a 59. Alle 14:37 vale 37; intervallo 60 e rotazione 360° per un giro all’ora.',
-    'timeSecond': 'I secondi interi, da 0 a 59. Intervallo 60 e rotazione 360° per un giro al minuto.',
+    'timeSecond': 'Secondi dell’ora reale, indipendenti dal cronografo. Valore iniziale 0, intervallo 60 e rotazione 360°: un giro al minuto. La posizione segue il campo Secondi dell’anteprima (30 nello scenario Normale), non parte sempre da zero. Per controllare lo zero imposta Secondi = 0; per vederla avanzare attiva Simula movimento, anche senza Movimento Fluido.',
     'timeHourLow': 'Solo la cifra delle unità dell’ora: alle 14:37 vale 4. Serve per indicatori della singola cifra, non per una lancetta oraria completa.',
     'timeHourHigh': 'Solo la cifra delle decine dell’ora: alle 14:37 vale 1. Può valere 0, 1 o 2.',
     'timeMinuteLow': 'Solo la cifra delle unità dei minuti: alle 14:37 vale 7 (da 0 a 9).',

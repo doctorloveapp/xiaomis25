@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "applicationVersion": "1.8",
+  "embeddedFilesVerified": 741,
+  "exeSize": 235608327,
+  "exeSha256": "f9169e2bf663c50b6837c2a5f1c00594050caf379584374cfc8dddf5da0a6c28",
+  "executableLaunched": false,
+  "isolatedEnvironmentTested": false,
+  "sourceModulesMatch": [
+    "s5studio.colors",
+    "s5studio.color_picker",
+    "s5studio.model",
+    "s5studio.render",
+    "s5studio.live_data",
+    "s5studio.lua_runtime",
+    "s5studio.native",
+    "s5studio.web_ui",
+    "s5studio.complications",
+    "s5studio.ui",
+    "s5studio.source_help",
+    "s5studio.native_graph",
+    "s5studio.motion",
+    "s5studio.hand_sets",
+    "s5studio.chrono_pro",
+    "s5studio.civil_hands"
+  ],
+  "sourceModulesMatchCount": 16
+}

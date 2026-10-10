@@ -1,0 +1,20 @@
+{
+  "applicationVersion": "1.8",
+  "status": "passed",
+  "checks": [
+    "hour-has-only-own-motion-flag",
+    "minute-has-only-own-motion-flag",
+    "second-has-only-own-motion-flag",
+    "legacy-second-setting-preserved",
+    "minute-motion-edit-keeps-section",
+    "hour-motion-edit-keeps-section",
+    "disabling-seconds-does-not-disable-hours-minutes",
+    "minute-enter-edit-keeps-only-current-section-open",
+    "second-enter-edit-keeps-only-current-section-open",
+    "undo-keeps-current-section",
+    "aod-flags-disabled-with-settings-preserved"
+  ],
+  "checkCount": 11,
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

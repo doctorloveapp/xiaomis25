@@ -1,10 +1,54 @@
-# S5 Studio 1.7.6 — Dato live ruotato e arcuato
+# S5 Studio 1.8.1 — Cambio minuto senza scatti
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.7.6.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-1.8.1.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Correzione 1.8.1 — Sincronizzazione al cambio minuto e ora
+
+Eliminato il salto temporaneo in avanti della lancetta minuti al passaggio dei secondi da 59 a 0. Le notifiche `dataman` di ore, minuti e secondi arrivano separatamente: prima potevano combinare il minuto nuovo con i vecchi 59 secondi. Il nuovo modulo `studio_civil_clock.lua` pubblica un campione coerente; al cambio dell'ora attende anche il nuovo valore delle ore. Vale per le lancette fluide normali e per l'ora civile del Crono Pro, senza aggiungere timer o animazioni.
+
+Il test reale della 1.8 ha confermato l'avanzamento progressivo piacevole dei minuti e ha individuato questo scatto al confine. La correzione 1.8.1 è verificata sui sorgenti; resta da confermare sull'orologio. AOD, conteggio Crono, rientri da 720 ms e flag indipendenti conservano il comportamento precedente.
+
+**Per applicare la correzione:** apri il progetto esistente nella 1.8.1, esporta nuovamente lo ZIP e reinstallalo sull'S5. Non occorre ricreare il progetto o cambiare le impostazioni delle lancette.
+
+**86 test mirati superati. Eseguibile 1.8.1 creato:** 742 risorse incorporate e 16 moduli Python corrispondenti ai sorgenti testati, verificati staticamente senza avviarlo. Set personali controllati: nessun aggiornamento.
+
+[Dettagli e verifiche](docs/EDITOR_1.8.1.md) · [Test](docs/validation-editor-1.8.1.json) · [Verifica EXE](docs/executable-build-1.8.1.json).
+
+## Novità 1.8 — Fluidità separata e schede stabili
+
+Apri il livello **Lancette**, poi la scheda **Lancetta ore**, **Lancetta minuti** o **Lancetta secondi**: ciascuna contiene il proprio flag **Movimento Fluido**. Il selettore comune è stato rimosso. Puoi attivare qualsiasi combinazione. I progetti precedenti conservano la scelta dei secondi; i nuovi flag di ore/minuti partono disattivati.
+
+**Ore e minuti fluidi:** la posizione include i secondi reali, eliminando il salto di un minuto intero. I minuti avanzano di **0,1° al secondo** e le ore di circa **0,0083° al secondo**. La posizione viene calcolata con domini interi precisi dai dati `dataman`, senza aggiungere timer o animazioni a 25 fps. **Secondi fluidi:** resta lo sweep a **25 fps** già collaudato. Ogni ombra segue la propria lancetta con identica geometria.
+
+Il lavoro aggiuntivo previsto è contenuto: ore/minuti sono mossi dalle notifiche dei secondi e non da cicli di ridisegno continuo. Il test reale ha confermato l'avanzamento progressivo dei minuti, ma ha rilevato lo scatto al cambio minuto corretto nella 1.8.1. Il consumo non è stato misurato. La risoluzione angolare del Pointer limita quanto sia visibile un singolo incremento, soprattutto per le ore.
+
+**Crono Pro:** ore/minuti dell’ora seguono i propri flag; i puntatori che misurano il cronografo mantengono il conteggio a scatti e i rientri coordinati già collaudati. **AOD:** i tre controlli sono disabilitati; ore/minuti usano il percorso nativo senza la nuova logica Lua e i secondi restano esclusi. I valori salvati dei flag non vengono cancellati.
+
+**Corretto il ritorno alla scheda Ore dopo Invio o una modifica:** il pannello conserva sia le schede aperte sia quelle chiuse dello stesso livello, oltre alla posizione di scorrimento. Anche Annulla mantiene la scheda corrente.
+
+Superati **70 test mirati e 11 controlli dell’editor**, inclusi esecuzione Lua, indipendenza dei flag, salvataggio/stili, ombre, confronto geometrico, Crono Pro, AOD e compilazione di un binario temporaneo con tre stili misti. Nessun quadrante ZIP dimostrativo o avvio dell’eseguibile. Controllati i set personali: sei set incorporati, **612 modelli**, nessun nuovo aggiornamento.
+
+**Eseguibile 1.8 creato: 741 risorse incorporate e 16 moduli Python corrispondenti ai sorgenti testati**, verificati staticamente senza avviarlo.
+
+[Guida tecnica e limiti](docs/EDITOR_1.8.md) · [Test](docs/validation-editor-1.8.json) · [Verifica EXE](docs/executable-build-1.8.json).
+
+## Correzione 1.7.7 — Secondi dell’ora nell’anteprima
+
+La lancetta piccola impostata su **Secondi completi (0–59)** avanza ora anche con **Movimento Fluido disattivato**, quando è attivo **Simula movimento**: un aggiornamento al secondo. Il difetto era nella sola anteprima, che applicava il tempo trascorso soltanto con il flag fluido attivo. Se cambi manualmente il campo **Secondi** o lo scenario durante la simulazione, il conteggio riparte dal nuovo valore, senza sommare la fase precedente.
+
+**La posizione iniziale era corretta**, come confermato dall’utente: la lancetta indica i secondi scelti nell’anteprima, **30** nello scenario Normale, e non lo zero del cronografo. Per verificare lo zero scegli **Secondi = 0** nella barra della simulazione. La scala completa consigliata resta **Valore iniziale 0 / Intervallo 60 / Angolo iniziale 0° / Rotazione totale 360°**. Il parametro Valore iniziale definisce l’origine della scala, non l’istante di avvio della simulazione.
+
+Pivot, grafica, sorgente nativa `timeSecond`, compilazione delle lancette e runtime Crono/Crono Pro restano invariati. La sorgente esportata continua a seguire i secondi reali dell’orologio; resta esclusa dall’AOD. Nessun valore del progetto personale è stato riscritto. Integrati i nuovi set **Omega moon** e **Omega moon piccole**: sei set personali incorporati e **612 modelli totali**.
+
+**17 test mirati e 15 controlli dell’editor superati**, compresa una compilazione binaria temporanea che verifica sorgente, aggiornamento a 1 Hz, scala, pivot, due stili Crono Pro e assenza dei secondi in AOD. Nessun ZIP dimostrativo, backup o avvio dell’EXE. La segnalazione della posizione è stata chiarita in anteprima; non è stato dichiarato un nuovo test hardware.
+
+**Eseguibile 1.7.7 creato: 740 risorse incorporate e 15 moduli Python corrispondenti ai sorgenti testati**, verificati staticamente senza avviarlo.
+
+[Dettagli](docs/EDITOR_1.7.7.md) · [Test](docs/validation-editor-1.7.7.json) · [Verifica EXE](docs/executable-build-1.7.7.json).
 
 ## Novità 1.7.6 — Dato live e selettore colore universale
 

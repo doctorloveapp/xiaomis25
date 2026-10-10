@@ -1,4 +1,4 @@
-"""Targeted source UI check for the 1.7.6 calendar; never launch an EXE."""
+"""Targeted source UI check for the 1.8.1 calendar; never launch an EXE."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
@@ -43,7 +43,7 @@ def check():
                 js('(()=>{const input=document.querySelector('+json.dumps('[data-prop="'+key+'"]')+');input.value='+json.dumps(str(value))+';input.dispatchEvent(new Event("change"));})()')
 
             ready('Boolean(window.s5Ready&&state)','Editor startup')
-            assert js('document.body.textContent.includes("Version 1.7.6")')
+            assert js('document.body.textContent.includes("Version 1.8.1")')
             js('send("add",{kind:"number"});true')
             ready('Boolean(document.getElementById("prop-digits"))','Numeric controls')
             change('source','dateWeek')
@@ -54,7 +54,7 @@ def check():
             ready('state.resolvedElements.some(e=>e.kind==="number"&&e.size===36)','Calendar font size')
             expected=bridge.image_url(bridge.project.variant_project(0))
             ready('document.getElementById("preview").src==='+json.dumps(expected)+'&&document.getElementById("preview").complete','Updated MON preview')
-            checks+=['version-1.7.6','weekday-source-help-and-mon-default','numeric-format-controls-hidden-for-calendar','font-change-refreshes-decoded-preview']
+            checks+=['version-1.8.1','weekday-source-help-and-mon-default','numeric-format-controls-hidden-for-calendar','font-change-refreshes-decoded-preview']
             change('source','dateMonth')
             ready('state.resolvedElements.some(e=>e.kind==="number"&&e.source==="dateMonth")','Month source')
             month=next(e for e in bridge.design.elements if e.kind=='number')
@@ -73,9 +73,9 @@ def check():
             assert js('state.resolvedElements.find(e=>e.kind==="number").align==="right"&&state.errors.length===0')
             checks+=['day-keeps-numeric-controls','right-alignment-selected-through-ui','single-day-preview-refreshes-without-validation-error']
             window.close();app.processEvents()
-    report={'status':'passed','applicationVersion':'1.7.6','checks':checks,'checkCount':len(checks),
+    report={'status':'passed','applicationVersion':'1.8.1','checks':checks,'checkCount':len(checks),
             'sourceEditorTested':True,'executableLaunched':False,'hardwareTested':False}
-    (ROOT/'docs/calendar-editor-1.7.6.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
+    (ROOT/'docs/calendar-editor-1.8.1.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps(report,indent=2))
 
 

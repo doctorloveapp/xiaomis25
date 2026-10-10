@@ -316,6 +316,12 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             # Keep EasyFace's hour-centred / minute-second bitmap origins.
             for h,title,attr,code in [('hour','Hour','HourHand_ImageName','0811'),('minute','Minute','MinuteHand_Image','1011'),('second','Second','SecondHand_Image','1811')]:
                 if h=='second' and (not e.second_hand or aod):continue
+                from .civil_hands import civil_roles,write_civil_hand
+                if not aod and h in civil_roles(e):
+                    from urllib.parse import quote
+                    name=write_civil_hand(p,e,h,app_directory,variant_index)
+                    widget(34,'app_'+quote(name,safe=''),0,0,480,480)
+                    continue
                 for is_shadow in ([True,False] if e.show_shadows else [False]):
                     pair=hand_image(e,h,p,shadow=is_shadow)
                     if pair is None:continue
@@ -503,7 +509,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.7.6',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.8.1',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -526,7 +532,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.7.6","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"1.8.1","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -616,9 +622,14 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.7.6 — CALENDARIO INGLESE E ALLINEAMENTO
+TRANSFER_GUIDE = """S5 STUDIO 1.8.1 — MOVIMENTO FLUIDO INDIPENDENTE
 
-Apri il progetto nella 1.7.6 e genera un nuovo ZIP quando necessario.
+Apri il progetto nella 1.8.1 e genera un nuovo ZIP quando necessario.
+Movimento Fluido si sceglie dentro ciascuna scheda Ore, Minuti e Secondi.
+Ore/minuti fluidi seguono i secondi reali, senza timer di animazione.
+La 1.8.1 sincronizza ore/minuti/secondi per evitare scatti al cambio minuto.
+Riesporta il progetto e reinstalla lo ZIP per applicare questa correzione.
+Secondi fluidi: 25 fps. In AOD ore/minuti nativi e secondi esclusi.
 Crono Pro si abilita nelle proprietà della lancetta grande dei secondi.
 Senza flag rimane il Crono separato 1.0, già collaudato sul S5.
 Piccole: scegli Ore Crono, Minuti Crono e Decimi crono - Start/Stop/Reset.
@@ -643,7 +654,7 @@ La 1.7.1 corregge il falso blocco dei decimi crono con livello grande nascosto.
 La 1.7.2 ordina ombra ore, ore, ombra minuti, minuti, ombra secondi, secondi.
 Le ombre delle lancette superiori si vedono anche su quelle inferiori.
 Attiva Mostra ombre sul livello e genera nuovamente lo ZIP.
-La 1.7.6 mostra Giorno settimana come MON-SUN e Mese come January-December.
+La 1.7.3 mostra Giorno settimana come MON-SUN e Mese come January-December.
 Sono dati nativi dinamici: seguono il calendario reale dell’orologio.
 Il giorno del mese a una cifra rispetta l’allineamento Destra.
 Data DD/MM resta numerica. Anteprima iniziale del giorno settimana: MON.
