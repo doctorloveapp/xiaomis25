@@ -10,7 +10,7 @@ Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e
 
 Eliminato il salto temporaneo in avanti della lancetta minuti al passaggio dei secondi da 59 a 0. Le notifiche `dataman` di ore, minuti e secondi arrivano separatamente: prima potevano combinare il minuto nuovo con i vecchi 59 secondi. Il nuovo modulo `studio_civil_clock.lua` pubblica un campione coerente; al cambio dell'ora attende anche il nuovo valore delle ore. Vale per le lancette fluide normali e per l'ora civile del Crono Pro, senza aggiungere timer o animazioni.
 
-Il test reale della 1.8 ha confermato l'avanzamento progressivo piacevole dei minuti e ha individuato questo scatto al confine. La correzione 1.8.1 è verificata sui sorgenti; resta da confermare sull'orologio. AOD, conteggio Crono, rientri da 720 ms e flag indipendenti conservano il comportamento precedente.
+Il test reale della 1.8 ha confermato l'avanzamento progressivo piacevole dei minuti e ha individuato questo scatto al confine. **Test reale della correzione 1.8.1 superato sullo Xiaomi Watch S5**, come confermato dall'utente il 10 ottobre 2026: il funzionamento è ora perfetto. [Esito riferito dall'utente](docs/hardware-test-1.8.1.json). AOD, conteggio Crono, rientri da 720 ms e flag indipendenti conservano il comportamento precedente.
 
 **Per applicare la correzione:** apri il progetto esistente nella 1.8.1, esporta nuovamente lo ZIP e reinstallalo sull'S5. Non occorre ricreare il progetto o cambiare le impostazioni delle lancette.
 

@@ -30,7 +30,7 @@ Il manifest dichiara le App effettive e `build-report.json` documenta `interacti
 
 ## Esito hardware successivo
 
-Il test reale dell'utente ha confermato il movimento progressivo dei minuti, ma ha individuato uno scatto al passaggio 59→0 dovuto alle notifiche H/M/S separate. Corretto nella [1.8.1](EDITOR_1.8.1.md); non è ancora dichiarato un test hardware della correzione.
+Il test reale dell'utente ha confermato il movimento progressivo dei minuti, ma ha individuato uno scatto al passaggio 59→0 dovuto alle notifiche H/M/S separate. Corretto nella [1.8.1](EDITOR_1.8.1.md), il cui [test reale sull'S5 è stato confermato superato dall'utente](hardware-test-1.8.1.json) il 10 ottobre 2026.
 
 ## Verifiche
 

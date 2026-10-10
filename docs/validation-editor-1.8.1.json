@@ -83,7 +83,11 @@
     "previousRelease": "1.8",
     "userConfirmedProgressiveMinuteMotion": true,
     "userReportedRolloverTransient": true,
-    "fixVerifiedOnDevice": false
+    "fixVerifiedOnDevice": true,
+    "status": "passed-as-reported-by-user",
+    "confirmedVersion": "1.8.1",
+    "confirmationDate": "2026-10-10",
+    "evidence": "docs/hardware-test-1.8.1.json"
   },
   "artifacts": {
     "executable": "S5Studio-1.8.1.exe",

@@ -1,0 +1,8 @@
+{
+  "applicationVersion": "1.8.1",
+  "date": "2026-10-10",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "status": "passed-as-reported-by-user",
+  "source": "ho fatto test reale e ti confermo che adesso funziona alla perfezione. ottimo lavoro",
+  "scope": "User confirms successful real-device testing after the correction of the minute-hand transient at second rollover in release 1.8.1. No independent physical test performed by the agent."
+}

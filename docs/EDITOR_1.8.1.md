@@ -14,7 +14,7 @@ Gli esportatori includono il nuovo modulo nelle App civili e nelle scene Pro. Il
 
 **86 test mirati superati**, inclusi 16 nuovi test che esercitano 72 sequenze: tutti i sei ordini H/M/S per cambio minuto, cambio ora, mezzanotte e un secondo saltato, sia nelle App civili ore/minuti sia nel Pro. Il controllo registra ogni scrittura ai Pointer, comprese quelle intermedie; non si limita alla posizione finale. Verificati inoltre campioni immutabili, notifiche ripetute, secondi vecchi accodati dopo il minuto/ora nuovi, correzione dell'orario, input non validi, AOD/ripresa, geometria, ombre, Crono e una compilazione binaria temporanea a tre stili. Due test d'integrazione che producono pacchetti non sono stati eseguiti.
 
-Controllati i set personali: sei set, 17 modelli aggiuntivi, 29 PNG, 612 modelli complessivi; nessun aggiornamento. Nessun backup, ZIP dimostrativo o avvio dell'EXE in ambiente isolato. L'eseguibile viene controllato staticamente. La correzione resta da confermare con un nuovo test sull'S5.
+Controllati i set personali: sei set, 17 modelli aggiuntivi, 29 PNG, 612 modelli complessivi; nessun aggiornamento. Nessun backup, ZIP dimostrativo o avvio dell'EXE in ambiente isolato. L'eseguibile viene controllato staticamente. **Test reale della correzione superato sull'S5**, confermato dall'utente il 10 ottobre 2026: «ho fatto test reale e ti confermo che adesso funziona alla perfezione». [Evidenza riferita dall'utente](hardware-test-1.8.1.json).
 
 Apri **S5Studio-1.8.1.exe**, carica il progetto esistente, riesporta lo ZIP e reinstallalo. Le impostazioni salvate non richiedono modifiche. Osserva il passaggio 59→0 e, quando disponibile, il cambio dell'ora.
 
