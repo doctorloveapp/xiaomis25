@@ -9,6 +9,17 @@ local M = {state="rest", elapsed=0, started=0, views={}, active=true,
     civilReady=false, transitionMs=720, engineTick=0, lastPhase=0}
 _G.S5StudioChronoPro120 = M
 
+local function isPost(view)
+    return view.source=="studioChronoCentisecond" or view.source=="studioChronoMillisecond"
+end
+
+function M:postValue(view)
+    local value=math.floor((self.elapsed%1000)/(view.source=="studioChronoCentisecond" and 10 or 1))
+    if view.postReadout=="digit" then value=value%10 end
+    if view.bounded then value=math.max(view.valueStart,math.min(view.valueStart+view.valueRange,value)) end
+    return value
+end
+
 local function wall()
     if not os or type(os.time)~="function" then return nil end
     local ok,v=pcall(os.time)
@@ -32,6 +43,9 @@ function M:clock()
 end
 
 function M:write(view,value)
+    if view.bounded and not view.transitioning then
+        value=math.max(view.valueStart,math.min(view.valueStart+view.valueRange,value))
+    end
     if math.abs(view.angleRange)>=360 then
         value=view.valueStart+(value-view.valueStart)%view.valueRange
     end
@@ -83,12 +97,18 @@ function M:update(now)
             if self.state=="rest" then
                 if self.civilReady then self:write(view,self:civilSecond(now)) end
             elseif self.state=="ready" then self:write(view,view.valueStart)
-            elseif self.state=="running" or self.state=="stopped" then
+            elseif self.state=="running" or self.state=="reading" or self.state=="stopped" then
                 self:write(view,math.floor(elapsed/1000)%60)
+            end
+        elseif isPost(view) then
+            -- No high-frequency render loop: POST hands stay at their start
+            -- throughout the measure and use the one frozen Stop timestamp.
+            if not self.transition then
+                self:write(view,self.state=="stopped" and self:postValue(view) or view.valueStart)
             end
         elseif source~="studioDecisecond" and not self.transition then
             local value=0
-            if self.state=="running" or self.state=="stopped" then
+            if self.state=="running" or self.state=="reading" or self.state=="stopped" then
                 if source=="studioChronoDecisecond" then
                     value=math.floor((elapsed%1000)/100)/10*view.valueRange
                 else
@@ -124,6 +144,7 @@ function M:finishTransition()
     self.transition=nil
     if self.transitionAnimation then self.transitionAnimation:set {run=false} end
     for _,view in ipairs(self.views) do
+        view.transitioning=nil
         if view.transitionAngle then
             local scale=view.scale or 1
             for _,hand in ipairs(view.hands) do hand:set {range={angleStart=(view.angleStart or 0)*10,
@@ -132,6 +153,7 @@ function M:finishTransition()
         end
     end
     if action=="arming" then self.state="ready"
+    elseif action=="reading" then self.state="stopped"
     elseif action=="resetting" then self.state="rest";self.elapsed=0;self.started=0 end
     -- Final pose comes from the latest civil time, including a second rollover.
     self:update(self:clock());self:schedulers()
@@ -148,9 +170,14 @@ function M:progress(phase)
     local now=self:clock()
     for _,entry in ipairs(t.entries) do
         local view=entry.view
-        local destination=t.action=="resetting" and self:target(view,0,now) or view.valueStart
+        local destination=t.action=="reading" and self:postValue(view) or
+            (t.action=="resetting" and self:target(view,0,now) or view.valueStart)
         local delta=destination-entry.start
-        if view.angleRange~=0 then
+        if view.bounded then
+            -- Calibrated arcs never leave their printed scale. The signed
+            -- range controls the measurement direction, including CCW.
+            self:write(view,entry.start+delta*eased)
+        elseif view.angleRange~=0 then
             local period=view.valueRange*360/math.abs(view.angleRange)
             local direction=view.angleRange>0 and 1 or -1
             if entry.destination then
@@ -176,11 +203,13 @@ function M:beginTransition(action)
     self.state=action
     local entries={}
     for _,view in ipairs(self.views) do
-        if view.source~="studioTimeHour" and view.source~="studioTimeMinute" and view.source~="studioDecisecond" then
+        if (action=="reading" and isPost(view)) or (action~="reading" and
+            view.source~="studioTimeHour" and view.source~="studioTimeMinute" and view.source~="studioDecisecond") then
             entries[#entries+1]={view=view,start=view.last or view.valueStart}
+            view.transitioning=true
             -- Partial/reversed dials still return physically clockwise. During
             -- the sweep use a full-circle angle domain, then restore the range.
-            if math.abs(view.angleRange)>0 and math.abs(view.angleRange)<360 then
+            if not view.bounded and math.abs(view.angleRange)>0 and math.abs(view.angleRange)<360 then
                 view.transitionAngle=true;view.rendered=nil
                 for _,hand in ipairs(view.hands) do hand:set {range={angleStart=0,angleRange=3600,valueStart=0,valueRange=3600}} end
                 self:write(view,view.last or view.valueStart)
@@ -211,7 +240,11 @@ function M:tap()
         self:update(now);self:schedulers()
     elseif self.state=="running" then
         self.elapsed=self:value(now);self.state="stopped"
-        self:update(now);self:schedulers()
+        local post=false
+        for _,view in ipairs(self.views) do if isPost(view) then post=true end end
+        if post then
+            self.state="reading";self:update(now);self:beginTransition("reading")
+        else self:update(now);self:schedulers() end
     elseif self.state=="stopped" then self:beginTransition("resetting") end
 end
 

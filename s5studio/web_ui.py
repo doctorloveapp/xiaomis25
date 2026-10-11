@@ -18,8 +18,9 @@ from .watchface_library import library
 from .render import render,png_bytes,SCENARIOS,layout_errors,hand_preview,hand_edit_changes
 from .native import build
 from .hand_presets import preset_changes,clear_hand_changes
-from .hand_sets import HandSetCatalog,empty_draft,ROLES as HAND_ROLES
+from .hand_sets import HandSetCatalog,empty_draft,roles_for
 from .paths import application_root,resource_root,user_data_root,default_compiler
+from .file_dialogs import RememberedDialogs
 
 
 class BuildTask(QThread):
@@ -54,6 +55,7 @@ class StudioBridge(QObject):
         self.window=window;self.root=application_root();self.resources=resource_root();self.project=template('Analogico')
         self.project.ensure_independent_variants();self._design=None
         self.path=None;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
+        self.dialogs=RememberedDialogs(window,user_data_root()/'dialog-paths.json')
         self.variant=0;self.aod=False;self.scenario='Normale';self.values=dict(SCENARIOS['Normale'])
         self.worker=None;self.output=None;self.smoke=smoke
         self.state_sequence=0
@@ -122,6 +124,9 @@ class StudioBridge(QObject):
             'studioChronoDecisecond':'Decimi del tempo misurato dal cronografo: a zero a riposo, dieci scatti al secondo durante il conteggio, fermi su Stop e azzerati al Reset con rientro fluido. Usa l’unico flag generale Crono Pro della lancetta grande secondi nello stesso stile; questa voce sceglie solo il dato della lancetta piccola. Nascondere il gruppo grande non disattiva Crono Pro. Esclusa in AOD.'})
         hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
                        for e in resolved.elements if e.kind in ('analog','pointer')}
+        source_descriptions.update({
+            'studioChronoCentisecond':'Lettura POST del Crono Pro: frazione del secondo da 00 a 99, oppure sola cifra dei centesimi da 0 a 9. Resta a zero durante il conteggio e raggiunge il valore acquisito allo Stop con animazione da 720 ms a 25 fps. La risoluzione reale dipende dal clock disponibile sul firmware. Esclusa in AOD.',
+            'studioChronoMillisecond':'Lettura POST del Crono Pro: frazione del secondo da 000 a 999, oppure sola cifra dei millesimi da 0 a 9. Stesso istante di Stop per tutte le lancette; nessun aggiornamento rapido durante Running. La fase Anim del firmware non garantisce precisione di 1 ms. Esclusa in AOD.'})
         result=self.project.metadata()
         result.update(variantIndex=self.variant,aod=self.aod,dirty=self.dirty,path=str(self.path or ''),
                       background=resolved.background,
@@ -141,7 +146,7 @@ class StudioBridge(QObject):
                       pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
                       luaSources=lua_sources,
                       aodExcluded=[e.id for e in resolved.elements if e.aod and excluded_from_aod(e)],
-                      chronoState=self.chrono_state,chronoPro=self.preview_pro_mode,motionPreview=self.motion_preview,
+                      chronoState=self.chrono_state,chronoElapsedMs=self.chrono_elapsed,chronoPro=self.preview_pro_mode,motionPreview=self.motion_preview,
                       complicationSources=selectable,
                       scenarios=list(SCENARIOS),
                       maxImageSize=MAX_DESIGN_IMAGE_SIZE,
@@ -157,11 +162,11 @@ class StudioBridge(QObject):
         self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
         self.values['__secondFraction']=(now-self.motion_started)/1000 if self.motion_preview else 0
         self.update_pro_preview(now)
-        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values,chronoState=self.chrono_state,previewSequence=self.state_sequence)
+        self.send(preview=self.image_url(self.project.variant_project(self.variant)),previewValues=self.values,chronoState=self.chrono_state,chronoElapsedMs=self.chrono_elapsed,previewSequence=self.state_sequence)
         self.resume_preview()
 
     def resume_preview(self):
-        if not self.smoke and not self.worker and not self.aod and (self.motion_preview or self.chrono_state in ('running','arming','resetting')):
+        if not self.smoke and not self.worker and not self.aod and (self.motion_preview or self.chrono_state in ('running','arming','reading','resetting')):
             self.motion_timer.start()
 
     def update_pro_preview(self,now=None):
@@ -202,7 +207,7 @@ class StudioBridge(QObject):
 
     def save(self):
         suggested=self.path or self.root/'projects/Il_mio_S5.s5faceproj'
-        filename,_=QFileDialog.getSaveFileName(self.window,'Salva progetto',str(suggested),'Progetti S5 (*.s5faceproj)')
+        filename=self.dialogs.save('project-save','Salva progetto',suggested,'Progetti S5 (*.s5faceproj)')
         if not filename:return False
         path=Path(filename)
         if path.suffix.lower()!='.s5faceproj':path=path.with_suffix('.s5faceproj')
@@ -243,8 +248,8 @@ class StudioBridge(QObject):
         order.remove(key);position=order.index(target)+(placement=='above')
         order.insert(position,key)
 
-    def import_image(self):
-        filename,_=QFileDialog.getOpenFileName(self.window,'Importa immagine',str(self.root),'Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)')
+    def import_image(self,category='image-open'):
+        filename=self.dialogs.open(category,'Importa immagine',self.root,'Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)')
         if not filename:return None
         if Path(filename).suffix.lower()=='.svg':
             from PySide6.QtSvg import QSvgRenderer
@@ -291,6 +296,7 @@ class StudioBridge(QObject):
             elif action.startswith('hand-set-'):
                 self.hand_set_command(action,req)
             elif action=='chrono-preview':
+                self.values.pop('__pointerCalibration',None)
                 now=time.monotonic_ns()//1000000
                 self.update_pro_preview(now)
                 if self.preview_pro_mode:
@@ -302,8 +308,15 @@ class StudioBridge(QObject):
                 else:self.chrono_elapsed=0;self.chrono_state='reset'
                 self.values['__chronoMs']=self.chrono_elapsed if self.preview_pro_mode else now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
                 if not self.smoke:
-                    if self.motion_preview or self.chrono_state in ('running','arming','resetting'):self.motion_timer.start()
+                    if self.motion_preview or self.chrono_state in ('running','arming','reading','resetting'):self.motion_timer.start()
                     else:self.motion_timer.stop()
+            elif action=='pointer-calibration':
+                element=self.element(req)
+                if element.kind!='pointer' or req['pose'] not in ('start','end','live'):
+                    raise ValueError('Posizione di calibrazione non valida.')
+                poses=self.values.setdefault('__pointerCalibration',{})
+                if req['pose']=='live':poses.pop(element.id,None)
+                else:poses[element.id]=req['pose']
             elif action=='motion-preview':
                 self.motion_preview=bool(req.get('value'));self.motion_started=time.monotonic_ns()//1000000
                 self.values['__secondFraction']=0
@@ -316,7 +329,7 @@ class StudioBridge(QObject):
                     if not self.smoke:self.recovery.unlink(missing_ok=True)
             elif action=='open':
                 if self.confirm_leave():
-                    filename,_=QFileDialog.getOpenFileName(self.window,'Apri progetto',str(self.root/'projects'),'Progetti S5 (*.s5faceproj)')
+                    filename=self.dialogs.open('project-open','Apri progetto',self.root/'projects','Progetti S5 (*.s5faceproj)')
                     if filename:
                         self.project=Project.load(Path(filename));self.path=Path(filename);self.variant=0;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
                         if not self.smoke:self.recovery.unlink(missing_ok=True)
@@ -343,9 +356,6 @@ class StudioBridge(QObject):
                 e=self.element(req);kind=req.get('kind')
                 if e.kind not in ('rect','circle') or kind not in ('rect','circle'):raise ValueError('Scegli una forma rettangolare o circolare.')
                 e.kind=kind
-                if kind=='circle':
-                    side=min(e.width,e.height);e.x+=(e.width-side)//2;e.y+=(e.height-side)//2
-                    e.width=e.height=side
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
                 if e.kind in ('analog','pointer'):
@@ -408,7 +418,8 @@ class StudioBridge(QObject):
                 changes={'x':0,'y':0,'width':480,'height':480,'fit':req.get('fit','cover')}
                 for k,v in changes.items():setattr(e,k,v)
             elif action in ('image','variant-image','hand-image','compass-image'):
-                el=self.import_image()
+                category={'hand-image':'hand-image-open','compass-image':'compass-image-open'}.get(action,'image-open')
+                el=self.import_image(category)
                 if el:
                     if action=='image':el.aod=self.aod;selection=el.id
                     else:
@@ -439,7 +450,7 @@ class StudioBridge(QObject):
             elif action=='clear-hand':
                 self.set_hand(req,clear_hand_changes(req['hand']))
             elif action=='font':
-                filename,_=QFileDialog.getOpenFileName(self.window,'Importa font',str(self.root),'Font (*.ttf *.otf)')
+                filename=self.dialogs.open('font-open','Importa font',self.root,'Font (*.ttf *.otf)')
                 if filename:self.element(req).font_asset=self.design.add_font(Path(filename))
             elif action=='add-variant':
                 self.variant=self.project.add_variant(self.variant);self.aod=False;selection=''
@@ -470,7 +481,7 @@ class StudioBridge(QObject):
                 self.variant=max(0,min(int(req['index']),len(self.project.variants)-1));self.aod=False;selection=''
                 from .chrono_pro import ProPreview
                 self.pro_preview=ProPreview();self.chrono_state='rest' if self.preview_pro_mode else 'reset'
-                self.chrono_elapsed=0;self.values.pop('__proValues',None);self.values.pop('__choices',None)
+                self.chrono_elapsed=0;self.values.pop('__proValues',None);self.values.pop('__choices',None);self.values.pop('__pointerCalibration',None)
             elif action=='add-slot':
                 if len(self.design.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
                 n=len(self.design.complications)
@@ -512,11 +523,11 @@ class StudioBridge(QObject):
                     self.motion_started=time.monotonic_ns()//1000000
                     self.values['__secondFraction']=0
             elif action=='compiler':
-                filename,_=QFileDialog.getOpenFileName(self.window,'Seleziona EasyFace 4.23',str(self.compiler.parent),'Compilatore (Compiler.exe)')
+                filename=self.dialogs.open('compiler-open','Seleziona EasyFace 4.23',self.compiler.parent,'Compilatore (Compiler.exe)')
                 if filename:self.compiler=Path(filename)
             elif action=='build':
                 if self.worker and self.worker.isRunning():raise ValueError('Compilazione già in corso.')
-                destination=QFileDialog.getExistingDirectory(self.window,'Cartella di esportazione',str(self.root/'dist'))
+                destination=self.dialogs.directory('watchface-export','Cartella di esportazione',self.root/'dist')
                 if destination:
                     self.motion_timer.stop()
                     self.worker=BuildTask(self.project,self.compiler,Path(destination))
@@ -524,7 +535,7 @@ class StudioBridge(QObject):
                     self.worker.finished.connect(self.build_finished);self.worker.start()
             elif action=='show-output' and self.output:QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.output)))
             elif action=='export-preview':
-                filename,_=QFileDialog.getSaveFileName(self.window,'Salva anteprima',str(self.root/'preview.png'),'PNG (*.png)')
+                filename=self.dialogs.save('preview-save','Salva anteprima',self.root/'preview.png','PNG (*.png)')
                 if filename:Path(filename).write_bytes(png_bytes(render(self.project.variant_project(0 if self.aod else self.variant),self.values,self.aod)))
             if before:
                 if action not in ('add-variant','delete-variant'):
@@ -580,13 +591,16 @@ class StudioBridge(QObject):
             if set(changes)-{'name','small','generateShadows','shadowOptions'}:raise ValueError('Proprietà del set non valida.')
             if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError('Nome del set troppo lungo.')
             if 'small' in changes and type(changes['small']) is not bool:raise ValueError('Tipo del set non valido.')
+            if changes.get('small') is False and set(draft['hands'])-set(roles_for(False)):
+                raise ValueError('Decimi, Centesimi e Millesimi appartengono ai set piccoli. Rimuovi queste grafiche prima di passare a un set principale.')
             draft.update(changes)
         elif action in ('hand-set-image','hand-set-part','hand-set-remove'):
             role=req['role'];shadow=bool(req.get('shadow'))
-            if role not in HAND_ROLES:raise ValueError('Lancetta del set non valida.')
+            if role not in roles_for(draft['small']):raise ValueError('Lancetta del set non valida per questo tipo di set.')
             if shadow and role not in draft['hands']:raise ValueError('Importa prima la lancetta, poi la sua ombra.')
             if action=='hand-set-image':
-                filename,_=QFileDialog.getOpenFileName(self.window,'Importa PNG '+role+(' — ombra' if shadow else ''),str(self.root),'Lancette PNG (*.png)')
+                filename=self.dialogs.open('hand-set-shadow-open' if shadow else 'hand-set-image-open',
+                        'Importa PNG '+role+(' — ombra' if shadow else ''),self.root,'Lancette PNG (*.png)')
                 if filename:
                     item=self.hand_set_catalog.stage(Path(filename))
                     if shadow:draft['hands'][role]['shadow']=item
@@ -652,7 +666,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 1.8.1 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 2.1 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

@@ -1,6 +1,6 @@
 """Editor simulation for the opt-in Crono-Pro; never touches user assets."""
 import math
-from .motion import pro_enabled, lua_element, lua_value
+from .motion import pro_enabled, lua_element, lua_value, POST_SOURCES, post_value
 from .lua_runtime import pro_views
 
 
@@ -21,20 +21,26 @@ class ProPreview:
             if v.source=='studioIntegratedSecond':
                 value=civil if v.smooth_seconds else math.floor(civil)
                 if self.state=='ready':value=0
-                elif self.state in ('running','stopped'):value=math.floor(self.elapsed/1000)%60
-            elif self.state in ('running','stopped'):
+                elif self.state in ('running','reading','stopped'):value=math.floor(self.elapsed/1000)%60
+            elif v.source in POST_SOURCES:
+                value=post_value(v,self.elapsed) if self.state=='stopped' else v.value_start
+            elif self.state in ('running','reading','stopped'):
                 value=lua_value(v.source,self.elapsed,False)
                 if v.source=='studioChronoDecisecond':value=value/10*v.value_range
                 value+=v.value_start
             else:value=v.value_start
-            result[v.id]=value
+            result[v.id]=max(v.value_start,min(v.value_start+v.value_range,value)) if v.pointer_arc else value
         if self.transition:
             t=self.transition;fraction=min(1,max(0,(now-t['started'])/self.duration));eased=1-(1-fraction)**2
             for v in views:
+                if self.state=='reading' and v.source not in POST_SOURCES:continue
                 start=t['start'].get(v.id,v.value_start)
-                destination=(civil if v.smooth_seconds else math.floor(civil)) if v.source=='studioIntegratedSecond' and self.state=='resetting' else v.value_start
+                destination=(post_value(v,self.elapsed) if self.state=='reading' else
+                    (civil if v.smooth_seconds else math.floor(civil)) if v.source=='studioIntegratedSecond' and self.state=='resetting' else v.value_start)
+                if v.pointer_arc:destination=max(v.value_start,min(v.value_start+v.value_range,destination))
                 delta=destination-start
-                if v.angle_range:
+                if v.pointer_arc:candidate=start+delta*eased
+                elif v.angle_range:
                     period=v.value_range*360/abs(v.angle_range)
                     direction=1 if v.angle_range>0 else -1
                     previous=t['targets'].get(v.id)
@@ -48,7 +54,7 @@ class ProPreview:
                 else:candidate=start+delta*eased
                 result[v.id]=v.value_start+(candidate-v.value_start)%v.value_range if abs(v.angle_range)>=360 else candidate
             if fraction>=1:
-                self.state='ready' if self.state=='arming' else 'rest';self.transition=None
+                self.state={'arming':'ready','reading':'stopped','resetting':'rest'}[self.state];self.transition=None
                 if self.state=='rest':self.elapsed=0
                 return self.values(project,now,civil)
         return result
@@ -60,9 +66,12 @@ class ProPreview:
             self.state='arming' if self.state=='rest' else 'resetting'
             self.transition={'started':now,'start':current,'targets':{},'last':{}}
         elif self.state=='ready':self.started=now;self.elapsed=0;self.state='running'
-        elif self.state=='running':self.state='stopped'
+        elif self.state=='running':
+            if any(v.source in POST_SOURCES for v in self.bindings(project)):
+                self.state='reading';self.transition={'started':now,'start':current,'targets':{},'last':{}}
+            else:self.state='stopped'
 
     def aod(self):
         if self.transition:
-            self.state='ready' if self.state=='arming' else 'rest';self.transition=None
+            self.state={'arming':'ready','reading':'stopped','resetting':'rest'}[self.state];self.transition=None
             if self.state=='rest':self.elapsed=0

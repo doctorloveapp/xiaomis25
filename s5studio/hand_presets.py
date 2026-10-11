@@ -17,6 +17,12 @@ def preset_changes(project,element,root,preset,hand,presets,*,custom_root=None,c
         raise ValueError('Seleziona una lancetta valida.')
     if element.kind=='pointer' and hand!='second':raise ValueError('La lancetta piccola usa una sola grafica.')
     if element.kind=='analog' and preset['hand']!=hand:raise ValueError('Modello non adatto a questa lancetta.')
+    post={'centisecond':('studioChronoCentisecond',100),'millisecond':('studioChronoMillisecond',1000)}
+    post_binding=post.get(preset['hand']) if element.kind=='pointer' else None
+    if post_binding:
+        from .motion import pro_enabled
+        if element.aod or not pro_enabled(project):
+            raise ValueError('Per usare il modello Centesimi/Millesimi POST attiva Crono Pro nello stesso stile, fuori dall’AOD.')
     def import_bitmap(item,custom=False):
         if custom:
             from .hand_sets import HandSetCatalog
@@ -49,4 +55,16 @@ def preset_changes(project,element,root,preset,hand,presets,*,custom_root=None,c
                             role+'_shadow_offset_x':shadow['offset'][0],role+'_shadow_offset_y':shadow['offset'][1]})
     if element.kind=='analog' and hand=='hour':changes['second_hand']='second' in chosen and not element.aod
     if element.kind=='pointer' and preset.get('custom'):changes['pointer_end_pivot']=False
+    if element.kind=='pointer' and preset['hand']=='decisecond':
+        # A graphic can serve continuous tenths or Pro tenths. Keep an existing
+        # choice/calibration; a new binding defaults to the independent source.
+        if element.source not in ('studioDecisecond','studioChronoDecisecond'):
+            changes.update(source='studioDecisecond',value_start=0,value_range=10)
+            if not element.pointer_arc:changes['angle_range']=360
+    if post_binding:
+        source,period=post_binding
+        changes.update(source=source,smooth_seconds=False)
+        if element.source!=source:
+            changes.update(value_start=0,value_range=period-1 if element.pointer_arc else period,post_readout='fraction')
+            if not element.pointer_arc:changes['angle_range']=360
     return changes

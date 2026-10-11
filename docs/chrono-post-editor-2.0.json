@@ -1,0 +1,24 @@
+{
+  "applicationVersion": "2.0",
+  "status": "passed",
+  "checks": [
+    "version-2.0",
+    "both-post-sources-and-help",
+    "post-hides-smooth-flag-and-initializes-full-range",
+    "arc-defaults-cover-complete-post-fraction",
+    "editing-start-preserves-angle-end",
+    "clockwise-30-to-140",
+    "counterclockwise-30-to-140",
+    "single-digit-readout",
+    "zero-to-eight-mapping",
+    "editing-value-start-preserves-end",
+    "visual-endpoints-override-preview-only",
+    "return-to-live",
+    "full-circle-kept",
+    "existing-sources-keep-smooth-setting"
+  ],
+  "checkCount": 14,
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "screenshot": "build/chrono-post-editor-2.0.png"
+}

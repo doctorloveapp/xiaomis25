@@ -48,6 +48,20 @@ def test_new_pc_bundled_sets_apply_edit_and_restore_without_originals(tmp_path):
     assert (ROOT/'resources/hand-sets/catalog.json').read_bytes()==bundled
 
 
+def test_sync_and_fresh_pc_keep_post_roles_and_sources_intact(tmp_path):
+    local=tmp_path/'user';local.mkdir();catalog=HandSetCatalog(local)
+    file=tmp_path/'post.png';Image.new('RGBA',(12,80),'orange').save(file)
+    draft=empty_draft();draft.update(name='POST portable',small=True,generateShadows=True)
+    draft['hands']={r:catalog.stage(file) for r in ('decisecond','centisecond','millisecond')}
+    saved=catalog.save(draft);before=catalog.path.read_bytes()
+    target=tmp_path/'project';report=sync_hand_sets(target,sources=[local])
+    assert report['bundledHands']==3 and catalog.path.read_bytes()==before
+    fresh=HandSetCatalog(tmp_path/'new-pc',bundled_root=target/'resources/hand-sets')
+    assert {p['hand'] for p in fresh.presets()}=={'decisecond','centisecond','millisecond'}
+    assert set(fresh.draft(saved['id'])['hands'])=={'decisecond','centisecond','millisecond'}
+    assert all(p['shadow']['generated'] for p in fresh.presets())
+
+
 def test_all_original_graphics_are_editable_and_initial_presets_are_unchanged(tmp_path):
     catalog=HandSetCatalog(tmp_path/'user',library_hands=library()['hands'],resources=ROOT)
     original={p['id']:p for p in library()['hands']};presets=catalog.presets()

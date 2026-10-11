@@ -1,7 +1,8 @@
 'use strict';
 let handSetSearch='',handSetFilter='all';
+const handRoleLabels={hour:'Ore',minute:'Minuti',second:'Secondi',decisecond:'Decimi',centisecond:'Centesimi',millisecond:'Millesimi'};
 function paintHandSets(){
- const root=$('hands-panel'),draft=state.handSetDraft,roles={hour:'Ore',minute:'Minuti',second:'Secondi'};
+ const root=$('hands-panel'),draft=state.handSetDraft,roles=draft.small?handRoleLabels:{hour:'Ore',minute:'Minuti',second:'Secondi'};
  const graphic=(role,item,shadow=false)=>{
   if(!item)return '';
   const [w,h]=item.size,automatic=shadow&&item.generated,readOnly=automatic?'readonly':'';
@@ -30,7 +31,7 @@ function paintHandSets(){
  paintHandSetRows();
 }
 function paintHandSetRows(){
- const root=$('hand-set-list'),roles={hour:'Ore',minute:'Minuti',second:'Secondi'};
+ const root=$('hand-set-list'),roles=handRoleLabels;
  const matches=state.handSets.filter(s=>(!handSetSearch||s.name.toLocaleLowerCase().includes(handSetSearch.toLocaleLowerCase()))&&(handSetFilter==='all'||handSetFilter==='main'&&!s.small||handSetFilter==='small'&&s.small||handSetFilter==='personal'&&!s.builtin||handSetFilter==='builtin'&&s.builtin));
  $('hand-set-results').textContent=matches.length+' set visualizzati';
  root.innerHTML=matches.map(s=>`<div class="hand-set-row"><div class="hand-set-thumbnails">${state.handPresets.filter(p=>p.setId===s.id).map(p=>`<img src="${p.thumbnail}" alt="${esc(roles[p.hand]||'Indicatore')}">`).join('')}</div><div class="flex-1 min-w-0"><strong class="text-sm">${esc(s.name)}</strong><p class="text-[11px] text-slate-400 mt-2">${s.small?'Lancette piccole':'Lancette principali'} · ${s.roles.map(r=>roles[r]).join(', ')} · ${s.builtin?'Originale':s.bundled?'Integrato nel software':'Personale'}${s.modified?' · modificato':''}</p></div><button class="btn" data-set-load="${s.id}">Modifica</button>${s.modified?`<button class="btn" data-set-restore="${s.id}">Ripristina</button>`:''}${!s.builtin?`<button class="btn danger" data-set-delete="${s.id}">Elimina</button>`:''}</div>`).join('')||'<p class="text-xs text-slate-500">Nessun set corrispondente.</p>';

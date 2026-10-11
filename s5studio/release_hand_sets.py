@@ -5,7 +5,7 @@ import json
 import os
 from pathlib import Path
 
-from .hand_sets import HandSetCatalog,ROLES
+from .hand_sets import HandSetCatalog,ROLES,roles_for
 
 
 def sync_hand_sets(root,sources=None):
@@ -28,7 +28,7 @@ def sync_hand_sets(root,sources=None):
             record=deepcopy(original);identity=record['id'];name=record['name']
             if not (identity.startswith('custom-') or identity in target.builtin_by_id):raise ValueError('ID set non riconosciuto: '+identity)
             if not isinstance(name,str) or not 1<=len(name)<=80 or any(ord(c)<32 for c in name):raise ValueError('Nome del set non valido.')
-            if type(record['small']) is not bool or not record['hands'] or set(record['hands'])-set(ROLES):raise ValueError('Ruoli del set non validi.')
+            if type(record['small']) is not bool or not record['hands'] or set(record['hands'])-set(roles_for(record['small'])):raise ValueError('Ruoli del set non validi.')
             if not record['small'] and set(record['hands'])!=set(ROLES) and identity not in target.builtin_by_id:raise ValueError('Set principale incompleto: '+name)
             for mother in record['hands'].values():
                 for item in [mother]+([mother['shadow']] if mother.get('shadow') else []):

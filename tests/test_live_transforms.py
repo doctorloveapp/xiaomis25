@@ -106,11 +106,13 @@ def test_calendar_transforms_remain_native_and_preview_changes(tmp_path):
 @pytest.mark.parametrize('pro',[True,False])
 def test_real_compile_live_data_in_pro_scene_and_aod(tmp_path,pro):
     main=Element(kind='analog',chrono_pro=True,second_hand=True,width=480,height=480,x=0,y=0,show_center_cap=False)
-    live=Element(kind='number',source='heartRate',rotation=25,arc=60,width=160,height=40,size=24)
+    live=Element(kind='number',source='heartRate',rotation=25,arc=60,width=160,height=40,size=24,shadow_enabled=True)
     small=Element(kind='pointer',source='studioChronoMinute',width=60,height=60,x=200,y=280)
     separate=replace(live,id='outside',source='steps',x=190,y=340,digits=5)
     aod=replace(live,id='aodlive',source='batteryPercent',aod=True)
     p=Project(elements=[main,live,small,separate,aod],aod_enabled=True)
+    p.elements.append(Element(kind='circle',x=300,y=30,width=140,height=80,fill_enabled=False,
+                              border_width=4,border_color='#00ff00',shadow_enabled=True))
     if pro:p.add_variant()
     else:p.elements=[replace(live,rotation=0,arc=0),aod]
     source=generate_fprj(p,tmp_path/'source')
@@ -127,7 +129,7 @@ def test_real_compile_live_data_in_pro_scene_and_aod(tmp_path,pro):
         compiled.update(dict(unpack_app(b) for _,_,b in read_tables(data,i)[5]))
     assert 'lua/studio_live_data.lua' in compiled
     if pro:assert 'healthHeartRate' in compiled['lua/studio_v0_scene.lua'].decode('utf8')
-    else:assert 'lua/studio_v0_live_aod_registry.lua' in compiled
+    else:assert f'lua/studio_v0_live_{live.id}.lua' in compiled
     assert any(n.startswith('lua/gfx/live_') for n in compiled)
     report=interaction_report(p,data,b'<Watchface interactive="true"/>')
     assert report['liveDataTransforms']['injected'] and not report['liveDataTransforms']['sampleValueBaked']

@@ -22,7 +22,7 @@ def pro_project(deci=True):
     return p
 
 
-def pro_runtime(tmp_path,*,fallback=False,deci=True,hide_main=False):
+def pro_runtime(tmp_path,*,fallback=False,deci=True,hide_main=False,project=None):
     lua,_=lua_runtime()
     lua.execute('''
         DATA={}
@@ -36,7 +36,7 @@ def pro_runtime(tmp_path,*,fallback=False,deci=True,hide_main=False):
     if fallback:lua.execute('LV.tick_get=nil;io.open=function()return nil end;WALL=1000;os.time=function()return WALL end')
     core=lua.execute((ROOT/'s5studio/lua/studio_core_pro.lua').read_text(encoding='utf8'))
     lua.globals().PRO=core;lua.execute('package.loaded.studio_core_pro=PRO')
-    p=pro_project(deci)
+    p=project if project is not None else pro_project(deci)
     if hide_main:next(e for e in p.elements if e.kind=='analog' and not e.aod).visible=False
     name=write_scene(p,scene_layers(p),tmp_path,0)
     lua.execute((tmp_path/'app'/name).read_text(encoding='utf8'))
@@ -397,7 +397,7 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
         report=json.loads(z.read('build-report.json'));pro=report['interactive']['chronoPro']
         assert pro['runningSmoothForcedOff'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
         assert pro['transitionDurationMs']==720 and pro['transitionTargetFps']==25
-        assert report['applicationVersion']=='1.8.1' and report['interactive']['appLayoutCount']==2
+        assert report['applicationVersion']=='2.1' and report['interactive']['appLayoutCount']==2
         assert all(len(s['pointerIds'])==6 for s in report['interactive']['luaArchitecture']['scenes'])
         for screen in inspect_binary(data)['screens']:
             tables=read_tables(data,screen['index'])

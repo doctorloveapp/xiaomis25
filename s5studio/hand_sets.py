@@ -14,6 +14,13 @@ import uuid
 from PIL import Image,ImageFilter
 
 ROLES=('hour','minute','second')
+SMALL_ROLES=(*ROLES,'decisecond','centisecond','millisecond')
+
+
+def roles_for(small):
+    return SMALL_ROLES if small else ROLES
+
+
 SHADOW_OPTIONS={'opacity':45,'blur':1.5,'offset':[2,3]}
 
 
@@ -176,7 +183,7 @@ class HandSetCatalog:
             raise ValueError('Inserisci un nome del set da 1 a 80 caratteri.')
         if type(record.get('small')) is not bool:raise ValueError('Tipo del set non valido.')
         hands=record.get('hands',{})
-        if not hands or set(hands)-set(ROLES):raise ValueError('Importa almeno una lancetta per il set.')
+        if not hands or set(hands)-set(roles_for(record['small'])):raise ValueError('Importa almeno una lancetta valida per il tipo di set.')
         identity=record.get('id','')
         if not record['small'] and set(hands)!=set(ROLES) and identity not in self.builtin_by_id:
             raise ValueError('Per un set principale importa le PNG di ore, minuti e secondi.')

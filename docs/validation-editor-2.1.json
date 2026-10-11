@@ -1,0 +1,163 @@
+{
+  "applicationVersion": "2.1",
+  "date": "2026-10-11",
+  "status": "passed",
+  "pytest": {
+    "passed": 56,
+    "integrationDeselected": 0,
+    "suites": [
+      "test_file_dialogs",
+      "test_custom_hand_sets",
+      "test_bundled_hand_sets",
+      "test_chrono_post"
+    ],
+    "log": "build/tests-editor-2.1.log"
+  },
+  "sourceEditor": {
+    "applicationVersion": "2.1",
+    "status": "passed",
+    "checkCount": 12,
+    "checks": [
+      "version-2.1",
+      "main-three-small-six-roles-with-tenths-label",
+      "tenths-import-save-reopen-with-shadow",
+      "tenths-model-keeps-pro-binding",
+      "all-load-save-buttons-reuse-category-folder",
+      "folder-history-persists-across-bridge-restart",
+      "hours-minutes-seconds-full-fractions-format",
+      "pro-stop-reading-right-of-label-uses-captured-time",
+      "stopped-reading-does-not-drift",
+      "stale-frame-does-not-change-reading",
+      "reset-clears-reading",
+      "classic-chrono-same-stop-reading"
+    ],
+    "sourceEditorTested": true,
+    "executableLaunched": false
+  },
+  "sourceSha256": {
+    "s5studio/file_dialogs.py": "79e1f0316a6a720f8cc8bf83dcb9a14ba412da076592b717181fa55f4cd2df72",
+    "s5studio/hand_sets.py": "8c0031b1b9d8aed8870a59499f54080f037466ca9635032d8798bebfabe3569b",
+    "s5studio/hand_presets.py": "8faf35d3b182a4220e56fd4ab451f0c344d7d4330bc89b7bf5823764888ab101",
+    "s5studio/web_ui.py": "aaca34a94be0c92bddd2d5eb2713d37e3153116fe24a436230a68a218943bb3e",
+    "frontend/app.js": "95ce2322fdd6e1ad51df4d359e6ea0d524def5f44ee9a66d1b1c2f85fae571c1",
+    "frontend/hand-sets.js": "5888929b7fea7d6197cd79987a742fddf309ef61712a9248c1b0177a78d2746a",
+    "frontend/index.html": "8c31e1704be3d68c731a643e0fdb2611000524946447c6557bfac83b0e9cc8a9"
+  },
+  "handSetIntegration": {
+    "status": "passed",
+    "sourcesChecked": [
+      {
+        "catalog": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\data\\hand-sets\\catalog.json",
+        "status": "absent"
+      },
+      {
+        "catalog": "C:\\Users\\hp_wi\\AppData\\Local\\S5Studio\\hand-sets\\catalog.json",
+        "status": "checked",
+        "sets": 9
+      }
+    ],
+    "updates": [
+      {
+        "id": "custom-b7312f6f09c64e4ea4bac4f2a7c488de",
+        "name": "Bulova_lancette_piccole",
+        "action": "added"
+      }
+    ],
+    "bundledSets": 9,
+    "bundledHands": 28,
+    "bundledAssets": 47,
+    "sets": [
+      {
+        "id": "custom-911b9b557a3249938c8a74bd7432b1d3",
+        "name": "Bulova",
+        "small": false
+      },
+      {
+        "id": "custom-b7312f6f09c64e4ea4bac4f2a7c488de",
+        "name": "Bulova_lancette_piccole",
+        "small": true
+      },
+      {
+        "id": "custom-6f6a7ad536d047bd89280d8e114b7fd6",
+        "name": "Hamilton Lancette",
+        "small": false
+      },
+      {
+        "id": "custom-ea28ed38ee7f41beb5d4d1ddca14de28",
+        "name": "Longine",
+        "small": false
+      },
+      {
+        "id": "custom-239bb4249cf0466db27a7446e0185190",
+        "name": "Omega moon",
+        "small": false
+      },
+      {
+        "id": "custom-9cdd7998cd644b86bf4fb3325faf8afe",
+        "name": "Omega moon piccole",
+        "small": true
+      },
+      {
+        "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
+        "name": "Seiko 5 ombra",
+        "small": false
+      },
+      {
+        "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
+        "name": "Swatch Orange ombra",
+        "small": false
+      },
+      {
+        "id": "custom-6fb7cf28c7414c449f18046d047d13be",
+        "name": "Swatch orange piccole",
+        "small": true
+      }
+    ],
+    "catalogSha256": "c973204f62dd28b5af13aab78beb44a288fac541cc200015fbbdc32eb8766113",
+    "originalCatalogHands": 595,
+    "effectiveCatalogHands": 623,
+    "sourceCatalogsModified": false
+  },
+  "firmwareLuaChanged": false,
+  "executableLaunched": false,
+  "isolatedEnvironmentTested": false,
+  "demoWatchfaceZipCreated": false,
+  "regressionBackupCreated": false,
+  "hardwareTest": "pending-for-2.1; no new device runtime logic",
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "2.1",
+    "embeddedFilesVerified": 760,
+    "exeSize": 235947041,
+    "exeSha256": "44996c217e1c2f2cd60e32cc93fbf22ec16263c8aad2b877ee36f151fd83a7f2",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "executableFile": "S5Studio-2.1.exe",
+    "sourceModulesMatch": [
+      "s5studio.colors",
+      "s5studio.color_picker",
+      "s5studio.model",
+      "s5studio.render",
+      "s5studio.live_data",
+      "s5studio.lua_runtime",
+      "s5studio.native",
+      "s5studio.web_ui",
+      "s5studio.complications",
+      "s5studio.ui",
+      "s5studio.source_help",
+      "s5studio.native_graph",
+      "s5studio.motion",
+      "s5studio.hand_sets",
+      "s5studio.chrono_pro",
+      "s5studio.civil_hands",
+      "s5studio.effects",
+      "s5studio.transforms",
+      "s5studio.calendar_labels",
+      "s5studio.hand_presets",
+      "s5studio",
+      "s5studio.file_dialogs"
+    ],
+    "sourceModuleCount": 22,
+    "luaModulesMatchSource": true
+  }
+}

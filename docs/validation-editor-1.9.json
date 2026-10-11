@@ -1,0 +1,160 @@
+{
+  "applicationVersion": "1.9",
+  "date": "2026-10-10",
+  "status": "passed",
+  "pytest": {
+    "uniquePassed": 93,
+    "integrationDeselected": 1,
+    "log": "build/tests-layer-effects-1.9.log",
+    "suites": [
+      "test_layer_effects",
+      "test_live_transforms",
+      "test_transforms",
+      "test_color_picker",
+      "test_calendar_labels",
+      "test_civil_rollover"
+    ]
+  },
+  "sourceEditor": {
+    "applicationVersion": "1.9",
+    "status": "passed",
+    "checks": [
+      "version-1.9",
+      "legacy-filled-shape-defaults",
+      "outline-only-defaults-to-visible-border",
+      "border-width-refreshes-preview",
+      "independent-border-fill-colors",
+      "shape-switch-preserves-nonsquare-geometry",
+      "ellipse-width-height-independent",
+      "ellipse-drag-does-not-lock-aspect",
+      "shadow-parameters-and-percent-conversion",
+      "shadow-color-none-keeps-border-fill",
+      "text-shadow-controls",
+      "number-shadow-controls",
+      "hand-shadows-keep-existing-controls",
+      "independent-style-effects",
+      "undo-effects"
+    ],
+    "checkCount": 15,
+    "sourceEditorTested": true,
+    "executableLaunched": false,
+    "screenshot": "build/layer-effects-editor-1.9.png"
+  },
+  "shapeEffects": {
+    "optionalFill": true,
+    "independentFillAndBorderColors": true,
+    "borderWidthRangePx": [
+      0,
+      100
+    ],
+    "ellipseIndependentAxes": true,
+    "shapeSwitchPreservesGeometry": true,
+    "mouseResizeChecked": true
+  },
+  "shadows": {
+    "kinds": [
+      "rect",
+      "circle",
+      "text",
+      "number"
+    ],
+    "independentColor": true,
+    "opacityPercentRange": [
+      0,
+      100
+    ],
+    "offsetRangePx": [
+      -480,
+      480
+    ],
+    "blurRangePx": [
+      0,
+      40
+    ],
+    "spreadRangePx": [
+      -32,
+      32
+    ],
+    "transformedGeometrySharedWithExport": true,
+    "haloExpandedBeforeCanvasClip": true,
+    "allShadowsBelowAllLiveForegroundDigits": true,
+    "liveValuesNotBaked": true,
+    "sensorChangesSimulated": true,
+    "filtersRunOnPcOnly": true,
+    "newTimers": false,
+    "newAnimations": false,
+    "additionalImagesPerDigit": 1,
+    "calendarKeepsNativeBindings": true,
+    "aodLifecycleChecked": true,
+    "actualDevicePowerMeasured": false
+  },
+  "runtimeUnchanged": {
+    "studio_core.lua": true,
+    "studio_core_pro.lua": true,
+    "studio_civil_hand.lua": true,
+    "studio_civil_clock.lua": true
+  },
+  "runtimeComparisonNormalizesLineEndings": true,
+  "sourceSha256": {
+    "s5studio/effects.py": "23f32a15b2e57a56e5c77ed33feb8bc0d95f35d2c1ba68b7ad530c19aad2e1ee",
+    "s5studio/model.py": "8b95e649c4b0b2386915a1a0801087cc68ce20d5a6d554037de3cdd8aa1a7146",
+    "s5studio/render.py": "acb8bebacbc257e666266b538a6346d0460b0900f94c33259b21870377bb5297",
+    "s5studio/transforms.py": "10ed7b110cc6e2ca9f39106f3103315031470c253b1931142eb14d7e323f0a74",
+    "s5studio/live_data.py": "ed46551d1ad78d3d80ef9b29e7df470dd4840e19abe9926a7bdaded80bfa0263",
+    "s5studio/lua/studio_live_data.lua": "50f392780dc98ad38cc98efff59a22f84320b1b3f9bdd75691c0ebd39468aac4",
+    "s5studio/native.py": "df9ff5878edbdf016b62f60bf10904099b5e4c118ebf524f95ca60c05f9dab84",
+    "frontend/app.js": "02e7e2d303c9a72c855757875ecf9f24e1610e9d3d4ae5db73162ef52c8dba25"
+  },
+  "personalSets": {
+    "bundledSets": 6,
+    "effectiveHands": 612,
+    "updates": [],
+    "sourceCatalogsModified": false
+  },
+  "hardware": {
+    "newFeaturesVerifiedOnDevice": true,
+    "previousCivilFix": "docs/hardware-test-1.8.1.json",
+    "evidence": "docs/hardware-test-1.9.json",
+    "status": "passed-as-reported-by-user",
+    "date": "2026-10-11"
+  },
+  "artifacts": {
+    "executable": "S5Studio-1.9.exe",
+    "backupCreated": false,
+    "demoWatchfaceZipCreated": false,
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "1.9",
+    "embeddedFilesVerified": 742,
+    "exeSize": 235614997,
+    "exeSha256": "c2a689c768ec6fdf398936f129f73930d116f6eab64700c1c8d31f013b75da08",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "sourceModulesMatch": [
+      "s5studio.colors",
+      "s5studio.color_picker",
+      "s5studio.model",
+      "s5studio.render",
+      "s5studio.live_data",
+      "s5studio.lua_runtime",
+      "s5studio.native",
+      "s5studio.web_ui",
+      "s5studio.complications",
+      "s5studio.ui",
+      "s5studio.source_help",
+      "s5studio.native_graph",
+      "s5studio.motion",
+      "s5studio.hand_sets",
+      "s5studio.chrono_pro",
+      "s5studio.civil_hands",
+      "s5studio.effects",
+      "s5studio.transforms",
+      "s5studio.calendar_labels"
+    ],
+    "sourceModuleCount": 19,
+    "luaModulesMatchSource": true
+  }
+}

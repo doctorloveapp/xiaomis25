@@ -8,7 +8,9 @@ LUA_SOURCES = {
     'studioChronoSecond': ('Secondi Crono', 60),
 }
 SECOND_SOURCES = {'second', 'timeSecond', 'timeSecondLow', 'timeSecondHigh', 'studioDecisecond', 'studioChronoSecond'}
-ALL_LUA_SOURCES = {**LUA_SOURCES, 'studioChronoDecisecond': ('Decimi crono · Start/Stop/Reset', 10)}
+POST_SOURCES = {'studioChronoCentisecond': ('Centesimi (POST)', 100),
+                'studioChronoMillisecond': ('Millesimi (POST)', 1000)}
+ALL_LUA_SOURCES = {**LUA_SOURCES, 'studioChronoDecisecond': ('Decimi crono · Start/Stop/Reset', 10), **POST_SOURCES}
 SECOND_SOURCES.add('studioChronoDecisecond')
 
 
@@ -34,10 +36,17 @@ def pointer_period(e, aod=False):
 
 
 def lua_value(source, milliseconds, smooth=False):
+    if source in POST_SOURCES:
+        return int(milliseconds % 1000) // (10 if source=='studioChronoCentisecond' else 1)
     if source in ('studioDecisecond','studioChronoDecisecond'): return (milliseconds % 1000) / 100 if smooth else (milliseconds % 1000) // 100
     divisor = {'studioChronoHour': 3600000, 'studioChronoMinute': 60000, 'studioChronoSecond': 1000}[source]
     value = milliseconds / divisor
     return (value if smooth else int(value)) % LUA_SOURCES[source][1]
+
+
+def post_value(e, milliseconds):
+    value=lua_value(e.source,milliseconds)
+    return value % 10 if e.post_readout=='digit' else value
 
 
 def native_motion_report(data):

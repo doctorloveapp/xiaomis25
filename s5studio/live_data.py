@@ -7,13 +7,37 @@ import hashlib,json,struct,xml.etree.ElementTree as ET
 from PIL import Image
 from .calendar_labels import labels_for
 from .paths import resource_root
-from .render import digit_image,digit_metrics,number_parts,png_bytes
-from .transforms import active,raster
+from .render import digit_image,digit_metrics,number_parts,png_bytes,canvas_layers,number_text
+from .transforms import active
+from .effects import enabled as shadow_enabled
 from .complications import ALIASES
 
 
 def live_element(e):
-    return e.kind=='number' and active(e) and not labels_for(e)
+    return e.kind=='number' and (active(e) or shadow_enabled(e)) and not labels_for(e)
+
+
+def glyph_positions(project,e,length):
+    cw,_,_=digit_metrics(project,e)
+    (_,count,x,y),=number_parts(project,e)[0]
+    offset=(count-length)*cw if e.align=='right' else count*cw//2-length*cw//2 if e.align=='center' else 0
+    return [(x+offset+index*cw,y) for index in range(length)]
+
+
+def glyph_layers(project,e,char,position):
+    source=Image.new('RGBA',(e.width,e.height));source.alpha_composite(digit_image(project,e,char),position)
+    return canvas_layers(project,e,source)
+
+
+def preview_live(project,e,values):
+    text=number_text(e,values.get(e.source))
+    pairs=[glyph_layers(project,e,char,position) for char,position in zip(text,glyph_positions(project,e,len(text)))]
+    image=Image.new('RGBA',(480,480))
+    for channel in (0,1):
+        for pair in pairs:
+            if pair[channel] is not None:
+                bitmap,x,y=pair[channel];image.alpha_composite(bitmap,(x,y))
+    return image
 
 
 def lua_value(value):
@@ -27,32 +51,34 @@ def lua_value(value):
 def live_lines(project,e,base,variant):
     (base/'gfx').mkdir(parents=True,exist_ok=True)
     (base/'studio_live_data.lua').write_bytes((resource_root()/'s5studio/lua/studio_live_data.lua').read_bytes())
-    cw,_,_=digit_metrics(project,e)
-    (_,count,x,y),=number_parts(project,e)[0]
+    count=e.digits
     cache={};glyphs={}
     chars={char:digit_image(project,e,char) for char in '0123456789-.'}
+    def sprite(pair):
+        box=pair[0].getchannel('A').getbbox() if pair else None
+        if box:
+            bitmap=pair[0].crop(box);px,py=pair[1]+box[0],pair[2]+box[1]
+        else:bitmap=Image.new('RGBA',(1,1));px=py=0
+        raw=png_bytes(bitmap);name='live_'+hashlib.sha256(raw).hexdigest()[:24]+'.png'
+        (base/'gfx'/name).write_bytes(raw)
+        return {'x':px,'y':py,'src':'gfx/'+name}
     for length in range(1,count+1):
-        offset=(count-length)*cw if e.align=='right' else count*cw//2-length*cw//2 if e.align=='center' else 0
         rows=[]
-        for index in range(length):
+        for x,y in glyph_positions(project,e,length):
             row={}
             for char,graphic in chars.items():
-                position=(x+offset+index*cw,y,char)
+                position=(x,y,char)
                 if position not in cache:
                     source=Image.new('RGBA',(e.width,e.height));source.alpha_composite(graphic,position[:2])
-                    pair=raster(project,e,source)
-                    box=pair[0].getchannel('A').getbbox() if pair else None
-                    if box:
-                        bitmap=pair[0].crop(box);px,py=pair[1]+box[0],pair[2]+box[1]
-                    else:bitmap=Image.new('RGBA',(1,1));px=py=0
-                    raw=png_bytes(bitmap);name='live_'+hashlib.sha256(raw).hexdigest()[:24]+'.png'
-                    (base/'gfx'/name).write_bytes(raw)
-                    cache[position]={'x':px,'y':py,'src':'gfx/'+name}
+                    shadow,foreground=canvas_layers(project,e,source)
+                    cache[position]=sprite(foreground)
+                    if shadow_enabled(e):cache[position]['shadow']=sprite(shadow)
                 row[char]=cache[position]
             rows.append(row)
         glyphs[length]=rows
     config={'id':e.id,'source':ALIASES.get(e.source,e.source),'count':e.digits,
             'decimals':e.decimals,'leadingZero':e.leading_zero,'aod':e.aod,'glyphs':glyphs}
+    if shadow_enabled(e):config['shadow']=True
     return ['require("studio_live_data").add(scene, '+lua_value(config)+')']
 
 

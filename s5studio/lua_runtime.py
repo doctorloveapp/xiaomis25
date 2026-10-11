@@ -153,7 +153,7 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
             scale=max(1,min(1000,65535//max(1,view.value_start+view.value_range)))
             lines+=pointer_lines(project,view,base,variant,value_scale=scale)
             period=ALL_LUA_SOURCES[view.source][1] if view.source in ALL_LUA_SOURCES else (12 if view.source=='studioTimeHour' else 60)
-            lines += [f'core:add {{id="{view.id}",root=root,hands=hands,source="{view.source}",range={period},valueStart={view.value_start},valueRange={view.value_range},angleStart={view.angle_start},angleRange={view.angle_range},scale={scale},smooth={str(view.smooth_seconds).lower()}}}','end']
+            lines += [f'core:add {{id="{view.id}",root=root,hands=hands,source="{view.source}",range={period},valueStart={view.value_start},valueRange={view.value_range},angleStart={view.angle_start},angleRange={view.angle_range},scale={scale},bounded={str(view.pointer_arc).lower()},postReadout="{view.post_readout}",smooth={str(view.smooth_seconds).lower()}}}','end']
     lines+=['local tap = lvgl.Object(scene, {x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})',
             'tap:clear_flag(lvgl.FLAG.SCROLLABLE)','tap:add_flag(lvgl.FLAG.CLICKABLE)',
             'tap:onevent(lvgl.EVENT.PRESSED or lvgl.EVENT.CLICKED, function() core:tap() end)']
@@ -298,12 +298,18 @@ def interaction_report(project, data, manifest_bytes):
                     raise ValueError('Lancette/sorgenti Crono-Pro diverse dal progetto.')
                 if ('require("studio_core_pro")' in code)!=pro_enabled(p):
                     raise ValueError('Modalità Crono-Pro diversa dal runtime iniettato.')
+                from .motion import POST_SOURCES
+                for v in views:
+                    if v.source in POST_SOURCES:
+                        binding=next((line for line in code.splitlines() if 'core:add {id="'+v.id+'"' in line),'')
+                        if f'bounded={str(v.pointer_arc).lower()},postReadout="{v.post_readout}"' not in binding:
+                            raise ValueError('Calibrazione/lettura POST diversa dal progetto.')
                 if code.count('tap:onevent(')!=int(pro_enabled(p) or any(v.source!='studioDecisecond' for v in views)):
                     raise ValueError('Crono-Pro deve avere un solo gestore del tap.')
             variants.append({'variant':i,'mode':'pro' if pro_enabled(p) else 'separate',
                              'entry':expected[0] if views else None,'pointerIds':sorted(v.id for v in views)})
         result['luaArchitecture']={'type':'single-scene-per-theme','crossWidgetVmSharingRequired':False,'scenes':variants}
-        result['chronoPro']={'injected':True,'runtime':'studio_core_pro.lua','states':['rest','arming','ready','running','stopped','resetting'],
+        result['chronoPro']={'injected':True,'runtime':'studio_core_pro.lua','states':['rest','arming','ready','running','reading','stopped','resetting'],
                             'runningSmoothForcedOff':True,'runningPeriodMsWithDeciseconds':100,'runningPeriodMsWithoutDeciseconds':1000,
                             'writesOnlyChangedValues':True,'transitionSmoothForcedOn':True,'transitionDurationMs':int(re.search(rb'\btransitionMs=(\d+)',pro_core).group(1)),'transitionTargetFps':25,
                             'pointerValueDomain':'scaled-integer','defaultPointerValueScale':1000,
@@ -315,4 +321,18 @@ def interaction_report(project, data, manifest_bytes):
         result['limitations']=['Crono-Pro 1.2 collaudato sul S5; la 1.4 porta la durata comune dei rientri a 720 ms. Crono separato 1.0 collaudato.',
                                'Fallback fase Anim: precisione durante sospensioni limitata da os.time; senza clock civile non misura il tempo a schermo spento.',
                                'Cronografo locale: ricreazione della VM/cambio quadrante azzerano il conteggio. Consumo non misurato.']
+        from .motion import POST_SOURCES
+        posts=[{'variant':i,'id':e.id,'source':e.source,'readout':e.post_readout,
+                'arc':e.pointer_arc,'valueStart':e.value_start,'valueEnd':e.value_start+e.value_range,
+                'angleStart':e.angle_start,'angleEnd':(e.angle_start+e.angle_range)%360,'angleRange':e.angle_range}
+               for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements
+               if e.visible and not e.aod and e.kind=='pointer' and e.source in POST_SOURCES]
+        if posts and (b'function M:postValue(view)' not in pro_core or b'self:beginTransition("reading")' not in pro_core):
+            raise ValueError('Runtime POST 2.0 mancante o incompleto.')
+        result['chronoPro']['postReadout']={'injected':bool(posts),'pointers':posts,
+            'sharedStopTimestamp':True,'runningPointerUpdates':False,'extraRunningTimers':0,
+            'transitionDurationMs':720,'transitionTargetFps':25,'boundedArcsStayInsideScale':True,
+            'millisecondAccuracyGuaranteed':False,
+            'resolution':'Depends on firmware clock; LVGL animation fallback is frame-sampled; sleep fallback is one-second.'}
+        if posts:result['limitations'].append('POST 2.0: lettura dei centesimi/millesimi del clock disponibile, non precisione certificata a 1 ms; nuovo test reale richiesto.')
     return result

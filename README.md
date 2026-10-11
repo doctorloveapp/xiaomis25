@@ -1,10 +1,52 @@
-# S5 Studio 1.8.1 — Cambio minuto senza scatti
+# S5 Studio 2.1 — Set Decimi, cartelle ricordate e lettura Crono
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-1.8.1.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-2.1.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Novità 2.1
+
+**Lancetta piccola · Decimi** è disponibile nella creazione/modifica dei set piccoli, accanto a Ore, Minuti, Secondi, Centesimi e Millesimi. Puoi importare PNG, impostare il pivot e importare o generare l'ombra. Il modello salvato compare nel catalogo delle lancette piccole. **Usa modello** conserva la sorgente e la calibrazione se hai già scelto Decimi continui o Decimi crono; al primo abbinamento propone Decimi continui (0/10, 360°). Per il conteggio Start/Stop/Reset scegli **Decimi crono** e attiva il flag generale Crono Pro. I set principali restano a tre ruoli.
+
+**Cartelle ricordate:** Apri progetto, Salva progetto/Salva con nome, immagini/sfondi, PNG lancette singole, bussole, font, PNG set, ombre set, compilatore, esportazione ZIP e anteprima mantengono ciascuno l'ultima cartella scelta. Le preferenze persistono tra gli avvii in `%LOCALAPPDATA%/S5Studio/dialog-paths.json` (da sorgente: `data/dialog-paths.json`). Annullare non modifica la cartella; se non è più disponibile si usa il percorso predefinito. Salva progetto continua a chiedere il nome a ogni utilizzo.
+
+**Lettura numerica allo Stop:** a destra di **Crono fermo** compare, per esempio, `01:02:03 · Decimi 4 · Centesimi 48 · Millesimi 488`. Ore:minuti:secondi sono il tempo trascorso; le frazioni complete rappresentano tutte lo stesso secondo, in questo caso 0,488 s. Il dato deriva dall'istante congelato che guida le lancette e resta fermo anche con l'anteprima animata attiva. Con i POST appare al termine del loro posizionamento; il Reset lo nasconde. Disponibile per Crono e Crono Pro. Questo è un controllo dell'anteprima del PC, non una nuova garanzia di precisione del clock dell'S5.
+
+Integrato anche **Bulova_lancette_piccole**: **9 set personali, 623 modelli complessivi**. Verificati **56 test mirati e 12 controlli dell'editor**. [Guida 2.1](docs/EDITOR_2.1.md) · [Controlli](docs/validation-editor-2.1.json) · [Verifica EXE](docs/executable-build-2.1.json).
+
+**Eseguibile 2.1 creato e verificato staticamente:** 760 risorse incorporate, 22 moduli Python e file Lua corrispondenti ai sorgenti. Nessun avvio dell'EXE in ambiente isolato.
+
+## Novità 2.0 — Centesimi/Millesimi POST e archi calibrati
+
+**Centesimi (POST)** e **Millesimi (POST)** sono nuove sorgenti delle lancette piccole e richiedono il flag generale **Crono Pro**. Restano alla posizione iniziale durante Running e, allo Stop, raggiungono la lettura acquisita con l'animazione comune da **720 ms a 25 fps**. Puoi usare sei lancette di misura: grande secondi, piccole decimi/minuti/ore e due POST. Il Reset le comprende tutte; l'AOD le esclude. Il flag Movimento Fluido è assente per i POST.
+
+**Creazione set piccoli:** scegli Set lancette → Tipo di set → Lancette piccole. Oltre a Ore, Minuti e Secondi trovi **Centesimi** e **Millesimi**, ciascuna con PNG, pivot e ombra propri, anche generata automaticamente. Salva il set e scegli la grafica dal catalogo della lancetta piccola: **Usa modello** abbina la relativa sorgente POST e richiede Crono Pro nello stesso stile. Se la sorgente è già quella corretta, mantiene la calibrazione; al primo abbinamento propone la frazione completa. I set principali mantengono i tre ruoli precedenti. Integrato anche il nuovo set personale **Bulova**: otto set e 618 modelli totali. Completamento verificato con **30 test mirati e 10 controlli UI**; runtime Lua invariato. [Controlli editor dei set POST](docs/hand-set-post-editor-2.0.json).
+
+**Lettura POST:** frazione completa del secondo (00–99 / 000–999) oppure singola cifra (0–9). Esempio a 12,488 s: 48 e 488 nella lettura completa, 8 e 8 nelle singole cifre. Tutte leggono lo stesso istante di Stop. Nessun nuovo timer rapido durante Running. **La visualizzazione dei millesimi non garantisce precisione di 1 ms:** sul fallback Anim l'istante è campionato ai fotogrammi; durante sospensioni il clock civile ha precisione di un secondo.
+
+**Arco di rotazione personalizzato:** valori iniziale/finale, angoli iniziale/finale e verso orario/antiorario indipendenti. Per tutta la frazione imposta 0 / 99 o 0 / 999. Se la tacca «8» significa 0,800 s, imposta Valore finale 800; il valore 8 nei millesimi completi significa 0,008 s. 30° → 140° percorre 110° in senso orario oppure 250° in senso antiorario; per 110° antiorari usa 140° → 30°. Valori fuori scala fermi agli estremi; Stop e Reset restano entro l'arco. **Mostra inizio**, **Mostra fine** e **Dato reale** facilitano la calibrazione sul canvas, senza cambiare la misura o il progetto. Il giro completo resta disponibile disattivando il flag Arco.
+
+**99 test mirati e 14 controlli UI superati**, incluse esecuzione Lua, compilazione EasyFace temporanea, verifica del grafo finale/manifest interattivo e sei lancette, AOD, tick wrap, pause durante il tocco e due versi dell'arco. Catalogo personale aggiornato con **Longine** e **Bulova**: otto set e 618 modelli. Cataloghi sorgente e `.gitignore` conservati. Nessun backup, ZIP dimostrativo o avvio dell'EXE. Le nuove funzioni POST richiedono il test reale sull'S5.
+
+**Eseguibile 2.0 creato:** 754 risorse incorporate, 20 moduli Python e runtime Lua corrispondenti ai sorgenti testati, verificati staticamente senza avviarlo.
+
+Avvia **S5Studio-2.0-aggiornato.exe**, apri il progetto e riesporta lo ZIP. [Guida tecnica e calibrazione](docs/EDITOR_2.0.md) · [Test](docs/validation-editor-2.0.json) · [Editor](docs/chrono-post-editor-2.0.json) · [Verifica EXE](docs/executable-build-2.0.json).
+
+## Novità 1.9 — Cornici, ellissi e ombre dei livelli
+
+**Forma:** scegli Rettangolare oppure Circolare / Ellittica. Il flag **Riempimento** mostra o nasconde l'interno; **Colore riempimento** e **Colore cornice** sono indipendenti. **Spessore cornice (px)** imposta il bordo; 0 lo elimina. Se togli il riempimento senza aver ancora impostato un bordo, Studio propone una cornice da 2 px, regolabile. Per ottenere un'ellisse imposta larghezza e altezza diverse: i due campi e il ridimensionamento sul canvas sono indipendenti. Cambiare tipo conserva posizione e dimensioni.
+
+**Ombre per Testo, Dato live e Forma:** attiva **Mostra ombra** e scegli colore, opacità 0–100%, spostamento X/Y, sfocatura ed espansione. Sono proprietà del livello: seguono i suoi spostamenti e il suo ordine, si salvano nel progetto e restano indipendenti tra gli stili. Rotazione e arco continuano a funzionare. Anche i nuovi selettori di colore offrono **Nessun colore**.
+
+Le ombre di testo/forme vengono incorporate nelle PNG. Quelle dei numeri live usano immagini dei glifi preparate durante l'esportazione e notifiche reali `dataman`: il valore non viene congelato nell'anteprima. Tutte le ombre restano sotto tutte le cifre, senza nuovi timer o filtri eseguiti sull'S5. Giorni della settimana e mesi mantengono le sorgenti native del calendario. La grafica finale viene ritagliata ai 480 px del quadrante.
+
+**93 test mirati e 15 controlli dell'editor superati**, incluse compilazioni binarie temporanee, confronto tra PNG esportate e anteprima, sensori live con ombre, calendario, AOD e ordine dei glifi. Il runtime Crono/Crono Pro e la sincronizzazione 1.8.1, già collaudata sull'orologio, sono invariati. **Test reale della 1.9 superato**, come certificato dall'utente l'11 ottobre 2026: tutte le implementazioni funzionano benissimo. [Esito reale](docs/hardware-test-1.9.json). Catalogo personale controllato alla consegna: sei set, 612 modelli; nessun aggiornamento. Nessun backup, ZIP dimostrativo o avvio dell'EXE in ambiente isolato.
+
+**Eseguibile 1.9 creato:** 742 risorse incorporate e 19 moduli Python corrispondenti ai sorgenti testati, verificati staticamente senza avviarlo.
+
+Apri il progetto nella 1.9 e riesporta lo ZIP per applicare le nuove proprietà al quadrante. [Guida tecnica](docs/EDITOR_1.9.md) · [Test](docs/validation-editor-1.9.json) · [Editor](docs/layer-effects-editor-1.9.json) · [Verifica EXE](docs/executable-build-1.9.json).
 
 ## Correzione 1.8.1 — Sincronizzazione al cambio minuto e ora
 
@@ -334,7 +376,7 @@ I progetti incorporano immagini e font, leggono schema 1/2 e salvano schema 2. R
 
 ## Prova pronta
 
-- Eseguibile attuale: **S5Studio-1.7.5.exe** (autonomo).
+- Eseguibile attuale: **S5Studio-2.1.exe** (autonomo).
 - Esempio storico 0.8 conservato: **S5_Studio_Lancette_0.8_TEMPLATE.zip** e **projects/S5_Studio_Lancette_0.8.s5faceproj**.
 - ZIP: **S5_Analogico_Libero_0.5_TEMPLATE.zip**.
 - Progetto: **projects/S5_Analogico_Libero_0.5.s5faceproj**.

@@ -107,6 +107,58 @@ def test_small_set_keeps_manual_pivot_in_preview_and_native_export(catalog,tmp_p
     catalog.delete(record['id']);assert hand_image(e,'second',p)[1]==pivot
 
 
+def test_post_roles_save_edit_shadows_and_auto_bind_without_losing_calibration(catalog,tmp_path):
+    from s5studio.hand_sets import SMALL_ROLES
+    draft=empty_draft();draft.update(name='Five small hands',small=True,generateShadows=True)
+    draft['hands']={role:catalog.stage(png(tmp_path,role+'.png')) for role in SMALL_ROLES}
+    saved=catalog.save(draft);fresh=HandSetCatalog(catalog.root)
+    assert set(fresh.draft(saved['id'])['hands'])==set(SMALL_ROLES)
+    assert all(p['shadow']['generated'] for p in fresh.presets())
+    edit=fresh.draft(saved['id']);edit['hands']['millisecond']['pivot']=[12,130];fresh.save(edit)
+    main=Element(kind='analog',chrono_pro=True,second_hand=True)
+    e=Element(kind='pointer',source='timeSecond',angle_range=720);project=Project(elements=[main,e])
+    for role,source,period in [('centisecond','studioChronoCentisecond',100),('millisecond','studioChronoMillisecond',1000)]:
+        preset=next(p for p in fresh.presets() if p['hand']==role)
+        apply(fresh,project,e,preset,'second')
+        assert (e.source,e.value_start,e.value_range,e.angle_range,e.post_readout)==(source,0,period,360,'fraction')
+        assert not e.smooth_seconds and e.second_shadow_asset in project.assets
+        e.pointer_arc=True;e.value_range=80;e.angle_start=30;e.angle_range=-250;e.post_readout='digit'
+        apply(fresh,project,e,preset,'second')
+        assert (e.pointer_arc,e.value_range,e.angle_start,e.angle_range,e.post_readout)==(True,80,30,-250,'digit')
+        e.pointer_arc=False
+    assert e.second_anchor_y==130 and not project.validate()
+    project.save(tmp_path/'post-set.s5faceproj')
+    assert Project.load(tmp_path/'post-set.s5faceproj').elements[1].source=='studioChronoMillisecond'
+
+
+@pytest.mark.parametrize('role',['centisecond','millisecond'])
+def test_post_roles_are_restricted_to_small_sets_and_require_pro_when_applied(catalog,tmp_path,role):
+    draft=empty_draft();draft.update(name='POST model',small=True)
+    draft['hands'][role]=catalog.stage(png(tmp_path));catalog.save(draft)
+    draft['small']=False
+    with pytest.raises(ValueError,match='tipo di set'):catalog.save(draft)
+    p=Project(elements=[Element(kind='pointer')]);preset=catalog.presets()[0]
+    with pytest.raises(ValueError,match='Crono Pro'):apply(catalog,p,p.elements[0],preset,'second')
+    assert not p.assets
+
+
+def test_small_tenths_model_keeps_continuous_or_pro_source_and_calibration(catalog,tmp_path):
+    draft=empty_draft();draft.update(name='Tenths small hand',small=True,generateShadows=True)
+    draft['hands']['decisecond']=catalog.stage(png(tmp_path));saved=catalog.save(draft)
+    reopened=HandSetCatalog(catalog.root);preset=reopened.presets()[0]
+    assert reopened.draft(saved['id'])['hands']['decisecond']['shadow']['generated']
+    e=Element(kind='pointer',source='timeSecond');p=Project(elements=[e])
+    apply(reopened,p,e,preset,'second')
+    assert (e.source,e.value_start,e.value_range,e.angle_range)==('studioDecisecond',0,10,360)
+    assert e.second_shadow_asset in p.assets and not p.validate()
+    for source in ('studioDecisecond','studioChronoDecisecond'):
+        e.source=source;e.value_start=2;e.value_range=8;e.angle_start=30;e.angle_range=-140;e.pointer_arc=True
+        changes=preset_changes(p,e,ROOT,preset,'second',reopened.presets(),custom_catalog=reopened)
+        assert not {'source','value_start','value_range','angle_start','angle_range','pointer_arc'}&changes.keys()
+    draft['small']=False
+    with pytest.raises(ValueError,match='tipo di set'):catalog.save(draft)
+
+
 def test_main_set_images_and_pivots_are_exported_by_native_path(catalog,tmp_path):
     draft=complete(catalog,tmp_path);draft['hands']['minute']['pivot']=[12,130]
     catalog.save(draft);p=Project();e=Element(kind='analog',show_ticks=False);p.elements=[e]

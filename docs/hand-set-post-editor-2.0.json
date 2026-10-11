@@ -1,0 +1,19 @@
+{
+  "applicationVersion": "2.0",
+  "status": "passed",
+  "checkCount": 10,
+  "checks": [
+    "main-set-keeps-three-roles",
+    "small-set-five-roles",
+    "import-centisecond",
+    "import-millisecond",
+    "post-shadows-generated",
+    "independent-post-pivot",
+    "post-roles-named-in-catalog",
+    "reopen-keeps-png-pivot-shadow",
+    "apply-centisecond-pairs-post-source-and-shadow",
+    "apply-millisecond-pairs-post-source-and-shadow"
+  ],
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

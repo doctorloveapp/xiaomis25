@@ -1,0 +1,21 @@
+{
+  "applicationVersion": "2.1",
+  "status": "passed",
+  "checkCount": 12,
+  "checks": [
+    "version-2.1",
+    "main-three-small-six-roles-with-tenths-label",
+    "tenths-import-save-reopen-with-shadow",
+    "tenths-model-keeps-pro-binding",
+    "all-load-save-buttons-reuse-category-folder",
+    "folder-history-persists-across-bridge-restart",
+    "hours-minutes-seconds-full-fractions-format",
+    "pro-stop-reading-right-of-label-uses-captured-time",
+    "stopped-reading-does-not-drift",
+    "stale-frame-does-not-change-reading",
+    "reset-clears-reading",
+    "classic-chrono-same-stop-reading"
+  ],
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

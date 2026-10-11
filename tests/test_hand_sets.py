@@ -44,9 +44,10 @@ def test_shadows_preserve_their_colour_and_toggle_in_preview(tmp_path):
     assert ImageChops.difference(on,off).getbbox()
     source=generate_fprj(p,tmp_path/'on')
     widgets=ET.parse(source.project_path).getroot().find('Screen').findall('Widget')
-    assert sum(w.get('Shape')=='27' for w in widgets)==4
+    # Each shadow stays directly under its own hand, above lower hands.
+    assert sum(w.get('Shape')=='27' for w in widgets)==6
     e.show_shadows=False;source=generate_fprj(p,tmp_path/'off')
-    assert sum(w.get('Shape')=='27' for w in ET.parse(source.project_path).getroot().find('Screen'))==1
+    assert sum(w.get('Shape')=='27' for w in ET.parse(source.project_path).getroot().find('Screen'))==3
 
 def test_small_custom_pointer_uses_visible_endpoint_and_length(tmp_path):
     p=Project();e=Element(kind='pointer',source='second',x=160,y=160,width=160,height=160,second_length=40);p.elements=[e]

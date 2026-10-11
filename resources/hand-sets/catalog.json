@@ -2,6 +2,430 @@
   "schemaVersion": 1,
   "sets": [
     {
+      "id": "custom-911b9b557a3249938c8a74bd7432b1d3",
+      "name": "Bulova",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/b6f5af74426dd80a25339ce5207b6197b067293bf154ad507106fb6c3934ce32.png",
+          "sourceSha256": "b6f5af74426dd80a25339ce5207b6197b067293bf154ad507106fb6c3934ce32",
+          "size": [
+            77,
+            480
+          ],
+          "pivot": [
+            38,
+            401
+          ],
+          "filename": "Ore_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/8c93d3e6610f64f7e9cda8ae3f229c8656251fbbd7a7d367de0a042fbe89705e.png",
+            "sourceSha256": "8c93d3e6610f64f7e9cda8ae3f229c8656251fbbd7a7d367de0a042fbe89705e",
+            "size": [
+              93,
+              480
+            ],
+            "pivot": [
+              46,
+              401
+            ],
+            "filename": "Ore_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "b6f5af74426dd80a25339ce5207b6197b067293bf154ad507106fb6c3934ce32",
+              "pivot": [
+                38,
+                401
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/c5e5e29fe121c864e0fe324a10461bda9824ed25239b4e9fd7e10101e356a00c.png",
+          "sourceSha256": "c5e5e29fe121c864e0fe324a10461bda9824ed25239b4e9fd7e10101e356a00c",
+          "size": [
+            61,
+            480
+          ],
+          "pivot": [
+            29,
+            418
+          ],
+          "filename": "Minuti_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/15f27d7187ccc608dca224690cb50c74e346fd5427e8d2e83b5aed579ddb9f08.png",
+            "sourceSha256": "15f27d7187ccc608dca224690cb50c74e346fd5427e8d2e83b5aed579ddb9f08",
+            "size": [
+              77,
+              480
+            ],
+            "pivot": [
+              37,
+              418
+            ],
+            "filename": "Minuti_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "c5e5e29fe121c864e0fe324a10461bda9824ed25239b4e9fd7e10101e356a00c",
+              "pivot": [
+                29,
+                418
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/6772dcf9bdd93bfdd4fc0576af61699be2bf8938ab4da62dd2d22bcce0acdbc3.png",
+          "sourceSha256": "6772dcf9bdd93bfdd4fc0576af61699be2bf8938ab4da62dd2d22bcce0acdbc3",
+          "size": [
+            43,
+            480
+          ],
+          "pivot": [
+            21,
+            390
+          ],
+          "filename": "Secondi_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/3ad7bccfe08590883a86dc57c9924d2655890cf07d1fa95c391ca1a76e0b46d3.png",
+            "sourceSha256": "3ad7bccfe08590883a86dc57c9924d2655890cf07d1fa95c391ca1a76e0b46d3",
+            "size": [
+              59,
+              480
+            ],
+            "pivot": [
+              29,
+              390
+            ],
+            "filename": "Secondi_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "6772dcf9bdd93bfdd4fc0576af61699be2bf8938ab4da62dd2d22bcce0acdbc3",
+              "pivot": [
+                21,
+                390
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 50,
+        "blur": 2.5,
+        "offset": [
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "custom-b7312f6f09c64e4ea4bac4f2a7c488de",
+      "name": "Bulova_lancette_piccole",
+      "small": true,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b.png",
+          "sourceSha256": "c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b",
+          "size": [
+            76,
+            370
+          ],
+          "pivot": [
+            37,
+            263
+          ],
+          "filename": "ore_minuti_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/73f34c03bc03485e0bc9f0dcb9e1e9fbf15e9d58d83736e3f0ae52c837630c4d.png",
+            "sourceSha256": "73f34c03bc03485e0bc9f0dcb9e1e9fbf15e9d58d83736e3f0ae52c837630c4d",
+            "size": [
+              86,
+              380
+            ],
+            "pivot": [
+              42,
+              268
+            ],
+            "filename": "ore_minuti_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b",
+              "pivot": [
+                37,
+                263
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b.png",
+          "sourceSha256": "c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b",
+          "size": [
+            76,
+            370
+          ],
+          "pivot": [
+            37,
+            263
+          ],
+          "filename": "ore_minuti_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/73f34c03bc03485e0bc9f0dcb9e1e9fbf15e9d58d83736e3f0ae52c837630c4d.png",
+            "sourceSha256": "73f34c03bc03485e0bc9f0dcb9e1e9fbf15e9d58d83736e3f0ae52c837630c4d",
+            "size": [
+              86,
+              380
+            ],
+            "pivot": [
+              42,
+              268
+            ],
+            "filename": "ore_minuti_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b",
+              "pivot": [
+                37,
+                263
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/29f211d81c4c23545e537938c1f4f965d37a3502894a51b85299bf1c3772d82b.png",
+          "sourceSha256": "29f211d81c4c23545e537938c1f4f965d37a3502894a51b85299bf1c3772d82b",
+          "size": [
+            76,
+            330
+          ],
+          "pivot": [
+            37,
+            216
+          ],
+          "filename": "decimi_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/9f17db93204478061145961fb83dd28d8696eeee95655c3917856812c26240b9.png",
+            "sourceSha256": "9f17db93204478061145961fb83dd28d8696eeee95655c3917856812c26240b9",
+            "size": [
+              86,
+              340
+            ],
+            "pivot": [
+              42,
+              221
+            ],
+            "filename": "decimi_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "29f211d81c4c23545e537938c1f4f965d37a3502894a51b85299bf1c3772d82b",
+              "pivot": [
+                37,
+                216
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "millisecond": {
+          "assetPath": "assets/c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b.png",
+          "sourceSha256": "c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b",
+          "size": [
+            76,
+            370
+          ],
+          "pivot": [
+            37,
+            263
+          ],
+          "filename": "ore_minuti_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/73f34c03bc03485e0bc9f0dcb9e1e9fbf15e9d58d83736e3f0ae52c837630c4d.png",
+            "sourceSha256": "73f34c03bc03485e0bc9f0dcb9e1e9fbf15e9d58d83736e3f0ae52c837630c4d",
+            "size": [
+              86,
+              380
+            ],
+            "pivot": [
+              42,
+              268
+            ],
+            "filename": "ore_minuti_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "c6a7891edf1ee50ee90640cdcc79daa809080975ced64e1d06a7951c1ca5e57b",
+              "pivot": [
+                37,
+                263
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "centisecond": {
+          "assetPath": "assets/9790c5eab567508e4471de12daf098e6e89a524ee4010dfec742d97a050e6f52.png",
+          "sourceSha256": "9790c5eab567508e4471de12daf098e6e89a524ee4010dfec742d97a050e6f52",
+          "size": [
+            70,
+            404
+          ],
+          "pivot": [
+            35,
+            283
+          ],
+          "filename": "Centesimi_lancetta_bulova.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/0728e2e7504f7a780fc2142353d9148756bc2f18daf4a232d685b8acfd428bc9.png",
+            "sourceSha256": "0728e2e7504f7a780fc2142353d9148756bc2f18daf4a232d685b8acfd428bc9",
+            "size": [
+              80,
+              414
+            ],
+            "pivot": [
+              40,
+              288
+            ],
+            "filename": "Centesimi_lancetta_bulova_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "9790c5eab567508e4471de12daf098e6e89a524ee4010dfec742d97a050e6f52",
+              "pivot": [
+                35,
+                283
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 45,
+        "blur": 1.5,
+        "offset": [
+          2,
+          3
+        ]
+      }
+    },
+    {
       "id": "custom-6f6a7ad536d047bd89280d8e114b7fd6",
       "name": "Hamilton Lancette",
       "small": false,
@@ -143,6 +567,169 @@
               "pivot": [
                 25,
                 375
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 50,
+        "blur": 2.5,
+        "offset": [
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "custom-ea28ed38ee7f41beb5d4d1ddca14de28",
+      "name": "Longine",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/4a1c6d78692839b5860136530cf76bc5114d9c3199241319768538aae5415cf2.png",
+          "sourceSha256": "4a1c6d78692839b5860136530cf76bc5114d9c3199241319768538aae5415cf2",
+          "size": [
+            93,
+            480
+          ],
+          "pivot": [
+            46,
+            436
+          ],
+          "filename": "Ore_longine.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/04ca4b9299722201cea0fe11b3c32c3f2b9ad88d10ce208995fb5dea5aed56d6.png",
+            "sourceSha256": "04ca4b9299722201cea0fe11b3c32c3f2b9ad88d10ce208995fb5dea5aed56d6",
+            "size": [
+              109,
+              480
+            ],
+            "pivot": [
+              54,
+              436
+            ],
+            "filename": "Ore_longine_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "4a1c6d78692839b5860136530cf76bc5114d9c3199241319768538aae5415cf2",
+              "pivot": [
+                46,
+                436
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/10ffa8d0e319760ac8dbc2eadc3a5de17a52810d15b36d2d8a64937947898113.png",
+          "sourceSha256": "10ffa8d0e319760ac8dbc2eadc3a5de17a52810d15b36d2d8a64937947898113",
+          "size": [
+            60,
+            480
+          ],
+          "pivot": [
+            29,
+            452
+          ],
+          "filename": "Minuti_longine.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/fc4c0857c25841ab93485f1f7b4ad9cfbb7ef9ede0e7e82d648db4fb58c41d64.png",
+            "sourceSha256": "fc4c0857c25841ab93485f1f7b4ad9cfbb7ef9ede0e7e82d648db4fb58c41d64",
+            "size": [
+              76,
+              480
+            ],
+            "pivot": [
+              37,
+              452
+            ],
+            "filename": "Minuti_longine_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "10ffa8d0e319760ac8dbc2eadc3a5de17a52810d15b36d2d8a64937947898113",
+              "pivot": [
+                29,
+                452
+              ],
+              "opacity": 50,
+              "blur": 2.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/88abc11cfae1dc8a3f5591c1c8c8f2af2bc58e3fb1778c36d5c9dd39afbb9c46.png",
+          "sourceSha256": "88abc11cfae1dc8a3f5591c1c8c8f2af2bc58e3fb1778c36d5c9dd39afbb9c46",
+          "size": [
+            27,
+            480
+          ],
+          "pivot": [
+            13,
+            357
+          ],
+          "filename": "Secondi_longine.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/990f36d90590f65daf612207d1d37077828af08674d3a01d47b4dafbb233dbad.png",
+            "sourceSha256": "990f36d90590f65daf612207d1d37077828af08674d3a01d47b4dafbb233dbad",
+            "size": [
+              43,
+              480
+            ],
+            "pivot": [
+              21,
+              357
+            ],
+            "filename": "Secondi_longine_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "88abc11cfae1dc8a3f5591c1c8c8f2af2bc58e3fb1778c36d5c9dd39afbb9c46",
+              "pivot": [
+                13,
+                357
               ],
               "opacity": 50,
               "blur": 2.5,

@@ -255,12 +255,10 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             names=[]
             for value,word in labels_for(e).items():
                 name=f'{prefix}_calendar_{value}.png'
-                from .transforms import active,raster
-                bitmap=calendar_image(p,e,word);x,y=e.x,e.y
-                if active(e):
-                    pair=raster(p,e,bitmap)
-                    if pair is None:continue
-                    bitmap,x,y=pair
+                from .render import canvas_static
+                pair=canvas_static(p,e,calendar_image(p,e,word))
+                if pair is None:continue
+                bitmap,x,y=pair
                 bitmap.save(images/name)
                 names.append(f'({value}):{name}')
             code=SOURCES[e.source][1];expected.append(code)
@@ -509,7 +507,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'1.8.1',
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'2.1',
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -532,7 +530,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"1.8.1","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":"2.1","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},
@@ -622,9 +620,20 @@ def inspect_mwz(path: Path) -> dict:
                 "status":"Struttura controllata; firma, capacità effettive e installazione non verificate."}
 
 
-TRANSFER_GUIDE = """S5 STUDIO 1.8.1 — MOVIMENTO FLUIDO INDIPENDENTE
+TRANSFER_GUIDE = """S5 STUDIO 2.1 — CRONO PRO POST E ARCHI CALIBRATI
 
-Apri il progetto nella 1.8.1 e genera un nuovo ZIP quando necessario.
+Apri il progetto nella 2.1 e genera un nuovo ZIP quando necessario.
+Centesimi (POST) / Millesimi (POST): restano a zero durante Running.
+Allo Stop raggiungono la frazione acquisita in 720 ms a 25 fps.
+Lettura POST: frazione completa 00-99/000-999 oppure singola cifra 0-9.
+La visualizzazione dei millesimi non garantisce precisione di 1 ms sul firmware.
+Arco personalizzato: valori e angoli iniziale/finale, verso orario o antiorario.
+Mostra inizio/fine calibra solo l'anteprima. Avvia Crono ripristina il dato reale.
+Archi limitati alla scala; reset lungo l'arco. Giro completo sempre disponibile.
+Forma: riempimento opzionale, cornice con colore e spessore indipendenti.
+Larghezza e altezza libere per creare ellissi. Bordo 0 px per eliminarlo.
+Testo, Dato live e Forma: Mostra ombra, colore, opacita, offset, blur ed espansione.
+I dati live continuano a seguire i sensori; tutte le ombre restano sotto le cifre.
 Movimento Fluido si sceglie dentro ciascuna scheda Ore, Minuti e Secondi.
 Ore/minuti fluidi seguono i secondi reali, senza timer di animazione.
 La 1.8.1 sincronizza ore/minuti/secondi per evitare scatti al cambio minuto.

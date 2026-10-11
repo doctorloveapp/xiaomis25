@@ -1,7 +1,8 @@
 """Compile-time graphic transforms, shared by preview, native assets and Lua scenes.
 
 Positive rotation is clockwise; positive arc bends the ends below the centre.
-The output is always clipped to the 480 px watch canvas. Sensors are never baked.
+Exported output is clipped to 480 px; intermediate shadow geometry may extend
+beyond the canvas until its halo is composed. Sensors are never baked.
 """
 from functools import lru_cache
 from io import BytesIO
@@ -72,12 +73,12 @@ def mesh(x,y,w,h,rotation,arc,left,top,right,bottom):
     return tuple(output)
 
 
-def raster(p,e,source=None):
+def raster(p,e,source=None,*,clip=True):
     """Return a transformed (bitmap, x, y), with no oversized fitted canvas."""
     from .render import static_image,tint_image
     problem=errors(e)
     if problem:raise ValueError('\n'.join(problem))
-    left,top,right,bottom=bounds(e)
+    left,top,right,bottom=bounds(e,clip=clip)
     if right<=left or bottom<=top:return None
     sx=sy=1.;ox=oy=0.
     if source is not None:

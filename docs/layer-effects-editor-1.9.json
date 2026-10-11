@@ -1,0 +1,25 @@
+{
+  "applicationVersion": "1.9",
+  "status": "passed",
+  "checks": [
+    "version-1.9",
+    "legacy-filled-shape-defaults",
+    "outline-only-defaults-to-visible-border",
+    "border-width-refreshes-preview",
+    "independent-border-fill-colors",
+    "shape-switch-preserves-nonsquare-geometry",
+    "ellipse-width-height-independent",
+    "ellipse-drag-does-not-lock-aspect",
+    "shadow-parameters-and-percent-conversion",
+    "shadow-color-none-keeps-border-fill",
+    "text-shadow-controls",
+    "number-shadow-controls",
+    "hand-shadows-keep-existing-controls",
+    "independent-style-effects",
+    "undo-effects"
+  ],
+  "checkCount": 15,
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "screenshot": "build/layer-effects-editor-1.9.png"
+}

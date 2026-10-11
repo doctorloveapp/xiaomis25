@@ -32,6 +32,14 @@ function M.draw(v)
     local positions=v.config.glyphs[#text]
     for i,img in ipairs(v.images) do
         local item=positions and positions[i] and positions[i][text:sub(i,i)]
+        local shadow=v.shadows and v.shadows[i]
+        if shadow then
+            local pose=item and item.shadow
+            if pose then
+                shadow:set {x=pose.x,y=pose.y,src=SCRIPT_PATH..pose.src}
+                shadow:clear_flag(lvgl.FLAG.HIDDEN)
+            else shadow:add_flag(lvgl.FLAG.HIDDEN) end
+        end
         if item then
             img:set {x=item.x,y=item.y,src=SCRIPT_PATH..item.src}
             img:clear_flag(lvgl.FLAG.HIDDEN)
@@ -43,6 +51,16 @@ function M.add(scene,config)
     local root=lvgl.Object(scene,{x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})
     root:clear_flag(lvgl.FLAG.SCROLLABLE);root:clear_flag(lvgl.FLAG.CLICKABLE)
     local v={config=config,root=root,images={},screenOn=true}
+    -- All shadows precede all glyphs: a digit never covers its neighbour
+    -- with its shadow. Resources are pre-rendered; no filter runs on the S5.
+    if config.shadow then
+        v.shadows={}
+        for i=1,config.count do
+            local item=config.glyphs[config.count][i]["-"].shadow
+            local img=root:Image {x=item.x,y=item.y,src=SCRIPT_PATH..item.src}
+            img:clear_flag(lvgl.FLAG.CLICKABLE);v.shadows[i]=img
+        end
+    end
     for i=1,config.count do
         local item=config.glyphs[config.count][i]["-"]
         local img=root:Image {x=item.x,y=item.y,src=SCRIPT_PATH..item.src}

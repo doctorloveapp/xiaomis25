@@ -117,9 +117,14 @@ def static_image(p: Project, e: Element):
         x = 0 if e.align == "left" else e.width-w if e.align == "right" else (e.width-w)//2
         draw.text((x-box[0], (e.height-h)//2-box[1]), e.text, font=font, fill=rgba(e))
     elif e.kind == "rect":
-        draw.rounded_rectangle((0,0,e.width-1,e.height-1), radius=min(12, e.height//3), fill=rgba(e))
+        draw.rounded_rectangle((0,0,e.width-1,e.height-1), radius=min(12, e.height//3),
+                               fill=rgba(e) if e.fill_enabled else None,
+                               outline=color_rgba(e.border_color,e.opacity) if e.border_width else None,width=e.border_width)
     elif e.kind == "circle":
-        draw.ellipse((1,1,e.width-2,e.height-2), fill=rgba(e))
+        margin=1 if min(e.width,e.height)>=4 else 0
+        draw.ellipse((margin,margin,e.width-margin-1,e.height-margin-1),
+                     fill=rgba(e) if e.fill_enabled else None,
+                     outline=color_rgba(e.border_color,e.opacity) if e.border_width else None,width=e.border_width)
     return im
 
 
@@ -163,10 +168,26 @@ def canvas_image(p: Project, e: Element):
     return im,left,top
 
 
-def canvas_static(p: Project,e: Element):
-    if e.kind=='image':return canvas_image(p,e)
+def canvas_layers(p: Project,e: Element,source=None):
     from .transforms import active,raster
-    return raster(p,e) if active(e) else (static_image(p,e),e.x,e.y)
+    from .effects import enabled,layers
+    pair=raster(p,e,source,clip=not enabled(e)) if active(e) else (source if source is not None else static_image(p,e),e.x,e.y)
+    return layers(pair,e)
+
+
+def canvas_static(p: Project,e: Element,source=None):
+    if e.kind=='image' and source is None:return canvas_image(p,e)
+    from .effects import merge
+    return merge(*canvas_layers(p,e,source))
+
+
+def number_text(e,value):
+    if value is None:return '-'*e.digits
+    if e.decimals:
+        text=f'{float(value):.{e.decimals}f}'
+        if len(text)>e.digits:text='-'*e.digits
+    else:text=str(max(-(10**(e.digits-1)-1),min(int(value),10**e.digits-1)))
+    return text.zfill(e.digits) if e.leading_zero else text
 
 
 def analog_face(e: Element):
@@ -348,7 +369,10 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
             value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in ALL_LUA_SOURCES else values.get(e.source)
             if e.source=='studioDecisecond':value=e.value_start+value/10*e.value_range
             if e.id in values.get('__proValues',{}):value=values['__proValues'][e.id]
-            if e.source in ('second','timeSecond') and value is not None:
+            calibration=values.get('__pointerCalibration',{}).get(e.id)
+            if calibration in ('start','end'):
+                value=e.value_start+(e.value_range if calibration=='end' else 0)
+            if e.source in ('second','timeSecond') and value is not None and calibration not in ('start','end'):
                 # Simulated civil time advances even when sweep is disabled.
                 # Small seconds normally tick once per second, like the native
                 # timeSecond binding; they are independent of the chrono clock.
@@ -381,7 +405,9 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
     groups, sep = number_parts(p,e)
     for source, count, x, y in groups:
         value = values.get(source)
-        if value is None:
+        if e.kind=='number':
+            text=number_text(e,value)
+        elif value is None:
             text = "-"*count
         else:
             if e.kind=='number' and e.decimals:
@@ -422,9 +448,11 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
                         graphic=replace(layer,kind='image',asset=asset,fit='contain')
                     clipped=canvas_static(p,graphic)
                     if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
-                elif layer.kind=='number' and (layer.rotation or layer.arc):
-                    from .transforms import raster
-                    clipped=raster(p,layer,element_image(p,layer,values))
+                elif layer.kind=='number' and layer.shadow_enabled and not labels_for(layer):
+                    from .live_data import preview_live
+                    im.alpha_composite(preview_live(p,layer,values))
+                elif layer.kind=='number' and (layer.rotation or layer.arc or layer.shadow_enabled):
+                    clipped=canvas_static(p,layer,element_image(p,layer,values))
                     if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
                 elif layer.kind in ('analog','pointer','compass'):
                     # Native hands use the level centre as their pivot, but

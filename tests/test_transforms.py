@@ -101,7 +101,7 @@ def command(b,action,**args):
 def test_shape_change_undo_and_transform_commands(bridge):
     b=bridge;command(b,'add',kind='rect');e=b.design.elements[-1];identity=e.id
     command(b,'set-shape',id=identity,kind='circle');circle=b.element({'id':identity})
-    assert circle.kind=='circle' and circle.width==circle.height
+    assert circle.kind=='circle' and (circle.width,circle.height)==(e.width,e.height)
     command(b,'undo');assert b.element({'id':identity}).kind=='rect'
     command(b,'redo');assert b.element({'id':identity}).kind=='circle'
     command(b,'edit',id=identity,changes={'rotation':25,'arc':40})
@@ -131,7 +131,7 @@ def test_real_compile_transformed_images_text_shapes_weather_lua_and_aod(tmp_pat
     assert inspect_binary(data)['screenCount']==4 and p.assets==before
     assert validate_package(ROOT/'quadrante_funzionante.zip',archive)['status']=='passed'
     with zipfile.ZipFile(archive) as z:
-        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='1.8.1'
+        report=json.loads(z.read('build-report.json'));assert report['applicationVersion']=='2.1'
         for i in (0,1):
             variant=p.variant_project(i);e=next(e for e in variant.elements if e.id==text.id)
             bitmap,x,y=canvas_static(variant,e)

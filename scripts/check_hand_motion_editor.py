@@ -67,8 +67,8 @@ def check():
             assert js('[...document.querySelectorAll("#properties [data-prop^=smooth_]")].length===3&&[...document.querySelectorAll("#properties [data-prop^=smooth_]")].every(e=>e.disabled)')
             checks.append('aod-flags-disabled-with-settings-preserved')
             window.close();app.processEvents()
-    report={'applicationVersion':'1.8.1','status':'passed','checks':checks,'checkCount':len(checks),'sourceEditorTested':True,'executableLaunched':False}
-    (ROOT/'docs/hand-motion-editor-1.8.1.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
+    report={'applicationVersion':'2.1','status':'passed','checks':checks,'checkCount':len(checks),'sourceEditorTested':True,'executableLaunched':False}
+    (ROOT/'docs/hand-motion-editor-2.1.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps(report,indent=2))
 
 

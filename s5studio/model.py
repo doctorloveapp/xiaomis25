@@ -36,6 +36,9 @@ HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asse
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
 VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
 VARIANT_PROPERTIES.update({'smooth_hours','smooth_minutes'})
+VARIANT_PROPERTIES.update({'pointer_arc','post_readout','value_start','value_range','angle_start','angle_range'})
+from .effects import PROPERTIES as EFFECT_PROPERTIES
+VARIANT_PROPERTIES.update(EFFECT_PROPERTIES)
 MAX_SLOTS=16  # Studio guardrail, not a declared firmware limit.
 
 def valid_design_geometry(kind,x,y,width,height):
@@ -104,6 +107,16 @@ class Element:
     tint: bool = False
     rotation: float = 0
     arc: float = 0
+    fill_enabled: bool = True
+    border_color: str = '#ffffff'
+    border_width: int = 0
+    shadow_enabled: bool = False
+    shadow_color: str = '#000000'
+    shadow_opacity: int = 128
+    shadow_offset_x: int = 3
+    shadow_offset_y: int = 3
+    shadow_blur: int = 3
+    shadow_spread: int = 0
     visible: bool = True
     locked: bool = False
     aod: bool = False
@@ -172,6 +185,8 @@ class Element:
     value_range: int = 60
     angle_start: int = 0
     angle_range: int = 360
+    pointer_arc: bool = False
+    post_readout: str = 'fraction'
 
     @classmethod
     def from_dict(cls, data):
@@ -515,6 +530,8 @@ class Project:
                 errors.append(f"{label}: allineamento o adattamento non validi.")
             if not valid_color(el.color):
                 errors.append(f"{label}: colore non valido.")
+            from .effects import errors as effect_errors
+            errors.extend(effect_errors(el))
             if len(el.text) > 200:
                 errors.append(f"{label}: testo troppo lungo.")
             for key in (getattr(el,k) for k in ASSET_FIELDS):
@@ -524,6 +541,10 @@ class Project:
                 errors.append(f"{label}: immagine mancante.")
             if el.kind=='image_values' and (not el.value_assets or any(not re.fullmatch(r'-?\d+',str(k)) or v not in self.assets for k,v in el.value_assets.items())):errors.append(f'{label}: immagini/valori della lista non validi.')
             if el.kind=='pointer' and (any(type(getattr(el,k)) is not int for k in ('value_start','value_range','angle_start','angle_range')) or not 0<=el.value_start<=65535 or not 1<=el.value_range<=65535 or not -360<=el.angle_start<=360 or not -720<=el.angle_range<=720):errors.append(f'{label}: intervallo della lancetta piccola non valido.')
+            if type(el.pointer_arc) is not bool or el.post_readout not in ('fraction','digit'):
+                errors.append(f'{label}: calibrazione arco o lettura POST non valida.')
+            if el.kind=='pointer' and el.pointer_arc and not 0<abs(el.angle_range)<360:
+                errors.append(f'{label}: un arco personalizzato richiede una rotazione tra 1° e 359°; disattiva Arco per il giro completo.')
             if el.kind=='compass' and (el.source!='systemSensorCompass' or not el.asset or (el.value_start,el.value_range,el.angle_start,el.angle_range)!=(0,360,0,-360)):
                 errors.append(f'{label}: la bussola richiede una grafica e il sensore bussola con rotazione −360°.')
             if el.kind in ('analog','pointer'):
@@ -544,10 +565,13 @@ class Project:
                                 if image.width>480 or image.height>480:errors.append(f'{label}: immagine lancetta troppo grande (massimo 480×480).')
                     if any(type(getattr(el,hand+'_shadow_offset_'+axis)) is not int or abs(getattr(el,hand+'_shadow_offset_'+axis))>480 for axis in ('x','y')):errors.append(f'{label}: offset ombra non valido.')
         from .motion import pro_enabled
+        from .motion import POST_SOURCES
         if sum(e.visible and not e.aod and e.kind=='analog' and e.chrono_pro for e in self.elements)>1:
             errors.append('Usa un solo gruppo di lancette con Crono Pro per stile.')
         if any(e.visible and not e.aod and e.source=='studioChronoDecisecond' for e in self.elements) and not pro_enabled(self):
             errors.append('Decimi crono: attiva il flag Crono Pro sulla lancetta grande dei secondi di questo stile. Nascondere il livello non disattiva il flag.')
+        if any(e.visible and not e.aod and e.source in POST_SOURCES for e in self.elements) and not pro_enabled(self):
+            errors.append('Indicatori POST: attiva Crono Pro sulla lancetta grande dei secondi di questo stile. Nascondere il livello non disattiva il flag.')
         return errors
 
 

@@ -23,6 +23,9 @@ def graphic_color_state(element,key):
     if key=='color' and element.kind in ('image','compass','image_values'):
         return state(element.color,not element.tint,mode='original')
     if key=='color':return state(element.color,element.color==NO_COLOR)
+    if key=='border_color' and element.kind in ('rect','circle') or key=='shadow_color' and element.kind in ('rect','circle','text','number'):
+        color=getattr(element,key)
+        return state(color,color==NO_COLOR)
     raise ValueError('Colore non supportato.')
 
 

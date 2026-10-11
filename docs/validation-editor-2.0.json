@@ -1,0 +1,194 @@
+{
+  "applicationVersion": "2.0",
+  "date": "2026-10-11",
+  "status": "passed",
+  "pytest": {
+    "uniquePassed": 99,
+    "integrationDeselected": 1,
+    "log": "build/tests-crono-post-2.0.log",
+    "suites": [
+      "test_chrono_post",
+      "test_chrono_pro",
+      "test_civil_rollover",
+      "test_layer_effects",
+      "test_live_transforms"
+    ]
+  },
+  "sourceEditor": {
+    "applicationVersion": "2.0",
+    "status": "passed",
+    "checks": [
+      "version-2.0",
+      "both-post-sources-and-help",
+      "post-hides-smooth-flag-and-initializes-full-range",
+      "arc-defaults-cover-complete-post-fraction",
+      "editing-start-preserves-angle-end",
+      "clockwise-30-to-140",
+      "counterclockwise-30-to-140",
+      "single-digit-readout",
+      "zero-to-eight-mapping",
+      "editing-value-start-preserves-end",
+      "visual-endpoints-override-preview-only",
+      "return-to-live",
+      "full-circle-kept",
+      "existing-sources-keep-smooth-setting"
+    ],
+    "checkCount": 14,
+    "sourceEditorTested": true,
+    "executableLaunched": false,
+    "screenshot": "build/chrono-post-editor-2.0.png"
+  },
+  "post": {
+    "sixMeasuringHandsExecuted": true,
+    "runningPostHandsStayAtStart": true,
+    "oneStopTimestamp": true,
+    "fullFractionOrSingleDigit": true,
+    "stopAnimationMs": 720,
+    "animationTargetFps": 25,
+    "resetIncludesSixMeasuringHands": true,
+    "extraRunningTimers": 0,
+    "aodCancelsAnimations": true,
+    "touchPauseResumesTransition": true,
+    "tickWrapChecked": true,
+    "fallbackPhaseSampledNotInvented": true,
+    "millisecondAccuracyGuaranteed": false
+  },
+  "arc": {
+    "independentValueAndAngleEndpoints": true,
+    "clockwiseAndCounterclockwise": true,
+    "boundedPostAnimations": true,
+    "outsideValuesClamped": true,
+    "fullCircleRetained": true,
+    "editorOnlyCalibrationPoses": true,
+    "previewLuaMatch": true
+  },
+  "packaging": {
+    "realCompilerTested": true,
+    "finalGraphCheckedInMemory": true,
+    "manifestInteractive": true,
+    "runtimeFileIncluded": true,
+    "postBindingsAndRuntimeValidated": true
+  },
+  "runtimeUnchanged": {
+    "studio_core.lua": true,
+    "studio_civil_hand.lua": true,
+    "studio_civil_clock.lua": true
+  },
+  "runtimeComparisonNormalizesLineEndings": true,
+  "handSets": {
+    "newSets": [
+      "Longine",
+      "Bulova"
+    ],
+    "bundledSets": 8,
+    "extraHands": 23,
+    "totalHands": 618,
+    "sourceCatalogsModified": false
+  },
+  "hardware": {
+    "newPostFeaturesVerifiedOnDevice": false,
+    "previousReleasePassed": "docs/hardware-test-1.9.json",
+    "powerMeasured": false
+  },
+  "artifacts": {
+    "demonstrationZipCreated": false,
+    "regressionBackupCreated": false,
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false
+  },
+  "sourceSha256": {
+    "s5studio/model.py": "786dbb6dcfa97e9e6797f95cece0d27e7e0824c8610059e51d457352b86dd284",
+    "s5studio/motion.py": "c5d52d0f59aec0be9bdc86d78668d974490be6ad690059d52c5d52f98d3cb198",
+    "s5studio/chrono_pro.py": "f9d37dcda76f11609388c02a3d4e6da9f227cdec837164d011652ed97363fccf",
+    "s5studio/lua_runtime.py": "0ef09cc8b85a9e39aaa6f0ef3282a697025e2c2716292584581b4566dec79010",
+    "s5studio/render.py": "36fc5b71e9ab4192d4b725980c47cc72fa650cc0e7f3ebd546f2d873069639ab",
+    "s5studio/web_ui.py": "d7dbd853bc8ed71b2a4bf58687f7f4722a0f2596e1d3538766a4ff3938ab0c72",
+    "s5studio/native.py": "88b157cf5bc7bc37c734e3390893b9d8456abd3b345c06e4257edff5cb81be75",
+    "s5studio/native_graph.py": "e18eefd1e934545b8c064e9c3a80dc35325e51762060de3004f9b59a833084d2",
+    "s5studio/lua/studio_core_pro.lua": "d5572b51b25144504110e64a4788af8873170628ba8ba2a9de5fa058bddc6a90",
+    "frontend/app.js": "4046de36c1073c8705cec3980b7d50ec943735a6c6738e6def0ae9658e92da19",
+    "frontend/index.html": "356b44e210ea5db0a98ff7b36bd6de73f01b6991325540214d36c6e7aa2e24b9",
+    "s5studio/hand_sets.py": "9772be15e868853990ad197e404de08e44afc4d2c00e469328492076635584be",
+    "s5studio/hand_presets.py": "7803056d447fb8c41c5d2bdd32e386ca1715938f0f947386af6c4c73dff4c107",
+    "s5studio/release_hand_sets.py": "d335834a3fba80094eee82104ec2bbe3b2449495efaf520d2eedc83f9df33094",
+    "frontend/hand-sets.js": "8906c96c343fb7caac68f616ee26668d1ecff33ba4244b23e3170069fa73c589"
+  },
+  "postHandSets": {
+    "date": "2026-10-11",
+    "roles": [
+      "centisecond",
+      "millisecond"
+    ],
+    "smallOnly": true,
+    "mainRolesUnchanged": true,
+    "independentPngPivotShadow": true,
+    "generatedShadows": true,
+    "sourceAutoBinding": true,
+    "existingSameSourceCalibrationPreserved": true,
+    "freshPcSyncTested": true,
+    "luaRuntimeUnchangedSinceFirst20": true,
+    "pytest": {
+      "uniquePassed": 30,
+      "integrationDeselected": 1,
+      "log": "build/tests-hand-set-post-2.0.log",
+      "suites": [
+        "test_custom_hand_sets",
+        "test_bundled_hand_sets",
+        "test_hand_sets"
+      ]
+    },
+    "sourceEditor": {
+      "applicationVersion": "2.0",
+      "status": "passed",
+      "checkCount": 10,
+      "checks": [
+        "main-set-keeps-three-roles",
+        "small-set-five-roles",
+        "import-centisecond",
+        "import-millisecond",
+        "post-shadows-generated",
+        "independent-post-pivot",
+        "post-roles-named-in-catalog",
+        "reopen-keeps-png-pivot-shadow",
+        "apply-centisecond-pairs-post-source-and-shadow",
+        "apply-millisecond-pairs-post-source-and-shadow"
+      ],
+      "sourceEditorTested": true,
+      "executableLaunched": false
+    }
+  },
+  "executable": {
+    "status": "passed",
+    "applicationVersion": "2.0",
+    "embeddedFilesVerified": 754,
+    "exeSize": 235854924,
+    "exeSha256": "5d6266e348e47c3d00501709dba1c5d9ad14970e45d18945f05c3fafc0238624",
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "executableFile": "S5Studio-2.0-aggiornato.exe",
+    "sourceModulesMatch": [
+      "s5studio.colors",
+      "s5studio.color_picker",
+      "s5studio.model",
+      "s5studio.render",
+      "s5studio.live_data",
+      "s5studio.lua_runtime",
+      "s5studio.native",
+      "s5studio.web_ui",
+      "s5studio.complications",
+      "s5studio.ui",
+      "s5studio.source_help",
+      "s5studio.native_graph",
+      "s5studio.motion",
+      "s5studio.hand_sets",
+      "s5studio.chrono_pro",
+      "s5studio.civil_hands",
+      "s5studio.effects",
+      "s5studio.transforms",
+      "s5studio.calendar_labels",
+      "s5studio.hand_presets"
+    ],
+    "sourceModuleCount": 20,
+    "luaModulesMatchSource": true
+  }
+}
