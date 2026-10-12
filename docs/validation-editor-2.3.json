@@ -62,7 +62,7 @@
   "regressionBackupCreated": false,
   "executableLaunched": false,
   "isolatedEnvironmentTested": false,
-  "hardwareTest": "pending-for-resume-fix",
+  "hardwareTest": "passed-as-reported-by-user-including-resume-fix",
   "hardwareTestReport": "hardware-test-2.3.json",
   "hardwareFpsOrEnergyMeasured": false,
   "revision": "Bulova long sessions: AOD baseline and resume pose",
@@ -83,7 +83,10 @@
     "minuteHandCompletedRevolutionAndRestarted": true,
     "hourHandStayedAtZero": true,
     "specificFirmwareCauseConfirmed": false,
-    "report": "VERIFICA_BULOVA_ORE_CRONO.md"
+    "report": "VERIFICA_BULOVA_ORE_CRONO.md",
+    "status": "resolved-as-reported-by-user",
+    "resolvedDate": "2026-10-12",
+    "hourHandNowWorksCorrectly": true
   },
   "bundle": {
     "status": "passed",
@@ -143,5 +146,6 @@
     "decisecondReadoutSelectorIncluded": true,
     "chronoResumeFixIncluded": true,
     "regressionBackupCreated": false
-  }
+  },
+  "releaseAssessment": "stable-complete-no-errors-reported-by-user"
 }

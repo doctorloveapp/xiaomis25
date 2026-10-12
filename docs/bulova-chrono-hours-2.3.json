@@ -1,7 +1,7 @@
 {
   "applicationVersion": "2.3",
   "date": "2026-10-12",
-  "status": "passed-on-pc-hardware-retest-pending",
+  "status": "passed-on-pc-and-on-hardware-as-reported-by-user",
   "project": "projects/Bulova.s5faceproj",
   "projectSha256": "7fdeced86d750838b7763d9c01ef7ec0e777991c9550ad3bb5ae460e614acf38",
   "projectModified": false,
@@ -194,5 +194,19 @@
     "firmwarePoseLossObserved": false
   },
   "hardwareReport": "User reports more than 60 minutes, minutes completed a revolution and restarted, hour stayed at zero.",
-  "diagnosis": "No arithmetic or catalog aliasing defect reproduced. AOD baseline bug fixed; unchanged pose reasserted on resume. Actual firmware cause remains unconfirmed."
+  "diagnosis": "No arithmetic or catalog aliasing defect reproduced. AOD baseline and resume pose protections applied. User confirms hour hand now works correctly and release 2.3 is stable and complete. Exact internal firmware cause not independently measured.",
+  "hardwareConfirmation": {
+    "date": "2026-10-12",
+    "status": "passed-as-reported-by-user",
+    "source": "dopo nuovo test reale ti confermo che adesso la lancetta ore crono funziona benissimo, tutto e' perfetto e funziona bene. Questa versione 2.3 e' stabile e completa e priva di errori",
+    "device": "Xiaomi Watch S5 M2530W1",
+    "releaseExecutableSha256": "306b7b93581bb2ae7b2e2e24327bc9cc05ddc2c47375a8a9eda3a0aa042f7cdc",
+    "executableIdentity": "Current delivered release hash; installed watchface hash not independently acquired.",
+    "chronoProHourHand": "working-correctly-as-reported-by-user",
+    "releaseAssessment": "stable-complete-no-errors-reported-by-user",
+    "independentPhysicalTestByAgent": false,
+    "exactFirmwareRootCauseConfirmed": false,
+    "codeChangedForThisConfirmation": false,
+    "executableRebuiltForThisConfirmation": false
+  }
 }

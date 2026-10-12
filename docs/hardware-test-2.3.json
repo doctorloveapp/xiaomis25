@@ -9,7 +9,8 @@
   "observations": {
     "chronoProDecisecondSmoothness": "confirmed-by-user",
     "largeSecondHandLag": "no-longer-observed-by-user",
-    "overallVersion": "fully-satisfactory-as-reported-by-user"
+    "overallVersion": "fully-satisfactory-as-reported-by-user",
+    "chronoProHourHandAfterResumeFix": "working-correctly-as-reported-by-user"
   },
   "independentPhysicalTestByAgent": false,
   "hardwareFpsOrEnergyMeasured": false,
@@ -17,9 +18,24 @@
   "executableRebuiltForThisConfirmation": false,
   "laterReport": {
     "date": "2026-10-12",
-    "issue": "Bulova: ore ferme dopo oltre 60 minuti, minuti gi? ripartiti.",
+    "issue": "Bulova: ore ferme dopo oltre 60 minuti, minuti già ripartiti; risolto nel successivo test reale.",
     "analysis": "VERIFICA_BULOVA_ORE_CRONO.md",
-    "newResumeFixHardwareRetest": "pending",
-    "previousConfirmationCoversNewFix": false
+    "newResumeFixHardwareRetest": "passed-as-reported-by-user",
+    "previousConfirmationCoversNewFix": false,
+    "resolutionDate": "2026-10-12"
+  },
+  "latestConfirmation": {
+    "date": "2026-10-12",
+    "status": "passed-as-reported-by-user",
+    "source": "dopo nuovo test reale ti confermo che adesso la lancetta ore crono funziona benissimo, tutto e' perfetto e funziona bene. Questa versione 2.3 e' stabile e completa e priva di errori",
+    "device": "Xiaomi Watch S5 M2530W1",
+    "releaseExecutableSha256": "306b7b93581bb2ae7b2e2e24327bc9cc05ddc2c47375a8a9eda3a0aa042f7cdc",
+    "executableIdentity": "Current delivered release hash; installed watchface hash not independently acquired.",
+    "chronoProHourHand": "working-correctly-as-reported-by-user",
+    "releaseAssessment": "stable-complete-no-errors-reported-by-user",
+    "independentPhysicalTestByAgent": false,
+    "exactFirmwareRootCauseConfirmed": false,
+    "codeChangedForThisConfirmation": false,
+    "executableRebuiltForThisConfirmation": false
   }
 }
