@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "applicationVersion": "2.4",
+  "checks": [
+    "two-independent-styles",
+    "aod-native-compass",
+    "rotating-compass-with-shadow",
+    "30-lunar-frames-with-shadows",
+    "12-short-month-labels",
+    "8-moon-phase-labels",
+    "24h-pointer-canonical-native-binding",
+    "only-crono-lua-binding-and-report",
+    "template-structure-and-semantic-validator"
+  ],
+  "persistentWatchfaceZipCreated": false,
+  "executableLaunched": false
+}

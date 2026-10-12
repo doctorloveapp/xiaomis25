@@ -1,6 +1,6 @@
 'use strict';
 let handSetSearch='',handSetFilter='all';
-const handRoleLabels={hour:'Ore',minute:'Minuti',second:'Secondi',decisecond:'Decimi',centisecond:'Centesimi',millisecond:'Millesimi'};
+const handRoleLabels={hour:'Ore',minute:'Minuti',second:'Secondi',decisecond:'Decimi',centisecond:'Centesimi',millisecond:'Millesimi',date:'Datario'};
 function paintHandSets(){
  const root=$('hands-panel'),draft=state.handSetDraft,roles=draft.small?handRoleLabels:{hour:'Ore',minute:'Minuti',second:'Secondi'};
  const graphic=(role,item,shadow=false)=>{

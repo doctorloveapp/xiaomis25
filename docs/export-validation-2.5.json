@@ -1,0 +1,17 @@
+{
+  "applicationVersion": "2.5",
+  "status": "passed",
+  "temporaryRealCompilerBuilds": 2,
+  "checks": [
+    "two-independent-styles-with-chrono-pro-and-lunar-offsets-and-directions",
+    "lunar-aod-and-native-clock",
+    "lunar-only-aod-without-chrono-runtime",
+    "native-date-pointer-source-and-range-1-31",
+    "module-content-and-binding-validation",
+    "manifest-interactive-true",
+    "build-report-matches-final-binary",
+    "template-package-semantic-validator"
+  ],
+  "persistentDemonstrationZipCreated": false,
+  "realDeviceTested": false
+}

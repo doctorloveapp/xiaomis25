@@ -159,6 +159,24 @@ def test_small_tenths_model_keeps_continuous_or_pro_source_and_calibration(catal
     with pytest.raises(ValueError,match='tipo di set'):catalog.save(draft)
 
 
+def test_date_hand_role_binds_calendar_keeps_calibration_and_exports_native(catalog,tmp_path):
+    draft=empty_draft();draft.update(name='Date hand',small=True,generateShadows=True)
+    draft['hands']['date']=catalog.stage(png(tmp_path));saved=catalog.save(draft)
+    reopened=HandSetCatalog(catalog.root);preset=reopened.presets()[0]
+    e=Element(kind='pointer',source='timeSecond');p=Project(elements=[e])
+    apply(reopened,p,e,preset,'second')
+    assert (e.source,e.value_start,e.value_range,e.angle_start,e.angle_range)==('dateDay',1,31,0,360)
+    assert e.second_shadow_asset in p.assets and not p.validate()
+    e.value_start=2;e.value_range=30;e.angle_start=15;e.angle_range=-320
+    changes=preset_changes(p,e,ROOT,preset,'second',reopened.presets(),custom_catalog=reopened)
+    assert not {'source','value_start','value_range','angle_start','angle_range'}&changes.keys()
+    source=generate_fprj(p,tmp_path/'native-date')
+    pointer=next(w for w in ET.parse(source.project_path).getroot().find('Screen') if w.get('Name')=='pointer_'+e.id)
+    assert int(pointer.get('MinuteImage_rotate_yc'))==hand_image(e,'second',p)[1][1]
+    draft['small']=False
+    with pytest.raises(ValueError,match='tipo di set'):catalog.save(draft)
+
+
 def test_main_set_images_and_pivots_are_exported_by_native_path(catalog,tmp_path):
     draft=complete(catalog,tmp_path);draft['hands']['minute']['pivot']=[12,130]
     catalog.save(draft);p=Project();e=Element(kind='analog',show_ticks=False);p.elements=[e]

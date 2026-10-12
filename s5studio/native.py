@@ -207,6 +207,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
           (0,0,0,0) if not aod and p.background==NO_COLOR else "#000000" if aod else p.background),0,0)
     from .lua_runtime import scene_layers,write_scene
     from .live_data import live_element,write_live
+    from .moon_disk import lunar_element,write_scene as write_moon_scene
     lua_scene=scene_layers(p,aod)
     lua_ids={e.id for e in lua_scene}
     for e in p.ordered_layers(aod):
@@ -225,7 +226,11 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 widget(34,'app_'+quote(name,safe=''),0,0,480,480)
             continue
         prefix=f'el_{variant_index}_'+e.id
-        if live_element(e):
+        if lunar_element(e):
+            from urllib.parse import quote
+            name=write_moon_scene(p,[e],app_directory,variant_index,key=f'v{variant_index}_moon_{e.id}_aod')
+            widget(34,'app_'+quote(name,safe=''),0,0,480,480)
+        elif live_element(e):
             from urllib.parse import quote
             name=write_live(p,e,app_directory,variant_index)
             widget(34,'app_'+quote(name,safe=''),0,0,480,480)
@@ -238,6 +243,13 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             clipped=canvas_static(p,e)
             if clipped:
                 bitmap,x,y=clipped;image(prefix,bitmap,x,y)
+        elif e.kind=='disk' and e.disk_mode=='values':
+            from .disk_catalog import native_frames
+            frames,(x,y)=native_frames(p,e);names=[]
+            for value,bitmap in frames.items():
+                name=f'{prefix}_disc_{value}.png';bitmap.save(images/name);names.append(f'({value}):{name}')
+            code=SOURCES[e.source][1];expected.append(code)
+            widget(31,prefix,x,y,bitmap.width,bitmap.height,BitmapList='|'.join(names),Index_Src=code,DefaultIndex=0)
         elif e.kind=='image_values':
             names=[]
             for value,asset in e.value_assets.items():
@@ -286,7 +298,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 box=font_for(p,e).getbbox(char)
                 ImageDraw.Draw(im).text(((w-(box[2]-box[0]))//2-box[0],1-digit_metrics(p,e)[2]),char,font=font_for(p,e),fill=rgba(e))
                 image(prefix+"_separator",im,e.x+x,e.y+y)
-        elif e.kind in ('pointer','compass'):
+        elif e.kind in ('pointer','compass','disk'):
             if e.show_shadows:
                 pair=hand_image(e,'second',p,shadow=True)
                 if pair:
@@ -339,7 +351,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                 dot=Image.new("RGBA",(14,14))
                 ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
                 image(prefix+"_center",dot,e.x+e.width//2-7,e.y+e.height//2-7)
-    if not aod and p.aod_enabled and any(e.aod and e.visible and live_element(e) for e in p.elements) and not any(w.get('Shape')=='34' for w in screen):
+    if not aod and p.aod_enabled and any(e.aod and e.visible and (live_element(e) or lunar_element(e)) for e in p.elements) and not any(w.get('Shape')=='34' for w in screen):
         # AOD App rows are completed from the main screen's compiled file table.
         from urllib.parse import quote
         base=app_directory/'app/lua';base.mkdir(parents=True,exist_ok=True)

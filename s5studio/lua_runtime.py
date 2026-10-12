@@ -5,6 +5,8 @@ from .motion import LUA_SOURCES, ALL_LUA_SOURCES, lua_element, pro_enabled
 from .render import hand_image, hand_shadow_offset, png_bytes, canvas_image, static_image, canvas_static
 from .paths import resource_root
 from .live_data import live_element,live_lines
+from .moon_disk import lunar_element
+from .scene_data import supported as scene_data_element,lines as scene_data_lines
 
 
 def unpack_app(payload):
@@ -20,7 +22,7 @@ def unpack_app(payload):
 
 
 def scene_layers(project, aod=False):
-    """Keep Lua pointers in one VM, preserving static layers between them.
+    """Keep Lua pointers in one VM, preserving supported live layers too.
 
     Moving a native dynamic widget into the Lua scene would change its binding;
     fail explicitly instead of silently changing its layering or sensor API.
@@ -33,9 +35,9 @@ def scene_layers(project, aod=False):
     if not indices:return []
     span=layers[indices[0]:indices[-1]+1]
     for e in span:
-        if isinstance(e,dict) or e.kind not in ('image','text','rect','circle') and not lua_element(e) and not live_element(e):
+        if isinstance(e,dict) or e.kind not in ('image','text','rect','circle') and not lua_element(e) and not live_element(e) and not scene_data_element(e):
             name=e.get('name','Complicazione') if isinstance(e,dict) else e.name
-            raise ValueError(f'Sposta il livello dinamico «{name}» sopra o sotto il gruppo di lancette Crono/Decimi. Le lancette Lua devono condividere una scena; immagini, testi e forme possono restare tra loro.')
+            raise ValueError(f'Il livello «{name}» non può ancora essere inserito nella scena condivisa Crono/Decimi. Spostalo sotto tutte le lancette/dischi Lua oppure sopra tutti. Giorni, mesi, immagini, testi, forme e lancette a sorgente nativa possono restare nel gruppo.')
     return span
 
 
@@ -45,6 +47,9 @@ def write_pointer(project, e, directory, variant):
 
 def write_scene(project, layers, directory, variant, *, key=None):
     """One compiled App entry contains every Lua view and one tap handler."""
+    if not any(lua_element(e) and not lunar_element(e) for e in layers):
+        from .moon_disk import write_scene as write_moon_scene
+        return write_moon_scene(project,layers,directory,variant,key=key)
     if pro_enabled(project):return write_pro_scene(project,layers,directory,variant,key=key)
     base = directory / 'app/lua'; (base/'gfx').mkdir(parents=True, exist_ok=True)
     (base/'studio_core.lua').write_bytes((resource_root()/'s5studio/lua/studio_core.lua').read_bytes())
@@ -62,6 +67,11 @@ def write_scene(project, layers, directory, variant, *, key=None):
              'scene:clear_flag(lvgl.FLAG.SCROLLABLE)', 'scene:clear_flag(lvgl.FLAG.CLICKABLE)']
     pointers=[e for e in layers if e.kind=='pointer' and e.source in LUA_SOURCES]
     for e in layers:
+        if lunar_element(e):
+            from .moon_disk import lines as moon_lines
+            lines+=moon_lines(project,e,base,variant);continue
+        if scene_data_element(e):
+            lines+=scene_data_lines(project,e,base,variant);continue
         if live_element(e):
             lines+=live_lines(project,e,base,variant)
             continue
@@ -102,7 +112,7 @@ def pro_views(e):
 
 
 def scene_bindings(project):
-    return [v for e in scene_layers(project) if lua_element(e) for v in (pro_views(e) if pro_enabled(project) else [e])]
+    return [v for e in scene_layers(project) if lua_element(e) and not lunar_element(e) for v in (pro_views(e) if pro_enabled(project) else [e])]
 
 
 def write_pro_scene(project,layers,directory,variant,*,key=None):
@@ -122,6 +132,11 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
         (base/'gfx'/name).write_bytes(png_bytes(image))
         lines.extend([f'local img = scene:Image {{x={x},y={y},src=SCRIPT_PATH.."gfx/{name}"}}','img:clear_flag(lvgl.FLAG.CLICKABLE)'])
     for e in layers:
+        if lunar_element(e):
+            from .moon_disk import lines as moon_lines
+            lines+=moon_lines(project,e,base,variant);continue
+        if scene_data_element(e):
+            lines+=scene_data_lines(project,e,base,variant);continue
         if live_element(e):
             lines+=live_lines(project,e,base,variant)
             continue
@@ -141,7 +156,8 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
                     lines+=pointer_lines(project,view,base,variant,shadow_modes=[shadow],value_scale=1000)
                     lines+=['end']
             for index,view in enumerate(analog_views,1):
-                lines += [f'core:add {{id="{view.id}",root=root,hands=groups[{index}],source="{view.source}",range={view.value_range},valueStart=0,valueRange={view.value_range},angleRange=360,scale=1000,smooth={str(view.smooth_seconds).lower()}}}']
+                only=',onlyChrono=true' if view.source=='studioIntegratedSecond' and view.only_chrono else ''
+                lines += [f'core:add {{id="{view.id}",root=root,hands=groups[{index}],source="{view.source}",range={view.value_range},valueStart=0,valueRange={view.value_range},angleRange=360,scale=1000,smooth={str(view.smooth_seconds).lower()}{only}}}']
             lines+=['end']
             if e.show_center_cap:
                 dot=Image.new('RGBA',(14,14));ImageDraw.Draw(dot).ellipse((1,1,13,13),fill=rgba(e))
@@ -197,7 +213,9 @@ def interaction_report(project, data, manifest_bytes):
             # Only the actual AOD entry points may execute the inert live renderer.
             for entry in entries:
                 code=files[entry].decode('utf8')
-                if '_live_' not in entry or 'require("studio_live_data")' not in code or 'studio_core' in code or 'tap:onevent' in code:
+                inert_live='_live_' in entry and 'require("studio_live_data")' in code
+                inert_moon='_moon_' in entry and 'require("studio_moon_disk")' in code and 'aod=true' in code
+                if not (inert_live or inert_moon) or 'studio_core' in code or 'tap:onevent' in code:
                     raise ValueError('Runtime animato/interattivo non consentito in AOD.')
         app_layouts+=len(entries)
         if not screen['aod']:
@@ -210,7 +228,7 @@ def interaction_report(project, data, manifest_bytes):
             if any(b[3]>>4==3 and b[:2] in codes for _,_,b in tables[7]):
                 raise ValueError('Lancetta secondi presente in AOD.')
     manifest=ET.fromstring(manifest_bytes)
-    requested=any(e.visible and (live_element(e) or not e.aod and lua_element(e) or civil_roles(e))
+    requested=any(e.visible and (live_element(e) or lunar_element(e) or not e.aod and lua_element(e) or civil_roles(e))
                   for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements)
     if requested != bool(app_layouts) or manifest.get('interactive')!=str(requested).lower():
         raise ValueError('Interattività richiesta ma script/layout/manifest incoerenti.')
@@ -224,6 +242,12 @@ def interaction_report(project, data, manifest_bytes):
             'manifestInteractive':manifest.get('interactive'),'aodSecondsExcluded':True,'hardwareVerified':False,
             'limitations':(['Runtime Lua, clock monotono e VM condivisa da verificare sul firmware S5.',
                             'Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio.'] if requested else [])}
+    from .moon_disk import validate_injection
+    moon_report=validate_injection(project,files)
+    if moon_report:result['moonDisc']=moon_report
+    from .scene_data import validate_injection as validate_scene_data
+    scene_data_report=validate_scene_data(project,files)
+    if scene_data_report:result['sceneDynamicData']=scene_data_report
     if synchronized_civil:
         result['civilClock']={'runtime':'studio_civil_clock.lua','coherentSamples':True,
                               'rolloverWaitsForUpperCounters':True,'timers':False}
@@ -265,7 +289,7 @@ def interaction_report(project, data, manifest_bytes):
         for i in range(max(1,len(project.variants))):
             p=project.variant_project(i)
             ids=sorted(e.id for e in p.elements if e.visible and not e.aod and e.kind=='pointer' and e.source in LUA_SOURCES)
-            expected=[f'lua/studio_v{i}_scene.lua'] if ids else []
+            expected=[f'lua/studio_v{i}_scene.lua'] if scene_layers(p) else []
             if i>=len(screen_apps) or screen_apps[i]!=expected:
                 raise ValueError('Il tema Lua deve avere una sola scena con tutte le lancette sincronizzate.')
             if ids:
@@ -288,7 +312,7 @@ def interaction_report(project, data, manifest_bytes):
         variants=[]
         for i in range(max(1,len(project.variants))):
             p=project.variant_project(i);views=scene_bindings(p)
-            expected=[f'lua/studio_v{i}_scene.lua'] if views else []
+            expected=[f'lua/studio_v{i}_scene.lua'] if scene_layers(p) else []
             if i>=len(screen_apps) or screen_apps[i]!=expected:
                 raise ValueError('Crono-Pro richiede una sola scena Lua per stile.')
             if views:
@@ -300,6 +324,10 @@ def interaction_report(project, data, manifest_bytes):
                     raise ValueError('Modalità Crono-Pro diversa dal runtime iniettato.')
                 from .motion import POST_SOURCES
                 for v in views:
+                    if v.source=='studioIntegratedSecond':
+                        binding=next((line for line in code.splitlines() if 'core:add {id="'+v.id+'"' in line),'')
+                        if ('onlyChrono=true' in binding)!=v.only_chrono:
+                            raise ValueError('Modalità Only Crono diversa dal progetto.')
                     if v.source in POST_SOURCES:
                         binding=next((line for line in code.splitlines() if 'core:add {id="'+v.id+'"' in line),'')
                         if f'bounded={str(v.pointer_arc).lower()},postReadout="{v.post_readout}"' not in binding:
@@ -318,6 +346,7 @@ def interaction_report(project, data, manifest_bytes):
         if b'never reverse the sweep' in pro_core:
             result['chronoPro']['transitionDirection']='clockwise-only'
             result['limitations'][0]='Crono-Pro 1.2: test reale superato, inclusi rientri orari e varianti indipendenti.'
+        result['chronoPro']['onlyChronoMainSeconds']=[e.id for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements if e.kind=='analog' and e.only_chrono and e.visible and not e.aod]
         result['limitations']=['Crono-Pro 1.2 collaudato sul S5; la 1.4 porta la durata comune dei rientri a 720 ms. Crono separato 1.0 collaudato.',
                                'Fallback fase Anim: precisione durante sospensioni limitata da os.time; senza clock civile non misura il tempo a schermo spento.',
                                'Cronografo locale: ricreazione della VM/cambio quadrante azzerano il conteggio. Consumo non misurato.']

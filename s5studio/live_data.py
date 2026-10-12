@@ -120,7 +120,7 @@ def complete_aod_apps(data,source_path):
     for w in widgets:
         if w.get('Shape')=='34':
             name=unquote(w.get('Name','')[4:])
-            if name not in names or '_live_' not in name:raise ValueError('Entry point AOD live assente dalle risorse compilate.')
+            if name not in names or not any(mark in name for mark in ('_live_','_moon_')):raise ValueError('Entry point AOD live/lunare assente dalle risorse compilate.')
             pos=struct.unpack_from('<I',result,layout_offset+cursor*16+8)[0]
             if struct.unpack_from('<I',result,pos)[0]!=0:raise ValueError('Riferimento App AOD inatteso.')
             struct.pack_into('<I',result,pos,names[name])

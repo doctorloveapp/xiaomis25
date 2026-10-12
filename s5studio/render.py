@@ -12,7 +12,7 @@ from .model import Element, Project
 from .calendar_labels import labels_for, sample_label
 
 SCENARIOS = {
-    "Normale": dict(hour=10, minute=8, second=30, day=15, month=10, dateWeek=1, batteryPercent=82, heartRate=72, steps=8540, calories=420),
+    "Normale": dict(hour=10, minute=8, second=30, day=15, month=10, dateWeek=1, dateMoon=4, dateLunarDay=15, batteryPercent=82, heartRate=72, steps=8540, calories=420),
     "Mezzanotte": dict(hour=0, minute=0, second=0, day=1, month=1, batteryPercent=0, heartRate=60, steps=0, calories=0),
     "Valori alti": dict(hour=23, minute=59, second=59, day=31, month=12, batteryPercent=100, heartRate=180, steps=99999, calories=9999),
     "Dati assenti": dict(hour=12, minute=34, second=0, day=6, month=10, batteryPercent=None, heartRate=None, steps=None, calories=None),
@@ -301,12 +301,27 @@ def _hand_geometry(e,which,p):
 
 
 def hand_shadow_offset(e,which,p):
+    if e.kind=='disk':
+        with Image.open(BytesIO(p.assets[e.asset])) as im:scale=min(e.width/im.width,e.height/im.height)
+        return tuple(round(getattr(e,'second_shadow_offset_'+axis)*scale) for axis in ('x','y'))
     geometry=_hand_geometry(e,which,p)
     scales=geometry[2] if geometry else (1.,1.)
     return tuple(round(getattr(e,which+'_shadow_offset_'+axis)*scales[i]) for i,axis in enumerate(('x','y')))
 
 
 def hand_image(e: Element, which: str, p: Project | None=None, *, shadow=False):
+    if e.kind=='disk':
+        key=e.second_shadow_asset if shadow else e.asset
+        if not key:return None
+        with Image.open(BytesIO(p.assets[e.asset])) as original:scale=min(e.width/original.width,e.height/original.height)
+        with Image.open(BytesIO(p.assets[key])) as source:im=source.convert('RGBA')
+        anchor=tuple(getattr(e,'second'+('_shadow' if shadow else '')+'_anchor_'+axis) for axis in ('x','y'))
+        anchor=tuple(im.size[i]//2 if value<0 else value for i,value in enumerate(anchor))
+        im=im.resize(tuple(max(1,round(n*scale)) for n in im.size),Image.Resampling.LANCZOS)
+        anchor=tuple(max(0,min(im.size[i]-1,round(v*scale))) for i,v in enumerate(anchor))
+        if e.tint and not shadow:im=tint_image(im,e.color)
+        if e.opacity!=255:im.putalpha(im.getchannel('A').point(lambda a:a*e.opacity//255))
+        return im,anchor
     if e.kind=='compass':
         if shadow:return None
         with Image.open(BytesIO(p.assets[e.asset])) as source:im=source.convert('RGBA')
@@ -348,7 +363,12 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
         return static_image(p,replace(e,kind='image',asset=asset,fit='contain'))
     if e.kind in {"text", "image", "rect", "circle"}:
         return static_image(p,e)
-    if e.kind in ('analog','pointer','compass'):
+    if e.kind in ('analog','pointer','compass','disk'):
+        if e.kind=='disk' and e.disk_mode=='values':
+            from dataclasses import replace
+            from .disk_catalog import selected_frame
+            key=selected_frame(e,values)
+            e=replace(e,asset=e.value_assets[key],second_shadow_asset=e.disk_shadow_assets.get(key,''))
         im=Image.new('RGBA',viewport or (e.width,e.height))
         if e.kind=='analog':im.alpha_composite(analog_face(e),origin)
         cx,cy=origin[0]+e.width//2,origin[1]+e.height//2
@@ -362,16 +382,22 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
             if e.smooth_minutes:hands[1]=('minute',civil%3600/10)
         if e.second_hand and not e.aod:
             second=values.get('__proValues',{}).get(e.id+'_second') if e.chrono_pro else None
+            if second is None and e.chrono_pro and e.only_chrono:second=0
             if second is None:second=((values.get('second') or 0)+(values.get('__secondFraction',0) if e.smooth_seconds else int(values.get('__secondFraction',0))))%60
             hands.append(('second',second*6))
-        if e.kind in ('pointer','compass'):
+        if e.kind in ('pointer','compass','disk'):
             from .motion import ALL_LUA_SOURCES, lua_value
             value=lua_value(e.source,values.get('__chronoMs',0) if e.source!='studioDecisecond' else values.get('__clockMs',0),e.smooth_seconds) if e.source in ALL_LUA_SOURCES else values.get(e.source)
+            from .moon_disk import lunar_element,preview_value
+            if lunar_element(e):value=preview_value(e,values)
             if e.source=='studioDecisecond':value=e.value_start+value/10*e.value_range
             if e.id in values.get('__proValues',{}):value=values['__proValues'][e.id]
             calibration=values.get('__pointerCalibration',{}).get(e.id)
             if calibration in ('start','end'):
                 value=e.value_start+(e.value_range if calibration=='end' else 0)
+            if e.source in ('hour','timeHour','timeHour24','minute','timeMinute','second','timeSecond') and value is not None and calibration not in ('start','end'):
+                from math import floor
+                value=floor(value)
             if e.source in ('second','timeSecond') and value is not None and calibration not in ('start','end'):
                 # Simulated civil time advances even when sweep is disabled.
                 # Small seconds normally tick once per second, like the native
@@ -380,6 +406,7 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
                 value=(value+(elapsed if e.smooth_seconds else int(elapsed)))%60
             fraction=0 if value is None else max(0,min(1,(float(value)-e.value_start)/e.value_range))
             hands=[('second',e.angle_start+fraction*e.angle_range)]
+            if e.kind=='disk' and e.disk_mode=='values':hands=[('second',0)]
         # Pro exports the main hands as Lua pointers. Preview their exact
         # geometry even before an adjustment control has been touched.
         pro_geometry={}
@@ -454,7 +481,7 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
                 elif layer.kind=='number' and (layer.rotation or layer.arc or layer.shadow_enabled):
                     clipped=canvas_static(p,layer,element_image(p,layer,values))
                     if clipped:bitmap,x,y=clipped;im.alpha_composite(bitmap,(x,y))
-                elif layer.kind in ('analog','pointer','compass'):
+                elif layer.kind in ('analog','pointer','compass','disk'):
                     # Native hands use the level centre as their pivot, but
                     # their bitmap is clipped by the watch canvas, not the
                     # editor's selection box. Rotate on that same full canvas.

@@ -78,7 +78,7 @@ function M:refresh(now)
         local elapsed=math.max(self.elapsed,now-self.started)
         local period=self.hasDeciseconds and (self.smoothDeciseconds and 40 or 100) or 1000
         bucket=math.floor(elapsed/period)
-    elseif self.state=="rest" and self.main and self.main.smooth then
+    elseif self.state=="rest" and self.main and self.main.smooth and not self.main.onlyChrono then
         bucket=math.floor(now/40)
     else return end
     if self.frameState==self.state and self.frameBucket==bucket then return end
@@ -96,6 +96,7 @@ end
 
 function M:target(view,elapsed,now)
     if view.source=="studioIntegratedSecond" then
+        if view.onlyChrono then return view.valueStart end
         return self:civilSecond(now)
     end
     return view.valueStart
@@ -112,7 +113,8 @@ function M:update(now)
             self:write(view,self.civil.minute+(view.smooth and self.civil.second/60 or 0))
         elseif source=="studioIntegratedSecond" then
             if self.state=="rest" then
-                if self.civilReady then self:write(view,self:civilSecond(now)) end
+                if view.onlyChrono then self:write(view,view.valueStart)
+                elseif self.civilReady then self:write(view,self:civilSecond(now)) end
             elseif self.state=="ready" then self:write(view,view.valueStart)
             elseif self.state=="running" or self.state=="reading" or self.state=="stopped" then
                 self:write(view,math.floor(elapsed/1000)%60)
@@ -146,11 +148,11 @@ function M:schedulers()
     if self.restTimer then self.restTimer:pause() end
     local ticking=self.active and self.screenOn
     if ticking and not self.frameDriven and self.state=="running" and self.runTimer then self.runTimer:resume() end
-    if ticking and not self.frameDriven and self.state=="rest" and self.main and self.main.smooth and self.restTimer then self.restTimer:resume() end
+    if ticking and not self.frameDriven and self.state=="rest" and self.main and self.main.smooth and not self.main.onlyChrono and self.restTimer then self.restTimer:resume() end
     if self.clockAnimation then
         local run=ticking and (self.state=="running" or
             self.state=="arming" or self.state=="resetting" or
-            self.state=="rest" and self.main and self.main.smooth) or false
+            self.state=="rest" and self.main and self.main.smooth and not self.main.onlyChrono) or false
         if run~=self.clockRunning then
             if run then self.lastPhase=nil;self.frameState=nil;self.frameBucket=nil end
             self.clockRunning=run;self.clockAnimation:set {run=run}

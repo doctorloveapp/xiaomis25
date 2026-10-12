@@ -111,7 +111,8 @@ def validate_semantics(z):
         from .model import Project,Element,VariantDesign
         from .lua_runtime import interaction_report
         d=schema['project'];project=Project(elements=[Element.from_dict(e) for e in d['elements']],variants=d['variants'],
-                                          complications=d.get('complications',[]),layer_order=d.get('layerOrder',[]))
+                                          complications=d.get('complications',[]),layer_order=d.get('layerOrder',[]),
+                                          aod_enabled=d.get('aodEnabled',False))
         for variant in project.variants:
             if variant.get('design') is not None:variant['design']=VariantDesign.from_dict(variant['design'])
         expected=interaction_report(project,data,z.read('resources/manifest.xml'))

@@ -1,0 +1,283 @@
+{
+  "status": "passed",
+  "applicationVersion": "2.6",
+  "project": "projects/Longine.s5faceproj",
+  "projectSha256": "ec325a47cce5424e148eef65357c0bdb8e29f9683741d0cda5dc6ad000c6c802",
+  "projectUnchanged": true,
+  "realCompilerExportPassed": true,
+  "temporaryExportRemovedAfterCheck": true,
+  "demonstrationZipCreated": false,
+  "hardwareVerified": false,
+  "elapsedSeconds": 10.139,
+  "projectLayersBackToFront": [
+    {
+      "id": "3f5266b92c38",
+      "name": "Disco moon",
+      "kind": "disk",
+      "source": "studioMoon59"
+    },
+    {
+      "id": "353739902d00",
+      "name": "Longines_z",
+      "kind": "image",
+      "source": "batteryPercent"
+    },
+    {
+      "id": "cedc1b768e73",
+      "name": "Dato Giorno",
+      "kind": "number",
+      "source": "dateWeek"
+    },
+    {
+      "id": "7d6c90a754ca",
+      "name": "Dato Mese",
+      "kind": "number",
+      "source": "dateMonth"
+    },
+    {
+      "id": "d206885c5104",
+      "name": "Lancetta Ore crono",
+      "kind": "pointer",
+      "source": "studioChronoHour"
+    },
+    {
+      "id": "c3707b55b181",
+      "name": "Lancetta Minuti crono",
+      "kind": "pointer",
+      "source": "studioChronoMinute"
+    },
+    {
+      "id": "0f11cea7e0f3",
+      "name": "Lancetta 24/12",
+      "kind": "pointer",
+      "source": "timeHour24"
+    },
+    {
+      "id": "da1fc2505435",
+      "name": "Lancetta secondi",
+      "kind": "pointer",
+      "source": "timeSecond"
+    },
+    {
+      "id": "ae3c1f6fd572",
+      "name": "Lancetta datario",
+      "kind": "pointer",
+      "source": "dateDay"
+    },
+    {
+      "id": "152bdfcbd7ce",
+      "name": "Lancette",
+      "kind": "analog",
+      "source": "batteryPercent"
+    }
+  ],
+  "compiledLuaOrderMatchesProject": true,
+  "sceneDynamicData": {
+    "injected": true,
+    "runtime": "studio_scene_data.lua",
+    "moduleSha256": "0c702ad91eb1a1627d1778cf6189f949eca4e38ceee8ae21feda8ec75a466fd3",
+    "updates": "dataman-Q8-notifications",
+    "sampleValuesBaked": false,
+    "layerOrderPreserved": true,
+    "chronoIndependent": true,
+    "hardwareVerified": false,
+    "bindings": [
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "calendar",
+        "id": "cedc1b768e73",
+        "source": "dateWeek"
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "calendar",
+        "id": "7d6c90a754ca",
+        "source": "dateMonth"
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "pointer",
+        "id": "0f11cea7e0f3",
+        "source": "timeHour",
+        "valueStart": 0,
+        "valueRange": 24,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "pointer",
+        "id": "da1fc2505435",
+        "source": "timeSecond",
+        "valueStart": 0,
+        "valueRange": 60,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": true,
+        "scale": 1000
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "pointer",
+        "id": "ae3c1f6fd572",
+        "source": "dateDay",
+        "valueStart": 0,
+        "valueRange": 31,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      }
+    ]
+  },
+  "luaArchitecture": {
+    "type": "single-scene-per-theme",
+    "crossWidgetVmSharingRequired": false,
+    "scenes": [
+      {
+        "variant": 0,
+        "mode": "pro",
+        "entry": "lua/studio_v0_scene.lua",
+        "pointerIds": [
+          "152bdfcbd7ce_hour",
+          "152bdfcbd7ce_minute",
+          "152bdfcbd7ce_second",
+          "c3707b55b181",
+          "d206885c5104"
+        ]
+      }
+    ]
+  },
+  "moonDisc": {
+    "injected": true,
+    "runtime": "studio_moon_disk.lua",
+    "moduleSha256": "056e17eb8cac6d4df39e2409799bf89b5290be9e0320883932fa8f67a36ee37d",
+    "positions": 59,
+    "stepDegrees": 6.101694915254237,
+    "calendarSources": [
+      "dateYear",
+      "dateMonth",
+      "dateDay"
+    ],
+    "counter": "civil-date-difference-modulo-59",
+    "writesOnlyChangedValues": true,
+    "backgroundPolling": false,
+    "animationTimers": false,
+    "fallbackNotificationCoalescingMs": 200,
+    "fallbackTimerPausedInSteadyState": true,
+    "aodFrozenBetweenActivations": true,
+    "chronoIndependent": true,
+    "hardwareVerified": false,
+    "discs": [
+      {
+        "variant": 0,
+        "id": "3f5266b92c38",
+        "aod": false,
+        "referenceDate": "2026-09-26",
+        "dayOffset": 0,
+        "valueRange": 59,
+        "angleStart": 0,
+        "angleRange": 360
+      }
+    ]
+  },
+  "aodSecondsExcluded": true,
+  "chronoRuntimeUnchanged": true,
+  "handSetIntegration": {
+    "status": "passed",
+    "sourcesChecked": [
+      {
+        "catalog": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\data\\hand-sets\\catalog.json",
+        "status": "absent"
+      },
+      {
+        "catalog": "C:\\Users\\hp_wi\\AppData\\Local\\S5Studio\\hand-sets\\catalog.json",
+        "status": "checked",
+        "sets": 11
+      }
+    ],
+    "updates": [
+      {
+        "id": "custom-c9cd6a9ce7d142088a6e9213db1c2d79",
+        "name": "Longines_Lancette piccole",
+        "action": "added"
+      },
+      {
+        "id": "custom-77a0e532fd3741cb982fa6b4e8fd7185",
+        "name": "Longines",
+        "action": "added"
+      }
+    ],
+    "bundledSets": 11,
+    "bundledHands": 34,
+    "bundledAssets": 59,
+    "sets": [
+      {
+        "id": "custom-911b9b557a3249938c8a74bd7432b1d3",
+        "name": "Bulova",
+        "small": false
+      },
+      {
+        "id": "custom-b7312f6f09c64e4ea4bac4f2a7c488de",
+        "name": "Bulova_lancette_piccole",
+        "small": true
+      },
+      {
+        "id": "custom-6f6a7ad536d047bd89280d8e114b7fd6",
+        "name": "Hamilton Lancette",
+        "small": false
+      },
+      {
+        "id": "custom-ea28ed38ee7f41beb5d4d1ddca14de28",
+        "name": "Longine",
+        "small": false
+      },
+      {
+        "id": "custom-77a0e532fd3741cb982fa6b4e8fd7185",
+        "name": "Longines",
+        "small": false
+      },
+      {
+        "id": "custom-c9cd6a9ce7d142088a6e9213db1c2d79",
+        "name": "Longines_Lancette piccole",
+        "small": true
+      },
+      {
+        "id": "custom-239bb4249cf0466db27a7446e0185190",
+        "name": "Omega moon",
+        "small": false
+      },
+      {
+        "id": "custom-9cdd7998cd644b86bf4fb3325faf8afe",
+        "name": "Omega moon piccole",
+        "small": true
+      },
+      {
+        "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
+        "name": "Seiko 5 ombra",
+        "small": false
+      },
+      {
+        "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
+        "name": "Swatch Orange ombra",
+        "small": false
+      },
+      {
+        "id": "custom-6fb7cf28c7414c449f18046d047d13be",
+        "name": "Swatch orange piccole",
+        "small": true
+      }
+    ],
+    "catalogSha256": "02cec3830ed804ad833d2d9fa63f82d445c6a18c3149d1438974ed621617001b",
+    "originalCatalogHands": 595,
+    "effectiveCatalogHands": 629,
+    "sourceCatalogsModified": false
+  }
+}

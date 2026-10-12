@@ -1,0 +1,19 @@
+{
+  "applicationVersion": "2.4",
+  "status": "passed",
+  "checks": [
+    "version-and-89-disc-catalog",
+    "edit-lunar-sequence-generate-all-shadows",
+    "apply-disc-level-pivot-preview-save-load",
+    "delete-bundled-disc-button-project-preserved-and-restore",
+    "lunar-source-help-distinguishes-eight-phases-and-daily-month-reset",
+    "import-custom-png-center-click-edit-shadow-delete",
+    "month-abbreviation-checkbox",
+    "live-lunar-phase-native-menu",
+    "24h-small-hand-source-and-one-daily-revolution",
+    "only-crono-enables-pro-and-parks-main-seconds"
+  ],
+  "checkCount": 10,
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

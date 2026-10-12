@@ -1,5 +1,6 @@
 """Human-readable bindings: aliases are hidden, digit fields remain distinct."""
 LABELS = {
+    'dateMoon': 'Fasi lunari',
     'timeHour': 'Ora completa (0–23)', 'timeMinute': 'Minuti completi (0–59)',
     'timeSecond': 'Secondi completi (0–59)', 'dateDay': 'Giorno del mese (1–31)',
     'timeHourLow': 'Cifra delle ore · unità', 'timeHourHigh': 'Cifra delle ore · decine',
@@ -8,8 +9,10 @@ LABELS = {
     'dateDayLow': 'Cifra del giorno · unità', 'dateDayHigh': 'Cifra del giorno · decine',
 }
 DESCRIPTIONS = {
+    'timeHour24': 'Ore solari da 0 a 23, indipendenti dal cronografo. Un solo giro al giorno: valore iniziale 0, intervallo 24 e rotazione 360°. Alle 18 la lancetta indica 18 sul quadrante a 24 posizioni.',
+    'dateMoon': 'Fase lunare nativa, otto stati da New Moon a Waning Crescent. Dato live mostra il nome inglese; per le immagini di luna, sole e stelle usa il catalogo Dischi. Il dato è fornito dal firmware, senza calcoli astronomici aggiuntivi.',
     'timeHour': 'L’ora intera in formato 24 ore. Alle 14:37 vale 14. Per un sottoquadrante delle ore, 24 valori e 720° corrispondono a due giri al giorno.',
-    'timeMinute': 'I minuti interi dell’ora corrente, da 0 a 59. Alle 14:37 vale 37; intervallo 60 e rotazione 360° per un giro all’ora.',
+    'timeMinute': 'Minuti giorno: minuti normali dell’ora corrente, da 0 a 59, indipendenti dal cronografo. Alle 14:37 vale 37; valore iniziale 0, intervallo 60 e rotazione 360° per un giro all’ora. Da abbinare a Ore (24h · giorno/notte) nei sottoquadranti del tempo solare.',
     'timeSecond': 'Secondi dell’ora reale, indipendenti dal cronografo. Valore iniziale 0, intervallo 60 e rotazione 360°: un giro al minuto. La posizione segue il campo Secondi dell’anteprima (30 nello scenario Normale), non parte sempre da zero. Per controllare lo zero imposta Secondi = 0; per vederla avanzare attiva Simula movimento, anche senza Movimento Fluido.',
     'timeHourLow': 'Solo la cifra delle unità dell’ora: alle 14:37 vale 4. Serve per indicatori della singola cifra, non per una lancetta oraria completa.',
     'timeHourHigh': 'Solo la cifra delle decine dell’ora: alle 14:37 vale 1. Può valere 0, 1 o 2.',
@@ -50,8 +53,7 @@ DESCRIPTIONS = {
     'miscTimeSection': 'Fascia oraria nella codifica nativa dell’orologio.',
     'miscdateYestarday': 'Data del giorno precedente nella codifica nativa.',
     'miscdateTomorrow': 'Data del giorno successivo nella codifica nativa.',
-    'dateMoon': 'Fase lunare nella codifica nativa dell’orologio.',
-    'dateLunarDay': 'Giorno del calendario lunare.', 'dateLunarStringMonth': 'Mese lunare nella codifica nativa.',
+    'dateLunarDay': 'Giorno del calendario lunare: 1–29/30, poi riparte da 1. Cambia ogni giorno ma non è un contatore continuo da 0 a 58 per una ruota lunare da 59 posizioni.', 'dateLunarStringMonth': 'Mese lunare nella codifica nativa.',
     'dateLunarStringDay': 'Data lunare nella codifica nativa.',
 }
 

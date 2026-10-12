@@ -1,6 +1,30 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+if exist "%~dp0S5Studio-2.7.exe" (
+  start "" "%~dp0S5Studio-2.7.exe"
+  exit /b
+)
+if exist "%~dp0S5Studio-2.6-aggiornato.exe" (
+  start "" "%~dp0S5Studio-2.6-aggiornato.exe"
+  exit /b
+)
+if exist "%~dp0S5Studio-2.6.exe" (
+  start "" "%~dp0S5Studio-2.6.exe"
+  exit /b
+)
+if exist "%~dp0S5Studio-2.5.exe" (
+  start "" "%~dp0S5Studio-2.5.exe"
+  exit /b
+)
+if exist "%~dp0S5Studio-2.4-aggiornato.exe" (
+  start "" "%~dp0S5Studio-2.4-aggiornato.exe"
+  exit /b
+)
+if exist "%~dp0S5Studio-2.4.exe" (
+  start "" "%~dp0S5Studio-2.4.exe"
+  exit /b
+)
 if exist "%~dp0S5Studio-2.3.exe" (
   start "" "%~dp0S5Studio-2.3.exe"
   exit /b

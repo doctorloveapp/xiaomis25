@@ -33,9 +33,12 @@ for _key,_item in library()['sources'].items():
 SOURCES.update({key:(label,SOURCES[source][1],SOURCES[source][2]) for key,label,source in (
     ('spo2','SpO₂','healthOxygenSpO2'),('sleep','Sonno','healthSleepDuration'),('movement','Movimento','healthExerciseDuration')) if source in SOURCES})
 HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asset','_shadow_asset'))
+SOURCES['timeHour24']=('Ore (24h · giorno/notte)',SOURCES['hour'][1],2)
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
 VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
-VARIANT_PROPERTIES.update({'smooth_hours','smooth_minutes'})
+VARIANT_PROPERTIES.update({'smooth_hours','smooth_minutes','only_chrono'})
+VARIANT_PROPERTIES.update({'month_abbreviated','disk_preset','disk_mode','disk_shadow_assets','value_assets'})
+VARIANT_PROPERTIES.update({'moon_reference_date','moon_day_offset'})
 VARIANT_PROPERTIES.update({'pointer_arc','post_readout','value_start','value_range','angle_start','angle_range'})
 from .effects import PROPERTIES as EFFECT_PROPERTIES
 VARIANT_PROPERTIES.update(EFFECT_PROPERTIES)
@@ -98,6 +101,7 @@ class Element:
     digits: int = 3
     decimals: int = 0
     leading_zero: bool = False
+    month_abbreviated: bool = False
     align: str = "center"
     asset: str = ""
     font_asset: str = ""
@@ -126,6 +130,7 @@ class Element:
     smooth_hours: bool = False
     smooth_minutes: bool = False
     chrono_pro: bool = False
+    only_chrono: bool = False
     hour_length: int = 50
     minute_length: int = 50
     second_length: int = 50
@@ -147,6 +152,11 @@ class Element:
     second_pivot_reference_x: int = -1
     second_pivot_reference_y: int = -1
     compass_preset: str = ''
+    disk_preset: str = ''
+    disk_mode: str = 'rotation'
+    disk_shadow_assets: dict = field(default_factory=dict)
+    moon_reference_date: str = '2026-09-26'
+    moon_day_offset: int = 0
     hour_color: str = ''
     show_center_cap: bool = True
     minute_color: str = ''
@@ -396,7 +406,7 @@ class Project:
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_name(path.name + ".tmp")
         referenced = {key for i in range(max(1,len(self.variants))) for e in self.variant_project(i).elements
-                      for key in (*[getattr(e,k) for k in ASSET_FIELDS],*e.value_assets.values()) if key}
+                      for key in (*[getattr(e,k) for k in ASSET_FIELDS],*e.value_assets.values(),*e.disk_shadow_assets.values()) if key}
         try:
             with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
                 z.writestr("project.json", json.dumps(self.metadata(), ensure_ascii=False, indent=2))
@@ -507,15 +517,27 @@ class Project:
             if not re.fullmatch(r"[a-f0-9]{12}", str(el.id)) or el.id in ids:
                 errors.append(f"{label}: ID componente non valido o duplicato.")
             ids.add(el.id)
-            if el.kind not in {"image", "image_values", "text", "number", "clock", "date", "analog", "pointer", "compass", "rect", "circle"}:
+            if el.kind not in {"image", "image_values", "text", "number", "clock", "date", "analog", "pointer", "compass", "disk", "rect", "circle"}:
                 errors.append(f"{label}: tipo non supportato ({el.kind}).")
             from .motion import ALL_LUA_SOURCES
-            if el.source not in SOURCES and not (el.kind == 'pointer' and el.source in ALL_LUA_SOURCES):
+            from .moon_disk import lunar_element,calibration_errors
+            if el.source not in SOURCES and not lunar_element(el) and not (el.kind == 'pointer' and el.source in ALL_LUA_SOURCES):
                 errors.append(f"{label}: sorgente dati non supportata.")
             if any(type(getattr(el,key)) is not bool for key in ('smooth_hours','smooth_minutes','smooth_seconds')):
                 errors.append(f'{label}: Movimento Fluido deve essere un flag.')
             if type(el.show_center_cap) is not bool: errors.append(f'{label}: visibilità del tappo centrale non valida.')
+            if type(el.month_abbreviated) is not bool:errors.append(f'{label}: Mese abbreviato deve essere un flag.')
+            if el.kind=='disk':
+                if el.disk_mode not in ('rotation','values') or not el.asset:errors.append(f'{label}: disco privo di grafica o modalità non valida.')
+                if el.disk_mode=='values' and (not el.value_assets or any(not str(k).isdigit() or v not in self.assets for k,v in el.value_assets.items())):errors.append(f'{label}: sequenza disco non valida.')
+                if not isinstance(el.disk_shadow_assets,dict) or any(k not in el.value_assets or v not in self.assets for k,v in el.disk_shadow_assets.items()):errors.append(f'{label}: ombre della sequenza non valide.')
+                if lunar_element(el):
+                    errors.extend(f'{label}: {message}' for message in calibration_errors(el.moon_reference_date,el.moon_day_offset))
+                    if el.disk_mode!='rotation' or el.value_start!=0 or el.value_range!=59 or el.angle_range not in (-360,360):
+                        errors.append(f'{label}: il disco lunare giornaliero richiede modalità rotante, valori 0/59 e rotazione ±360°.')
             if type(el.chrono_pro) is not bool: errors.append(f'{label}: Crono Pro deve essere un flag.')
+            if type(el.only_chrono) is not bool or el.only_chrono and (el.kind!='analog' or not el.chrono_pro or not el.second_hand):
+                errors.append(f'{label}: Only Crono richiede la lancetta grande secondi con Crono Pro attivo.')
             if el.chrono_pro and (el.kind!='analog' or el.aod or not el.second_hand):
                 errors.append(f'{label}: Crono Pro richiede la lancetta grande dei secondi nello schermo normale.')
             if any(type(v) is not int for v in (el.x, el.y, el.width, el.height, el.size, el.digits, el.opacity)):
@@ -540,14 +562,14 @@ class Project:
             if el.kind == "image" and not el.asset:
                 errors.append(f"{label}: immagine mancante.")
             if el.kind=='image_values' and (not el.value_assets or any(not re.fullmatch(r'-?\d+',str(k)) or v not in self.assets for k,v in el.value_assets.items())):errors.append(f'{label}: immagini/valori della lista non validi.')
-            if el.kind=='pointer' and (any(type(getattr(el,k)) is not int for k in ('value_start','value_range','angle_start','angle_range')) or not 0<=el.value_start<=65535 or not 1<=el.value_range<=65535 or not -360<=el.angle_start<=360 or not -720<=el.angle_range<=720):errors.append(f'{label}: intervallo della lancetta piccola non valido.')
+            if el.kind in ('pointer','disk') and (any(type(getattr(el,k)) is not int for k in ('value_start','value_range','angle_start','angle_range')) or not 0<=el.value_start<=65535 or not 1<=el.value_range<=65535 or not -360<=el.angle_start<=360 or not -720<=el.angle_range<=720):errors.append(f'{label}: intervallo del puntatore non valido.')
             if type(el.pointer_arc) is not bool or el.post_readout not in ('fraction','digit'):
                 errors.append(f'{label}: calibrazione arco o lettura POST non valida.')
             if el.kind=='pointer' and el.pointer_arc and not 0<abs(el.angle_range)<360:
                 errors.append(f'{label}: un arco personalizzato richiede una rotazione tra 1° e 359°; disattiva Arco per il giro completo.')
             if el.kind=='compass' and (el.source!='systemSensorCompass' or not el.asset or (el.value_start,el.value_range,el.angle_start,el.angle_range)!=(0,360,0,-360)):
                 errors.append(f'{label}: la bussola richiede una grafica e il sensore bussola con rotazione −360°.')
-            if el.kind in ('analog','pointer'):
+            if el.kind in ('analog','pointer','disk'):
                 if any(type(getattr(el,k)) is not bool for k in ('show_shadows','pointer_end_pivot')):errors.append(f'{label}: opzioni ombre/perno non valide.')
                 for hand in ('hour','minute','second'):
                     hand_color=getattr(el,hand+'_color')

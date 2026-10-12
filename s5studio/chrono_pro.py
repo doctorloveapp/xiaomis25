@@ -2,6 +2,7 @@
 import math
 from .motion import pro_enabled, lua_element, lua_value, POST_SOURCES, post_value
 from .lua_runtime import pro_views
+from .moon_disk import lunar_element
 
 
 class ProPreview:
@@ -11,7 +12,7 @@ class ProPreview:
         self.state='rest';self.elapsed=0;self.started=0;self.transition=None
 
     def bindings(self,project):
-        return [v for e in project.elements if e.visible and not e.aod and lua_element(e) for v in pro_views(e)
+        return [v for e in project.elements if e.visible and not e.aod and lua_element(e) and not lunar_element(e) for v in pro_views(e)
                 if v.source not in ('studioTimeHour','studioTimeMinute','studioDecisecond')]
 
     def values(self,project,now,civil):
@@ -19,7 +20,7 @@ class ProPreview:
         views=self.bindings(project);result={}
         for v in views:
             if v.source=='studioIntegratedSecond':
-                value=civil if v.smooth_seconds else math.floor(civil)
+                value=0 if v.only_chrono else civil if v.smooth_seconds else math.floor(civil)
                 if self.state=='ready':value=0
                 elif self.state in ('running','reading','stopped'):value=math.floor(self.elapsed/1000)%60
             elif v.source in POST_SOURCES:
@@ -36,7 +37,7 @@ class ProPreview:
                 if self.state=='reading' and v.source not in POST_SOURCES:continue
                 start=t['start'].get(v.id,v.value_start)
                 destination=(post_value(v,self.elapsed) if self.state=='reading' else
-                    (civil if v.smooth_seconds else math.floor(civil)) if v.source=='studioIntegratedSecond' and self.state=='resetting' else v.value_start)
+                    (0 if v.only_chrono else civil if v.smooth_seconds else math.floor(civil)) if v.source=='studioIntegratedSecond' and self.state=='resetting' else v.value_start)
                 if v.pointer_arc:destination=max(v.value_start,min(v.value_start+v.value_range,destination))
                 delta=destination-start
                 if v.pointer_arc:candidate=start+delta*eased

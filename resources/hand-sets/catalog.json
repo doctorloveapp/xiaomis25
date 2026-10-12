@@ -752,6 +752,332 @@
       }
     },
     {
+      "id": "custom-77a0e532fd3741cb982fa6b4e8fd7185",
+      "name": "Longines",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/7fbcae5937f25d928e0746f547c9a1ede63fd56cf499e585668ddacd3b63abae.png",
+          "sourceSha256": "7fbcae5937f25d928e0746f547c9a1ede63fd56cf499e585668ddacd3b63abae",
+          "size": [
+            76,
+            480
+          ],
+          "pivot": [
+            38,
+            445
+          ],
+          "filename": "Ore_Longines.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/1d3de4027f2de57c0dcd2c0905c1b8d73f412f7b0c415f9e8f49203c17265971.png",
+            "sourceSha256": "1d3de4027f2de57c0dcd2c0905c1b8d73f412f7b0c415f9e8f49203c17265971",
+            "size": [
+              88,
+              480
+            ],
+            "pivot": [
+              44,
+              445
+            ],
+            "filename": "Ore_Longines_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "7fbcae5937f25d928e0746f547c9a1ede63fd56cf499e585668ddacd3b63abae",
+              "pivot": [
+                38,
+                445
+              ],
+              "opacity": 50,
+              "blur": 2,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/5a5600f4e2ad1a33feaa78fbeff3d42b87f337fc9834c8f3764f6e13e57382d2.png",
+          "sourceSha256": "5a5600f4e2ad1a33feaa78fbeff3d42b87f337fc9834c8f3764f6e13e57382d2",
+          "size": [
+            55,
+            480
+          ],
+          "pivot": [
+            27,
+            454
+          ],
+          "filename": "Minuti_Longines.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/d94637025f66113768dbc58a9f3cd628473eaa7b5835443f8f1a0b14af58541d.png",
+            "sourceSha256": "d94637025f66113768dbc58a9f3cd628473eaa7b5835443f8f1a0b14af58541d",
+            "size": [
+              67,
+              480
+            ],
+            "pivot": [
+              33,
+              454
+            ],
+            "filename": "Minuti_Longines_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "5a5600f4e2ad1a33feaa78fbeff3d42b87f337fc9834c8f3764f6e13e57382d2",
+              "pivot": [
+                27,
+                454
+              ],
+              "opacity": 50,
+              "blur": 2,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/ecbee39cb36015dd77c574f81f004b45b1c37b647bc5f7f8369f44a76c6acaea.png",
+          "sourceSha256": "ecbee39cb36015dd77c574f81f004b45b1c37b647bc5f7f8369f44a76c6acaea",
+          "size": [
+            75,
+            480
+          ],
+          "pivot": [
+            36,
+            385
+          ],
+          "filename": "Secondi_Longines.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/5ebcbe0613a4757078c08117eda7e66227b032b9dd62ca0fb65bf8c117f7f0c9.png",
+            "sourceSha256": "5ebcbe0613a4757078c08117eda7e66227b032b9dd62ca0fb65bf8c117f7f0c9",
+            "size": [
+              87,
+              480
+            ],
+            "pivot": [
+              42,
+              385
+            ],
+            "filename": "Secondi_Longines_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "ecbee39cb36015dd77c574f81f004b45b1c37b647bc5f7f8369f44a76c6acaea",
+              "pivot": [
+                36,
+                385
+              ],
+              "opacity": 50,
+              "blur": 2,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 50,
+        "blur": 2,
+        "offset": [
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "custom-c9cd6a9ce7d142088a6e9213db1c2d79",
+      "name": "Longines_Lancette piccole",
+      "small": true,
+      "hands": {
+        "decisecond": {
+          "assetPath": "assets/2d800b57e21a58c870ef42de1025373146b20e91d67f645f7c39270cc7c4538f.png",
+          "sourceSha256": "2d800b57e21a58c870ef42de1025373146b20e91d67f645f7c39270cc7c4538f",
+          "size": [
+            48,
+            350
+          ],
+          "pivot": [
+            23,
+            272
+          ],
+          "filename": "ore_minuti_crono_Longines.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/9f56c7962e4dd7b32cd50c7a6f6016ba2e21bf08d80e3375bf35c07a41619c57.png",
+            "sourceSha256": "9f56c7962e4dd7b32cd50c7a6f6016ba2e21bf08d80e3375bf35c07a41619c57",
+            "size": [
+              58,
+              360
+            ],
+            "pivot": [
+              28,
+              277
+            ],
+            "filename": "ore_minuti_crono_Longines_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "2d800b57e21a58c870ef42de1025373146b20e91d67f645f7c39270cc7c4538f",
+              "pivot": [
+                23,
+                272
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "date": {
+          "assetPath": "assets/11e18d10c407872a07f9d74d82f4d4017db6ad1be08541e6e867460c2dca3f3e.png",
+          "sourceSha256": "11e18d10c407872a07f9d74d82f4d4017db6ad1be08541e6e867460c2dca3f3e",
+          "size": [
+            55,
+            480
+          ],
+          "pivot": [
+            26,
+            462
+          ],
+          "filename": "datario_lancetta_piccola_Longines.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/3520a5a9719e5b1187960c74de98d390bec6118bd06375622445035abecc8d88.png",
+            "sourceSha256": "3520a5a9719e5b1187960c74de98d390bec6118bd06375622445035abecc8d88",
+            "size": [
+              65,
+              480
+            ],
+            "pivot": [
+              31,
+              462
+            ],
+            "filename": "datario_lancetta_piccola_Longines_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "11e18d10c407872a07f9d74d82f4d4017db6ad1be08541e6e867460c2dca3f3e",
+              "pivot": [
+                26,
+                462
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/3e54cab2998442db093d2e2b9bc39d9680eb915b705e6f5364ef33ddd5d82058.png",
+          "sourceSha256": "3e54cab2998442db093d2e2b9bc39d9680eb915b705e6f5364ef33ddd5d82058",
+          "size": [
+            55,
+            176
+          ],
+          "pivot": [
+            26,
+            150
+          ],
+          "filename": "ore_minuti_normal_Longines.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/8d8514243c172613f25d2d4c00da382e56ae1bd6f0448a6e28ffac5551946e1c.png",
+            "sourceSha256": "8d8514243c172613f25d2d4c00da382e56ae1bd6f0448a6e28ffac5551946e1c",
+            "size": [
+              65,
+              186
+            ],
+            "pivot": [
+              31,
+              155
+            ],
+            "filename": "ore_minuti_normal_Longines_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "3e54cab2998442db093d2e2b9bc39d9680eb915b705e6f5364ef33ddd5d82058",
+              "pivot": [
+                26,
+                150
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 45,
+        "blur": 1.5,
+        "offset": [
+          2,
+          3
+        ]
+      }
+    },
+    {
       "id": "custom-239bb4249cf0466db27a7446e0185190",
       "name": "Omega moon",
       "small": false,

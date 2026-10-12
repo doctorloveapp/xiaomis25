@@ -1,5 +1,7 @@
 """Offline Tailwind editor hosted in Qt, using the same tested Python build path."""
 from dataclasses import asdict
+from datetime import date
+from calendar import monthrange
 import base64
 import json
 from pathlib import Path
@@ -19,8 +21,10 @@ from .render import render,png_bytes,SCENARIOS,layout_errors,hand_preview,hand_e
 from .native import build
 from .hand_presets import preset_changes,clear_hand_changes
 from .hand_sets import HandSetCatalog,empty_draft,roles_for
+from .disk_catalog import DiskCatalog,empty_disk,CATEGORIES
 from .paths import application_root,resource_root,user_data_root,default_compiler
 from .file_dialogs import RememberedDialogs
+from .moon_disk import SOURCE as MOON_SOURCE,LABEL as MOON_LABEL,defaults as moon_defaults,parse_date as parse_moon_date,preview_value as moon_preview_value,lunar_element
 
 
 class BuildTask(QThread):
@@ -57,6 +61,7 @@ class StudioBridge(QObject):
         self.path=None;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
         self.dialogs=RememberedDialogs(window,user_data_root()/'dialog-paths.json')
         self.variant=0;self.aod=False;self.scenario='Normale';self.values=dict(SCENARIOS['Normale'])
+        self.set_preview_date(self.preview_date())
         self.worker=None;self.output=None;self.smoke=smoke
         self.state_sequence=0
         self.compiler=default_compiler()
@@ -70,6 +75,8 @@ class StudioBridge(QObject):
                 bundled_root=self.resources/'resources/hand-sets',library_hands=library()['hands'],resources=self.resources)
         self.hand_set_draft=empty_draft()
         self.reload_hand_presets()
+        self.disk_catalog=DiskCatalog(user_data_root()/'disks',bundled_root=self.resources/'resources/disks')
+        self.disk_draft=empty_disk();self.reload_disks()
         from PIL import Image
         self.compass_presets=[]
         for preset in library().get('compasses',[]):
@@ -79,6 +86,13 @@ class StudioBridge(QObject):
         self.recovery=user_data_root()/'recovery-web.s5faceproj'
         self.timer=QTimer(self);self.timer.setInterval(20000);self.timer.timeout.connect(self.autosave)
         if not smoke:self.timer.start()
+
+    def preview_date(self):
+        from .complications import SAMPLES
+        return date(self.values.get('dateYear',SAMPLES['dateYear']),self.values.get('month',1),self.values.get('day',1))
+
+    def set_preview_date(self,value):
+        self.values.update(day=value.day,month=value.month,dateYear=value.year,__moonDate=value.isoformat())
 
     def reload_hand_presets(self):
         self.hand_presets=[]
@@ -100,6 +114,16 @@ class StudioBridge(QObject):
     def image_url(self,p,aod=False,*,values=None):
         return 'data:image/png;base64,'+base64.b64encode(png_bytes(render(p,self.values if values is None else values,aod))).decode()
 
+    def reload_disks(self):
+        from PIL import Image
+        self.disk_presets=[]
+        for summary in self.disk_catalog.summaries():
+            record=self.disk_catalog.draft(summary['id']);item=next(iter(record['hands'].values()))
+            with Image.open(self.disk_catalog.bitmap_path(item)) as im:
+                im=im.convert('RGBA');im.thumbnail((110,110))
+                thumbnail='data:image/png;base64,'+base64.b64encode(png_bytes(im)).decode()
+            self.disk_presets.append({**summary,'thumbnail':thumbnail,'categoryLabel':CATEGORIES[summary['category']]})
+
     def state(self):
         self.state_sequence+=1
         from .complications import ALIASES
@@ -113,6 +137,8 @@ class StudioBridge(QObject):
         self.update_pro_preview()
         from .source_help import source_choices
         pointer_sources,source_descriptions=source_choices(SOURCES)
+        disk_sources={MOON_SOURCE:MOON_LABEL,**pointer_sources,'dateMoon':'Fasi lunari native · 8 stati'}
+        source_descriptions[MOON_SOURCE]='Disco a due lune: una posizione al giorno su 59, indipendente dal cronografo. La data di riferimento rappresenta la luna piena con la luna in alto; puoi correggere giorni, angolo iniziale e verso.'
         from .motion import ALL_LUA_SOURCES
         from .motion import excluded_from_aod
         lua_sources={k:v[0] for k,v in ALL_LUA_SOURCES.items()}
@@ -124,6 +150,16 @@ class StudioBridge(QObject):
             'studioChronoDecisecond':'Decimi del tempo misurato dal cronografo: a zero a riposo, dieci scatti al secondo oppure rotazione fluida con target 25 fps se attivi Movimento Fluido in questa scheda. Fermi sullo stesso istante di Stop dei POST e azzerati al Reset con rientro fluido. Richiede il flag generale Crono Pro della lancetta grande secondi nello stesso stile; i secondi grandi restano a scatti durante il conteggio. Nascondere il gruppo grande non disattiva Crono Pro. Esclusa in AOD.'})
         hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
                        for e in resolved.elements if e.kind in ('analog','pointer')}
+        disk_previews={}
+        from PIL import Image
+        from io import BytesIO
+        for e in resolved.elements:
+            if e.kind!='disk' or e.asset not in resolved.assets:continue
+            raw=resolved.assets[e.asset]
+            with Image.open(BytesIO(raw)) as im:size=list(im.size)
+            disk_previews[e.id]={'src':'data:image/png;base64,'+base64.b64encode(raw).decode(),'size':size}
+        from .source_help import DESCRIPTIONS
+        source_descriptions['timeHour24']=DESCRIPTIONS['timeHour24']
         source_descriptions.update({
             'studioChronoCentisecond':'Lettura POST del Crono Pro: frazione del secondo da 00 a 99, oppure sola cifra dei centesimi da 0 a 9. Resta a zero durante il conteggio e raggiunge il valore acquisito allo Stop con animazione da 720 ms a 25 fps. La risoluzione reale dipende dal clock disponibile sul firmware. Esclusa in AOD.',
             'studioChronoMillisecond':'Lettura POST del Crono Pro: frazione del secondo da 000 a 999, oppure sola cifra dei millesimi da 0 a 9. Stesso istante di Stop per tutte le lancette; nessun aggiornamento rapido durante Running. La fase Anim del firmware non garantisce precisione di 1 ms. Esclusa in AOD.'})
@@ -142,6 +178,11 @@ class StudioBridge(QObject):
                       complications=[normalized_slot(s) for s in resolved.complications],maxSlots=MAX_SLOTS,handPresets=self.hand_presets,
                       handSets=self.hand_set_catalog.summaries(),
                       handSetDraft=self.hand_set_catalog.public_draft(self.hand_set_draft),
+                      diskPresets=self.disk_presets,diskDraft=self.disk_catalog.public_draft(self.disk_draft),diskCategories=CATEGORIES,diskPreviews=disk_previews,
+                      deletedDisks=self.disk_catalog.deleted_bundled(),
+                      diskSources=disk_sources,moonSource=MOON_SOURCE,
+                      moonPreviewDate=self.values.get('__moonDate') or date.today().isoformat(),
+                      moonPositions={e.id:moon_preview_value(e,self.values) for e in resolved.elements if lunar_element(e)},
                       independentVariants=True,
                       pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
                       luaSources=lua_sources,
@@ -285,7 +326,7 @@ class StudioBridge(QObject):
                 changes=choose_graphic_color(target,req['key'],self.window)
                 action='state' if changes is None else edit_action
                 if changes is not None:req['changes']=changes
-            mutations={'set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
+            mutations={'disk-preset','set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
                 if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
                 self.project.ensure_independent_variants()
@@ -296,6 +337,12 @@ class StudioBridge(QObject):
             if action=='state':pass
             elif action.startswith('hand-set-'):
                 self.hand_set_command(action,req)
+            elif action.startswith('disk-catalog-'):
+                self.disk_command(action,req)
+            elif action=='disk-preset':
+                e=self.element(req)
+                if e.kind!='disk':raise ValueError('Seleziona un livello Disco.')
+                for k,v in self.disk_catalog.changes(self.design,req['preset']).items():setattr(e,k,v)
             elif action=='chrono-preview':
                 self.values.pop('__pointerCalibration',None)
                 now=time.monotonic_ns()//1000000
@@ -318,6 +365,9 @@ class StudioBridge(QObject):
                 poses=self.values.setdefault('__pointerCalibration',{})
                 if req['pose']=='live':poses.pop(element.id,None)
                 else:poses[element.id]=req['pose']
+            elif action=='moon-preview':
+                value=req.get('date','')
+                self.set_preview_date(parse_moon_date(value) if value else date.today())
             elif action=='motion-preview':
                 self.motion_preview=bool(req.get('value'));self.motion_started=time.monotonic_ns()//1000000
                 self.values['__secondFraction']=0
@@ -344,10 +394,15 @@ class StudioBridge(QObject):
                 kind=req['kind']
                 defaults={'clock':dict(name='Ora',x=57,y=144,width=366,height=108,size=90),'date':dict(name='Data',x=158,y=258,width=164,height=40,size=30),'analog':dict(name='Lancette',x=60,y=60,width=360,height=360,color='#6ce5c1',second_hand=not self.aod),'number':dict(name='Dato',x=166,y=340,width=148,height=46,size=30),'text':dict(name='Testo',x=140,y=100,width=200,height=40,size=24),'rect':dict(name='Rettangolo'),'circle':dict(name='Cerchio')}
                 defaults['pointer']=dict(name='Lancetta piccola',x=180,y=180,width=120,height=120,source='second',color='#f7be69',show_ticks=False)
+                defaults['disk']=dict(name='Disco',x=150,y=150,width=180,height=180,source='timeHour',value_range=24,angle_range=360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
                 defaults['compass']=dict(name='Bussola analogica',x=180,y=180,width=120,height=120,source='systemSensorCompass',
                                          value_range=360,angle_range=-360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
                 if kind not in defaults:raise ValueError('Componente non supportato.')
                 added=Element(kind=kind,aod=self.aod,**defaults[kind]);self.design.elements.append(added);selection=added.id
+                if kind=='disk':
+                    preset=req.get('preset') or next((p['id'] for p in self.disk_presets if p['category']=='celestial'),self.disk_presets[0]['id'] if self.disk_presets else '')
+                    if not preset:raise ValueError('Catalogo dischi non disponibile.')
+                    for k,v in self.disk_catalog.changes(self.design,preset).items():setattr(added,k,v)
                 if kind=='compass':
                     from .compass_catalog import preset_changes as compass_changes
                     preset=next((c for c in self.compass_presets if c['name']=='Ferrari' and c['kind']=='Rosa completa'),self.compass_presets[0] if self.compass_presets else None)
@@ -359,12 +414,18 @@ class StudioBridge(QObject):
                 e.kind=kind
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
+                if e.kind=='disk' and 'source' in changes and changes['source']!=e.source:
+                    changes={**moon_defaults(changes['source']),**changes}
+                if e.kind=='disk' and e.second_shadow_asset:
+                    for axis in ('x','y'):
+                        key='second_anchor_'+axis
+                        if key in changes:changes['second_shadow_anchor_'+axis]=getattr(e,'second_shadow_anchor_'+axis)+changes[key]-getattr(e,key)
                 if e.kind in ('analog','pointer'):
                     changes=hand_edit_changes(e,changes,self.design)
                 allowed=set(Element.__dataclass_fields__)-{'id','kind'}
                 if set(changes)-allowed:raise ValueError('Proprietà non supportata.')
                 for k,v in changes.items():setattr(e,k,v)
-                if 'source' in changes:
+                if {'source','month_abbreviated'} & set(changes):
                     from .calendar_labels import labels_for
                     if labels_for(e):
                         from .render import calendar_metrics
@@ -511,13 +572,22 @@ class StudioBridge(QObject):
             elif action=='aod':self.aod=bool(req['value']) and self.project.aod_enabled
             elif action=='scenario':
                 self.scenario=req['value'];self.values=dict(SCENARIOS[self.scenario])
+                self.set_preview_date(self.preview_date())
                 self.motion_started=time.monotonic_ns()//1000000
                 self.values['__secondFraction']=0
             elif action=='time':
-                limits={'hour':23,'minute':59,'second':59,'systemSensorCompass':359}
+                limits={'hour':(0,23),'minute':(0,59),'second':(0,59),'systemSensorCompass':(0,359),
+                        'day':(1,31),'month':(1,12),'dateYear':(1900,2399)}
                 changes={key:req[key] for key in limits if key in req}
-                if any(type(v) is not int or not 0<=v<=limits[k] for k,v in changes.items()):raise ValueError('Valore di simulazione fuori intervallo.')
+                if any(type(v) is not int or not limits[k][0]<=v<=limits[k][1] for k,v in changes.items()):raise ValueError('Valore di simulazione fuori intervallo.')
+                calendar_date=None
+                if {'day','month','dateYear'} & changes.keys():
+                    current=self.preview_date();year=changes.get('dateYear',current.year);month=changes.get('month',current.month)
+                    day=changes.get('day',min(current.day,monthrange(year,month)[1]))
+                    try:calendar_date=date(year,month,day)
+                    except ValueError:raise ValueError('Il giorno non esiste nel mese e anno simulati. Scegli una data valida.') from None
                 self.values.update(changes)
+                if calendar_date:self.set_preview_date(calendar_date)
                 if 'second' in changes:
                     # A manual second is an exact new civil-time origin, even
                     # while motion is running; never add the old elapsed phase.
@@ -638,6 +708,59 @@ class StudioBridge(QObject):
         if e.kind not in ('analog','pointer'):raise ValueError('Seleziona un livello lancette.')
         for k,v in changes.items():setattr(e,k,v)
 
+    def disk_command(self,action,req):
+        from copy import deepcopy
+        draft=deepcopy(self.disk_draft);catalog=self.disk_catalog
+        if action=='disk-catalog-new':draft=empty_disk()
+        elif action=='disk-catalog-load':draft=catalog.draft(req['id'])
+        elif action=='disk-catalog-meta':
+            changes=req['changes']
+            allowed={'name','category','mode','source','valueStart','valueRange','angleStart','angleRange','generateShadows','shadowOptions','moonReferenceDate','moonDayOffset'}
+            if set(changes)-allowed:raise ValueError('Proprietà disco non valida.')
+            if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError('Nome disco troppo lungo.')
+            if changes.get('mode') and changes['mode']!=draft['mode'] and draft['hands']:
+                first=deepcopy(next(iter(draft['hands'].values())))
+                draft['hands']={'disk' if changes['mode']=='rotation' else '0':first}
+            if 'source' in changes and changes['source']!=draft['source']:
+                mapping={'value_start':'valueStart','value_range':'valueRange','angle_start':'angleStart','angle_range':'angleRange','moon_reference_date':'moonReferenceDate','moon_day_offset':'moonDayOffset'}
+                changes={**{mapping[k]:v for k,v in moon_defaults(changes['source']).items()},**changes}
+            if changes.get('mode')=='values' and changes.get('source',draft['source'])==MOON_SOURCE:
+                changes['source']='dateLunarDay'
+            if changes.get('source')==MOON_SOURCE and changes.get('mode',draft['mode'])!='rotation':
+                raise ValueError('Per le fasi lunari a 59 posizioni scegli Disco rotante.')
+            draft.update(changes)
+        elif action in ('disk-catalog-image','disk-catalog-part','disk-catalog-remove'):
+            key=str(req.get('key','disk'));shadow=bool(req.get('shadow'))
+            if draft['mode']=='rotation' and key!='disk' or draft['mode']=='values' and (not key.isdigit() or int(key)>65535):raise ValueError('Valore dell’immagine non valido.')
+            if shadow and key not in draft['hands']:raise ValueError('Importa prima la grafica del disco.')
+            if action=='disk-catalog-image':
+                path=self.dialogs.open('disk-shadow-open' if shadow else 'disk-image-open','Importa PNG '+('ombra' if shadow else 'disco'),self.root,'Dischi PNG (*.png)')
+                if path:
+                    item=catalog.stage(Path(path))
+                    if shadow:draft['hands'][key]['shadow']=item
+                    else:draft['hands'][key]=item
+            elif action=='disk-catalog-remove':
+                if shadow:draft['hands'][key].pop('shadow',None)
+                else:draft['hands'].pop(key,None)
+            else:
+                item=draft['hands'][key]['shadow'] if shadow else draft['hands'][key]
+                if shadow and item.get('generated'):raise ValueError('Il pivot dell’ombra automatica segue il disco.')
+                changes=req['changes']
+                if set(changes)-({'pivot','offset'} if shadow else {'pivot'}):raise ValueError('Proprietà PNG non valida.')
+                item.update(changes);catalog.validate_item(item)
+                # Sequence frames share one pivot; one click calibrates all.
+                if draft['mode']=='values':
+                    for frame in draft['hands'].values():
+                        target=frame.get('shadow') if shadow else frame
+                        if target:target.update(deepcopy(changes));catalog.validate_item(target)
+        elif action=='disk-catalog-save':
+            catalog.save(draft);self.reload_disks();draft=empty_disk()
+        elif action in ('disk-catalog-delete','disk-catalog-restore'):
+            (catalog.delete if action.endswith('delete') else catalog.restore)(req['id']);self.reload_disks()
+            if draft['id']==req['id']:draft=empty_disk()
+        else:raise ValueError('Comando catalogo dischi non valido.')
+        self.disk_draft=catalog.refresh_generated(draft)
+
     def set_compass(self,req,changes):
         e=self.element(req)
         if e.kind!='compass':raise ValueError('Seleziona un livello bussola.')
@@ -667,7 +790,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 2.3 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 2.7 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)

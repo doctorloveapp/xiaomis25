@@ -172,7 +172,7 @@ def factory(project,work,run_compiler,progress):
 def patch_pointers(normal,nodes,resolved,pointers,aod=False):
     from .motion import pointer_period
     for e in resolved.elements:
-        if e.kind not in ('pointer','compass') or not e.visible or e.id not in pointers:continue
+        if e.kind not in ('pointer','compass','disk') or not e.visible or e.id not in pointers:continue
         for position in pointers[e.id]:
             uid=struct.unpack_from('<I',normal[0][position][2])[0]
             for row,(key,flags,payload) in enumerate(normal[7]):

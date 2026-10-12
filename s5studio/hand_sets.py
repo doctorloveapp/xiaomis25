@@ -14,7 +14,7 @@ import uuid
 from PIL import Image,ImageFilter
 
 ROLES=('hour','minute','second')
-SMALL_ROLES=(*ROLES,'decisecond','centisecond','millisecond')
+SMALL_ROLES=(*ROLES,'decisecond','centisecond','millisecond','date')
 
 
 def roles_for(small):

@@ -55,6 +55,9 @@ def preset_changes(project,element,root,preset,hand,presets,*,custom_root=None,c
                             role+'_shadow_offset_x':shadow['offset'][0],role+'_shadow_offset_y':shadow['offset'][1]})
     if element.kind=='analog' and hand=='hour':changes['second_hand']='second' in chosen and not element.aod
     if element.kind=='pointer' and preset.get('custom'):changes['pointer_end_pivot']=False
+    if element.kind=='pointer' and preset['hand']=='date' and element.source!='dateDay':
+        changes.update(source='dateDay',value_start=1,value_range=30 if element.pointer_arc else 31,smooth_seconds=False)
+        if not element.pointer_arc:changes.update(angle_start=0,angle_range=360)
     if element.kind=='pointer' and preset['hand']=='decisecond':
         # A graphic can serve continuous tenths or Pro tenths. Keep an existing
         # choice/calibration; a new binding defaults to the independent source.

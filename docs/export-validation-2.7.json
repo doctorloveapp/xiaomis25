@@ -1,0 +1,153 @@
+{
+  "applicationVersion": "2.7",
+  "status": "passed",
+  "inputProject": "Quadranti Compilati/Longines-835194487-20261012-194802/Longines.s5faceproj",
+  "inputSha256": "d9195826cb4244ab4e9969a7cc9f3d152076c634b63b8f56434d086cdc0ed81c",
+  "inputFileUnchanged": true,
+  "testOnlyOverrides": [
+    "small timeSecond smooth ON in style 0; OFF in style 1"
+  ],
+  "realCompilerExportPassed": true,
+  "styles": 2,
+  "aod": true,
+  "exportSeconds": 11.09,
+  "sceneDynamicData": {
+    "injected": true,
+    "runtime": "studio_scene_data.lua",
+    "moduleSha256": "2a44e21302384234b90e31f502153aedc327dd8b4a751643c68bcc8e880307d7",
+    "updates": "dataman-Q8-notifications",
+    "sampleValuesBaked": false,
+    "layerOrderPreserved": true,
+    "civilTimeDecoding": "floor-Q8-whole-counters",
+    "civilSecondsAnimation": {
+      "repeatCount": 1,
+      "carrier": "dedicated-transparent-child",
+      "restart": "stop-then-start-on-second-change",
+      "durationMs": 1000,
+      "pollingTimer": false,
+      "stopsInAod": true
+    },
+    "chronoIndependent": true,
+    "hardwareVerified": false,
+    "bindings": [
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "calendar",
+        "id": "cedc1b768e73",
+        "source": "dateWeek"
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "calendar",
+        "id": "7d6c90a754ca",
+        "source": "dateMonth"
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "pointer",
+        "id": "0f11cea7e0f3",
+        "source": "timeHour",
+        "valueStart": 0,
+        "valueRange": 24,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "pointer",
+        "id": "da1fc2505435",
+        "source": "timeSecond",
+        "valueStart": 0,
+        "valueRange": 60,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": true,
+        "scale": 1000
+      },
+      {
+        "variant": 0,
+        "entry": "lua/studio_v0_scene.lua",
+        "kind": "pointer",
+        "id": "ae3c1f6fd572",
+        "source": "dateDay",
+        "valueStart": 0,
+        "valueRange": 31,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      },
+      {
+        "variant": 1,
+        "entry": "lua/studio_v1_scene.lua",
+        "kind": "calendar",
+        "id": "cedc1b768e73",
+        "source": "dateWeek"
+      },
+      {
+        "variant": 1,
+        "entry": "lua/studio_v1_scene.lua",
+        "kind": "calendar",
+        "id": "7d6c90a754ca",
+        "source": "dateMonth"
+      },
+      {
+        "variant": 1,
+        "entry": "lua/studio_v1_scene.lua",
+        "kind": "pointer",
+        "id": "0f11cea7e0f3",
+        "source": "timeHour",
+        "valueStart": 0,
+        "valueRange": 24,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      },
+      {
+        "variant": 1,
+        "entry": "lua/studio_v1_scene.lua",
+        "kind": "pointer",
+        "id": "da1fc2505435",
+        "source": "timeSecond",
+        "valueStart": 0,
+        "valueRange": 60,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      },
+      {
+        "variant": 1,
+        "entry": "lua/studio_v1_scene.lua",
+        "kind": "pointer",
+        "id": "ae3c1f6fd572",
+        "source": "dateDay",
+        "valueStart": 0,
+        "valueRange": 31,
+        "angleStart": 0,
+        "angleRange": 360,
+        "smooth": false,
+        "scale": 1
+      }
+    ]
+  },
+  "existingLuaModulesUnchangedFrom2_6": [
+    "studio_civil_clock.lua",
+    "studio_civil_hand.lua",
+    "studio_core.lua",
+    "studio_core_pro.lua",
+    "studio_live_data.lua",
+    "studio_moon_disk.lua"
+  ],
+  "temporaryExportRemoved": true,
+  "demonstrationZipCreated": false,
+  "hardwareVerified": false,
+  "originalMetadataPreserved": true
+}

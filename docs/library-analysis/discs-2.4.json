@@ -1,0 +1,2301 @@
+{
+  "status": "passed",
+  "watchfacesScanned": 39,
+  "discs": 89,
+  "categories": {
+    "dial": 63,
+    "mechanical": 1,
+    "celestial": 13,
+    "compass": 12
+  },
+  "modes": {
+    "rotation": 64,
+    "values": 25
+  },
+  "images": 515,
+  "coverage": [
+    {
+      "face": "120917375286",
+      "imagesScanned": 14,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917382285",
+      "imagesScanned": 21,
+      "newDiscs": 2,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917382325",
+      "imagesScanned": 56,
+      "newDiscs": 2,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917383606",
+      "imagesScanned": 12,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917383973",
+      "imagesScanned": 128,
+      "newDiscs": 4,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917384572",
+      "imagesScanned": 92,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386537",
+      "imagesScanned": 25,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386538",
+      "imagesScanned": 61,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386565",
+      "imagesScanned": 31,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386580",
+      "imagesScanned": 47,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386586",
+      "imagesScanned": 39,
+      "newDiscs": 4,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386589",
+      "imagesScanned": 67,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386592",
+      "imagesScanned": 21,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386640",
+      "imagesScanned": 134,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386745",
+      "imagesScanned": 74,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386770",
+      "imagesScanned": 40,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386805",
+      "imagesScanned": 68,
+      "newDiscs": 2,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386818",
+      "imagesScanned": 50,
+      "newDiscs": 5,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917386835",
+      "imagesScanned": 85,
+      "newDiscs": 7,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917387075",
+      "imagesScanned": 46,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917393370",
+      "imagesScanned": 420,
+      "newDiscs": 12,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917393375",
+      "imagesScanned": 161,
+      "newDiscs": 6,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917393388",
+      "imagesScanned": 296,
+      "newDiscs": 10,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917393389",
+      "imagesScanned": 209,
+      "newDiscs": 15,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917406065",
+      "imagesScanned": 154,
+      "newDiscs": 6,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917409727",
+      "imagesScanned": 25,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "120917418637",
+      "imagesScanned": 22,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700009",
+      "imagesScanned": 60,
+      "newDiscs": 1,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700014",
+      "imagesScanned": 9,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700015",
+      "imagesScanned": 45,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700027",
+      "imagesScanned": 0,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700039",
+      "imagesScanned": 48,
+      "newDiscs": 1,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700050",
+      "imagesScanned": 19,
+      "newDiscs": 0,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700078",
+      "imagesScanned": 31,
+      "newDiscs": 0,
+      "missingNonDiskResources": [
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: 数字/bb8b69e.png",
+        "Risorsa mancante: 数字/bb8b69e.png"
+      ]
+    },
+    {
+      "face": "562700083",
+      "imagesScanned": 31,
+      "newDiscs": 0,
+      "missingNonDiskResources": [
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: 数字/bb8b69e.png",
+        "Risorsa mancante: 数字/bb8b69e.png"
+      ]
+    },
+    {
+      "face": "562700090",
+      "imagesScanned": 31,
+      "newDiscs": 0,
+      "missingNonDiskResources": [
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: 数字/bb8b69e.png",
+        "Risorsa mancante: 数字/bb8b69e.png"
+      ]
+    },
+    {
+      "face": "562700091",
+      "imagesScanned": 31,
+      "newDiscs": 0,
+      "missingNonDiskResources": [
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: 数字/bb8b69e.png",
+        "Risorsa mancante: 数字/bb8b69e.png"
+      ]
+    },
+    {
+      "face": "562700103",
+      "imagesScanned": 545,
+      "newDiscs": 2,
+      "missingNonDiskResources": []
+    },
+    {
+      "face": "562700106",
+      "imagesScanned": 31,
+      "newDiscs": 0,
+      "missingNonDiskResources": [
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: 数字/f682b39.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: resources/8e95887.png",
+        "Risorsa mancante: 数字/bb8b69e.png",
+        "Risorsa mancante: 数字/bb8b69e.png"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "id": "disc-3e901bf6441fb8b78291e0ed",
+      "name": "Dial disc · 120917382285 · Image11",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917382285",
+        "resource": "Image11",
+        "paths": [
+          "7ba9e5d.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": [
+          {
+            "face": "120917386592",
+            "resource": "Image11",
+            "paths": [
+              "7ba9e5d.png"
+            ],
+            "note": "Static original graphic; default rotation is one turn per 24 hours."
+          }
+        ]
+      }
+    },
+    {
+      "id": "disc-00c3f8fc03500e1053c140f1",
+      "name": "Mechanical rotor · 120917382285 · SpriteGroup1",
+      "mode": "rotation",
+      "source": "timeSecond",
+      "images": 1,
+      "origin": {
+        "face": "120917382285",
+        "resource": "SpriteGroup1",
+        "paths": [
+          "序列帧/479c0a7.png",
+          "序列帧/05eba36.png",
+          "序列帧/f69d2e0.png",
+          "序列帧/0306e04.png",
+          "序列帧/ea4a5c1.png",
+          "序列帧/25066df.png",
+          "序列帧/f78359f.png",
+          "序列帧/54df392.png",
+          "序列帧/71b1483.png",
+          "序列帧/2052d21.png",
+          "序列帧/7b99301.png",
+          "序列帧/6cc57e0.png",
+          "序列帧/60b6bc7.png",
+          "序列帧/45aeda4.png",
+          "序列帧/9730ebe.png",
+          "序列帧/e2b86a8.png",
+          "序列帧/f0de8ef.png",
+          "序列帧/5b8629b.png",
+          "序列帧/32b5805.png",
+          "序列帧/29cc404.png",
+          "序列帧/2a920dd.png",
+          "序列帧/c7c6bf0.png",
+          "序列帧/67330c9.png",
+          "序列帧/cf00603.png",
+          "序列帧/34c38bf.png",
+          "序列帧/835e1d9.png",
+          "序列帧/ff327db.png",
+          "序列帧/c63c085.png",
+          "序列帧/e6e2714.png",
+          "序列帧/6631959.png",
+          "序列帧/b6801ea.png",
+          "序列帧/67f7d11.png",
+          "序列帧/4dd8e3c.png",
+          "序列帧/e95723f.png",
+          "序列帧/0df4e81.png",
+          "序列帧/c669a24.png",
+          "序列帧/e02284d.png",
+          "序列帧/85d3a4d.png",
+          "序列帧/6abdb6c.png",
+          "序列帧/4c84503.png",
+          "序列帧/716f2c0.png",
+          "序列帧/2d35669.png",
+          "序列帧/6ce104c.png",
+          "序列帧/aa48fdb.png",
+          "序列帧/547b0d0.png",
+          "序列帧/3e16b42.png",
+          "序列帧/fccdc05.png",
+          "序列帧/77ab5b5.png",
+          "序列帧/c54f19c.png",
+          "序列帧/e7823f4.png",
+          "序列帧/175f044.png",
+          "序列帧/fd712e9.png",
+          "序列帧/b63a840.png",
+          "序列帧/583c7f6.png",
+          "序列帧/3c6acae.png",
+          "序列帧/f2b269d.png",
+          "序列帧/f7ceb1f.png",
+          "序列帧/f558c7e.png",
+          "序列帧/434a82a.png",
+          "序列帧/238e42e.png",
+          "序列帧/5bb6603.png",
+          "序列帧/31d9958.png",
+          "序列帧/4a5a999.png",
+          "序列帧/db5781d.png",
+          "序列帧/8863b8e.png",
+          "序列帧/c0f2ab9.png",
+          "序列帧/c13f576.png",
+          "序列帧/8a73e1a.png",
+          "序列帧/b807122.png",
+          "序列帧/2a8b7eb.png",
+          "序列帧/3714d93.png",
+          "序列帧/601623f.png",
+          "序列帧/43850d8.png"
+        ],
+        "note": "Recovered rotor graphic; rotation uses native seconds, not the original sprite animation.",
+        "alsoFrom": [
+          {
+            "face": "120917386592",
+            "resource": "SpriteGroup1",
+            "paths": [
+              "序列帧/479c0a7.png",
+              "序列帧/05eba36.png",
+              "序列帧/f69d2e0.png",
+              "序列帧/0306e04.png",
+              "序列帧/ea4a5c1.png",
+              "序列帧/25066df.png",
+              "序列帧/f78359f.png",
+              "序列帧/54df392.png",
+              "序列帧/71b1483.png",
+              "序列帧/2052d21.png",
+              "序列帧/7b99301.png",
+              "序列帧/6cc57e0.png",
+              "序列帧/60b6bc7.png",
+              "序列帧/45aeda4.png",
+              "序列帧/9730ebe.png",
+              "序列帧/e2b86a8.png",
+              "序列帧/f0de8ef.png",
+              "序列帧/5b8629b.png",
+              "序列帧/32b5805.png",
+              "序列帧/29cc404.png",
+              "序列帧/2a920dd.png",
+              "序列帧/c7c6bf0.png",
+              "序列帧/67330c9.png",
+              "序列帧/cf00603.png",
+              "序列帧/34c38bf.png",
+              "序列帧/835e1d9.png",
+              "序列帧/ff327db.png",
+              "序列帧/c63c085.png",
+              "序列帧/e6e2714.png",
+              "序列帧/6631959.png",
+              "序列帧/b6801ea.png",
+              "序列帧/67f7d11.png",
+              "序列帧/4dd8e3c.png",
+              "序列帧/e95723f.png",
+              "序列帧/0df4e81.png",
+              "序列帧/c669a24.png",
+              "序列帧/e02284d.png",
+              "序列帧/85d3a4d.png",
+              "序列帧/6abdb6c.png",
+              "序列帧/4c84503.png",
+              "序列帧/716f2c0.png",
+              "序列帧/2d35669.png",
+              "序列帧/6ce104c.png",
+              "序列帧/aa48fdb.png",
+              "序列帧/547b0d0.png",
+              "序列帧/3e16b42.png",
+              "序列帧/fccdc05.png",
+              "序列帧/77ab5b5.png",
+              "序列帧/c54f19c.png",
+              "序列帧/e7823f4.png",
+              "序列帧/175f044.png",
+              "序列帧/fd712e9.png",
+              "序列帧/b63a840.png",
+              "序列帧/583c7f6.png",
+              "序列帧/3c6acae.png",
+              "序列帧/f2b269d.png",
+              "序列帧/f7ceb1f.png",
+              "序列帧/f558c7e.png",
+              "序列帧/434a82a.png",
+              "序列帧/238e42e.png",
+              "序列帧/5bb6603.png",
+              "序列帧/31d9958.png",
+              "序列帧/4a5a999.png",
+              "序列帧/db5781d.png",
+              "序列帧/8863b8e.png",
+              "序列帧/c0f2ab9.png",
+              "序列帧/c13f576.png",
+              "序列帧/8a73e1a.png",
+              "序列帧/b807122.png",
+              "序列帧/2a8b7eb.png",
+              "序列帧/3714d93.png",
+              "序列帧/601623f.png",
+              "序列帧/43850d8.png"
+            ],
+            "note": "Recovered rotor graphic; rotation uses native seconds, not the original sprite animation."
+          }
+        ]
+      }
+    },
+    {
+      "id": "disc-cfcadd2abeec7606f583c586",
+      "name": "Lunar disc · 120917382325 · ImageValues2",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917382325",
+        "resource": "ImageValues2",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相/f15551c.png",
+          "月相/6708bfe.png",
+          "月相/d86f089.png",
+          "月相/f809c9d.png",
+          "月相/33fa295.png",
+          "月相/1de6390.png",
+          "月相/dbd5fdc.png",
+          "月相/2757d5b.png",
+          "月相/9e53362.png",
+          "月相/70d4449.png",
+          "月相/4699a10.png",
+          "月相/a402f8d.png",
+          "月相/d862365.png",
+          "月相/4ff4ca6.png",
+          "月相/3e27c39.png",
+          "月相/8083bf9.png",
+          "月相/ffd075e.png",
+          "月相/52565aa.png",
+          "月相/f9b7401.png",
+          "月相/b72d7c3.png",
+          "月相/6973bf2.png",
+          "月相/65f0e5c.png",
+          "月相/78adc30.png",
+          "月相/8bede9c.png",
+          "月相/9a03536.png",
+          "月相/bd51ac9.png",
+          "月相/4e07f2e.png",
+          "月相/17c1176.png",
+          "月相/a7293d2.png",
+          "月相/631e237.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-f7530ef7cb49b2995182dbd7",
+      "name": "Moon phases · 120917382325 · ImageValues3",
+      "mode": "values",
+      "source": "dateMoon",
+      "images": 8,
+      "origin": {
+        "face": "120917382325",
+        "resource": "ImageValues3",
+        "originalSource": "dateMoon",
+        "paths": [
+          "down/2603223.png",
+          "down/62213ac.png",
+          "down/b57f73e.png",
+          "down/c8e6ea5.png",
+          "down/32171ed.png",
+          "down/cd417f5.png",
+          "down/b1ec282.png",
+          "down/5451058.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-842a697925d6676e5c61d53b",
+      "name": "Compass dial · 120917383973 · ImageValues2",
+      "mode": "values",
+      "source": "systemSensorCompass",
+      "images": 9,
+      "origin": {
+        "face": "120917383973",
+        "resource": "ImageValues2",
+        "originalSource": "systemSensorCompass",
+        "paths": [
+          "指南针124/ad19985.png",
+          "指南针124/d191c42.png",
+          "指南针124/a204200.png",
+          "指南针124/3acb768.png",
+          "指南针124/92da3b2.png",
+          "指南针124/e93d375.png",
+          "指南针124/b5b3d1b.png",
+          "指南针124/c18dd8b.png",
+          "指南针124/ad19985.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-b175f828667cc7e79cd3ec20",
+      "name": "Compass dial · 120917383973 · ImageValues7",
+      "mode": "values",
+      "source": "systemSensorCompass",
+      "images": 9,
+      "origin": {
+        "face": "120917383973",
+        "resource": "ImageValues7",
+        "originalSource": "systemSensorCompass",
+        "paths": [
+          "指南针/9b53602.png",
+          "指南针/c01ff96.png",
+          "指南针/9e1e3aa.png",
+          "指南针/08ba061.png",
+          "指南针/706a5f4.png",
+          "指南针/d01a81d.png",
+          "指南针/27a4234.png",
+          "指南针/b93766e.png",
+          "指南针/9b53602.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-e80c5fd6e42cd6084bc6b880",
+      "name": "Dial disc · 120917383973 · Image18",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917383973",
+        "resource": "Image18",
+        "paths": [
+          "9301a58_s1_2.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-914e217af9f3877fb8081b84",
+      "name": "Dial disc · 120917383973 · Image19",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917383973",
+        "resource": "Image19",
+        "paths": [
+          "9301a58.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-7c5c4cec1d79f3bca5a67896",
+      "name": "Dial disc · 120917386586 · Image9",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386586",
+        "resource": "Image9",
+        "paths": [
+          "801ee6d.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-52780f7d26304957d844d5b9",
+      "name": "Dial disc · 120917386586 · Image14",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386586",
+        "resource": "Image14",
+        "paths": [
+          "bb7b2ad.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-bfb75fe3218c31396dece427",
+      "name": "Dial disc · 120917386586 · Image37",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386586",
+        "resource": "Image37",
+        "paths": [
+          "ad3cf30.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-0e3868367337b3206bd9ca01",
+      "name": "Dial disc · 120917386586 · Image39",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386586",
+        "resource": "Image39",
+        "paths": [
+          "663160d.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-123f95b79da55bdaaf92ea93",
+      "name": "Value disc · 120917386805 · ImageValues1",
+      "mode": "values",
+      "source": "systemStatusBattery",
+      "images": 11,
+      "origin": {
+        "face": "120917386805",
+        "resource": "ImageValues1",
+        "originalSource": "systemStatusBattery",
+        "paths": [
+          "P62市场表盘150+ (16)/03f982f.png",
+          "P62市场表盘150+ (16)/1390189.png",
+          "P62市场表盘150+ (16)/1800e96.png",
+          "P62市场表盘150+ (16)/85d26ed.png",
+          "P62市场表盘150+ (16)/2956bcc.png",
+          "P62市场表盘150+ (16)/82a6170.png",
+          "P62市场表盘150+ (16)/3c8cf39.png",
+          "P62市场表盘150+ (16)/7592b11.png",
+          "P62市场表盘150+ (16)/1c7fc22.png",
+          "P62市场表盘150+ (16)/ed53ddd.png",
+          "P62市场表盘150+ (16)/328437e.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-48496e9d42999799b12375d0",
+      "name": "Value disc · 120917386805 · ImageValues4",
+      "mode": "values",
+      "source": "systemStatusBattery",
+      "images": 11,
+      "origin": {
+        "face": "120917386805",
+        "resource": "ImageValues4",
+        "originalSource": "systemStatusBattery",
+        "paths": [
+          "P62市场表盘150+ (17)/03f982f.png",
+          "P62市场表盘150+ (17)/f1cf764.png",
+          "P62市场表盘150+ (17)/0cd8de9.png",
+          "P62市场表盘150+ (17)/777c8ad.png",
+          "P62市场表盘150+ (17)/2915315.png",
+          "P62市场表盘150+ (17)/4b6cd1e.png",
+          "P62市场表盘150+ (17)/4c9284a.png",
+          "P62市场表盘150+ (17)/6353b9a.png",
+          "P62市场表盘150+ (17)/92309f1.png",
+          "P62市场表盘150+ (17)/c4b343a.png",
+          "P62市场表盘150+ (17)/bb5454e.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-6fed33ff6ba7388ef7fa0baa",
+      "name": "Dial disc · 120917386818 · Image11",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386818",
+        "resource": "Image11",
+        "paths": [
+          "651e498.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-4137be679a42375ddf8082bc",
+      "name": "Dial disc · 120917386818 · Image13",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386818",
+        "resource": "Image13",
+        "paths": [
+          "bc3742b.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-fc9524d3a46eec54c8577b3f",
+      "name": "Dial disc · 120917386818 · Image15",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386818",
+        "resource": "Image15",
+        "paths": [
+          "62eac86.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-bb0fcbca12cc60e82a47fcc3",
+      "name": "Dial disc · 120917386818 · Image17",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386818",
+        "resource": "Image17",
+        "paths": [
+          "bf05805.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-a8ad4c808bdc42d66b93d731",
+      "name": "Dial disc · 120917386818 · Image19",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386818",
+        "resource": "Image19",
+        "paths": [
+          "69eb1e9.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-480976e16db02905dfb8f9da",
+      "name": "Value disc · 120917386835 · ImageValues1",
+      "mode": "values",
+      "source": "weatherCurrentWindDirection",
+      "images": 11,
+      "origin": {
+        "face": "120917386835",
+        "resource": "ImageValues1",
+        "originalSource": "weatherCurrentWindDirection",
+        "paths": [
+          "120917383656_抱石/8_ab3f552.png",
+          "120917383656_抱石/8_ab3f552.png",
+          "风向/2_5975b53.png",
+          "风向/4_2debac4.png",
+          "120917383656_抱石/5746474.png",
+          "风向/5_dbb846c.png",
+          "风向/1_8f4f47d.png",
+          "风向/6_bab84bf.png",
+          "120917383656_抱石/bb59322.png",
+          "风向/3_6412fe9.png",
+          "GoogleDowload/8_d675b4f.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-0104d95698fa529b3078af16",
+      "name": "Value disc · 120917386835 · ImageValues3",
+      "mode": "values",
+      "source": "weatherCurrentWindDirection",
+      "images": 11,
+      "origin": {
+        "face": "120917386835",
+        "resource": "ImageValues3",
+        "originalSource": "weatherCurrentWindDirection",
+        "paths": [
+          "120917383656_抱石/8_ab3f552.png",
+          "120917383656_抱石/8_ab3f552.png",
+          "风向/2_5975b53.png",
+          "风向/4_2debac4.png",
+          "120917383656_抱石/5746474.png",
+          "风向/5_dbb846c.png",
+          "风向/1_8f4f47d.png",
+          "风向/6_bab84bf.png",
+          "120917383656_抱石/bb59322.png",
+          "风向/3_6412fe9.png",
+          "120917383656_抱石/8_ab3f552.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-b8400317f11dc21d96b91bc6",
+      "name": "Dial disc · 120917386835 · Image12",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Image12",
+        "paths": [
+          "c317cc3.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-efca2c1c39c565810bcf5daa",
+      "name": "Dial disc · 120917386835 · Image13",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Image13",
+        "paths": [
+          "12cd068.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-296ffa09b3557671668c64be",
+      "name": "Dial disc · 120917386835 · Image15",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Image15",
+        "paths": [
+          "26e4f2d.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-0aa2bbe3fc771803cc10a148",
+      "name": "Dial disc · 120917386835 · Image21",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Image21",
+        "paths": [
+          "4cf8b05.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-188e708a60d54faa0df98f44",
+      "name": "Dial disc · 120917386835 · Image22",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Image22",
+        "paths": [
+          "5f0c023.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-cd98cf598f0b24d54e6481a0",
+      "name": "Dial disc · 120917393370 · Image7",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image7",
+        "paths": [
+          "b339fe8.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-2c63953d93668e67d67f1143",
+      "name": "Dial disc · 120917393370 · Image34",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image34",
+        "paths": [
+          "5c68508.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-e5243ccf97d5fa303eb94872",
+      "name": "Dial disc · 120917393370 · Image79",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image79",
+        "paths": [
+          "612c3f7.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-f4a48e0921695d5894f922e0",
+      "name": "Dial disc · 120917393370 · Image85",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image85",
+        "paths": [
+          "dbbb0c6.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-9b07b03f1d0931706c0d3365",
+      "name": "Dial disc · 120917393370 · Image102",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image102",
+        "paths": [
+          "a0b8592.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-2b0807fe0a0d2529dae9ce90",
+      "name": "Dial disc · 120917393370 · Image108",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image108",
+        "paths": [
+          "e071f81.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-071afcd5955252dcc5ca3995",
+      "name": "Dial disc · 120917393370 · Image130",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image130",
+        "paths": [
+          "817d9b5.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-aff1f5d5d906716aae4cd41a",
+      "name": "Dial disc · 120917393370 · Image153",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image153",
+        "paths": [
+          "741f3a1.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-f33ad54ee8d001267e941772",
+      "name": "Dial disc · 120917393370 · Image177",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image177",
+        "paths": [
+          "55a73eb.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-aea74f31e921a6eafe9fcfd7",
+      "name": "Dial disc · 120917393370 · Image184",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image184",
+        "paths": [
+          "3038f69.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-843a17b7d5a344c8fc09a3e4",
+      "name": "Dial disc · 120917393370 · Image198",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image198",
+        "paths": [
+          "7fa87ac.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-764d3522a2a9bba5c2b60703",
+      "name": "Dial disc · 120917393370 · Image207",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393370",
+        "resource": "Image207",
+        "paths": [
+          "f90cf95.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-f5510d7c51085eb4c8eedd88",
+      "name": "Dial disc · 120917393375 · Image11",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393375",
+        "resource": "Image11",
+        "paths": [
+          "412f5f6.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-ea829fac6553f3bd9b6cf301",
+      "name": "Dial disc · 120917393375 · Image44",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393375",
+        "resource": "Image44",
+        "paths": [
+          "5895ccc.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-c525d27e3c4039c6246b2aa4",
+      "name": "Dial disc · 120917393375 · Image46",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393375",
+        "resource": "Image46",
+        "paths": [
+          "78d862b.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-78f9b3767462e9a5584b1f8f",
+      "name": "Dial disc · 120917393375 · Image72",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393375",
+        "resource": "Image72",
+        "paths": [
+          "8fc163e.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-7c74453564140039d5b276ed",
+      "name": "Dial disc · 120917393375 · Image100",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393375",
+        "resource": "Image100",
+        "paths": [
+          "9cd1d53.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-6642441e82e208e8547d4291",
+      "name": "Dial disc · 120917393375 · Image128",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393375",
+        "resource": "Image128",
+        "paths": [
+          "4016b9e.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-1c794560b4b0aa63c3034bc0",
+      "name": "Lunar disc · 120917393388 · ImageValues1",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917393388",
+        "resource": "ImageValues1",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相/1_78bad35.png",
+          "月相/2_204d6c9.png",
+          "月相/3_5a3f3c8.png",
+          "月相/4_64133e7.png",
+          "月相/5_ed70e4c.png",
+          "月相/6_a47f7f5.png",
+          "月相/7_4089254.png",
+          "月相/8_433628d.png",
+          "月相/9_183844c.png",
+          "月相/10_198c0af.png",
+          "月相/11_af2cc76.png",
+          "月相/12_69ba740.png",
+          "月相/13_b24b5ec.png",
+          "月相/14_096172a.png",
+          "月相/15_fea5156.png",
+          "月相/16_b25e116.png",
+          "月相/17_36d8065.png",
+          "月相/18_d2bfe60.png",
+          "月相/19_cf67200.png",
+          "月相/20_62cf8eb.png",
+          "月相/21_57b8987.png",
+          "月相/22_e668565.png",
+          "月相/23_1bf91db.png",
+          "月相/24_74c14bc.png",
+          "月相/25_ca2ed4a.png",
+          "月相/26_a35445f.png",
+          "月相/27_f9484b1.png",
+          "月相/28_8af65c7.png",
+          "月相/29_9fcc671.png",
+          "月相/30_2af647b.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-673c128b18c105520ea600b8",
+      "name": "Lunar disc · 120917393388 · ImageValues10",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917393388",
+        "resource": "ImageValues10",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相/1_36755dc.png",
+          "月相/2_b9c7c7f.png",
+          "月相/3_a60ab61.png",
+          "月相/4_2573f8c.png",
+          "月相/5_8cd057e.png",
+          "月相/6_6563580.png",
+          "月相/7_6dde1e7.png",
+          "月相/8_cd16108.png",
+          "月相/9_f24f792.png",
+          "月相/10_3f78c02.png",
+          "月相/11_3ba7363.png",
+          "月相/12_cdaf7ac.png",
+          "月相/13_6fdca1e.png",
+          "月相/14_74dcafb.png",
+          "月相/15_95270fc.png",
+          "月相/16_72141c0.png",
+          "月相/17_c5a698c.png",
+          "月相/18_8e32e5c.png",
+          "月相/19_27805db.png",
+          "月相/20_b604483.png",
+          "月相/21_4146c30.png",
+          "月相/22_c3763a8.png",
+          "月相/23_953be8c.png",
+          "月相/24_c827bde.png",
+          "月相/25_f68df0a.png",
+          "月相/26_d458930.png",
+          "月相/27_42a5746.png",
+          "月相/28_2cd0901.png",
+          "月相/29_454750c.png",
+          "月相/30_df61a60.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-617329522f7bffa03ca1db78",
+      "name": "Lunar disc · 120917393388 · ImageValues11",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917393388",
+        "resource": "ImageValues11",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相/1_d8d6d80.png",
+          "月相/2_ed5040c.png",
+          "月相/3_1cd68e3.png",
+          "月相/4_18753e6.png",
+          "月相/5_f4bdd25.png",
+          "月相/6_5882b20.png",
+          "月相/7_d0ccefc.png",
+          "月相/8_4a0a8d4.png",
+          "月相/9_0ab1c5a.png",
+          "月相/10_7902b3d.png",
+          "月相/11_900f2db.png",
+          "月相/12_0ad09bc.png",
+          "月相/13_84355b8.png",
+          "月相/14_c441d66.png",
+          "月相/15_969ef22.png",
+          "月相/16_8d9885b.png",
+          "月相/17_43862e5.png",
+          "月相/18_364e15a.png",
+          "月相/19_d197b5c.png",
+          "月相/20_49db3aa.png",
+          "月相/21_f3f3d67.png",
+          "月相/22_d5d2aae.png",
+          "月相/23_f985ccb.png",
+          "月相/24_f6cf12e.png",
+          "月相/25_1a13539.png",
+          "月相/26_51cef1a.png",
+          "月相/27_b731da9.png",
+          "月相/28_0831cae.png",
+          "月相/29_b324a0f.png",
+          "月相/30_7a6cc65.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-f99cb924bd06eb971e5d48b5",
+      "name": "Lunar disc · 120917393388 · ImageValues12",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917393388",
+        "resource": "ImageValues12",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相/1_0dd6b86.png",
+          "月相/2_778ee96.png",
+          "月相/3_062fbf0.png",
+          "月相/4_e568e8f.png",
+          "月相/5_dbfc8d9.png",
+          "月相/6_deb14e2.png",
+          "月相/7_434a9d4.png",
+          "月相/8_a2c82d6.png",
+          "月相/9_fc0dc4a.png",
+          "月相/10_7c269a4.png",
+          "月相/11_38ac471.png",
+          "月相/12_0b5f7fe.png",
+          "月相/13_d4ce4ef.png",
+          "月相/14_8a112ec.png",
+          "月相/15_2f980f1.png",
+          "月相/16_71a2eb3.png",
+          "月相/17_6ccacb8.png",
+          "月相/18_3980fea.png",
+          "月相/19_65cdf02.png",
+          "月相/20_060790c.png",
+          "月相/21_b8c8f3a.png",
+          "月相/22_53276e5.png",
+          "月相/23_2210439.png",
+          "月相/24_b39523c.png",
+          "月相/25_5351498.png",
+          "月相/26_9f7086a.png",
+          "月相/27_31c6e45.png",
+          "月相/28_396d12f.png",
+          "月相/29_3f21599.png",
+          "月相/30_44a1df4.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-98549804213bae44278b8c3e",
+      "name": "Lunar disc · 120917393388 · ImageValues13",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917393388",
+        "resource": "ImageValues13",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "样式5月相/1_9df785c.png",
+          "样式5月相/2_28a7d21.png",
+          "样式5月相/3_3da84d7.png",
+          "样式5月相/4_70c13e3.png",
+          "样式5月相/5_4461f1f.png",
+          "样式5月相/6_1e33484.png",
+          "样式5月相/7_ec5dd6b.png",
+          "样式5月相/8_9aa89cc.png",
+          "样式5月相/9_3d69024.png",
+          "样式5月相/10_d1a1d91.png",
+          "样式5月相/11_d698850.png",
+          "样式5月相/12_4c85d1e.png",
+          "样式5月相/13_863f848.png",
+          "样式5月相/14_d958529.png",
+          "样式5月相/15_f264bb1.png",
+          "样式5月相/16_b348252.png",
+          "样式5月相/17_0087b2e.png",
+          "样式5月相/18_be50d67.png",
+          "样式5月相/19_7285b9a.png",
+          "样式5月相/20_749b43d.png",
+          "样式5月相/21_7d329fc.png",
+          "样式5月相/22_94af644.png",
+          "样式5月相/23_0f1a27a.png",
+          "样式5月相/24_65805ac.png",
+          "样式5月相/25_a3278d0.png",
+          "样式5月相/26_58e6547.png",
+          "样式5月相/27_e0c4404.png",
+          "样式5月相/28_4caf8b6.png",
+          "样式5月相/29_175a3ac.png",
+          "样式5月相/30_f0777e4.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-98d1d40e11776f91277f3e59",
+      "name": "Dial disc · 120917393388 · Image2",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393388",
+        "resource": "Image2",
+        "paths": [
+          "e9eb249.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-09f03ea40430ff9978186940",
+      "name": "Dial disc · 120917393388 · Image82",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393388",
+        "resource": "Image82",
+        "paths": [
+          "05988dd.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-21bd5d99698f790b8dcd5480",
+      "name": "Dial disc · 120917393388 · Image120",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393388",
+        "resource": "Image120",
+        "paths": [
+          "730fce6.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-37751b8451f3f776e4d56bb4",
+      "name": "Dial disc · 120917393388 · Image155",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393388",
+        "resource": "Image155",
+        "paths": [
+          "e673d01.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-9784b270001c79c81f1a1ce3",
+      "name": "Dial disc · 120917393388 · Image193",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393388",
+        "resource": "Image193",
+        "paths": [
+          "c3f2d7c.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-cf8873fd79d3f3aaf1a6aa9f",
+      "name": "Value disc · 120917393389 · ImageValues4",
+      "mode": "values",
+      "source": "dateWeek",
+      "images": 7,
+      "origin": {
+        "face": "120917393389",
+        "resource": "ImageValues4",
+        "originalSource": "dateWeek",
+        "paths": [
+          "星期/d061584.png",
+          "星期/79107ad.png",
+          "星期/ebc3b97.png",
+          "星期/48ef241.png",
+          "星期/fcea6f6.png",
+          "星期/3e88e1b.png",
+          "星期/ed15095.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-60e1c3c0beb83ca8e4f2a6ea",
+      "name": "Value disc · 120917393389 · ImageValues5",
+      "mode": "values",
+      "source": "dateWeek",
+      "images": 7,
+      "origin": {
+        "face": "120917393389",
+        "resource": "ImageValues5",
+        "originalSource": "dateWeek",
+        "paths": [
+          "星期盘/50263e5.png",
+          "星期盘/2da7a0e.png",
+          "星期盘/a164f4e.png",
+          "星期盘/d38c9a4.png",
+          "星期盘/396b06b.png",
+          "星期盘/18ff9ed.png",
+          "星期盘/7dc71bd.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-60948f54534398ab9e574e97",
+      "name": "Value disc · 120917393389 · ImageValues10",
+      "mode": "values",
+      "source": "dateWeek",
+      "images": 7,
+      "origin": {
+        "face": "120917393389",
+        "resource": "ImageValues10",
+        "originalSource": "dateWeek",
+        "paths": [
+          "星期/92be4e6.png",
+          "星期/af90300.png",
+          "星期/3cbb0cf.png",
+          "星期/6fe4c3a.png",
+          "星期/f488e75.png",
+          "星期/b69dc03.png",
+          "星期/598a140.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-ba8b1140c5ac9cedfef476fd",
+      "name": "Value disc · 120917393389 · ImageValues11",
+      "mode": "values",
+      "source": "dateWeek",
+      "images": 7,
+      "origin": {
+        "face": "120917393389",
+        "resource": "ImageValues11",
+        "originalSource": "dateWeek",
+        "paths": [
+          "星期/6d88cd4.png",
+          "星期/f729733.png",
+          "星期/69e5419.png",
+          "星期/78fac99.png",
+          "星期/76a031f.png",
+          "星期/3e34b80.png",
+          "星期/cad0d9e.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-e4832c8ee01a3da6c04d103d",
+      "name": "Value disc · 120917393389 · ImageValues12",
+      "mode": "values",
+      "source": "dateWeek",
+      "images": 7,
+      "origin": {
+        "face": "120917393389",
+        "resource": "ImageValues12",
+        "originalSource": "dateWeek",
+        "paths": [
+          "0422样式三aod星期/4959117.png",
+          "0422样式三aod星期/d100dfc.png",
+          "0422样式三aod星期/5bd1f2e.png",
+          "0422样式三aod星期/954fe7f.png",
+          "0422样式三aod星期/cd5fba7.png",
+          "0422样式三aod星期/d551b1e.png",
+          "0422样式三aod星期/fcac057.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-a3cd3d40c89d6696bf66050e",
+      "name": "Value disc · 120917393389 · ImageValues14",
+      "mode": "values",
+      "source": "dateWeek",
+      "images": 7,
+      "origin": {
+        "face": "120917393389",
+        "resource": "ImageValues14",
+        "originalSource": "dateWeek",
+        "paths": [
+          "星期盘/94a1167.png",
+          "星期盘/37ff176.png",
+          "星期盘/14b23f7.png",
+          "星期盘/0f77157.png",
+          "星期盘/5549acc.png",
+          "星期盘/948d8c3.png",
+          "星期盘/7130f1c.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-b3abb5c1e9ce77c1fc3dc2a1",
+      "name": "Dial disc · 120917393389 · Image11",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image11",
+        "paths": [
+          "468e5fe.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-25fc2f4e015b2c2fb5dd6130",
+      "name": "Dial disc · 120917393389 · Image12",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image12",
+        "paths": [
+          "95c5581.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-a4552ce486b427fcd217f302",
+      "name": "Dial disc · 120917393389 · Image29",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image29",
+        "paths": [
+          "0b45dc4.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-b503703507c1185ddc90166a",
+      "name": "Dial disc · 120917393389 · Image51",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image51",
+        "paths": [
+          "47a480b.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-0cb069f2b1b41183fae5659a",
+      "name": "Dial disc · 120917393389 · Image67",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image67",
+        "paths": [
+          "cdc0e9b.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-949603fa5e0d115b9a8579af",
+      "name": "Dial disc · 120917393389 · Image91",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image91",
+        "paths": [
+          "f159b5a.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-41b771755f64f8fb34c3eece",
+      "name": "Dial disc · 120917393389 · Image107",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image107",
+        "paths": [
+          "92caab1.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-4fa159cf95489d4d0baf5b4f",
+      "name": "Dial disc · 120917393389 · Image129",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image129",
+        "paths": [
+          "8563985.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-02418fea7f32baa5a119382d",
+      "name": "Dial disc · 120917393389 · Image132",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Image132",
+        "paths": [
+          "929cd84.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-883eefc9fdffe9252272d129",
+      "name": "Lunar disc · 120917406065 · ImageValues3",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917406065",
+        "resource": "ImageValues3",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相1/31e760f.png",
+          "月相1/7ff2911.png",
+          "月相1/3235dbc.png",
+          "月相1/7207f31.png",
+          "月相1/f274395.png",
+          "月相1/18ba78f.png",
+          "月相1/b0a919d.png",
+          "月相1/99f9835.png",
+          "月相1/7c38339.png",
+          "月相1/fbd846b.png",
+          "月相1/3fce478.png",
+          "月相1/53eff86.png",
+          "月相1/685057a.png",
+          "月相1/d8d3034.png",
+          "月相1/2846bb8.png",
+          "月相1/ca30d4e.png",
+          "月相1/7a057d6.png",
+          "月相1/79ebddd.png",
+          "月相1/cd2755a.png",
+          "月相1/a2c6052.png",
+          "月相1/ef7b8c9.png",
+          "月相1/b136e5b.png",
+          "月相1/d877229.png",
+          "月相1/073be84.png",
+          "月相1/0e8d9a7.png",
+          "月相1/92acfd8.png",
+          "月相1/c40d10e.png",
+          "月相1/4fd76bb.png",
+          "月相1/5668b2d.png",
+          "月相1/60b4f0a.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-d6d41d90aabad8fbad3222fe",
+      "name": "Lunar disc · 120917406065 · ImageValues8",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "120917406065",
+        "resource": "ImageValues8",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "月相1/a5be600.png",
+          "月相1/31311c6.png",
+          "月相1/d37a0df.png",
+          "月相1/db3f99e.png",
+          "月相1/ea3cc97.png",
+          "月相1/82422ba.png",
+          "月相1/b331e50.png",
+          "月相1/c24f1c8.png",
+          "月相1/7468600.png",
+          "月相1/3d9dbe5.png",
+          "月相1/3d6791f.png",
+          "月相1/5029a2e.png",
+          "月相1/026e202.png",
+          "月相1/125814a.png",
+          "月相1/14065af.png",
+          "月相1/2880c64.png",
+          "月相1/0a16d45.png",
+          "月相1/88e635c.png",
+          "月相1/e9547c2.png",
+          "月相1/48afea1.png",
+          "月相1/c55b260.png",
+          "月相1/288c62a.png",
+          "月相1/789d440.png",
+          "月相1/44a4765.png",
+          "月相1/c81d569.png",
+          "月相1/bd06f68.png",
+          "月相1/bf497f7.png",
+          "月相1/57ba019.png",
+          "月相1/3f9f7ee.png",
+          "月相1/b3c04ff.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-934e7b2398dc69a1bc2b88eb",
+      "name": "Dial disc · 120917406065 · Image3",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917406065",
+        "resource": "Image3",
+        "paths": [
+          "6ad00c3.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-1b6ad7fc767759fc4361600c",
+      "name": "Dial disc · 120917406065 · Image8",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917406065",
+        "resource": "Image8",
+        "paths": [
+          "4114654.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-3d18b4397fb2ca973c4d5850",
+      "name": "Dial disc · 120917406065 · Image33",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917406065",
+        "resource": "Image33",
+        "paths": [
+          "237f036.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-d970492d078e85f4ed865dce",
+      "name": "Dial disc · 120917406065 · Image35",
+      "mode": "rotation",
+      "source": "timeHour",
+      "images": 1,
+      "origin": {
+        "face": "120917406065",
+        "resource": "Image35",
+        "paths": [
+          "617dfea.png"
+        ],
+        "note": "Static original graphic; default rotation is one turn per 24 hours.",
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-85dd46deb7e585bc163c5398",
+      "name": "Lunar disc · 562700009 · ImageValues2",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "562700009",
+        "resource": "ImageValues2",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "template_template_moon/a681fc8_s0_65.png",
+          "template_template_moon/b9918bb_s0_65.png",
+          "template_template_moon/b9918bb_s0_65.png",
+          "template_template_moon/b9918bb_s0_65.png",
+          "template_template_moon/b9918bb_s0_65.png",
+          "template_template_moon/b9918bb_s0_65.png",
+          "template_template_moon/d5cb422_s0_65.png",
+          "template_template_moon/d5cb422_s0_65.png",
+          "template_template_moon/fbe72a2_s0_65.png",
+          "template_template_moon/fbe72a2_s0_65.png",
+          "template_template_moon/fbe72a2_s0_65.png",
+          "template_template_moon/fbe72a2_s0_65.png",
+          "template_template_moon/fbe72a2_s0_65.png",
+          "template_template_moon/fbe72a2_s0_65.png",
+          "template_template_moon/31c52f0_s0_65.png",
+          "template_template_moon/31c52f0_s0_65.png",
+          "template_template_moon/dc38bcf_s0_65.png",
+          "template_template_moon/dc38bcf_s0_65.png",
+          "template_template_moon/dc38bcf_s0_65.png",
+          "template_template_moon/dc38bcf_s0_65.png",
+          "template_template_moon/b27456b_s0_65.png",
+          "template_template_moon/b27456b_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png",
+          "template_template_moon/722de19_s0_65.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-4b146f954145d7dc653ade67",
+      "name": "Lunar disc · 562700039 · ImageValues1",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "562700039",
+        "resource": "ImageValues1",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "images/49c87b1.png",
+          "images/0c37f99.png",
+          "images/bdfa3c5.png",
+          "images/c3b1150.png",
+          "images/a9c0478.png",
+          "images/68e3495.png",
+          "images/95a8fc3.png",
+          "images/e9bb379.png",
+          "images/9278c5f.png",
+          "images/d81dabd.png",
+          "images/ae40b62.png",
+          "images/61719b9.png",
+          "images/34eead9.png",
+          "images/9e4d3ea.png",
+          "images/7444efc.png",
+          "images/7444efc.png",
+          "images/7444efc.png",
+          "images/225c298.png",
+          "images/e7795f6.png",
+          "images/a18fff2.png",
+          "images/0080fc2.png",
+          "images/a32693a.png",
+          "images/9debe29.png",
+          "images/a0a5a16.png",
+          "images/942d789.png",
+          "images/0c8e31f.png",
+          "images/fe78e6c.png",
+          "images/d658f7a.png",
+          "images/7db7a9f.png",
+          "images/0157c7b.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-ff160b86c2fa7a88a6f98708",
+      "name": "Sun and sky · 562700103 · ImageValues3",
+      "mode": "values",
+      "source": "miscTimeSection",
+      "images": 9,
+      "origin": {
+        "face": "562700103",
+        "resource": "ImageValues3",
+        "originalSource": "miscTimeSection",
+        "paths": [
+          "Солнце/1_0f89418_s0_8.png",
+          "Солнце/2_cacf525_s0_8.png",
+          "Солнце/3_d31b99c_s0_8.png",
+          "Солнце/4_debe3d9_s0_8.png",
+          "Солнце/5_e3cdcdd_s0_8.png",
+          "Солнце/6_40e9539_s0_8.png",
+          "Солнце/7_d8852d8_s0_8.png",
+          "Солнце/8_2536b7c_s0_8.png",
+          "Солнце/9_f1cffe9_s0_8.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-7f35ddc9e20f638f992b8e4c",
+      "name": "Lunar disc · 562700103 · ImageValues4",
+      "mode": "values",
+      "source": "dateLunarDay",
+      "images": 30,
+      "origin": {
+        "face": "562700103",
+        "resource": "ImageValues4",
+        "originalSource": "dateLunarDay",
+        "paths": [
+          "Луна/1_f881fdd_s0_5.png",
+          "Луна/2_2538660_s0_5.png",
+          "Луна/3_0f7dd71_s0_5.png",
+          "Луна/4_0b83c4b_s0_5.png",
+          "Луна/5_ff99f6a_s0_5.png",
+          "Луна/6_07a2474_s0_5.png",
+          "Луна/7_beab079_s0_5.png",
+          "Луна/8_6827de2_s0_5.png",
+          "Луна/9_283dc2d_s0_5.png",
+          "Луна/10_7ee9724_s0_5.png",
+          "Луна/11_6c2cd11_s0_5.png",
+          "Луна/12_45d8abc_s0_5.png",
+          "Луна/13_af83cfd_s0_5.png",
+          "Луна/14_6f627ae_s0_5.png",
+          "Луна/15_7a3edfc_s0_5.png",
+          "Луна/16_a130298_s0_5.png",
+          "Луна/17_adf5e27_s0_5.png",
+          "Луна/18_aec656d_s0_5.png",
+          "Луна/19_14c8f6e_s0_5.png",
+          "Луна/20_96fad26_s0_5.png",
+          "Луна/21_ee67a6e_s0_5.png",
+          "Луна/22_446a476_s0_5.png",
+          "Луна/23_2efa368_s0_5.png",
+          "Луна/24_cf4147d_s0_5.png",
+          "Луна/25_dca04c6_s0_5.png",
+          "Луна/26_d5071af_s0_5.png",
+          "Луна/27_c78cc13_s0_5.png",
+          "Луна/28_3f8eff4_s0_5.png",
+          "Луна/29_f2be288_s0_5.png",
+          "Луна/30_818a594_s0_5.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-3b06164dcbbd46f10a2e5ddf",
+      "name": "Compass · Bouldering · Rosa cardinali · 样式1 · 3d05",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Pointer1",
+        "paths": [
+          "data/compass-presets/b8aa8af3d1e6735beda0f168.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-295ff76797c6a31a0858313e",
+      "name": "Compass · Bouldering · Ghiera graduata · 样式1 · 6508",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Pointer2",
+        "paths": [
+          "data/compass-presets/5ad23335c084b830a77d737e.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-1091b649b24417dbbc744bf1",
+      "name": "Compass · Gear jungle · Rosa dei venti · 样式1 · 9cce",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Pointer9",
+        "paths": [
+          "data/compass-presets/70cb76e84a0dd6892ba5731b.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-18051240233488cbef52c96b",
+      "name": "Compass · Gear jungle · Rosa dei venti · 样式3 · 3455",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Pointer57",
+        "paths": [
+          "data/compass-presets/bbfb0ab2182facb287a05ed7.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-9e12b8addbbd0a36856233d7",
+      "name": "Compass · Gear jungle · Rosa dei venti · 样式4 · 64e0",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "120917393389",
+        "resource": "Pointer68",
+        "paths": [
+          "data/compass-presets/76bcaadbbf6db8b5555d9901.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-de0aeb488182e3fb41e0eb58",
+      "name": "Compass · Ferrari · Ago nord · Theme1 · 574a",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "562700009",
+        "resource": "Pointer2",
+        "paths": [
+          "data/compass-presets/9fd45164d6f865f79b266b75.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-816037fe641af5a2ff43b91a",
+      "name": "Compass · Ferrari · Rosa cardinali e tacche · Theme1 · 0cf0",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "562700009",
+        "resource": "Pointer3",
+        "paths": [
+          "data/compass-presets/85956d62e4edb9b8ec70a76c.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-841269a8c5ee09ea6c489e8a",
+      "name": "Compass · LLATH · Ago bussola · Ru · 4c3c",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "562700103",
+        "resource": "Pointer8",
+        "paths": [
+          "data/compass-presets/4e7a106c0f1220d1c6096363.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-00f609e5c9d0c32f6ba2e23e",
+      "name": "Compass · Bouldering · Rosa completa",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "120917386835",
+        "resource": "Pointer1",
+        "paths": [
+          "data/compass-presets/5380233f6cbf84904ae70166.png"
+        ],
+        "alsoFrom": []
+      }
+    },
+    {
+      "id": "disc-38cd6a0dbfb21da323060142",
+      "name": "Compass · Ferrari · Rosa completa",
+      "mode": "rotation",
+      "source": "systemSensorCompass",
+      "images": 1,
+      "origin": {
+        "face": "562700009",
+        "resource": "Pointer2",
+        "paths": [
+          "data/compass-presets/b77f8505e0d47ab970165f71.png"
+        ],
+        "alsoFrom": []
+      }
+    }
+  ]
+}

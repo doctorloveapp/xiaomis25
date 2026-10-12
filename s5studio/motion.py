@@ -24,11 +24,12 @@ def pro_enabled(project):
 
 
 def lua_element(e):
-    return e.kind=='pointer' and e.source in ALL_LUA_SOURCES or e.kind=='analog' and e.chrono_pro and e.second_hand
+    from .moon_disk import lunar_element
+    return lunar_element(e) or e.kind=='pointer' and e.source in ALL_LUA_SOURCES or e.kind=='analog' and e.chrono_pro and e.second_hand
 
 
 def excluded_from_aod(e):
-    return e.kind == 'pointer' and (e.source in SECOND_SOURCES or e.source in ALL_LUA_SOURCES)
+    return e.kind in ('pointer','disk') and (e.source in SECOND_SOURCES or e.source in ALL_LUA_SOURCES)
 
 
 def pointer_period(e, aod=False):

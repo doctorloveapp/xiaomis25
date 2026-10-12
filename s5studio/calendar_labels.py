@@ -6,6 +6,9 @@ dateMonth values 1..12. Only number layers use this presentation.
 WEEKDAYS = ('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT')
 MONTHS = ('January', 'February', 'March', 'April', 'May', 'June',
           'July', 'August', 'September', 'October', 'November', 'December')
+MONTHS_SHORT = ('JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC')
+MOON_PHASES = ('New Moon','Waxing Crescent','First Quarter','Waxing Gibbous',
+               'Full Moon','Waning Gibbous','Last Quarter','Waning Crescent')
 
 
 def labels_for(element):
@@ -13,8 +16,10 @@ def labels_for(element):
         return {}
     if element.source == 'dateWeek':
         return dict(enumerate(WEEKDAYS))
+    if element.source == 'dateMoon':
+        return dict(enumerate(MOON_PHASES))
     if element.source in ('month', 'dateMonth'):
-        return dict(enumerate(MONTHS, 1))
+        return dict(enumerate(MONTHS_SHORT if element.month_abbreviated else MONTHS, 1))
     return {}
 
 
