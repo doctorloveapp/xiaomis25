@@ -1,0 +1,21 @@
+{
+  "applicationVersion": "2.3",
+  "status": "passed",
+  "checkCount": 12,
+  "checks": [
+    "version-2.3",
+    "decisecond-help-smooth-or-stepped",
+    "checkbox-updates-project",
+    "decisecond-readout-keeps-calibration-and-smooth",
+    "smooth-flag-save-load",
+    "decisecond-readout-save-load-and-export",
+    "smooth-preview-40ms-main-seconds-stepped",
+    "stepped-preview-100ms",
+    "post-and-numeric-reading-share-stop-time",
+    "post-has-no-smooth-flag",
+    "post-readout-still-sets-its-own-range",
+    "continuous-decisecond-readout-control"
+  ],
+  "sourceEditorTested": true,
+  "executableLaunched": false
+}

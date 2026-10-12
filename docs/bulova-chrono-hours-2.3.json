@@ -1,0 +1,198 @@
+{
+  "applicationVersion": "2.3",
+  "date": "2026-10-12",
+  "status": "passed-on-pc-hardware-retest-pending",
+  "project": "projects/Bulova.s5faceproj",
+  "projectSha256": "7fdeced86d750838b7763d9c01ef7ec0e777991c9550ad3bb5ae460e614acf38",
+  "projectModified": false,
+  "existingBinary": "Quadranti Compilati\\Bulova-876008762-20261011-213639\\resource.bin",
+  "existingBinarySha256": "f404600ae77cbee3e84a9db65b65e13142ff4d4101dfc336e3167185f2e46b28",
+  "newTemporaryBinarySha256": "5f0430f0d4637cccf43ab814b0eb1c692cd543427db743bbc7aee338373936d7",
+  "realCompilerUsed": true,
+  "demoZipCreated": false,
+  "compiledLuaMatchesSource": true,
+  "applicationVersionMetadataCorrect": true,
+  "checks": [
+    {
+      "style": 0,
+      "clock": "lvgl-monotonic",
+      "checkpoints": [
+        {
+          "elapsedMs": 3599999,
+          "hours": 0.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 3600000,
+          "hours": 1.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 3661456,
+          "hours": 1.0,
+          "minutes": 1.0
+        },
+        {
+          "elapsedMs": 7200000,
+          "hours": 2.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 43199999,
+          "hours": 11.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 43200000,
+          "hours": 0.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 46800000,
+          "hours": 1.0,
+          "minutes": 0.0
+        }
+      ],
+      "aodNotificationOrderAndPoseRestoration": "passed",
+      "stopReset": "passed"
+    },
+    {
+      "style": 0,
+      "clock": "lvgl-animation-phase",
+      "checkpoints": [
+        {
+          "elapsedMs": 3599999,
+          "hours": 0.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 3600000,
+          "hours": 1.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 3661456,
+          "hours": 1.0,
+          "minutes": 1.0
+        },
+        {
+          "elapsedMs": 7200000,
+          "hours": 2.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 43199999,
+          "hours": 11.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 43200000,
+          "hours": 0.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 46800000,
+          "hours": 1.0,
+          "minutes": 0.0
+        }
+      ],
+      "aodNotificationOrderAndPoseRestoration": "passed",
+      "stopReset": "passed"
+    },
+    {
+      "style": 1,
+      "clock": "lvgl-monotonic",
+      "checkpoints": [
+        {
+          "elapsedMs": 3599999,
+          "hours": 0.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 3600000,
+          "hours": 1.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 3661456,
+          "hours": 1.0,
+          "minutes": 1.0
+        },
+        {
+          "elapsedMs": 7200000,
+          "hours": 2.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 43199999,
+          "hours": 11.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 43200000,
+          "hours": 0.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 46800000,
+          "hours": 1.0,
+          "minutes": 0.0
+        }
+      ],
+      "aodNotificationOrderAndPoseRestoration": "passed",
+      "stopReset": "passed"
+    },
+    {
+      "style": 1,
+      "clock": "lvgl-animation-phase",
+      "checkpoints": [
+        {
+          "elapsedMs": 3599999,
+          "hours": 0.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 3600000,
+          "hours": 1.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 3661456,
+          "hours": 1.0,
+          "minutes": 1.0
+        },
+        {
+          "elapsedMs": 7200000,
+          "hours": 2.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 43199999,
+          "hours": 11.0,
+          "minutes": 59.0
+        },
+        {
+          "elapsedMs": 43200000,
+          "hours": 0.0,
+          "minutes": 0.0
+        },
+        {
+          "elapsedMs": 46800000,
+          "hours": 1.0,
+          "minutes": 0.0
+        }
+      ],
+      "aodNotificationOrderAndPoseRestoration": "passed",
+      "stopReset": "passed"
+    }
+  ],
+  "oldBinaryCacheFaultInjection": {
+    "elapsedMs": 3783456,
+    "hourController": 1,
+    "hourRendererAfterInjectedLoss": 0,
+    "minutes": 3,
+    "firmwarePoseLossObserved": false
+  },
+  "hardwareReport": "User reports more than 60 minutes, minutes completed a revolution and restarted, hour stayed at zero.",
+  "diagnosis": "No arithmetic or catalog aliasing defect reproduced. AOD baseline bug fixed; unchanged pose reasserted on resume. Actual firmware cause remains unconfirmed."
+}

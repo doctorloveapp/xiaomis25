@@ -1,0 +1,25 @@
+{
+  "applicationVersion": "2.3",
+  "date": "2026-10-11",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "status": "passed-as-reported-by-user",
+  "testedExecutableSha256": "6903b3a3803fd531db2e916b81b1c44072afbd9765e91db195ab0c0db5416a9a",
+  "scope": "Build 2.3 prima dell'aggiunta del selettore Lettura dei decimi; il successivo aggiornamento dell'interfaccia conserva lo stesso runtime Lua.",
+  "source": "ho effettuato test e adesso la lancetta dei decimi e' veramente fluida, perfetta. non ho piu' riscontrato lag neanche nella lancetta grande dei secondi. questa versione software e' perfetta.",
+  "observations": {
+    "chronoProDecisecondSmoothness": "confirmed-by-user",
+    "largeSecondHandLag": "no-longer-observed-by-user",
+    "overallVersion": "fully-satisfactory-as-reported-by-user"
+  },
+  "independentPhysicalTestByAgent": false,
+  "hardwareFpsOrEnergyMeasured": false,
+  "codeChangedForThisConfirmation": false,
+  "executableRebuiltForThisConfirmation": false,
+  "laterReport": {
+    "date": "2026-10-12",
+    "issue": "Bulova: ore ferme dopo oltre 60 minuti, minuti gi? ripartiti.",
+    "analysis": "VERIFICA_BULOVA_ORE_CRONO.md",
+    "newResumeFixHardwareRetest": "pending",
+    "previousConfirmationCoversNewFix": false
+  }
+}

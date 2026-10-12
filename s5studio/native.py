@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 from PIL import Image, ImageDraw
+from . import __version__
 from .model import Project, Element, SOURCES, archive_members
 from .calendar_labels import labels_for
 from .colors import NO_COLOR
@@ -309,7 +310,7 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                    HourHandCorrection_En=0,MinuteHandCorrection_En=0)
             expected.append('1011')
         elif e.kind == "analog":
-            image(prefix+"_ticks",analog_face(e),e.x,e.y)
+            if e.show_ticks:image(prefix+"_ticks",analog_face(e),e.x,e.y)
             # Separate native pointers let each shadow overlap the lower hands.
             # Keep EasyFace's hour-centred / minute-second bitmap origins.
             for h,title,attr,code in [('hour','Hour','HourHand_ImageName','0811'),('minute','Minute','MinuteHand_Image','1011'),('second','Second','SecondHand_Image','1811')]:
@@ -507,7 +508,8 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         interaction=interaction_report(p,data,generated_metadata['resources/manifest.xml'])
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
-        generated_metadata['build-report.json']=json.dumps({'applicationVersion':'2.1',
+        application_version=__version__.removesuffix('.0')
+        generated_metadata['build-report.json']=json.dumps({'applicationVersion':application_version,
             'binarySha256':inspection['sha256'],'interactive':interaction,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
@@ -530,7 +532,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                          png_bytes(render(first,aod=True)) if p.aod_enabled else None,previews,p,generated_metadata)
         packaged['filename']=f'{label}_TEMPLATE.zip'
         packaged['output']=str(final/packaged['filename'])
-        report={"schemaVersion":1,"applicationVersion":"2.1","interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
+        report={"schemaVersion":1,"applicationVersion":application_version,"interactive":interaction,"secondsMotion":seconds_motion,"project":p.metadata(),"compiler":tool,
                 "binary":inspection,"compilerOriginalSha256":sha256(original),
                 "idAssignment":{"method":"ID del progetto nel campo ASCII; descrizione, manifest, editor e UID rigenerati coerentemente.","original":"167210065","projectRequested":p.face_id,"assigned":p.face_id},
                 "assets":{k:sha256(v) for k,v in p.assets.items()},

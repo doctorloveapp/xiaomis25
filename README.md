@@ -1,10 +1,32 @@
-# S5 Studio 2.1 — Set Decimi, cartelle ricordate e lettura Crono
+# S5 Studio 2.3 — Decimi Pro fluidi e aggiornamenti sincronizzati
 
 Editor desktop italiano per Xiaomi Watch S5 M2530W1, 480 × 480. Crea quadranti digitali e analogici, cinque stili e complicazioni con grafica personalizzabile. La UI usa Tailwind CSS compilato offline e QtWebEngine.
 
-Avvia **S5Studio-2.1.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
+Avvia **S5Studio-2.3.exe** oppure **Avvia_S5_Studio.cmd**. Salva il lavoro della versione precedente prima di aprire la nuova. Questo eseguibile personale è autonomo: incorpora Python, Qt, UI Tailwind, cataloghi di lancette/bussole/meteo, template verificato e Compiler.exe con DeviceInfo.db. Puoi copiarlo da solo su un altro PC Windows a 64 bit con **.NET Framework 4.7.2 o successivo**. All’avvio estrae le risorse in una cartella temporanea; il recupero del lavoro usa `%LOCALAPPDATA%/S5Studio/`. Non serve installare Python o Node.
 
 Il test sul S5 della build 0.5 è **superato**: installazione, cambio varianti e selezione complicazioni, come confermato dall’utente. Il pacchetto testato resta conservato. La 0.7 aggiunge anteprima delle lancette in hover, immagini oltre 480 px con ritaglio in compilazione e spostamento di ogni livello con le frecce. Le nuove funzioni sono verificate sul PC.
+
+## Novità 2.3
+
+**Decimi Crono Pro fluidi, opzionali:** seleziona la lancetta piccola abbinata a **Decimi crono** e attiva **Movimento Fluido** nella sua scheda. Durante Running segue la frazione del tempo trascorso con target **25 fps**; disattivando il flag mantiene **dieci scatti al secondo**. La lancetta grande dei secondi del cronografo resta sempre a scatti da un secondo; ore/minuti crono restano a scatti. I progetti conservano i flag salvati: se quello dei decimi era già attivo, nella 2.3 diventa operativo. L'anteprima applica la stessa scelta.
+
+**Lettura dei decimi:** nella scheda delle lancette piccole con sorgente **Decimi crono · Start/Stop/Reset** o **Decimi continui** puoi scegliere **Singola cifra** oppure **Frazione completa**. Per i decimi le due letture coincidono sulla scala 0–9 (0,0–0,9 secondi); a 0,456 s la cifra dei decimi è 4 in entrambi i casi. La scelta viene salvata nel progetto, indipendentemente per stile, e conserva scala, calibrazione e flag Movimento Fluido. Con il movimento fluido la lancetta continua a passare fra le tacche: questo selettore non la rende a scatti. Centesimi/Millesimi mantengono le rispettive letture complete o a singola cifra. Il solo aggiornamento del selettore, nella stessa **versione 2.3**, conserva il runtime Lua; le successive protezioni della ripresa sono descritte sotto.
+
+**Aggiornamenti sincronizzati:** il callback dell'animazione aggiorna il clock e subito le lancette, eliminando il timer separato da 100 ms che poteva leggere una fase vecchia. Con un clock monotono disponibile, il callback legge quel clock senza cambiarne l'origine. Il runtime evita aggiornamenti ripetuti dello stesso intervallo e conserva la cache **write-on-change** per lancette e ombre. Non viene inventato un evento firmware `elapsedMs`: si usa `Anim.exec_cb`, già impiegato dal progetto e collaudato sull'S5.
+
+**Tacche nascoste escluse:** quando **Mostra tacche** è disattivato, non si genera né si compila la PNG trasparente `_ticks.png` e non si crea il suo oggetto grafico. Vale per analogico nativo e Crono Pro. Le tacche abilitate, anche in uno stile o nella schermata AOD, rimangono presenti.
+
+**Stop, POST e AOD:** tutte le letture usano lo stesso tempo congelato. I decimi fluidi possono fermarsi fra due tacche; la lettura numerica dei decimi mostra la cifra intera, mentre centesimi/millesimi mostrano le rispettive frazioni complete. Rientri coordinati da **720 ms**, archi calibrati e transizioni orarie conservano il funzionamento precedente. L'AOD interrompe gli aggiornamenti rapidi e mantiene la schermata nativa senza secondi né lancette crono.
+
+**Ore Crono e ripresa AOD — aggiornamento 2.3 del 12 ottobre:** le ore contano le ore intere (scala 0–12: 1 dopo 60 minuti, 2 dopo 120). Sul Bulova l'utente segnala ore ferme anche dopo un giro completo dei minuti. Il calcolo e i binding del binario risultano corretti; scegliere lo stesso modello del catalogo per ore/minuti crea comunque due oggetti indipendenti. Corretti due punti della ripresa: notifiche di pausa ripetute conservano il primo istante di sospensione; al risveglio le posizioni vengono reinviate una volta anche se il valore è invariato. La seconda protezione copre un eventuale disallineamento del renderer, simulato nei test ma non osservato direttamente sul firmware. **La causa precisa del sintomo reale resta da confermare con un nuovo test.** [Analisi Bulova](docs/VERIFICA_BULOVA_ORE_CRONO.md).
+
+**137 test mirati superati**, incluse 22 nuove prove su sospensione, ripresa, cache grafica e modello condiviso per ore/minuti. Conservati i 12 controlli dell'editor del selettore dei decimi. Le prove comprendono compilazioni binarie temporanee, clock diretto/fallback, ombre, riporti, POST, AOD e cambio scena. Catalogo controllato: **9 set personali, 623 modelli**, nessun aggiornamento da integrare. Nessun backup, ZIP dimostrativo o avvio dell'EXE in ambiente isolato. I nuovi rapporti di compilazione indicano la versione effettiva dell'applicazione, correggendo la vecchia etichetta fissa 2.1.
+
+**Fluidità della prima build 2.3 confermata sullo Xiaomi Watch S5:** decimi fluidi e nessun lag più riscontrato nella lancetta grande dei secondi. [Esito reale precedente](docs/hardware-test-2.3.json). Il successivo test lungo Bulova ha segnalato il problema delle ore: le protezioni della ripresa aggiunte il 12 ottobre richiedono una nuova verifica sull'orologio. Fps effettivi e consumo non sono stati misurati; il percorso nativo dei secondi dell'ora rimane invariato.
+
+Apri il progetto nella **2.3**, scegli il flag dei decimi, **riesporta lo ZIP** e reinstallalo. [Guida tecnica](docs/EDITOR_2.3.md) · [Test](docs/validation-editor-2.3.json) · [Editor](docs/editor-2.3.json) · [Verifica EXE](docs/executable-build-2.3.json).
+
+**Eseguibile 2.3 creato e verificato staticamente:** 760 risorse, tutti i 40 moduli Python del pacchetto incorporati, entry point e cinque moduli Lua corrispondenti ai sorgenti. Nessun avvio dell'EXE.
 
 ## Novità 2.1
 

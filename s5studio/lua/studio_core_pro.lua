@@ -69,6 +69,23 @@ function M:value(now)
     return self.elapsed
 end
 
+function M:refresh(now)
+    -- Consume the current clock in the animation callback that published it.
+    -- Gate by elapsed-time buckets, not by a second, drifting polling timer.
+    if not self.active or not self.screenOn or not now then return end
+    local bucket
+    if self.state=="running" then
+        local elapsed=math.max(self.elapsed,now-self.started)
+        local period=self.hasDeciseconds and (self.smoothDeciseconds and 40 or 100) or 1000
+        bucket=math.floor(elapsed/period)
+    elseif self.state=="rest" and self.main and self.main.smooth then
+        bucket=math.floor(now/40)
+    else return end
+    if self.frameState==self.state and self.frameBucket==bucket then return end
+    self.frameState=self.state;self.frameBucket=bucket
+    self:update(now)
+end
+
 function M:civilSecond(now)
     local value=self.civil.second
     if self.main and self.main.smooth and self.civilTick and now then
@@ -110,7 +127,9 @@ function M:update(now)
             local value=0
             if self.state=="running" or self.state=="reading" or self.state=="stopped" then
                 if source=="studioChronoDecisecond" then
-                    value=math.floor((elapsed%1000)/100)/10*view.valueRange
+                    local fraction=(elapsed%1000)/1000
+                    if not view.smooth then fraction=math.floor((elapsed%1000)/100)/10 end
+                    value=fraction*view.valueRange
                 else
                     local divisor=source=="studioChronoHour" and 3600000 or
                         (source=="studioChronoMinute" and 60000 or 1000)
@@ -126,14 +145,14 @@ function M:schedulers()
     if self.runTimer then self.runTimer:pause() end
     if self.restTimer then self.restTimer:pause() end
     local ticking=self.active and self.screenOn
-    if ticking and self.state=="running" and self.runTimer then self.runTimer:resume() end
-    if ticking and self.state=="rest" and self.main and self.main.smooth and self.restTimer then self.restTimer:resume() end
+    if ticking and not self.frameDriven and self.state=="running" and self.runTimer then self.runTimer:resume() end
+    if ticking and not self.frameDriven and self.state=="rest" and self.main and self.main.smooth and self.restTimer then self.restTimer:resume() end
     if self.clockAnimation then
         local run=ticking and (self.state=="running" or
             self.state=="arming" or self.state=="resetting" or
             self.state=="rest" and self.main and self.main.smooth) or false
         if run~=self.clockRunning then
-            if run then self.lastPhase=nil end
+            if run then self.lastPhase=nil;self.frameState=nil;self.frameBucket=nil end
             self.clockRunning=run;self.clockAnimation:set {run=run}
         end
     end
@@ -255,11 +274,14 @@ function M:screen(on,temporary)
         self.screenOn=on
         if not on then self.pendingTap=false end
     end
+    local resuming=on and not self.active
     self.active=on
     if not on then
         self.ignorePausedTap=temporary and self.transition~=nil
         self.transitionPaused=temporary and self.transition~=nil
-        if self.engineClock then self.sleepWall=wall() end
+        -- Repeated pause/resume callbacks while still in AOD must preserve the
+        -- first suspension time, including pageOnResume before screen ON.
+        if self.engineClock and not self.sleepWall then self.sleepWall=wall() end
         if not temporary and self.engineClock and not self.sleepWall and self.state=="running" then
             self.state="stopped" -- No usable sleep clock: do not invent elapsed time.
         end
@@ -283,6 +305,10 @@ function M:screen(on,temporary)
     else self.root:add_flag(lvgl.FLAG.HIDDEN) end
     self:schedulers()
     if on then
+        -- A resumed renderer may need its pose reasserted even when the data
+        -- is unchanged (hours can stay identical for an hour). Keep the cache
+        -- for normal frames and duplicate ON notifications.
+        if resuming then for _,view in ipairs(self.views) do view.rendered=nil end end
         if self.transition and self.transitionPaused then
             for _,entry in ipairs(self.transition.entries) do
                 entry.start=entry.view.last or entry.start;entry.destination=nil
@@ -313,6 +339,8 @@ function M:configure(root,hasDeciseconds)
         self.clockAnimation=nil;self.lastTap=nil;self.tapLocked=false;self.sleepWall=nil
     end
     self.configured=true;self.root=root;self.active=true;self.screenOn=true
+    self.hasDeciseconds=hasDeciseconds;self.smoothDeciseconds=false
+    self.frameState=nil;self.frameBucket=nil
     self.currentScene=true
     -- Independent styles may mix classic and Pro in a shared host VM. Keep
     -- the unchanged classic runtime suspended while this Pro scene owns it.
@@ -335,15 +363,25 @@ function M:configure(root,hasDeciseconds)
         -- Sample its phase, never assume elapsed time from callback counts.
         -- Wall time covers sleep, with the original one-second precision there.
         self.engineClock=true;self.clockMode="lvgl-animation-phase"
+    else self.clockMode=base.clockMode end
+    self.frameDriven=self.engineClock or hasDeciseconds
+    if self.frameDriven then
         self.clockAnimation=animationRoot():Anim {run=false,start_value=0,end_value=60000,
             duration=60000,repeat_count=-1,path="linear",
             exec_cb=function(_,phase)
                 if not M.active or M.root~=root then return end
-                if M.lastPhase then M.engineTick=M.engineTick+(phase-M.lastPhase)%60000 end
-                M.lastPhase=phase
+                if M.engineClock then
+                    if M.lastPhase then M.engineTick=M.engineTick+(phase-M.lastPhase)%60000 end
+                    M.lastPhase=phase
+                end
+                -- Direct clocks remain direct; animation phase is only a
+                -- frame notification in that mode, never a new time origin.
+                M:refresh(M:clock())
             end}
-    else self.clockMode=base.clockMode end
-    self.runTimer=lvgl.Timer {period=hasDeciseconds and 100 or 1000,
+    end
+    -- Slow/direct-clock scenes keep their existing timer path. These handles
+    -- stay paused in frame-driven scenes; no independent 100 ms timer exists.
+    self.runTimer=lvgl.Timer {period=1000,
         cb=function() if M.root==root then M:update(M:clock()) end end}
     self.restTimer=lvgl.Timer {period=40,cb=function() if M.root==root then M:update(M:clock()) end end}
     self.transitionAnimation=animationRoot():Anim {run=false,start_value=0,end_value=1000,
@@ -383,6 +421,7 @@ function M:configure(root,hasDeciseconds)
             M.active=false;M.screenOn=false
             if M.runTimer then M.runTimer:pause() end
             if M.restTimer then M.restTimer:pause() end
+            if M.clockAnimation then M.clockAnimation:set {run=false} end
             M.views={};M.state="rest";M.elapsed=0;M.started=0
             M.configured=false;M.main=nil;M.transition=nil;M.pendingTap=false;M.civilReady=false
             M.lastTap=nil;M.runTimer=nil;M.restTimer=nil;M.clockAnimation=nil
@@ -397,6 +436,7 @@ end
 
 function M:add(view)
     self.views[#self.views+1]=view
+    if view.source=="studioChronoDecisecond" and view.smooth then self.smoothDeciseconds=true end
     if view.source=="studioIntegratedSecond" then self.main=view end
     if view.source=="studioDecisecond" then
         local owner=self.root

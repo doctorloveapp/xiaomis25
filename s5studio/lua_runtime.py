@@ -130,7 +130,7 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
             if pair:bitmap(*pair,f'v{variant}_{e.id}_static.png')
             continue
         if e.kind=='analog':
-            bitmap(analog_face(e),e.x,e.y,f'v{variant}_{e.id}_ticks.png')
+            if e.show_ticks:bitmap(analog_face(e),e.x,e.y,f'v{variant}_{e.id}_ticks.png')
             lines+=['do','local root = lvgl.Object(scene, {x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})',
                     'root:clear_flag(lvgl.FLAG.SCROLLABLE)','root:clear_flag(lvgl.FLAG.CLICKABLE)','local groups = {{},{},{}}']
             analog_views=pro_views(e)
@@ -321,6 +321,25 @@ def interaction_report(project, data, manifest_bytes):
         result['limitations']=['Crono-Pro 1.2 collaudato sul S5; la 1.4 porta la durata comune dei rientri a 720 ms. Crono separato 1.0 collaudato.',
                                'Fallback fase Anim: precisione durante sospensioni limitata da os.time; senza clock civile non misura il tempo a schermo spento.',
                                'Cronografo locale: ricreazione della VM/cambio quadrante azzerano il conteggio. Consumo non misurato.']
+        if b'function M:refresh(now)' in pro_core:
+            deciseconds=[]
+            for i in range(max(1,len(project.variants))):
+                p=project.variant_project(i)
+                if not pro_enabled(p):continue
+                for e in p.elements:
+                    if e.visible and not e.aod and e.kind=='pointer' and e.source=='studioChronoDecisecond':
+                        binding=next((line for line in files[f'lua/studio_v{i}_scene.lua'].decode('utf8').splitlines()
+                                      if 'core:add {id="'+e.id+'"' in line),'')
+                        if f'smooth={str(e.smooth_seconds).lower()}' not in binding:
+                            raise ValueError('Movimento dei decimi Pro diverso dal progetto.')
+                        deciseconds.append({'variant':i,'id':e.id,'smooth':e.smooth_seconds,
+                                            'mode':'smooth' if e.smooth_seconds else 'stepped'})
+            result['chronoPro'].update(runningSmoothForcedOff=False,mainSecondsStepped=True,
+                chronoHoursMinutesStepped=True,runningPeriodMsWithSmoothDeciseconds=40,
+                decisecondMovement={'updateSource':'animation-exec-callback','independent100msTimer':False,
+                    'smoothTargetFps':25,'steppedPositionsPerSecond':10,'pointers':deciseconds,
+                    'clockSourcePreserved':True,'clockBasedElapsedBuckets':True,'aodStopsUpdates':True})
+            result['limitations'].insert(0,'Crono-Pro 2.3: callback sincronizzati e decimi fluidi opzionali a 25 fps da confermare sul S5; fps effettivi e consumo dipendono dal firmware.')
         from .motion import POST_SOURCES
         posts=[{'variant':i,'id':e.id,'source':e.source,'readout':e.post_readout,
                 'arc':e.pointer_arc,'valueStart':e.value_start,'valueEnd':e.value_start+e.value_range,

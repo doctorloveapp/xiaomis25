@@ -17,7 +17,7 @@ def pro_project(deci=True):
     p=template('Analogico');p.elements[0].chrono_pro=True;p.elements[0].smooth_seconds=True
     sources=[('studioChronoHour',12),('studioChronoMinute',60)]
     if deci:sources.append(('studioChronoDecisecond',10))
-    p.elements[:0]=[Element(kind='pointer',source=s,value_range=r,smooth_seconds=True,
+    p.elements[:0]=[Element(kind='pointer',source=s,value_range=r,smooth_seconds=s!='studioChronoDecisecond',
                           x=90+i*100,y=180,width=80,height=80) for i,(s,r) in enumerate(sources)]
     return p
 
@@ -63,7 +63,8 @@ def start(lua,core):
 def test_pro_running_is_quantized_cached_and_all_rollovers_work(tmp_path,deci):
     p,lua,core=pro_runtime(tmp_path,deci=deci)
     assert core.state=='rest' and view(core,'studioIntegratedSecond').last==47
-    start(lua,core);assert core.runTimer.period==(100 if deci else 1000)
+    start(lua,core);assert core.runTimer.period==1000
+    assert bool(core.runTimer.paused)==deci
     assert core.restTimer.paused
     base=core.started
     for elapsed in (99,100,456,1000,59999,60000,65000,3600000,3661456,43200000):
@@ -95,7 +96,7 @@ def test_pro_all_reset_hands_sweep_together_and_return_to_latest_civil_time(tmp_
         assert e.view.last!=starts[e.view.id]
         assert e.view.hands[1].value==pytest.approx(e.view.last*e.view.scale)
         assert e.view.hands[1].value==int(e.view.hands[1].value)
-    assert view(core,'studioChronoDecisecond').last==pytest.approx(8.5)
+    assert view(core,'studioChronoDecisecond').last==pytest.approx(8.64 if smooth else 8.5)
     finish(lua,core)
     assert core.state=='rest'
     for s in ('studioChronoHour','studioChronoMinute','studioChronoDecisecond'):assert view(core,s).last==0
@@ -395,9 +396,9 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
                 assert preview.convert('RGB').tobytes()==render(p.variant_project(i),circular=False).convert('RGB').tobytes()
     with zipfile.ZipFile(archive) as z:
         report=json.loads(z.read('build-report.json'));pro=report['interactive']['chronoPro']
-        assert pro['runningSmoothForcedOff'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
+        assert not pro['runningSmoothForcedOff'] and pro['mainSecondsStepped'] and pro['transitionSmoothForcedOn'] and pro['aodCancelsTransitions']
         assert pro['transitionDurationMs']==720 and pro['transitionTargetFps']==25
-        assert report['applicationVersion']=='2.1' and report['interactive']['appLayoutCount']==2
+        assert report['applicationVersion']=='2.3' and report['interactive']['appLayoutCount']==2
         assert all(len(s['pointerIds'])==6 for s in report['interactive']['luaArchitecture']['scenes'])
         for screen in inspect_binary(data)['screens']:
             tables=read_tables(data,screen['index'])
@@ -412,7 +413,7 @@ def test_pro_real_compiler_variants_aod_package_and_report(tmp_path,monkeypatch)
         for item in src.infolist():
             content=src.read(item)
             if item.filename=='build-report.json':
-                r=json.loads(content);r['interactive']['chronoPro']['runningSmoothForcedOff']=False;content=json.dumps(r).encode()
+                r=json.loads(content);r['interactive']['chronoPro']['runningSmoothForcedOff']=True;content=json.dumps(r).encode()
             dst.writestr(item,content)
     with zipfile.ZipFile(tampered) as z:
         with pytest.raises(ValueError,match='Rapporto'):validate_semantics(z)

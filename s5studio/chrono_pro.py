@@ -25,7 +25,7 @@ class ProPreview:
             elif v.source in POST_SOURCES:
                 value=post_value(v,self.elapsed) if self.state=='stopped' else v.value_start
             elif self.state in ('running','reading','stopped'):
-                value=lua_value(v.source,self.elapsed,False)
+                value=lua_value(v.source,self.elapsed,v.source=='studioChronoDecisecond' and v.smooth_seconds)
                 if v.source=='studioChronoDecisecond':value=value/10*v.value_range
                 value+=v.value_start
             else:value=v.value_start

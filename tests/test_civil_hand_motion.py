@@ -87,7 +87,7 @@ def test_pro_civil_flags_do_not_change_chrono_running_or_timer_periods(tmp_path)
     hour.smooth=True;minute.smooth=True;core.update(core,lua.globals().TICK)
     assert hour.last==pytest.approx(round((2+8/60+47/3600)*1000)/1000)
     assert minute.last==pytest.approx(round((8+47/60)*1000)/1000)
-    start(lua,core);assert core.restTimer.paused and core.runTimer.period==100
+    start(lua,core);assert core.restTimer.paused and core.runTimer.period==1000 and core.runTimer.paused
     lua.globals().TICK=core.started+65456;core.update(core,lua.globals().TICK)
     assert view(core,'studioIntegratedSecond').last==5
     assert view(core,'studioChronoMinute').last==1
@@ -120,7 +120,7 @@ def test_compiled_flags_mixed_styles_pro_manifest_original_geometry_and_aod(tmp_
     data,metadata=compose(compiled,p,reference,source.project_path.parent,[preview]*3,{},{},aod_preview=preview)
     assert inspect_binary(data)['screenCount']==6
     report=interaction_report(p,data,metadata['resources/manifest.xml'])
-    assert report['appLayoutCount']==5 and report['chronoPro']['runningSmoothForcedOff']
+    assert report['appLayoutCount']==5 and report['chronoPro']['mainSecondsStepped'] and not report['chronoPro']['runningSmoothForcedOff']
     assert report['civilHandMotion']['entries']==[[civil_entry(e,'hour',0)],[civil_entry(e,'minute',1)],[]]
     assert 'app/lua/studio_civil_hand.lua' in report['files']
     assert 'app/lua/studio_civil_clock.lua' in report['files'] and report['civilClock']['coherentSamples']

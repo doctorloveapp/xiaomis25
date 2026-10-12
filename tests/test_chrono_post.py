@@ -1,5 +1,6 @@
 """Execute the exported 2.0 Lua scene, including six measuring hands."""
-import os,subprocess,zipfile
+import os,shutil,subprocess,zipfile
+from pathlib import Path
 import xml.etree.ElementTree as ET
 import pytest
 from s5studio.model import Element,Project
@@ -132,11 +133,19 @@ def test_post_persistence_validation_and_aod_exclusion(tmp_path):
 
 def test_post_real_compiler_contains_scripts_and_reports_calibration(tmp_path):
     p=post_project(readout='digit',arc=True,ccw=True)
+    for e in p.elements:
+        if e.kind=='analog':e.show_ticks=False
+        if e.source=='studioChronoDecisecond':e.smooth_seconds=True
     source=generate_fprj(p,tmp_path/'source')
     output=tmp_path/'out';output.mkdir()
-    compiler=ROOT/'tools/easyface-4.23/Compiler.exe'
+    # Keep an ADB present beside the user's compiler out of source tests.
+    runtime=tmp_path/'runtime';runtime.mkdir()
+    for name in ('Compiler.exe','DeviceInfo.db'):
+        shutil.copy2(ROOT/'tools/easyface-4.23'/name,runtime/name)
+    compiler=runtime/'Compiler.exe'
+    env=dict(os.environ);env['PATH']=str(Path(os.environ.get('WINDIR','C:/Windows'))/'System32')
     result=subprocess.run([str(compiler),'-b',str(source.project_path),str(output),'post.face','167210065'],
-        cwd=compiler.parent,capture_output=True,stdin=subprocess.DEVNULL,timeout=30,
+        cwd=runtime,env=env,capture_output=True,stdin=subprocess.DEVNULL,timeout=30,
         creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
     assert result.returncode==0 and b'No Errors' in result.stdout+result.stderr
     data=complete_aod_apps((output/'post.face').read_bytes(),source.project_path)
@@ -154,5 +163,16 @@ def test_post_real_compiler_contains_scripts_and_reports_calibration(tmp_path):
     final,metadata=compose(data,p,reference,source.project_path.parent,[preview],{},{},aod_preview=preview)
     final_report=interaction_report(p,final,metadata['resources/manifest.xml'])
     assert final_report['chronoPro']['postReadout']['injected']
+    movement=final_report['chronoPro']['decisecondMovement']
+    assert movement['updateSource']=='animation-exec-callback'
+    assert movement['pointers'][0]['smooth'] and movement['smoothTargetFps']==25
+    assert not movement['independent100msTimer']
+    assert not any(name.endswith('_ticks.png') for name in final_report['files'])
+    assert not any(name.endswith('_ticks.png') for name in metadata)
     assert b'interactive="true"' in metadata['resources/manifest.xml']
     assert metadata['app/lua/studio_core_pro.lua']==(ROOT/'s5studio/lua/studio_core_pro.lua').read_bytes()
+    from copy import deepcopy
+    mismatched=deepcopy(p)
+    next(e for e in mismatched.elements if e.source=='studioChronoDecisecond').smooth_seconds=False
+    with pytest.raises(ValueError,match='Movimento dei decimi Pro diverso'):
+        interaction_report(mismatched,final,metadata['resources/manifest.xml'])

@@ -121,7 +121,7 @@ class StudioBridge(QObject):
             'studioChronoHour':'Ore trascorse su 12 ore; conteggio condiviso. Crono separato 1.0 già collaudato: Avvia → Ferma → Azzera. Con Crono Pro: Prepara → Avvia → Ferma → Rientro. Primo test Pro 1.1 superato; rientri sempre orari nella 1.2.',
             'studioChronoMinute':'Minuti trascorsi del cronografo (0–59). Tap sul quadrante: Avvia → Ferma → Azzera. Esclusa in AOD.',
             'studioChronoSecond':'Secondi trascorsi del cronografo (0–59). Crono normale: Avvia → Ferma → Azzera. Crono Pro: Prepara → Avvia → Ferma → Rientro; conteggio a scatti. Esclusa in AOD.',
-            'studioChronoDecisecond':'Decimi del tempo misurato dal cronografo: a zero a riposo, dieci scatti al secondo durante il conteggio, fermi su Stop e azzerati al Reset con rientro fluido. Usa l’unico flag generale Crono Pro della lancetta grande secondi nello stesso stile; questa voce sceglie solo il dato della lancetta piccola. Nascondere il gruppo grande non disattiva Crono Pro. Esclusa in AOD.'})
+            'studioChronoDecisecond':'Decimi del tempo misurato dal cronografo: a zero a riposo, dieci scatti al secondo oppure rotazione fluida con target 25 fps se attivi Movimento Fluido in questa scheda. Fermi sullo stesso istante di Stop dei POST e azzerati al Reset con rientro fluido. Richiede il flag generale Crono Pro della lancetta grande secondi nello stesso stile; i secondi grandi restano a scatti durante il conteggio. Nascondere il gruppo grande non disattiva Crono Pro. Esclusa in AOD.'})
         hand_previews={e.id:{hand:preview for hand in ('hour','minute','second') if (preview:=hand_preview(e,hand,resolved))}
                        for e in resolved.elements if e.kind in ('analog','pointer')}
         source_descriptions.update({
@@ -182,7 +182,8 @@ class StudioBridge(QObject):
             civil=((self.values.get('second') or 0)+self.values.get('__secondFraction',0))%60
             self.values['__proValues']=self.pro_preview.values(resolved,now,civil)
             self.chrono_state=self.pro_preview.state;self.chrono_elapsed=self.pro_preview.elapsed
-            self.motion_timer.setInterval(40 if self.pro_preview.transition else 100 if any(e.source=='studioChronoDecisecond' for e in resolved.elements) else 200)
+            deciseconds=[e for e in resolved.elements if e.visible and not e.aod and e.source=='studioChronoDecisecond']
+            self.motion_timer.setInterval(40 if self.pro_preview.transition or self.chrono_state=='running' and any(e.smooth_seconds for e in deciseconds) else 100 if deciseconds else 200)
         else:self.values.pop('__proValues',None);self.motion_timer.setInterval(200)
 
     def autosave(self):
@@ -666,7 +667,7 @@ class StudioBridge(QObject):
 class MainWindow(QMainWindow):
     def __init__(self,*,smoke=False):
         super().__init__()
-        self.setWindowTitle('S5 Studio 2.1 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle('S5 Studio 2.3 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)
