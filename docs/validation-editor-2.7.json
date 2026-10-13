@@ -56,9 +56,10 @@
   "notes": [
     "The reported ordinary-seconds stopping at chronograph start was withdrawn by the user; no chronograph-controller change was made for that report.",
     "Q8 fractional rounding is reproduced in source tests; raw Watch S5 counter samples were not acquired.",
-    "Animation configuration now follows the existing S5-tested Pro transition pattern; the corrected small-hand path still needs a device test.",
+    "Animation configuration now follows the existing S5-tested Pro transition pattern; the corrected small-hand path was subsequently confirmed by the user on 2026-10-13, without independent measurements.",
     "The user renamed the updated 2.6 executable to S5Studio-2.6.exe; that file is used for unchanged-runtime comparison.",
-    "No .gitignore modification, regression backup, executable launch or retained demonstration watchface ZIP."
+    "No .gitignore modification, regression backup, executable launch or retained demonstration watchface ZIP.",
+    "Automatic hardwareVerified remains false: the exporter does not perform a physical test. Owner-reported confirmation is recorded separately."
   ],
   "bundle": {
     "status": "passed",
@@ -133,5 +134,9 @@
     "handCatalogMatchesSources": true,
     "discCatalogMatchesSources": true,
     "regressionBackupCreated": false
-  }
+  },
+  "userReportedHardwareTestPassed": true,
+  "hardwareConfirmationReport": "docs/hardware-test-2.7.json",
+  "userReportedDeviceModel": "M2530W1",
+  "userReportedFirmware": "3.221.024"
 }

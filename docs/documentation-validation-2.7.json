@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-13",
+  "applicationVersion": "2.7",
+  "status": "passed-documentation-checks",
+  "markdownDocumentsChecked": 11,
+  "localLinksChecked": 315,
+  "headingAnchorsChecked": 41,
+  "tablesRendered": 23,
+  "executiveSummaryWordCounts": {
+    "README.md": 40,
+    "README.it.md": 41
+  },
+  "requiredSectionsInBothLanguages": true,
+  "licenseSectionLast": true,
+  "historicalContentPreservedWithRelocatedLinks": true,
+  "bannerSvgParsedAndRendered": true,
+  "externalUrlsFormatCheckedOnly": 12,
+  "externalUrlsAvailabilityVerified": false,
+  "deliveredExecutableSha256": "f955eb7d34278e0715646c3c7047232759f6e5d91da918958f61f9e786115205",
+  "executableUnchanged": true,
+  "sourceCodeChanged": false,
+  "gitignoreChanged": false,
+  "executableLaunched": false,
+  "executableRebuilt": false,
+  "newWatchfaceZipCreated": false,
+  "regressionBackupCreated": false,
+  "handSetsChecked": 11,
+  "newOrUpdatedHandSets": false,
+  "firmwareConfirmedByUser": "3.221.024",
+  "repoPublicationPerformed": false,
+  "redistributionPermissionsForPersonalBundleEstablished": false,
+  "notes": [
+    "Documentation-only verification; the 114 source tests are previously recorded results, not rerun in this task.",
+    "Source-code MIT licensing is distinct from compiler/template/artwork distribution rights.",
+    "Current repository release URL derived from git origin; public release availability was not verified.",
+    "Hardware confirmation and firmware version were supplied by the owner; no independent measurement."
+  ]
+}

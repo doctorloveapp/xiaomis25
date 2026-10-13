@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 0 1200 240" role="img" aria-labelledby="title desc">
+  <title id="title">S5 Studio</title>
+  <desc id="desc">Watchface engineering for Xiaomi Watch S5. Original S5 Studio wordmark with an analog watch symbol.</desc>
+  <rect width="1200" height="240" rx="20" fill="#0f172a"/>
+  <circle cx="135" cy="120" r="77" fill="#17243b" stroke="#334155" stroke-width="2"/>
+  <circle cx="135" cy="120" r="62" fill="none" stroke="#64748b" stroke-width="2"/>
+  <path d="M135 66v9m54 45h-9m-45 54v-9m-54-45h9" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+  <path d="M135 120l-27-27m27 27l33-19" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round"/>
+  <path d="M135 128V80" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="135" cy="120" r="6" fill="#38bdf8"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="260" y="115" fill="#f8fafc" font-size="58" font-weight="700">S5 Studio</text>
+    <text x="264" y="157" fill="#cbd5e1" font-size="23">Watchface engineering for Xiaomi Watch S5</text>
+    <text x="264" y="192" fill="#38bdf8" font-size="15" letter-spacing="2">VISUAL EDITOR / NATIVE BUILD / LUA RUNTIME</text>
+  </g>
+</svg>

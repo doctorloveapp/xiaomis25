@@ -2,6 +2,8 @@
 
 S5 Studio usa codice applicativo originale. I formati e gli strumenti pubblici indicati nel piano sono stati studiati per interoperabilità; i sorgenti Mi Create e UnpackMiColorFace non sono incorporati nell'applicazione.
 
+**Ambito della pubblicazione:** la licenza MIT del codice applicativo non concede diritti aggiuntivi su compilatore, template, font o grafiche di terzi. Il bundle autonomo attuale è personale; la documentazione pubblica distingue quel bundle dai sorgenti. I cataloghi derivati tracciati in `resources/hand-sets/` e `resources/disks/` richiedono una verifica propria dei permessi prima della pubblicazione. [Ambito e componenti](docs/DISTRIBUTION.md).
+
 - **PySide6 / Qt 6.9.1 / Shiboken6** — Qt Project, https://www.qt.io/qt-for-python. Dipendenze esterne; le licenze installate sono conservate in `licenses/`. Il pacchetto Python sorgente rimane disponibile e l'app non pone restrizioni alla modifica o al debugging di queste librerie.
 - **Pillow 11.3.0** — https://python-pillow.org. Licenza Pillow conservata in `licenses/`, compresi gli avvisi delle librerie di immagini quando presenti.
 - **Python 3.13.5** — Python Software Foundation, https://www.python.org. Il runtime viene incluso da PyInstaller; licenza conservata in `licenses/`.
@@ -35,3 +37,9 @@ Il manifest `docs/runtime-manifest-0.9.json` elenca tutti i file effettivamente 
 Il runtime `s5studio/lua/studio_core.lua` della 0.10 è codice originale Studio. Il framework usa le API mostrate negli esempi pubblici m0tral/MiWatchLuaWatchfaces; nessun modulo Lua di terzi è incluso. Lupa 2.6 serve solo per i test di sviluppo e non viene incluso nella distribuzione.
 
 La 0.11 usa un’animazione LVGL ciclica da 1000 ms per i decimi e il fallback `os.time` per il cronografo. Riferimenti API consultati: [ImageBarTest](https://github.com/m0tral/MiWatchLuaWatchfaces/blob/master/MiBand9Pro/ImageBarTest/app/lua/main.lua), [AnalogTimeAnimated](https://github.com/m0tral/MiWatchLuaWatchfaces/blob/master/MiBand8Pro/AnalogTimeAnimated/app/lua/image.lua) e [TempControl](https://github.com/m0tral/MiWatchLuaWatchfaces/blob/master/MiBand9/TempControl/app/lua/main.lua). Sono esempi per altri modelli della famiglia Xiaomi, non prove hardware sul S5. Il codice Studio rimane originale.
+
+## Cataloghi e documentazione 2.7
+
+La build personale 2.7 comprende 595 modelli originali più 34 modelli da 11 set personali, per 629 modelli di lancette, e 90 dischi con 516 immagini. I dischi recuperati comprendono bussole, sole/luna/stelle, rotori e grafiche circolari; comprendono inoltre importazioni fornite dall'utente. Origini e hash sono registrati nei cataloghi e nei rapporti in `docs/library-analysis/`. I diritti delle grafiche restano dei rispettivi titolari; non è stata stabilita una licenza pubblica unica per questi asset.
+
+Il banner `docs/assets/s5-studio-banner.svg` è una grafica vettoriale originale Studio, inclusa nella licenza MIT del progetto. Non incorpora bitmap o file font di terzi. I nuovi documenti inglesi e italiani sono documentazione originale del progetto. Marchi e nomi di modelli sono riferimenti identificativi e non indicano affiliazione o approvazione.

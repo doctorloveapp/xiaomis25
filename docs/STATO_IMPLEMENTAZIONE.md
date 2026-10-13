@@ -1,4 +1,6 @@
-# Stato operativo — S5 Studio 2.1
+# Stato operativo — S5 Studio 2.7
+
+Aggiornamento documentazione (2026-10-13): **versione 2.7 confermata funzionante dall'utente su Xiaomi Watch S5 M2530W1 / firmware 3.221.024**. Risolte nella consegna 2.7 la lettura Q8 delle ore 24 e l'animazione dei secondi piccoli nella scena condivisa; 114 test mirati, esportazione temporanea di due stili/AOD e verifica statica del bundle registrati. Il riscontro hardware è distinto dai controlli automatici, senza misure indipendenti di precisione/fps/consumo. README inglese e italiano, guide internazionali e storico riorganizzati; codice, EXE e `.gitignore` invariati. [Indice](README.md), [conferma hardware](hardware-test-2.7.json), [guida 2.7](EDITOR_2.7.md), [verifiche](validation-editor-2.7.json).
 
 Aggiornamento 2.1 (2026-10-11): categoria Decimi nei set piccoli con PNG/pivot/ombre propri, mantenimento della sorgente continua o Crono Pro già configurata. Cartelle di caricamento/salvataggio ricordate per categoria e tra gli avvii, senza modificare le preferenze su Annulla. Lettura congelata di ore/minuti/secondi e frazioni complete accanto a Crono fermo, comune al crono classico e Pro; i POST terminano il posizionamento prima di mostrarla. Integrato Bulova_lancette_piccole: nove set personali, 623 modelli. Runtime Lua e temporizzazioni del dispositivo invariati. [Guida](EDITOR_2.1.md), [controlli](validation-editor-2.1.json), [eseguibile](executable-build-2.1.json).
 

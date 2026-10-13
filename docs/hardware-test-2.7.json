@@ -1,0 +1,19 @@
+{
+  "applicationVersion": "2.7",
+  "date": "2026-10-13",
+  "device": "Xiaomi Watch S5 M2530W1",
+  "status": "passed-as-reported-by-user",
+  "source": "perfetto adesso funziona ogni cosa.",
+  "scope": "Overall confirmation after delivery of 2.7 correcting the civil 24-hour hand and smooth small seconds. No separate per-feature measurement was supplied.",
+  "deliveredExecutableSha256": "f955eb7d34278e0715646c3c7047232759f6e5d91da918958f61f9e786115205",
+  "executableIdentity": "Hash of the delivered local 2.7 build; the installed watchface and executed file were not independently acquired.",
+  "installedFirmwareVersion": "3.221.024",
+  "deviceAndFirmwareSource": "il mio S5: Modello M2530W1 versione 3.221.024",
+  "deviceAndFirmwareConfirmationDate": "2026-10-13",
+  "companionAppVersionIndependentlyConfirmed": false,
+  "independentPhysicalTestByAgent": false,
+  "hardwareFpsOrEnergyMeasured": false,
+  "firmwareRawSamplesCaptured": false,
+  "codeChangedForThisConfirmation": false,
+  "executableRebuiltForThisConfirmation": false
+}
