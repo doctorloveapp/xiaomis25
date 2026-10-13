@@ -11,8 +11,9 @@ if (-not $python) {
 }
 # Desktop distribution only. Watchface ZIP surgery is implemented by
 # s5studio/semantic_package.py and is shared by the GUI and apply-template CLI.
-# The private 2.8 runtime includes the supplied personal catalogs/template and
-# the locally verified compiler. No project/recovery/corpus/ADB is bundled.
+# The 2.8 runtime includes the supplied catalogs/template, verified compiler
+# and only the explicitly authorized Bulova example. No personal settings,
+# recovery, other projects, original corpus or ADB is bundled.
 & $python -X utf8 main.py template-info --report (Join-Path $projectRoot 'docs/template-build-profile.json') | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Template funzionante mancante o modificato.' }
 if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'frontend/tailwind.css'))) { throw 'CSS Tailwind mancante: esegui npm ci e npm run build nella cartella frontend.' }

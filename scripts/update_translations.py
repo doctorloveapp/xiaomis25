@@ -115,6 +115,36 @@ def collect():
                 if item:
                     found.add(item)
                     if name=='ui.py':qt_dynamic.add(item)
+    # These presentation strings are composed by Python, so literals alone
+    # cannot recover their final message boundaries.
+    sys.path.insert(0,str(ROOT))
+    from s5studio.render import SCENARIOS
+    from s5studio.model import SOURCES
+    from s5studio.source_help import source_choices
+    from s5studio.moon_disk import LABEL as moon_label
+    labels,descriptions=source_choices(SOURCES)
+    found.update([*SCENARIOS,*labels.values(),*descriptions.values(),moon_label])
+    # Preserve whole formatted validation/error messages shown by the bridge.
+    # Placeholder values remain opaque (paths, project/layer names, IDs).
+    for path in (ROOT/'s5studio').glob('*.py'):
+        tree=ast.parse(path.read_text(encoding='utf8'))
+        for node in ast.walk(tree):
+            call=node.exc if isinstance(node,ast.Raise) else node if isinstance(node,ast.Call) else None
+            if not isinstance(call,ast.Call) or not call.args:continue
+            error=isinstance(call.func,ast.Name) and call.func.id in ('ValueError','FileNotFoundError','RuntimeError')
+            validation=isinstance(call.func,ast.Attribute) and isinstance(call.func.value,ast.Name) and call.func.value.id in ('errors','issues') and call.func.attr=='append'
+            progress=isinstance(call.func,ast.Name) and call.func.id in ('progress','notify')
+            if not error and not validation and not progress:continue
+            argument=call.args[0]
+            if isinstance(argument,ast.JoinedStr):
+                parts=[];index=0
+                for part in argument.values:
+                    if isinstance(part,ast.Constant):parts.append(str(part.value))
+                    else:parts.append('{v'+str(index)+'}');index+=1
+                item=message(''.join(parts))
+            elif isinstance(argument,ast.Constant) and isinstance(argument.value,str):item=message(argument.value)
+            else:item=None
+            if item:found.add(item)
     library=ROOT/'data/watchface-library.json'
     if library.is_file():
         for value in json.loads(library.read_text(encoding='utf8')).get('sources',{}).values():

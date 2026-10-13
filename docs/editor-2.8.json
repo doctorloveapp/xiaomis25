@@ -11,9 +11,10 @@
     "dynamic-hand-controls-and-smooth-flags-localized",
     "switch-back-restores-original-italian",
     "parameterized-layer-count-localized",
-    "new-window-loads-language-from-settings"
+    "new-window-loads-language-from-settings",
+    "visible-example-button-opens-bulova-as-independent-editable-document"
   ],
-  "passed": 10,
+  "passed": 11,
   "sourceEditorTested": true,
   "executableLaunched": false,
   "watchfaceZipCreated": false

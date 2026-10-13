@@ -1,6 +1,6 @@
 {
   "applicationVersion": "2.8",
-  "scope": "personal-offline-runtime-from-user-provided-corpus",
+  "scope": "offline-runtime-with-curated-catalogs-and-bulova-example",
   "hands": 595,
   "bundledHandSets": 11,
   "bundledHands": 34,
@@ -8,11 +8,11 @@
     "status": "passed",
     "sourcesChecked": [
       {
-        "catalog": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\data\\hand-sets\\catalog.json",
+        "catalog": "personal-hand-sets/1/catalog.json",
         "status": "absent"
       },
       {
-        "catalog": "C:\\Users\\hp_wi\\AppData\\Local\\S5Studio\\hand-sets\\catalog.json",
+        "catalog": "personal-hand-sets/2/catalog.json",
         "status": "checked",
         "sets": 11
       }
@@ -1311,23 +1311,24 @@
     "tools/easyface-4.23/DeviceInfo.db": "7fde4b233d75e36985f709e84ea4c164c494b02d109bcdb5f50f0ab76e6c3f76",
     "tools/toolchain.json": "97d3cf009ddf02d17b1eb5eeba7b163f7c50093a75ff052d4cdb694fc15a4ad6",
     "quadrante_funzionante.zip": "5c7a3bb0c81762e7bb0749fd1b1cd941e0578d8e0eec0d567b37c44dd6695627",
-    "THIRD_PARTY_NOTICES.md": "aa72c35fce3e94b195f6adf86bdee5400f5b27bfe11fbb107c7df36290f27729",
+    "THIRD_PARTY_NOTICES.md": "417185fa9bea8bdaa0f0aad2b6ab29c6b853cbf4e8b95de1214a3722bdefcd81",
     "LICENSE": "8228f2ed9787ffe4083b3569810ff3f6096d31258744c80167701e3edaab7680",
     "frontend/index.html": "0bbf3e806f75f22f5881de0d67c2fda6ea9bf2c6e6cac66dade49f6b33d97c12",
-    "frontend/app.js": "30ff67a02633005c9606edae18545860715b12e089751688642aedcac908623a",
-    "frontend/i18n.js": "c0992bb77d2d3a306b49c0ece34421c283ce994c7e6e86a34b7c1e8bc6565be4",
-    "frontend/hand-sets.js": "f85488ec02a8a75900df2cb41d5be64cf5dbd191720ca0e85bb6008b36c922d4",
-    "frontend/disks.js": "62681f770b914ec000eb8c8d5cd39847d730f1b42f768af0c78c1ae9d144812a",
-    "frontend/editor-controls.js": "a4cb0b0faa8e617840376785113880f244f2c7c3d65ceb799162dd8469f7423a",
+    "frontend/app.js": "746bbbb2479ad843dcb9e213cd8375c66c4ef12df0d6cc516e3090a02b12d275",
+    "frontend/i18n.js": "c2c67403ed8b7adf6498904aa95efc319d18a523fabede8f4dc1ceaeda933123",
+    "frontend/hand-sets.js": "76f15633afc367f57763ddf50f8e84921223cd022f28a80f67770639183eb1fb",
+    "frontend/disks.js": "67dfaf4c3f73931b28822801d7d7ce2526dae201c8ef152a307b32ad05dfe2d0",
+    "frontend/editor-controls.js": "a3926de21c9ba904101922eb60363863aee2c6f2f5920129146f8c08f019445e",
     "frontend/editor-precision.js": "78d58d40388dfdb03d5c387c7eef979909b478aaca5af4c38179d30c06a6868f",
     "frontend/editor-multi.js": "036597d2123e4b1ed693b97b0c39afdf83072117b48ff370795495a2866bd79b",
     "frontend/studio.css": "50be6b451ed3cfdc339498e1d8a8bd84a8b5b699df4fc5266221a1e27fd2ebb8",
     "frontend/tailwind.css": "887cdc40bd21bb54b09765678e70e57d04757f566a4fa2cef5588796ee51e508",
-    "locales/it.json": "319018ac4da3effab2010ad7afebe0c790a58b9946ac4b2c89fc66b8f482559f",
-    "translations/s5studio_it.qm": "ea4f8889f5b1cc62781792538298fb7d8d9c4b74830a0507d71c7b7ce03aff74",
-    "locales/en.json": "6b4168af46eb0ec7491423c13b03af4dbdc4b344bd9f511e106b5598430f40b4",
-    "translations/s5studio_en.qm": "f6d21ad653fec390965966a88c23164b485f8935e04e4910145ef473018d6744",
+    "locales/it.json": "94294334535eb264b9bc726000234b12ea716b6a390179e9762291832b46abfa",
+    "translations/s5studio_it.qm": "c2732f9355dd1b1526e70b6a1cca513b60616eabdcc4d305c35b58234195652b",
+    "locales/en.json": "a88210a8644200cd4ff1f8368f578bab843dd13ef98fb336e4014d7bdad98e0b",
+    "translations/s5studio_en.qm": "4cb7d087b26a7e10d49207f5786dcb3bb13667f4f6259fc247945040e2e6c2e7",
     "translations/qtbase_it.qm": "7808ed542a7833c4bd94ec8bdfbbca00bb4f2fe15979b9121ce3249323687300",
+    "resources/examples/Bulova.s5faceproj": "f94209a49a68931e1f54b9e7d163fa597da41dcdae02eca35f4d2b57a95e538d",
     "s5studio/lua/studio_live_data.lua": "50f392780dc98ad38cc98efff59a22f84320b1b3f9bdd75691c0ebd39468aac4",
     "s5studio/lua/studio_core.lua": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9",
     "s5studio/lua/studio_core_pro.lua": "3f197bc740de9f9e2058dce8e67bb78dad07bff84c15ecc60ae88eced9627287",
@@ -1347,9 +1348,15 @@
     "licenses/shiboken6-LicenseRef-Qt-Commercial.txt": "4f54763ac0fe2abd8f7f8d8fe370a94a08ebf84786aa0b91045bd6628deb08a3",
     "licenses/Tailwind-MIT.txt": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985"
   },
+  "exampleProjects": [
+    "resources/examples/Bulova.s5faceproj"
+  ],
+  "personalSettingsIncluded": false,
   "excluded": [
-    "projects",
+    "all-other-personal-projects",
     "recovery",
+    "settings",
+    "dialog-history",
     "hardware-test-projects",
     "original-watchface-corpus",
     "ADB",

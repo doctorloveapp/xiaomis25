@@ -18,6 +18,12 @@ status on 2026-10-12 and are retained as dated history.
 
 Italiano predefinito e inglese selezionabile dalla barra superiore, con preferenza applicativa persistente. Cataloghi Qt TS/QM e JSON frontend offline, estrazione automatizzata, dati utente protetti. 43 test mirati e 10 controlli editor superati; sette moduli Lua invariati. [Guida](I18N_2.8.md) · [Verifiche](validation-editor-2.8.json).
 
+### Rifinitura 2.8 — release internazionale
+
+Completate le etichette inglesi composte e i testi dinamici di cataloghi, tooltip, importazione, validazione, compilazione e cronografo. 54 test mirati, 11 controlli editor e 161 contesti di localizzazione superati. Italiano predefinito; nomi, percorsi e dati utente conservati.
+
+**Solo Bulova** incluso come esempio, apribile da Progetto e AOD e salvabile come copia. Due stili e 14 risorse. Gli altri progetti, preferenze, recuperi e cronologie sono esclusi; i progetti esistenti restano apribili. Cataloghi lancette/dischi conservati. Il nuovo eseguibile 2.8 è verificato staticamente; la prova isolata precedente resta riferita al suo specifico hash. [Verifiche](validation-editor-2.8.json) · [Copertura](localization-coverage-2.8.json).
+
 ## Novità 2.7
 
 **Ore 24 (giorno/notte):** corretto l'arrotondamento nel collegamento delle lancette normali inserite nella scena Lua. Il contatore Q8 viene troncato all'ora intera, come nel clock civile già collaudato: un valore 14,75 indica ancora le 14, non le 15. Lo stesso criterio vale per minuti e secondi. Nessuna correzione artificiale del fuso orario; scala 24, pivot e calibrazione del progetto rimangono quelli salvati. L'anteprima segue la stessa lettura. La riproduzione del difetto nei test usa valori frazionari; il dato grezzo del firmware non è stato acquisito.

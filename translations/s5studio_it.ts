@@ -492,8 +492,8 @@ Il comportamento del dato assente sul firmware deve ancora essere provato.</tran
       <translation>Attendi il termine della compilazione prima di chiudere.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="809" />
-      <location filename="../s5studio/web_ui.py" line="820" />
+      <location filename="../s5studio/web_ui.py" line="823" />
+      <location filename="../s5studio/web_ui.py" line="834" />
       <source>S5 Studio 2.8 — Xiaomi Watch S5</source>
       <translation>S5 Studio 2.8 — Xiaomi Watch S5</translation>
     </message>
@@ -1292,260 +1292,328 @@ Cartella:</translation>
       <translation>Apri progetto</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="412" />
+      <location filename="../s5studio/web_ui.py" line="400" />
+      <source>Esempio non disponibile.</source>
+      <translation>Esempio non disponibile.</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="423" />
       <source>Componente non supportato.</source>
       <translation>Componente non supportato.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="416" />
+      <location filename="../s5studio/web_ui.py" line="427" />
       <source>Catalogo dischi non disponibile.</source>
       <translation>Catalogo dischi non disponibile.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="421" />
+      <location filename="../s5studio/web_ui.py" line="432" />
       <source>Catalogo bussole non disponibile.</source>
       <translation>Catalogo bussole non disponibile.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="425" />
+      <location filename="../s5studio/web_ui.py" line="436" />
       <source>Scegli una forma rettangolare o circolare.</source>
       <translation>Scegli una forma rettangolare o circolare.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="438" />
+      <location filename="../s5studio/web_ui.py" line="449" />
       <source>Proprietà non supportata.</source>
       <translation>Proprietà non supportata.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="449" />
+      <location filename="../s5studio/web_ui.py" line="460" />
       <source>Spostamento non valido.</source>
       <translation>Spostamento non valido.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="480" />
-      <location filename="../s5studio/web_ui.py" line="560" />
+      <location filename="../s5studio/web_ui.py" line="491" />
+      <location filename="../s5studio/web_ui.py" line="571" />
       <source>Limite Studio: {v0} slot.</source>
       <translation>Limite Studio: {v0} slot.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="491" />
+      <location filename="../s5studio/web_ui.py" line="502" />
       <source>Seleziona un livello immagine.</source>
       <translation>Seleziona un livello immagine.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="503" />
+      <location filename="../s5studio/web_ui.py" line="514" />
       <source>Seleziona una bussola.</source>
       <translation>Seleziona una bussola.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="507" />
-      <location filename="../s5studio/web_ui.py" line="720" />
+      <location filename="../s5studio/web_ui.py" line="518" />
+      <location filename="../s5studio/web_ui.py" line="734" />
       <source>Lancetta non valida.</source>
       <translation>Lancetta non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="516" />
+      <location filename="../s5studio/web_ui.py" line="527" />
       <source>Applica la grafica prima di scegliere il suo pivot.</source>
       <translation>Applica la grafica prima di scegliere il suo pivot.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="517" />
+      <location filename="../s5studio/web_ui.py" line="528" />
       <source>Clicca un punto valido nella grafica della lancetta.</source>
       <translation>Clicca un punto valido nella grafica della lancetta.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="527" />
+      <location filename="../s5studio/web_ui.py" line="538" />
       <source>Importa font</source>
       <translation>Importa font</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="527" />
+      <location filename="../s5studio/web_ui.py" line="538" />
       <source>Font (*.ttf *.otf)</source>
       <translation>Font (*.ttf *.otf)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="533" />
+      <location filename="../s5studio/web_ui.py" line="544" />
       <source>Proprietà variante non valida.</source>
       <translation>Proprietà variante non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="545" />
+      <location filename="../s5studio/web_ui.py" line="556" />
       <source>Sfondo variante mancante.</source>
       <translation>Sfondo variante mancante.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="570" />
+      <location filename="../s5studio/web_ui.py" line="581" />
       <source>Proprietà slot non valida.</source>
       <translation>Proprietà slot non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="574" />
+      <location filename="../s5studio/web_ui.py" line="585" />
       <source>Opzione non disponibile.</source>
       <translation>Opzione non disponibile.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="580" />
+      <location filename="../s5studio/web_ui.py" line="591" />
       <source>Impostazione non valida.</source>
       <translation>Impostazione non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="594" />
+      <location filename="../s5studio/web_ui.py" line="605" />
       <source>Valore di simulazione fuori intervallo.</source>
       <translation>Valore di simulazione fuori intervallo.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="600" />
+      <location filename="../s5studio/web_ui.py" line="611" />
       <source>Il giorno non esiste nel mese e anno simulati. Scegli una data valida.</source>
       <translation>Il giorno non esiste nel mese e anno simulati. Scegli una data valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="609" />
+      <location filename="../s5studio/web_ui.py" line="620" />
       <source>Seleziona EasyFace 4.23</source>
       <translation>Seleziona EasyFace 4.23</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="609" />
+      <location filename="../s5studio/web_ui.py" line="620" />
       <source>Compilatore (Compiler.exe)</source>
       <translation>Compilatore (Compiler.exe)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="614" />
+      <location filename="../s5studio/web_ui.py" line="625" />
       <source>Compilazione già in corso.</source>
       <translation>Compilazione già in corso.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="615" />
+      <location filename="../s5studio/web_ui.py" line="626" />
       <source>Cartella di esportazione</source>
       <translation>Cartella di esportazione</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="623" />
+      <location filename="../s5studio/web_ui.py" line="634" />
       <source>Salva anteprima</source>
       <translation>Salva anteprima</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="623" />
+      <location filename="../s5studio/web_ui.py" line="634" />
       <source>PNG (*.png)</source>
       <translation>PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="676" />
+      <location filename="../s5studio/web_ui.py" line="678" />
+      <source>ZIP pronto: {path}</source>
+      <translation>ZIP pronto: {path}</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="678" />
+      <source>Compilazione interrotta.</source>
+      <translation>Compilazione interrotta.</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="687" />
       <source>Proprietà del set non valida.</source>
       <translation>Proprietà del set non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="677" />
+      <location filename="../s5studio/web_ui.py" line="688" />
       <source>Nome del set troppo lungo.</source>
       <translation>Nome del set troppo lungo.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="678" />
+      <location filename="../s5studio/web_ui.py" line="689" />
       <source>Tipo del set non valido.</source>
       <translation>Tipo del set non valido.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="680" />
+      <location filename="../s5studio/web_ui.py" line="691" />
       <source>Decimi, Centesimi e Millesimi appartengono ai set piccoli. Rimuovi queste grafiche prima di passare a un set principale.</source>
       <translation>Decimi, Centesimi e Millesimi appartengono ai set piccoli. Rimuovi queste grafiche prima di passare a un set principale.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="684" />
+      <location filename="../s5studio/web_ui.py" line="695" />
       <source>Lancetta del set non valida per questo tipo di set.</source>
       <translation>Lancetta del set non valida per questo tipo di set.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="685" />
+      <location filename="../s5studio/web_ui.py" line="696" />
       <source>Importa prima la lancetta, poi la sua ombra.</source>
       <translation>Importa prima la lancetta, poi la sua ombra.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="688" />
-      <location filename="../s5studio/web_ui.py" line="751" />
-      <source>Importa PNG </source>
-      <translation>Importa PNG </translation>
+      <location filename="../s5studio/web_ui.py" line="698" />
+      <source>ore</source>
+      <translation>ore</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="688" />
+      <location filename="../s5studio/web_ui.py" line="698" />
+      <source>minuti</source>
+      <translation>minuti</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="698" />
+      <source>secondi</source>
+      <translation>secondi</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="699" />
+      <source>decimi</source>
+      <translation>decimi</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="699" />
+      <source>centesimi</source>
+      <translation>centesimi</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="700" />
+      <source>millesimi</source>
+      <translation>millesimi</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="701" />
+      <source>datario</source>
+      <translation>datario</translation>
+    </message>
+    <message>
+      <source>Importa PNG </source>
+      <translation type="vanished">Importa PNG </translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="702" />
       <source>Lancette PNG (*.png)</source>
       <translation>Lancette PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="699" />
+      <location filename="../s5studio/web_ui.py" line="702" />
+      <source>Importa PNG ombra — {role}</source>
+      <translation>Importa PNG ombra — {role}</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="702" />
+      <source>Importa PNG — {role}</source>
+      <translation>Importa PNG — {role}</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="713" />
       <source>Disattiva Genera ombre per rimuovere le ombre automatiche.</source>
       <translation>Disattiva Genera ombre per rimuovere le ombre automatiche.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="704" />
+      <location filename="../s5studio/web_ui.py" line="718" />
       <source>Il pivot automatico segue la lancetta. Regola lo spostamento nelle impostazioni Genera ombre.</source>
       <translation>Il pivot automatico segue la lancetta. Regola lo spostamento nelle impostazioni Genera ombre.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="706" />
+      <location filename="../s5studio/web_ui.py" line="720" />
       <source>Proprietà della PNG non valida.</source>
       <translation>Proprietà della PNG non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="716" />
+      <location filename="../s5studio/web_ui.py" line="730" />
       <source>Comando set lancette non valido.</source>
       <translation>Comando set lancette non valido.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="722" />
+      <location filename="../s5studio/web_ui.py" line="736" />
       <source>Seleziona un livello lancette.</source>
       <translation>Seleziona un livello lancette.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="733" />
+      <location filename="../s5studio/web_ui.py" line="747" />
       <source>Proprietà disco non valida.</source>
       <translation>Proprietà disco non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="734" />
+      <location filename="../s5studio/web_ui.py" line="748" />
       <source>Nome disco troppo lungo.</source>
       <translation>Nome disco troppo lungo.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="744" />
+      <location filename="../s5studio/web_ui.py" line="758" />
       <source>Per le fasi lunari a 59 posizioni scegli Disco rotante.</source>
       <translation>Per le fasi lunari a 59 posizioni scegli Disco rotante.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="748" />
+      <location filename="../s5studio/web_ui.py" line="762" />
       <source>Valore dell’immagine non valido.</source>
       <translation>Valore dell’immagine non valido.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="749" />
+      <location filename="../s5studio/web_ui.py" line="763" />
       <source>Importa prima la grafica del disco.</source>
       <translation>Importa prima la grafica del disco.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="751" />
+      <location filename="../s5studio/web_ui.py" line="765" />
       <source>Dischi PNG (*.png)</source>
       <translation>Dischi PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="761" />
+      <location filename="../s5studio/web_ui.py" line="765" />
+      <source>Importa PNG ombra</source>
+      <translation>Importa PNG ombra</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="765" />
+      <source>Importa PNG disco</source>
+      <translation>Importa PNG disco</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="775" />
       <source>Il pivot dell’ombra automatica segue il disco.</source>
       <translation>Il pivot dell’ombra automatica segue il disco.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="763" />
+      <location filename="../s5studio/web_ui.py" line="777" />
       <source>Proprietà PNG non valida.</source>
       <translation>Proprietà PNG non valida.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="775" />
+      <location filename="../s5studio/web_ui.py" line="789" />
       <source>Comando catalogo dischi non valido.</source>
       <translation>Comando catalogo dischi non valido.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="780" />
+      <location filename="../s5studio/web_ui.py" line="794" />
       <source>Seleziona un livello bussola.</source>
       <translation>Seleziona un livello bussola.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="794" />
+      <location filename="../s5studio/web_ui.py" line="808" />
       <source>Seleziona uno stile normale per cambiarne lo sfondo.</source>
       <translation>Seleziona uno stile normale per cambiarne lo sfondo.</translation>
     </message>

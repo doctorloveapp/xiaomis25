@@ -100,5 +100,8 @@
     "Temporary Desktop folder created before continuing native file-dialog checks.",
     "Windows shell controls retain the installed OS language."
   ],
-  "details": "docs/VERIFICA_ISOLATA_2.8.md"
+  "details": "docs/VERIFICA_ISOLATA_2.8.md",
+  "artifactStage": "before-localization-refinement",
+  "findingsResolvedIn": "refined-2.8",
+  "currentVerification": "docs/validation-editor-2.8.json"
 }

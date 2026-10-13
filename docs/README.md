@@ -28,10 +28,11 @@ Current application version: **2.8**. Previous runtime/device report (2.7, uncha
 
 | Record | What it establishes |
 | --- | --- |
-| [Source validation](validation-editor-2.8.json) | 43 targeted tests and unchanged seven-module watch runtime |
-| [Source editor](editor-2.8.json) | 10 checks: language switching/startup, dynamic UI, user data and stable IDs |
+| [Source validation](validation-editor-2.8.json) | 54 targeted tests and unchanged seven-module watch runtime |
+| [Source editor](editor-2.8.json) | 11 checks: language switching/startup, dynamic UI, user data and stable IDs |
 | [Executable integrity](executable-build-2.8.json) | Static verification, included catalogs and exact file hash |
-| [One-off isolated EXE check](VERIFICA_ISOLATA_2.8.md) | Host-Windows folder/profile isolation; startup, resources, save/reopen and language persistence; incomplete English labels recorded |
+| [Rendered localization coverage](localization-coverage-2.8.json) | 161 contexts; refined labels, catalog captions, source/help text and conditional controls |
+| [Earlier isolated EXE check](VERIFICA_ISOLATA_2.8.md) | Historical check of the earlier 2.8 hash; its localization findings were corrected in the refined build |
 | [Set integration](hand-set-integration-2.8.json) | Personal catalog synchronization, originals preserved |
 
 ## Historical evidence for build 2.7

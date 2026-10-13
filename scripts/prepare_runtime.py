@@ -1,4 +1,4 @@
-"""Stage this user's complete offline runtime, excluding projects and recovery."""
+"""Stage the offline runtime; Bulova is the only explicitly bundled project."""
 from pathlib import Path
 import hashlib
 import json
@@ -57,6 +57,13 @@ def prepare():
         add('locales/'+language+'.json')
         add('translations/s5studio_'+language+'.qm')
     add('translations/qtbase_it.qm')
+    add('resources/examples/Bulova.s5faceproj')
+    project_files=[name for name in files if Path(name).suffix.lower() in ('.s5faceproj','.fprj')]
+    if project_files!=['resources/examples/Bulova.s5faceproj']:
+        raise ValueError('La release deve contenere soltanto il progetto esempio Bulova.')
+    forbidden={'settings.json','dialog-paths.json'}
+    if any(Path(name).name in forbidden or 'recovery' in name.lower() for name in files):
+        raise ValueError('Configurazione personale non ammessa nella release.')
     add('s5studio/lua/studio_live_data.lua');add('s5studio/lua/studio_core.lua');add('s5studio/lua/studio_core_pro.lua');add('s5studio/lua/studio_civil_hand.lua')
     add('s5studio/lua/studio_civil_clock.lua')
     add('s5studio/lua/studio_moon_disk.lua')
@@ -71,12 +78,16 @@ def prepare():
     target.mkdir(parents=True)
     for name in files:
         output=target/name;output.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/name,output)
-    report={'applicationVersion':'2.8','scope':'personal-offline-runtime-from-user-provided-corpus',
+    packaged_integration={**integration,'sourcesChecked':[
+        {**source,'catalog':'personal-hand-sets/'+str(index+1)+'/catalog.json'}
+        for index,source in enumerate(integration['sourcesChecked'])]}
+    report={'applicationVersion':'2.8','scope':'offline-runtime-with-curated-catalogs-and-bulova-example',
             'hands':len(library['hands']),'bundledHandSets':integration['bundledSets'],'bundledHands':integration['bundledHands'],
-            'handSetIntegration':integration,'compasses':len(library['compasses']),'discs':len(disks['sets']),
+            'handSetIntegration':packaged_integration,'compasses':len(library['compasses']),'discs':len(disks['sets']),
             'sources':len(library['sources']),'weatherIcons':len(library['weatherIcons']),
             'compilerFramework':'.NET Framework 4.7.2 or later','files':files,
-            'excluded':['projects','recovery','hardware-test-projects','original-watchface-corpus','ADB','EasyFace editor']}
+            'exampleProjects':project_files,'personalSettingsIncluded':False,
+            'excluded':['all-other-personal-projects','recovery','settings','dialog-history','hardware-test-projects','original-watchface-corpus','ADB','EasyFace editor']}
     (target/'runtime-manifest.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     (ROOT/'docs/runtime-manifest-2.8.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     print(json.dumps({'directory':str(target),'files':len(files),'hands':report['hands'],'compasses':report['compasses']},indent=2))

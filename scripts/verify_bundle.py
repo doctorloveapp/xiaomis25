@@ -16,9 +16,16 @@ def verify(executable):
     if any(n.startswith(('projects/','quadranti/','data/recovery','data/hardware-tests')) or
            n.lower().endswith(('adb.exe','easyface_en.exe')) for n in entries):
         raise ValueError('Risorsa personale o tool di deployment incluso per errore.')
+    examples=sorted(n for n in entries if Path(n).suffix.lower() in ('.s5faceproj','.fprj'))
+    expected=manifest.get('exampleProjects',[])
+    if examples!=expected or set(examples)-{'resources/examples/Bulova.s5faceproj'}:
+        raise ValueError('Il bundle contiene progetti diversi dagli esempi autorizzati.')
+    if any(Path(n).name.lower() in ('settings.json','dialog-paths.json') or 'recovery' in n.lower() for n in entries):
+        raise ValueError('Configurazione o recupero personale incluso nel bundle.')
     return {'status':'passed','applicationVersion':manifest['applicationVersion'],
             'embeddedFilesVerified':len(manifest['files']),
             'exeSize':executable.stat().st_size,'exeSha256':hashlib.sha256(executable.read_bytes()).hexdigest(),
+            'bundledExampleProjects':examples,'personalPreferencesIncluded':False,
             'executableLaunched':False,'isolatedEnvironmentTested':False}
 
 

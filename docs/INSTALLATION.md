@@ -39,13 +39,17 @@ The source-mode paths are relative to the repository; the EXE resolves read-only
 7. Copy the ZIP to the phone without extracting it. Connect/synchronize the watch and use a compatible local uploader. Consult the [Capabilities FAQ](../README.md#why-does-local-installation-fail-with-capabilities) if the local path rejects it.
 8. Verify time, sources, all styles, complication choices and sleep/AOD behavior on the actual watch. Re-export and reinstall after changing the PC project; an installed ZIP is not updated automatically.
 
+## Bundled example and existing projects
+
+The only bundled project is `resources/examples/Bulova.s5faceproj`. Open it through **Project and AOD → Open Bulova example**, then save your own copy. The bundle retains the hand/disc catalogs and excludes all other personal projects, autosaves, preferences and dialog history. Your existing project files remain on your PC and can be opened through **Open**.
+
 ## Reference hashes
 
 These hashes identify the original local inputs and delivered executable. They are integrity records, not cryptographic vendor signatures or proof of redistribution permission. A rebuilt executable requires its own hash/report.
 
 | File | SHA-256 |
 | --- | --- |
-| `S5Studio-2.8.exe` — delivered personal build | `ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd` |
+| `S5Studio-2.8.exe` — delivered personal build | `b1653e60b0c4ff83db1ee96465c4c6b1dd3a9456f12cee67267ddf82e25403d5` |
 | EasyFace 4.23 release archive | `5b62773369c10c3402f369e8aa579f13393af359d0214c0d979464e5cc776cef` |
 | `tools/easyface-4.23/Compiler.exe` | `bfb8c3b6666b79de165884d832c69d46e5bbfa581c65c1e188cddfc4b9d6723a` |
 | `quadrante_funzionante.zip` | `5c7a3bb0c81762e7bb0749fd1b1cd941e0578d8e0eec0d567b37c44dd6695627` |
@@ -56,7 +60,7 @@ Get-FileHash -LiteralPath .\S5Studio-2.8.exe -Algorithm SHA256
 python scripts/verify_bundle.py S5Studio-2.8.exe --report build/bundle-check.json
 ```
 
-The second command requires the development environment and PyInstaller. It inspects embedded records without launching the EXE. The recorded 2.8 check verified **1,257 resources, 45 application Python modules, the entry point and seven Lua modules**. [Bundle report](executable-build-2.8.json) · [Toolchain record](../tools/toolchain.json) · [Template analysis](RAPPORTO_TEMPLATE_FUNZIONANTE.md).
+The second command requires the development environment and PyInstaller. It inspects embedded records without launching the EXE. The recorded 2.8 check verified **1,258 resources, 45 application Python modules, the entry point and seven Lua modules**. [Bundle report](executable-build-2.8.json) · [Toolchain record](../tools/toolchain.json) · [Template analysis](RAPPORTO_TEMPLATE_FUNZIONANTE.md).
 
 ## Running from source
 
@@ -81,7 +85,7 @@ cd ..
 
 **Export prerequisites:** obtain EasyFace 4.23 from its [upstream release](https://github.com/m0tral/EasyFace/releases/tag/v4.23), preserve `Compiler.exe` and `DeviceInfo.db` together, and verify the toolchain hashes. That upstream release lists Mi Watch S5 support. Supply the verified template and any external assets your project requires. There is no verified CN/Global compiler switch; the configured target is **MiWatchS5 / 562**.
 
-**Reproducing the personal EXE:** `scripts/prepare_runtime.py` additionally requires `data/watchface-library.json`, its original hand/weather/compass assets, `resources/hand-sets/`, `resources/disks/`, toolchain records, the template and license files. The current staging code explicitly expects the original **595-model catalog** from the supplied corpus. A fresh source clone does not contain all these inputs and cannot reproduce the identical 2.8 bundle by installing Python packages alone.
+**Reproducing the personal EXE:** `scripts/prepare_runtime.py` additionally requires `data/watchface-library.json`, its original hand/weather/compass assets, `resources/hand-sets/`, `resources/disks/`, `resources/examples/Bulova.s5faceproj`, toolchain records, the template and license files. The current staging code explicitly expects the original **595-model catalog** from the supplied corpus. A fresh source clone does not contain all these inputs and cannot reproduce the identical 2.8 bundle by installing Python packages alone.
 
 For a locally available, appropriately authorized corpus, `scripts/create_watchface_library.py` builds the library from the saved corpus analysis, and `scripts/create_compass_catalog.py` builds compass resources. `scripts/create_disk_catalog.py` handles disc recovery. These are corpus-specific utilities, not public asset downloaders. Preserve the original files and provenance; see [the inventory](library-analysis/inventory.md).
 

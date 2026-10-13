@@ -54,6 +54,78 @@ def test_json_catalogs_preserve_source_text_placeholders_and_italian_fallback():
     assert load_catalog('../../evil')==it
 
 
+def test_refined_catalog_covers_composed_labels_help_and_validation():
+    import re
+    en=load_catalog('en');it=load_catalog('it')
+    expected={'Salva set nel catalogo':'Save set in catalog',
+              'Aggiorna disco nel catalogo':'Update disc in catalog',
+              'Importa PNG disco':'Import disc PNG',
+              '{count} set visualizzati':'{count} sets shown',
+              'Dato che guida il valore':'Value data source',
+              'Dato che guida la lancetta':'Hand data source',
+              'Mezzanotte':'Midnight','Valori alti':'High values',
+              'Apri esempio Bulova':'Open Bulova example'}
+    assert all(en[key]==value for key,value in expected.items())
+    for key in it:
+        assert set(re.findall(r'\{\w+\}',key))==set(re.findall(r'\{\w+\}',en[key])),key
+    assert 'Moon phase' in en['Fasi lunari · 59 posizioni (giornaliero)']
+    assert 'invalid hand width' in en['{v0}: larghezza lancetta non valida (1–100 px).']
+
+
+def test_example_and_existing_project_open_without_overwriting_originals(tmp_path):
+    import hashlib
+    from PySide6.QtWidgets import QApplication
+    from PySide6.QtCore import QCoreApplication,QEvent
+    from s5studio.web_ui import MainWindow
+    from s5studio.model import Project
+    app=QApplication.instance() or QApplication([])
+    example=ROOT/'resources/examples/Bulova.s5faceproj'
+    original=example.read_bytes();expected=Project.load(example)
+    with patch('s5studio.web_ui.user_data_root',lambda:tmp_path/'user'):
+        window=MainWindow(smoke=True,settings_path=tmp_path/'settings.json');bridge=window.bridge
+        try:
+            window.set_language('en')
+            result=json.loads(bridge.command('{"action":"open-example","id":"bulova"}'))
+            assert not result.get('error')
+            assert bridge.project.metadata()==expected.metadata()
+            assert bridge.path is None and bridge.dirty is False and bridge.aod is False
+            assert len(bridge.project.variants)==2 and len(bridge.project.assets)==14
+            assert json.loads(bridge.command('{"action":"open-example","id":"../secret"}'))['error']=='Example unavailable.'
+            # Use the normal Open command on an existing compatible project.
+            saved=tmp_path/'existing-project.s5faceproj';saved.write_bytes(original)
+            with patch.object(bridge.dialogs,'open',return_value=str(saved)):
+                result=json.loads(bridge.command('{"action":"open"}'))
+            assert not result.get('error') and bridge.path==saved
+            assert saved.read_bytes()==original and example.read_bytes()==original
+        finally:
+            window.close();window.deleteLater();QCoreApplication.sendPostedEvents(None,QEvent.Type.DeferredDelete)
+            install_language('it',app)
+
+
+def test_native_import_dialogs_translate_complete_hand_and_disc_titles(tmp_path):
+    from PySide6.QtWidgets import QApplication
+    from PySide6.QtCore import QCoreApplication,QEvent
+    from s5studio.web_ui import MainWindow
+    app=QApplication.instance() or QApplication([])
+    with patch('s5studio.web_ui.user_data_root',lambda:tmp_path/'user'):
+        window=MainWindow(smoke=True,settings_path=tmp_path/'settings.json');bridge=window.bridge
+        try:
+            window.set_language('en');bridge.hand_set_draft['small']=True
+            with patch.object(bridge.dialogs,'open',return_value='') as choose:
+                for role,label in [('hour','hours'),('minute','minutes'),('second','seconds'),('decisecond','tenths'),('centisecond','hundredths'),('millisecond','thousandths'),('date','date hand')]:
+                    bridge.hand_set_draft['hands'][role]={}
+                    for shadow in (False,True):
+                        bridge.hand_set_command('hand-set-image',{'role':role,'shadow':shadow})
+                        assert choose.call_args.args[1]==('Import shadow PNG — ' if shadow else 'Import PNG — ')+label
+                bridge.disk_draft['hands']['disk']={}
+                for shadow,title in [(False,'Import disc PNG'),(True,'Import shadow PNG')]:
+                    bridge.disk_command('disk-catalog-image',{'key':'disk','shadow':shadow})
+                    assert choose.call_args.args[1]==title
+        finally:
+            window.close();window.deleteLater();QCoreApplication.sendPostedEvents(None,QEvent.Type.DeferredDelete)
+            install_language('it',app)
+
+
 def test_qt_linguist_catalog_switch_and_color_dialog():
     from PySide6.QtWidgets import QApplication
     from PySide6.QtCore import QCoreApplication

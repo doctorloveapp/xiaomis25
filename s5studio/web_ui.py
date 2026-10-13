@@ -396,6 +396,17 @@ class StudioBridge(QObject):
                     if filename:
                         self.project=Project.load(Path(filename));self.path=Path(filename);self.variant=0;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
                         if not self.smoke:self.recovery.unlink(missing_ok=True)
+            elif action=='open-example':
+                if req.get('id')!='bulova':raise ValueError(self.tr('Esempio non disponibile.'))
+                if self.confirm_leave():
+                    self.project=Project.load(self.resources/'resources/examples/Bulova.s5faceproj')
+                    # An example opens as a new editable document. Save always
+                    # asks for a destination; the bundled original stays intact.
+                    self.path=None;self.variant=0;self.aod=False;self.dirty=False
+                    self.undo_stack=[];self.redo_stack=[];self.motion_preview=False
+                    self.motion_timer.stop();self.pro_preview=type(self.pro_preview)()
+                    self.chrono_state='reset';self.chrono_elapsed=0;self.chrono_started=0
+                    if not self.smoke:self.recovery.unlink(missing_ok=True)
             elif action in ('save','save-as'):
                 self.save()
             elif action=='undo' and self.undo_stack:
@@ -664,7 +675,7 @@ class StudioBridge(QObject):
         # No expensive preview rendering or gallery serialization is needed to
         # mark the export complete. This version also invalidates stale replies.
         self.send(buildStatus={'stateSequence':self.state_sequence,'busy':False,'output':str(self.output or '')},
-                  error=error,progress='ZIP pronto: '+path if path else 'Compilazione interrotta.',buildDone=bool(path))
+                  error=error,progress=self.tr('ZIP pronto: {path}').format(path=path) if path else self.tr('Compilazione interrotta.'),buildDone=bool(path))
 
     def hand_set_command(self,action,req):
         from copy import deepcopy
@@ -684,8 +695,11 @@ class StudioBridge(QObject):
             if role not in roles_for(draft['small']):raise ValueError(self.tr('Lancetta del set non valida per questo tipo di set.'))
             if shadow and role not in draft['hands']:raise ValueError(self.tr('Importa prima la lancetta, poi la sua ombra.'))
             if action=='hand-set-image':
+                role_labels={'hour':self.tr('ore'),'minute':self.tr('minuti'),'second':self.tr('secondi'),
+                             'decisecond':self.tr('decimi'),'centisecond':self.tr('centesimi'),
+                             'millisecond':self.tr('millesimi'),'date':self.tr('datario')}
                 filename=self.dialogs.open('hand-set-shadow-open' if shadow else 'hand-set-image-open',
-                        ((self.tr('Importa PNG ') + role) + ' — ombra' if shadow else ''),self.root,self.tr('Lancette PNG (*.png)'))
+                        (self.tr('Importa PNG ombra — {role}') if shadow else self.tr('Importa PNG — {role}')).format(role=role_labels[role]),self.root,self.tr('Lancette PNG (*.png)'))
                 if filename:
                     item=self.hand_set_catalog.stage(Path(filename))
                     if shadow:draft['hands'][role]['shadow']=item
@@ -748,7 +762,7 @@ class StudioBridge(QObject):
             if draft['mode']=='rotation' and key!='disk' or draft['mode']=='values' and (not key.isdigit() or int(key)>65535):raise ValueError(self.tr('Valore dell’immagine non valido.'))
             if shadow and key not in draft['hands']:raise ValueError(self.tr('Importa prima la grafica del disco.'))
             if action=='disk-catalog-image':
-                path=self.dialogs.open('disk-shadow-open' if shadow else 'disk-image-open',(self.tr('Importa PNG ') + 'ombra' if shadow else 'disco'),self.root,self.tr('Dischi PNG (*.png)'))
+                path=self.dialogs.open('disk-shadow-open' if shadow else 'disk-image-open',self.tr('Importa PNG ombra') if shadow else self.tr('Importa PNG disco'),self.root,self.tr('Dischi PNG (*.png)'))
                 if path:
                     item=catalog.stage(Path(path))
                     if shadow:draft['hands'][key]['shadow']=item

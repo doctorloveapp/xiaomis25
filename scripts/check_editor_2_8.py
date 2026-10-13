@@ -88,6 +88,16 @@ def check():
             assert js('document.getElementById("layers-count").textContent')=='3 layers'
             checks.append('parameterized-layer-count-localized')
             checks.append('new-window-loads-language-from-settings')
+            example=ROOT/'resources/examples/Bulova.s5faceproj'
+            original_digest=hashlib.sha256(example.read_bytes()).hexdigest()
+            action('setTab("project")')
+            assert js('document.getElementById("example-bulova").textContent')=='Open Bulova example'
+            action('document.getElementById("example-bulova").click()')
+            ready('state.name==="Bulova"&&tab==="design"','Bulova example from visible button')
+            assert bridge.project.name=='Bulova' and bridge.path is None and not bridge.dirty
+            assert len(bridge.project.variants)==2 and len(bridge.project.assets)==14
+            assert hashlib.sha256(example.read_bytes()).hexdigest()==original_digest
+            checks.append('visible-example-button-opens-bulova-as-independent-editable-document')
             ready('document.getElementById("preview").complete&&document.getElementById("preview").naturalWidth===480','Decoded preview')
             deadline=time.monotonic()+0.7
             while time.monotonic()<deadline:app.processEvents()

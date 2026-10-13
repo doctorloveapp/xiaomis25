@@ -2,7 +2,7 @@
 
 ![S5 Studio — watchface engineering for Xiaomi Watch S5](docs/assets/s5-studio-banner.svg)
 
-[![Build 2.8](https://img.shields.io/badge/build-2.8-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![43 targeted tests passed](https://img.shields.io/badge/tests-43%20targeted%20passed-15803d)](docs/validation-editor-2.8.json) [![S5 device test user confirmed](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Code license MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
+[![Build 2.8](https://img.shields.io/badge/build-2.8-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![54 targeted tests passed](https://img.shields.io/badge/tests-54%20targeted%20passed-15803d)](docs/validation-editor-2.8.json) [![S5 device test user confirmed](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Code license MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
 
 **English** · [Italiano](README.it.md) · [Releases](https://github.com/doctorloveapp/xiaomis25/releases) · [Documentation](docs/README.md)
 
@@ -10,7 +10,7 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 
 **Target:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Application UI:** Italian (default) and English. Choose Language in the toolbar; the preference is saved in settings.json. Test badges describe recorded checks; the device confirmation refers to the unchanged watch runtime tested in 2.7, not a new hardware certification. [Internationalization guide](docs/I18N_2.8.md).
 
-**Executable check, 2026-10-13:** a one-off run with separate working/profile directories verified startup, bundled resources, project save/reopen and English preference persistence. Some composed English UI labels still contain Italian text. This was a host-Windows test, not a clean Windows VM. [Scope and findings](docs/VERIFICA_ISOLATA_2.8.md).
+**2.8 localization refinement:** composed labels, catalog descriptions, tooltips, import dialogs, validation messages and chronograph readouts have been completed in English. Verification covers 161 rendered editor contexts, 54 targeted tests and 11 editor checks. The [earlier isolated test](docs/VERIFICA_ISOLATA_2.8.md) applies to the previous artifact's recorded hash; this updated EXE is checked statically. [Current verification](docs/validation-editor-2.8.json).
 
 ## Table of Contents
 
@@ -40,7 +40,7 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 | **Simulation** | Animated preview, zoom/pan, date simulation with day 1–31, month and year, and frozen chronograph readout. Preview values do not replace the live sources exported to the watch. |
 | **Validated export** | Native EasyFace compilation, complete previews, template-based ZIP packaging and a per-build report. **Why:** binary resources, metadata, styles and Lua bindings are checked together before publishing the output file. |
 
-The personal 2.8 build contains **629 hand models and 90 discs**, including assets recovered from 39 supplied watchfaces. These counts describe that build, not a freely redistributable asset library. See [distribution scope](docs/DISTRIBUTION.md).
+The complete 2.8 build contains **629 hand models and 90 discs**, including assets recovered from 39 supplied watchfaces. These counts describe that build, not a freely redistributable asset library. See [distribution scope](docs/DISTRIBUTION.md).
 
 ## Installation Guide
 
@@ -53,6 +53,10 @@ The personal 2.8 build contains **629 hand models and 90 discs**, including asse
 5. Transfer the resulting ZIP to the phone without extracting it and install using a compatible local watchface uploader. Keep Bluetooth connected and the watch synchronized. Read the [Capabilities FAQ](#why-does-local-installation-fail-with-capabilities) before changing uploader settings.
 
 **Distribution scope:** the current standalone build is a **personal bundle** containing an external compiler and third-party artwork. Its MIT code license does not establish redistribution permission for those components. A public release with a different resource set may have different installation requirements. [Details and prerequisites](docs/INSTALLATION.md) · [Third-party notices](THIRD_PARTY_NOTICES.md).
+
+**Included example:** open **Project and AOD → Open Bulova example**. Bulova is the only bundled project (two styles, 14 embedded assets); save your edited copy to your own folder. Other personal projects, recovery files, preferences and dialog history are excluded. Existing `.s5faceproj` files on your PC remain compatible and can be opened normally. The hand/disc catalogs are retained.
+
+**Included example:** open **Project and AOD → Open Bulova example**. Bulova is the only bundled project (two styles, 14 embedded assets); save your edited copy to your own folder. Other personal projects, recovery files, preferences and dialog history are excluded. Existing `.s5faceproj` files on your PC remain compatible and can be opened normally. The hand/disc catalogs are retained.
 
 ### Paths and file integrity
 
@@ -72,7 +76,7 @@ Get-FileHash -LiteralPath .\S5Studio-2.8.exe -Algorithm SHA256
 SHA-256 of the **delivered personal 2.8 executable**:
 
 ```text
-ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd
+b1653e60b0c4ff83db1ee96465c4c6b1dd3a9456f12cee67267ddf82e25403d5
 ```
 
 This hash identifies that exact file; a rebuild or differently packaged public asset will have another hash. Compiler, template and reference-package hashes are retained in the [installation reference](docs/INSTALLATION.md#reference-hashes).

@@ -13,7 +13,7 @@ window.S5Selectors=(()=>{
       else{img.removeAttribute('src');caption.textContent=S5I18n.t('Passa su un modello per vedere l’anteprima');}
       caption.dataset.i18nSkip='';
     }
-    if(popup?.select===select&&popup.description)popup.description.textContent=select._studioDescription?.(value)||'Passa su una voce per leggerne il significato.';
+    if(popup?.select===select&&popup.description)popup.description.textContent=S5I18n.translateText(select._studioDescription?.(value)||'Passa su una voce per leggerne il significato.');
   }
   function close(){if(popup){const current=popup;popup=null;current.trigger.setAttribute('aria-expanded','false');current.menu.remove();preview(current.select,current.select.value);}}
   function mount(root=document){
@@ -35,7 +35,7 @@ window.S5Selectors=(()=>{
         trigger.setAttribute('aria-controls',menu.id);trigger.setAttribute('aria-expanded','true');
         const list=document.createElement('div');list.className='select-options';list.setAttribute('role','listbox');list.setAttribute('aria-label',label);menu.append(list);
         let search=null;
-        if(select.options.length>8){search=document.createElement('input');search.type='search';search.className='input select-search';search.placeholder='Cerca…';search.setAttribute('aria-label','Cerca '+label);menu.prepend(search);}
+        if(select.options.length>8){search=document.createElement('input');search.type='search';search.className='input select-search';search.placeholder='Cerca…';search.setAttribute('aria-label',S5I18n.t('Cerca {label}',{label}));menu.prepend(search);}
         function populate(filter=''){
           list.innerHTML='';
           [...select.options].filter(o=>o.textContent.toLowerCase().includes(filter.toLowerCase())).forEach(option=>{

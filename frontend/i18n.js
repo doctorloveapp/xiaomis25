@@ -32,7 +32,7 @@ window.S5I18n=(()=>{
   }
   let saved=attributes.get(node)||{};
   for(const name of ['title','placeholder','aria-label','alt']){
-   const value=node.getAttribute(name);if(value===null)continue;
+   const value=node.getAttribute(name);if(value===null||node.hasAttribute('data-i18n-'+name+'-skip'))continue;
    const key=node.getAttribute('data-i18n-'+name);
    if(!saved[name]||value!==saved[name].rendered)saved[name]={source:value,rendered:value};
    const rendered=key?t(key):translateText(saved[name].source);saved[name].rendered=rendered;
@@ -61,8 +61,10 @@ window.S5I18n=(()=>{
    if(!/\{\w+\}/.test(key))continue;
    const keys=[],parts=[];let end=0;
    for(const match of key.matchAll(/\{(\w+)\}/g)){parts.push(escapeRegex(key.slice(end,match.index)),'(.*?)');keys.push(match[1]);end=match.index+match[0].length;}
-   parts.push(escapeRegex(key.slice(end)));patterns.push({key,keys,regex:new RegExp('^'+parts.join('')+'$','su')});
+   parts.push(escapeRegex(key.slice(end)));patterns.push({key,keys,literalLength:key.replace(/\{\w+\}/g,'').length,regex:new RegExp('^'+parts.join('')+'$','su')});
   }
+  // Specific phrases must precede broad placeholder-only patterns.
+  patterns.sort((a,b)=>b.literalLength-a.literalLength);
   document.documentElement.lang=language;apply();observe();
  }
  return {t,apply,configure,translateText,get language(){return language;}};

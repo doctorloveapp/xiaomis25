@@ -2,7 +2,7 @@
 
 ![S5 Studio — progettazione di quadranti per Xiaomi Watch S5](docs/assets/s5-studio-banner.svg)
 
-[![Build 2.8](https://img.shields.io/badge/build-2.8-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![43 test mirati superati](https://img.shields.io/badge/tests-43%20targeted%20passed-15803d)](docs/validation-editor-2.8.json) [![Test S5 confermato dall'utente](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Licenza codice MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
+[![Build 2.8](https://img.shields.io/badge/build-2.8-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![54 test mirati superati](https://img.shields.io/badge/tests-54%20targeted%20passed-15803d)](docs/validation-editor-2.8.json) [![Test S5 confermato dall'utente](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Licenza codice MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
 
 [English](README.md) · **Italiano** · [Releases](https://github.com/doctorloveapp/xiaomis25/releases) · [Documentazione](docs/README.md)
 
@@ -10,7 +10,7 @@ S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da i
 
 **Dispositivo:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Interfaccia:** italiano (default) e inglese. Scegli Lingua nella barra superiore: la preferenza viene salvata in settings.json. I badge descrivono verifiche registrate; la conferma hardware riguarda il runtime invariato testato nella 2.7, non una nuova certificazione. [Guida i18n](docs/I18N_2.8.md).
 
-**Verifica EXE del 2026-10-13:** prova eccezionale con cartella e profilo separati superata per avvio, risorse incorporate, salvataggio/riapertura e persistenza dell'inglese. Alcune etichette inglesi composte contengono ancora testo italiano. Prova sul Windows ospitante, non su una VM Windows pulita. [Ambito e risultati](docs/VERIFICA_ISOLATA_2.8.md).
+**Rifinitura della 2.8:** completate in inglese etichette composte, descrizioni dei cataloghi, suggerimenti, dialoghi di importazione, messaggi di validazione e letture del cronografo. Verificati 161 contesti dell'editor, 54 test mirati e 11 controlli editor. La [precedente prova isolata](docs/VERIFICA_ISOLATA_2.8.md) riguarda il vecchio artefatto identificato dal relativo hash; il nuovo EXE è controllato staticamente. [Verifiche attuali](docs/validation-editor-2.8.json).
 
 ## Indice
 
@@ -54,6 +54,8 @@ La build personale 2.8 comprende **629 modelli di lancette e 90 dischi**, anche 
 
 **Ambito:** l'eseguibile autonomo attuale è un **bundle personale**, con compilatore esterno e grafiche di terzi. La licenza MIT del codice non stabilisce il diritto di redistribuirli. Un pacchetto pubblico con risorse differenti può avere requisiti diversi. [Requisiti e dettagli](docs/INSTALLATION.md) · [Avvisi di terze parti](THIRD_PARTY_NOTICES.md).
 
+**Esempio incluso:** apri **Progetto e AOD → Apri esempio Bulova**. Bulova è l'unico progetto incorporato (due stili, 14 risorse); salva la tua copia modificata nella cartella che preferisci. Gli altri progetti personali, recuperi, preferenze e cronologie sono esclusi. I `.s5faceproj` già presenti sul PC restano compatibili e si aprono normalmente. Cataloghi lancette e dischi conservati.
+
 ### Percorsi e integrità
 
 | Uso | Percorso |
@@ -72,7 +74,7 @@ Get-FileHash -LiteralPath .\S5Studio-2.8.exe -Algorithm SHA256
 SHA-256 dell'**eseguibile personale 2.8 consegnato**:
 
 ```text
-ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd
+b1653e60b0c4ff83db1ee96465c4c6b1dd3a9456f12cee67267ddf82e25403d5
 ```
 
 Identifica quell'esatto file: una ricompilazione o un asset pubblico con risorse diverse avrà un hash diverso. Gli hash di compilatore, template e campione originale sono conservati nella [guida di installazione](docs/INSTALLATION.md#reference-hashes).

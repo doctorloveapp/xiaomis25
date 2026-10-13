@@ -3,17 +3,18 @@
   "date": "2026-10-13",
   "status": "passed-source-editor-and-static-bundle-checks",
   "sourceTests": {
-    "passed": 43,
+    "passed": 54,
     "suites": [
       "test_i18n",
+      "test_bundle_contents",
       "test_file_dialogs",
       "test_color_picker"
     ],
     "junitReport": "build/tests-2.8.xml",
-    "scope": "Preferences, catalog fallback, native Qt translation, color dialogs, legacy combo identity, file dialogs and unchanged watch Lua."
+    "scope": "Preferences, catalog fallback, placeholders, native Qt import titles, legacy IDs, Bulova/existing-project opening, clean bundle guards, dialogs/colors and unchanged watch Lua."
   },
   "editorChecks": {
-    "passed": 10,
+    "passed": 11,
     "report": "docs/editor-2.8.json"
   },
   "i18n": {
@@ -22,8 +23,8 @@
       "it",
       "en"
     ],
-    "jsonCatalogMessages": 824,
-    "activeQtMessagesPerLanguage": 278,
+    "jsonCatalogMessages": 1202,
+    "activeQtMessagesPerLanguage": 291,
     "qtCatalogFormat": "Qt Linguist TS/QM",
     "frontendOfflineJsonTransport": "QWebChannel for file origin; fetch for HTTP",
     "settingsFile": "settings.json",
@@ -31,7 +32,8 @@
     "userProjectDataPreserved": true,
     "translatedSelectorValuesPreserved": true,
     "missingMessagesFallBackToItalian": true,
-    "translationToolsBundled": false
+    "translationToolsBundled": false,
+    "composedLabelsRefined": true
   },
   "catalog": {
     "handSetSyncReport": "docs/hand-set-integration-2.8.json",
@@ -51,12 +53,34 @@
     "firmware": "3.221.024",
     "report": "docs/hardware-test-2.7.json"
   },
+  "localizationCoverage": {
+    "contexts": 161,
+    "report": "docs/localization-coverage-2.8.json",
+    "status": "passed",
+    "renderedTextPairsChecked": 328366
+  },
+  "distribution": {
+    "onlyBundledProject": "resources/examples/Bulova.s5faceproj",
+    "bulovaStyles": 2,
+    "bulovaAssets": 14,
+    "otherPersonalProjectsIncluded": false,
+    "personalPreferencesIncluded": false,
+    "catalogsRetained": true,
+    "exampleSha256": "f94209a49a68931e1f54b9e7d163fa597da41dcdae02eca35f4d2b57a95e538d",
+    "existingProjectOpeningTested": true,
+    "watchfaceRuntimeChanged": false
+  },
+  "historicalIsolatedCheck": "docs/isolated-executable-2.8.json (earlier artifact hash only)",
   "bundle": {
     "status": "passed",
     "applicationVersion": "2.8",
-    "embeddedFilesVerified": 1257,
-    "exeSize": 247417289,
-    "exeSha256": "ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd",
+    "embeddedFilesVerified": 1258,
+    "exeSize": 249021788,
+    "exeSha256": "b1653e60b0c4ff83db1ee96465c4c6b1dd3a9456f12cee67267ddf82e25403d5",
+    "bundledExampleProjects": [
+      "resources/examples/Bulova.s5faceproj"
+    ],
+    "personalPreferencesIncluded": false,
     "executableLaunched": false,
     "isolatedEnvironmentTested": false,
     "executableFile": "S5Studio-2.8.exe",
@@ -112,6 +136,7 @@
     "luaModuleCount": 7,
     "luaModulesMatchSource": true,
     "allSevenLuaModulesUnchangedFrom2_7": true,
+    "luaComparisonReference": "docs/runtime-manifest-2.7.json",
     "jsonAndQmCatalogsMatchSource": true,
     "frontendMatchesSource": true,
     "defaultLanguage": "it",

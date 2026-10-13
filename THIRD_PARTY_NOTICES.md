@@ -47,3 +47,7 @@ Il banner `docs/assets/s5-studio-banner.svg` è una grafica vettoriale originale
 ## Traduzioni 2.8
 
 I cataloghi applicativi JSON e Qt Linguist sono traduzioni originali Studio. `translations/qtbase_it.qm` proviene dal pacchetto PySide6/Qt installato ed è distribuito con i relativi avvisi Qt già presenti in `licenses/`. Qt Linguist (`lupdate`/`lrelease`) serve alla preparazione dei cataloghi, senza includere i suoi eseguibili nel runtime dell'applicazione.
+
+## Esempio Bulova 2.8
+
+Su richiesta esplicita dell'utente, `resources/examples/Bulova.s5faceproj` è l'unico progetto dimostrativo incorporato nella 2.8 aggiornata. Contiene due stili e le relative risorse fornite dall'utente; la sua inclusione non estende la licenza MIT di S5 Studio alle grafiche, ai font o ai marchi contenuti nel progetto. Il file originale dell'utente resta intatto. Nessun altro progetto personale, preferenza o recupero automatico viene aggiunto al bundle.

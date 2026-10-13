@@ -1,5 +1,7 @@
 # S5 Studio 2.8 — verifica dell'eseguibile in ambiente separato
 
+**Documento storico:** riguarda l’EXE 2.8 precedente alla rifinitura delle traduzioni, identificato dall’hash in fondo. Le etichette miste rilevate sono state corrette nella 2.8 aggiornata, con nuovi test sui sorgenti e controllo statico del nuovo bundle; non è stata ripetuta la prova isolata. [Verifiche attuali](validation-editor-2.8.json) · [Copertura traduzioni](localization-coverage-2.8.json).
+
 **Data:** 2026-10-13. **Esito:** verifiche funzionali eseguite superate; rilevate imperfezioni nella traduzione inglese da rifinire prima di presentare l'interfaccia come completamente tradotta.
 
 Questa prova è stata autorizzata espressamente dall'utente **solo per la versione 2.8**. Non cambia la preferenza abituale del progetto: nelle prossime modifiche restano previsti test sui sorgenti e controllo statico del bundle, senza avviare l'EXE in ambienti isolati salvo nuova richiesta.

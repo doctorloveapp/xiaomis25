@@ -15,6 +15,7 @@ The **MIT license covers original S5 Studio application code and documentation**
 | Recovered hands, weather images, compasses and discs | Original authors' artwork from 39 user-supplied watchfaces | Attribution/provenance is preserved, but attribution alone is not redistribution permission |
 | Personal hand/disc imports, including branded graphics | User-provided assets, with no blanket public license established here | Verify rights for each asset intended for public inclusion |
 | Selected fonts embedded in projects | Supplied by the project author; Windows fonts are not automatically bundled with the app | Project portability does not establish font redistribution permission |
+| Bulova example project | Explicitly requested user-supplied example, two styles and 14 embedded assets; the only bundled project | Its assets keep their own rights; the Studio MIT license does not cover third-party artwork/fonts/marks |
 | Original S5 Studio SVG banner | Original vector artwork added with this documentation | Covered by the project's MIT license; no third-party bitmap or embedded font |
 
 The existing personal 2.7 executable includes the compiler, template and supplied graphics. It must not be described as an entirely MIT-licensed bundle. The current packaging script has not been converted to a public profile that excludes components with unconfirmed permissions.
