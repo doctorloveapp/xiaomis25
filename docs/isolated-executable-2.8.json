@@ -1,0 +1,104 @@
+{
+  "applicationVersion": "2.8",
+  "date": "2026-10-13",
+  "status": "functional-checks-passed-with-localization-findings",
+  "authorization": "One-off isolated executable verification explicitly requested by the user for 2.8 only.",
+  "executable": {
+    "file": "S5Studio-2.8.exe",
+    "sha256": "ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd",
+    "bytes": 247417289,
+    "modified": false
+  },
+  "isolation": {
+    "type": "separate-folder-and-process-environment-on-host-Windows",
+    "virtualMachine": false,
+    "windowsSandboxAvailable": false,
+    "filesystemSecurityBoundary": false,
+    "initialFolderContents": [
+      "S5Studio-2.8.exe"
+    ],
+    "adjacentProjectResources": false,
+    "workingDirectory": "temporary build subdirectory",
+    "path": "Windows System32 only",
+    "redirectedVariables": [
+      "LOCALAPPDATA",
+      "APPDATA",
+      "USERPROFILE",
+      "TEMP",
+      "TMP"
+    ],
+    "pythonAndNodeOnChildPath": false,
+    "cleanWindowsInstallationTested": false
+  },
+  "executableLaunched": true,
+  "guiLaunches": 2,
+  "guiClosedNormally": true,
+  "commands": [
+    {
+      "command": "runtime-info",
+      "exitCode": 0,
+      "seconds": 26.26
+    },
+    {
+      "command": "self-test",
+      "exitCode": 0,
+      "seconds": 15.73
+    },
+    {
+      "command": "template-info",
+      "exitCode": 0,
+      "seconds": 15.34
+    }
+  ],
+  "embeddedRuntime": {
+    "status": "passed",
+    "frozen": true,
+    "verifiedFiles": 1257,
+    "originalHandModels": 595,
+    "bundledHandSets": 11,
+    "additionalHandModels": 34
+  },
+  "selfTestTemplates": 3,
+  "guiChecks": [
+    "italian-default-on-first-start",
+    "maximized-startup",
+    "watchface-preview-visible",
+    "live-english-switch-with-saved-preference",
+    "bundled-hand-catalog-page-and-thumbnails",
+    "bundled-disc-catalog-page",
+    "english-application-file-dialog-titles",
+    "temporary-project-save-and-reopen-with-four-layers",
+    "english-preference-survives-executable-restart",
+    "normal-window-close",
+    "personal-preferences-and-catalogs-unchanged"
+  ],
+  "guiChecksPassed": 11,
+  "savedLanguageAfterRestart": "en",
+  "personalConfigurationHashesUnchanged": true,
+  "applicationSourceModified": false,
+  "watchfaceZipCreated": false,
+  "compilerExportRetested": false,
+  "newHardwareTestPerformed": false,
+  "futureIsolatedTestsAutomaticallyAuthorized": false,
+  "findings": [
+    {
+      "severity": "presentation",
+      "area": "English localization",
+      "observedLabels": [
+        "Salva sets in the catalog",
+        "Salva disc in the catalog",
+        "Importa PNG disco",
+        "310 set visualizzati",
+        "Dato che guida il valore"
+      ],
+      "impact": "Incomplete English presentation; no startup/resource/project-I/O failure observed in these checks.",
+      "recommendedAction": "Translate complete composed labels and verify final rendered text; preserve user-defined names."
+    }
+  ],
+  "harnessNotes": [
+    "Initial Chromium resolver quoting warning corrected before the second launch.",
+    "Temporary Desktop folder created before continuing native file-dialog checks.",
+    "Windows shell controls retain the installed OS language."
+  ],
+  "details": "docs/VERIFICA_ISOLATA_2.8.md"
+}

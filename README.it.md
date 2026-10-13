@@ -10,6 +10,8 @@ S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da i
 
 **Dispositivo:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Interfaccia:** italiano (default) e inglese. Scegli Lingua nella barra superiore: la preferenza viene salvata in settings.json. I badge descrivono verifiche registrate; la conferma hardware riguarda il runtime invariato testato nella 2.7, non una nuova certificazione. [Guida i18n](docs/I18N_2.8.md).
 
+**Verifica EXE del 2026-10-13:** prova eccezionale con cartella e profilo separati superata per avvio, risorse incorporate, salvataggio/riapertura e persistenza dell'inglese. Alcune etichette inglesi composte contengono ancora testo italiano. Prova sul Windows ospitante, non su una VM Windows pulita. [Ambito e risultati](docs/VERIFICA_ISOLATA_2.8.md).
+
 ## Indice
 
 - [Features — Funzionalità](#features)

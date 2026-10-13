@@ -10,6 +10,8 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 
 **Target:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Application UI:** Italian (default) and English. Choose Language in the toolbar; the preference is saved in settings.json. Test badges describe recorded checks; the device confirmation refers to the unchanged watch runtime tested in 2.7, not a new hardware certification. [Internationalization guide](docs/I18N_2.8.md).
 
+**Executable check, 2026-10-13:** a one-off run with separate working/profile directories verified startup, bundled resources, project save/reopen and English preference persistence. Some composed English UI labels still contain Italian text. This was a host-Windows test, not a clean Windows VM. [Scope and findings](docs/VERIFICA_ISOLATA_2.8.md).
+
 ## Table of Contents
 
 - [Features](#features)
