@@ -1,4 +1,6 @@
-# Stato operativo — S5 Studio 2.7
+# Stato operativo — S5 Studio 2.8
+
+Aggiornamento 2.8 (2026-10-13): i18n italiano/inglese, italiano predefinito, preferenza language in settings.json condivisa dagli editor. Stringhe native con self.tr e Qt Linguist TS/QM; JSON offline per frontend statico e dinamico. Verificati 43 test e 10 controlli editor; nomi, valori, ID e sette moduli Lua del quadrante invariati rispetto alla 2.7. Nessun ZIP dimostrativo, backup o avvio EXE. [Guida](I18N_2.8.md), [verifiche](validation-editor-2.8.json).
 
 Aggiornamento documentazione (2026-10-13): **versione 2.7 confermata funzionante dall'utente su Xiaomi Watch S5 M2530W1 / firmware 3.221.024**. Risolte nella consegna 2.7 la lettura Q8 delle ore 24 e l'animazione dei secondi piccoli nella scena condivisa; 114 test mirati, esportazione temporanea di due stili/AOD e verifica statica del bundle registrati. Il riscontro hardware è distinto dai controlli automatici, senza misure indipendenti di precisione/fps/consumo. README inglese e italiano, guide internazionali e storico riorganizzati; codice, EXE e `.gitignore` invariati. [Indice](README.md), [conferma hardware](hardware-test-2.7.json), [guida 2.7](EDITOR_2.7.md), [verifiche](validation-editor-2.7.json).
 

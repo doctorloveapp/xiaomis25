@@ -18,6 +18,8 @@ from . import __version__
 from .model import Project, Element, SOURCES, identifier, template
 from .render import render, png_bytes, element_image, SCENARIOS, layout_errors
 from .native import build, compiler_probe, inspect_mwz, TRANSFER_GUIDE
+from .settings import AppSettings
+from .i18n import install_language
 
 
 def app_root():
@@ -207,14 +209,10 @@ class MainWindow(QMainWindow):
         self.refreshing=False
         self.worker=None
         self.compiler=self.root/'tools/easyface-4.23/Compiler.exe'
-        self.settings_path=self.root/'data/settings.json'
-        try:
-            settings=json.loads(self.settings_path.read_text(encoding='utf-8'))
-            if settings.get('compiler'):
-                self.compiler=Path(settings['compiler'])
-        except (OSError,ValueError):
-            pass
-        self.setWindowTitle('S5 Studio')
+        self.settings=AppSettings();self.settings_path=self.settings.path
+        self.language=install_language(self.settings.language)
+        self.compiler=self.settings.compiler(self.compiler)
+        self.setWindowTitle(self.tr('S5 Studio'))
         self.resize(1320,900)
         self.setMinimumSize(1080,720)
         self.setStyleSheet(STYLE)
@@ -224,11 +222,11 @@ class MainWindow(QMainWindow):
         main.setContentsMargins(22,18,22,8)
         head=QHBoxLayout()
         brand=QVBoxLayout()
-        eyebrow=QLabel('XIAOMI WATCH S5  ·  46 MM')
+        eyebrow=QLabel(self.tr('XIAOMI WATCH S5  ·  46 MM'))
         eyebrow.setObjectName('eyebrow')
-        title=QLabel('Il tuo tempo. Il tuo quadrante.')
+        title=QLabel(self.tr('Il tuo tempo. Il tuo quadrante.'))
         title.setObjectName('title')
-        subtitle=QLabel('Importa una foto, personalizza i dati e compila per il tuo S5.')
+        subtitle=QLabel(self.tr('Importa una foto, personalizza i dati e compila per il tuo S5.'))
         subtitle.setObjectName('subtitle')
         brand.addWidget(eyebrow)
         brand.addWidget(title)
@@ -236,8 +234,8 @@ class MainWindow(QMainWindow):
         head.addLayout(brand)
         head.addStretch()
         for label,fn in [('Apri',self.open_project),('Salva',self.save_project),('Guida',self.show_guide)]:
-            head.addWidget(button(label,fn))
-        self.export_button=button('Compila per S5',self.export_project,True)
+            head.addWidget(button(self.tr(label),fn))
+        self.export_button=button(self.tr('Compila per S5'),self.export_project,True)
         head.addWidget(self.export_button)
         main.addLayout(head)
         splitter=QSplitter(Qt.Orientation.Horizontal)
@@ -248,39 +246,39 @@ class MainWindow(QMainWindow):
         left.setMaximumWidth(290)
         ll=QVBoxLayout(left)
         ll.setContentsMargins(0,12,0,0)
-        box=QGroupBox('01  Parti da un modello')
+        box=QGroupBox(self.tr('01  Parti da un modello'))
         bl=QVBoxLayout(box)
         row=QHBoxLayout()
         self.template_combo=QComboBox()
-        self.template_combo.addItems(['Digitale','Analogico','Salute'])
+        self.add_translated_items(self.template_combo,['Digitale','Analogico','Salute'])
         row.addWidget(self.template_combo,1)
-        row.addWidget(button('Nuovo',self.new_project))
+        row.addWidget(button(self.tr('Nuovo'),self.new_project))
         bl.addLayout(row)
-        bl.addWidget(button('Importa foto come sfondo',lambda:self.import_image(True),True))
+        bl.addWidget(button(self.tr('Importa foto come sfondo'),lambda:self.import_image(True),True))
         ll.addWidget(box)
-        box=QGroupBox('02  Aggiungi componenti')
+        box=QGroupBox(self.tr('02  Aggiungi componenti'))
         bl=QVBoxLayout(box)
         self.add_combo=QComboBox()
-        self.add_combo.addItems(['Ora digitale','Data','Numero dinamico','Testo','Immagine','Lancette','Rettangolo','Cerchio'])
+        self.add_translated_items(self.add_combo,['Ora digitale','Data','Numero dinamico','Testo','Immagine','Lancette','Rettangolo','Cerchio'])
         bl.addWidget(self.add_combo)
-        bl.addWidget(button('Aggiungi al quadrante',self.add_element))
+        bl.addWidget(button(self.tr('Aggiungi al quadrante'),self.add_element))
         ll.addWidget(box)
-        box=QGroupBox('Livelli')
+        box=QGroupBox(self.tr('Livelli'))
         bl=QVBoxLayout(box)
         self.layers=QListWidget()
         self.layers.setMinimumHeight(150)
         self.layers.currentItemChanged.connect(self.layer_selected)
         bl.addWidget(self.layers,1)
         row=QHBoxLayout()
-        row.addWidget(button('↑',lambda:self.reorder(1)))
-        row.addWidget(button('↓',lambda:self.reorder(-1)))
-        row.addWidget(button('Duplica',self.duplicate_element))
+        row.addWidget(button(self.tr('↑'),lambda:self.reorder(1)))
+        row.addWidget(button(self.tr('↓'),lambda:self.reorder(-1)))
+        row.addWidget(button(self.tr('Duplica'),self.duplicate_element))
         bl.addLayout(row)
-        bl.addWidget(button('Elimina componente',self.delete_element))
+        bl.addWidget(button(self.tr('Elimina componente'),self.delete_element))
         ll.addWidget(box,1)
         row=QHBoxLayout()
-        self.undo_button=button('Annulla',self.undo)
-        self.redo_button=button('Ripeti',self.redo)
+        self.undo_button=button(self.tr('Annulla'),self.undo)
+        self.redo_button=button(self.tr('Ripeti'),self.redo)
         row.addWidget(self.undo_button)
         row.addWidget(self.redo_button)
         ll.addLayout(row)
@@ -291,13 +289,13 @@ class MainWindow(QMainWindow):
         ml.setContentsMargins(12,12,12,0)
         row=QHBoxLayout()
         self.mode=QComboBox()
-        self.mode.addItems(['Quadrante attivo','Always On Display'])
+        self.add_translated_items(self.mode,['Quadrante attivo','Always On Display'])
         self.mode.currentIndexChanged.connect(self.change_mode)
         row.addWidget(self.mode)
         row.addStretch()
-        self.grid=QCheckBox('Griglia')
+        self.grid=QCheckBox(self.tr('Griglia'))
         self.grid.toggled.connect(self.grid_changed)
-        self.snap=QCheckBox('Snap')
+        self.snap=QCheckBox(self.tr('Snap'))
         self.snap.setChecked(True)
         self.snap.toggled.connect(lambda b:setattr(self.canvas,'snap',b))
         row.addWidget(self.grid)
@@ -315,11 +313,11 @@ class MainWindow(QMainWindow):
         scroll.setWidgetResizable(True)
         ml.addWidget(scroll,1)
         row=QHBoxLayout()
-        label=QLabel('ANTEPRIMA CON DATI SIMULATI')
+        label=QLabel(self.tr('ANTEPRIMA CON DATI SIMULATI'))
         label.setObjectName('eyebrow')
         row.addWidget(label)
         row.addStretch()
-        row.addWidget(QLabel('Zoom'))
+        row.addWidget(QLabel(self.tr('Zoom')))
         self.zoom=QSlider(Qt.Orientation.Horizontal)
         self.zoom.setRange(65,150)
         self.zoom.setValue(100)
@@ -338,103 +336,103 @@ class MainWindow(QMainWindow):
         right.setMaximumWidth(340)
         properties=QWidget()
         pl=QVBoxLayout(properties)
-        self.prop_group=QGroupBox('Componente selezionato')
+        self.prop_group=QGroupBox(self.tr('Componente selezionato'))
         form=QFormLayout(self.prop_group)
         self.fields={}
         for key,label in [('name','Nome'),('text','Testo')]:
             control=QLineEdit()
             control.editingFinished.connect(self.commit_properties)
             self.fields[key]=control
-            form.addRow(label,control)
+            form.addRow(self.tr(label),control)
         for key,label,minv,maxv in [('x','Posizione X',0,479),('y','Posizione Y',0,479),('width','Larghezza',1,480),('height','Altezza',1,480),('size','Font (px)',8,160),('digits','Cifre',1,6),('opacity','Opacità',0,255)]:
             control=QSpinBox()
             control.setRange(minv,maxv)
             control.setKeyboardTracking(False)
             control.editingFinished.connect(self.commit_properties)
             self.fields[key]=control
-            form.addRow(label,control)
+            form.addRow(self.tr(label),control)
         self.fields['source']=QComboBox()
         for key,(label,_,_) in SOURCES.items():
-            self.fields['source'].addItem(label,key)
+            self.fields['source'].addItem(self.tr(label),key)
         self.fields['source'].currentIndexChanged.connect(self.commit_properties)
-        form.addRow('Dato reale',self.fields['source'])
+        form.addRow(self.tr('Dato reale'),self.fields['source'])
         for key,label,values in [('align','Allineamento',[('Sinistra','left'),('Centro','center'),('Destra','right')]),('fit','Immagine',[('Ritaglia al centro','cover'),('Adatta senza taglio','contain'),('Riempi / estendi','stretch')])]:
             control=QComboBox()
             for title,value in values:
-                control.addItem(title,value)
+                control.addItem(self.tr(title),value)
             control.currentIndexChanged.connect(self.commit_properties)
             self.fields[key]=control
-            form.addRow(label,control)
-        self.color_button=button('Colore',self.element_color)
-        form.addRow('Colore',self.color_button)
+            form.addRow(self.tr(label),control)
+        self.color_button=button(self.tr('Colore'),self.element_color)
+        form.addRow(self.tr('Colore'),self.color_button)
         for key,label in [('leading_zero','Mostra zeri iniziali'),('bold','Grassetto'),('visible','Visibile'),('locked','Blocca posizione')]:
-            control=QCheckBox(label)
+            control=QCheckBox(self.tr(label))
             control.toggled.connect(self.commit_properties)
             self.fields[key]=control
             form.addRow(control)
-        form.addRow(button('Importa font TTF / OTF',self.import_font))
-        form.addRow(button('Centra sul quadrante',self.center_element))
+        form.addRow(button(self.tr('Importa font TTF / OTF'),self.import_font))
+        form.addRow(button(self.tr('Centra sul quadrante'),self.center_element))
         pl.addWidget(self.prop_group)
         pl.addStretch()
         ps=QScrollArea()
         ps.setWidget(properties)
         ps.setWidgetResizable(True)
-        right.addTab(ps,'Proprietà')
+        right.addTab(ps,self.tr('Proprietà'))
 
         project_tab=QWidget()
         pl=QVBoxLayout(project_tab)
-        box=QGroupBox('Il tuo progetto')
+        box=QGroupBox(self.tr('Il tuo progetto'))
         f=QFormLayout(box)
         self.project_fields={}
         for key,label in [('name','Nome progetto'),('author','Autore'),('face_id','ID template'),('version','Versione')]:
             control=QLineEdit()
             control.editingFinished.connect(self.commit_project)
             self.project_fields[key]=control
-            f.addRow(label,control)
-        f.addRow(button('Colore dello sfondo',self.background_color))
-        self.aod_enabled=QCheckBox('Includi AOD nella compilazione')
+            f.addRow(self.tr(label),control)
+        f.addRow(button(self.tr('Colore dello sfondo'),self.background_color))
+        self.aod_enabled=QCheckBox(self.tr('Includi AOD nella compilazione'))
         self.aod_enabled.toggled.connect(self.commit_project)
         f.addRow(self.aod_enabled)
-        f.addRow(button('Crea AOD essenziale',self.create_aod))
+        f.addRow(button(self.tr('Crea AOD essenziale'),self.create_aod))
         pl.addWidget(box)
-        status=QLabel('S5 46 mm · M2530W1\n480 × 480 · target 562\nPackaging: template funzionante\nID e metadati ZIP preservati\n\nI nuovi progetti usano i default del template.\nIl ZIP esportato mantiene nome, autore e versione originali anche se rinomini il progetto.\n\nProva del nuovo payload sul tuo S5: da eseguire\nBussola live: non abilitata')
+        status=QLabel(self.tr('S5 46 mm · M2530W1\n480 × 480 · target 562\nPackaging: template funzionante\nID e metadati ZIP preservati\n\nI nuovi progetti usano i default del template.\nIl ZIP esportato mantiene nome, autore e versione originali anche se rinomini il progetto.\n\nProva del nuovo payload sul tuo S5: da eseguire\nBussola live: non abilitata'))
         status.setWordWrap(True)
         status.setObjectName('subtitle')
         pl.addWidget(status)
-        pl.addWidget(button('Seleziona compilatore…',self.select_compiler))
-        pl.addWidget(button('Verifica pacchetto MWZ…',self.check_package))
-        pl.addWidget(button('Registra prova sull’orologio…',self.record_hardware_test))
-        pl.addWidget(button('Esporta anteprima PNG…',self.save_preview))
+        pl.addWidget(button(self.tr('Seleziona compilatore…'),self.select_compiler))
+        pl.addWidget(button(self.tr('Verifica pacchetto MWZ…'),self.check_package))
+        pl.addWidget(button(self.tr('Registra prova sull’orologio…'),self.record_hardware_test))
+        pl.addWidget(button(self.tr('Esporta anteprima PNG…'),self.save_preview))
         pl.addStretch()
-        right.addTab(project_tab,'Progetto')
+        right.addTab(project_tab,self.tr('Progetto'))
 
         sim=QWidget()
         sl=QVBoxLayout(sim)
-        box=QGroupBox('Simula i dati')
+        box=QGroupBox(self.tr('Simula i dati'))
         f=QFormLayout(box)
         self.scenario=QComboBox()
-        self.scenario.addItems(SCENARIOS.keys())
-        self.scenario.currentTextChanged.connect(self.scenario_changed)
-        f.addRow('Scenario',self.scenario)
+        self.add_translated_items(self.scenario,SCENARIOS.keys())
+        self.scenario.currentIndexChanged.connect(lambda _:self.scenario_changed(self.scenario.currentData()))
+        f.addRow(self.tr('Scenario'),self.scenario)
         self.sim_fields={}
         for key,(label,_,digits) in SOURCES.items():
             spin=QSpinBox()
             spin.setRange(-1,{'hour':23,'minute':59,'second':59,'day':31,'month':12}.get(key,10**digits-1))
-            spin.setSpecialValueText('--')
+            spin.setSpecialValueText(self.tr('--'))
             spin.setKeyboardTracking(False)
             spin.valueChanged.connect(self.simulation_changed)
-            f.addRow(label,spin)
+            f.addRow(self.tr(label),spin)
             self.sim_fields[key]=spin
         sl.addWidget(box)
-        note=QLabel('Questi numeri servono soltanto all’anteprima. Sul quadrante compilato i dati arrivano dal sistema dell’orologio.\n\nIl comportamento del dato assente sul firmware deve ancora essere provato.')
+        note=QLabel(self.tr('Questi numeri servono soltanto all’anteprima. Sul quadrante compilato i dati arrivano dal sistema dell’orologio.\n\nIl comportamento del dato assente sul firmware deve ancora essere provato.'))
         note.setObjectName('subtitle')
         note.setWordWrap(True)
         sl.addWidget(note)
         sl.addStretch()
-        right.addTab(sim,'Simula')
+        right.addTab(sim,self.tr('Simula'))
         splitter.addWidget(right)
         splitter.setSizes([240,690,300])
-        self.statusBar().showMessage('Pronto. Importa un’immagine o modifica il modello iniziale.')
+        self.statusBar().showMessage(self.tr('Pronto. Importa un’immagine o modifica il modello iniziale.'))
         for shortcut,fn in [('Ctrl+S',self.save_project),('Ctrl+Shift+S',self.save_as),('Ctrl+O',self.open_project),('Ctrl+N',self.new_project),('Ctrl+Z',self.undo),('Ctrl+Y',self.redo)]:
             action=QAction(self)
             action.setShortcut(QKeySequence(shortcut))
@@ -447,8 +445,11 @@ class MainWindow(QMainWindow):
         self.recovery_timer.start(20000)
         QTimer.singleShot(100,self.offer_recovery)
 
+    def add_translated_items(self,combo,labels):
+        for label in labels:combo.addItem(self.tr(label),label)
+
     def error(self,text):
-        QMessageBox.warning(self,'S5 Studio',str(text))
+        QMessageBox.warning(self,self.tr('S5 Studio'),self.tr(str(text)))
 
     def checkpoint(self):
         self.history.append(self.project.copy())
@@ -482,10 +483,10 @@ class MainWindow(QMainWindow):
         errors=self.project.validate()
         if not errors:
             errors=layout_errors(self.project)
-        self.feedback.setText(('Da correggere: '+errors[0]) if errors else ('Trascina un componente per spostarlo. Il bordo circolare mostra l’area visibile.'))
+        self.feedback.setText(((self.tr('Da correggere: ') + errors[0]) if errors else self.tr('Trascina un componente per spostarlo. Il bordo circolare mostra l’area visibile.')))
         self.undo_button.setEnabled(bool(self.history))
         self.redo_button.setEnabled(bool(self.redo_history))
-        self.setWindowTitle(f'{self.project.name}{" *" if self.dirty else ""} — S5 Studio {__version__}')
+        self.setWindowTitle(self.tr('{v0}{v1} — S5 Studio {v2}').format(v0=self.project.name,v1=" *" if self.dirty else "",v2=__version__))
 
     def selected_element(self):
         return next((e for e in self.project.elements if e.id==self.selection),None)
@@ -602,7 +603,7 @@ class MainWindow(QMainWindow):
         self.canvas.refresh()
 
     def add_element(self):
-        name=self.add_combo.currentText()
+        name=self.add_combo.currentData()
         if name=='Immagine':
             self.import_image(False)
             return
@@ -625,7 +626,7 @@ class MainWindow(QMainWindow):
         self.finish_change()
 
     def import_image(self,background=False):
-        path,_=QFileDialog.getOpenFileName(self,'Scegli un’immagine','', 'Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)')
+        path,_=QFileDialog.getOpenFileName(self,self.tr('Scegli un’immagine'),'', self.tr('Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)'))
         if not path:
             return
         try:
@@ -635,7 +636,7 @@ class MainWindow(QMainWindow):
                 from tempfile import TemporaryDirectory
                 renderer=QSvgRenderer(path)
                 if not renderer.isValid():
-                    raise ValueError('SVG non valido.')
+                    raise ValueError(self.tr('SVG non valido.'))
                 size=renderer.defaultSize()
                 size.scale(QSize(1920,1920),Qt.AspectRatioMode.KeepAspectRatio)
                 image=QImage(size,QImage.Format.Format_ARGB32_Premultiplied)
@@ -658,7 +659,7 @@ class MainWindow(QMainWindow):
         e=self.selected_element()
         if not e:
             return
-        path,_=QFileDialog.getOpenFileName(self,'Scegli un font','', 'Font (*.ttf *.otf)')
+        path,_=QFileDialog.getOpenFileName(self,self.tr('Scegli un font'),'', self.tr('Font (*.ttf *.otf)'))
         if path:
             try:
                 self.checkpoint()
@@ -754,14 +755,14 @@ class MainWindow(QMainWindow):
             return False
         if not self.dirty:
             return True
-        reply=QMessageBox.question(self,'Salva il progetto','Ci sono modifiche da salvare.',QMessageBox.StandardButton.Save|QMessageBox.StandardButton.Discard|QMessageBox.StandardButton.Cancel,QMessageBox.StandardButton.Save)
+        reply=QMessageBox.question(self,self.tr('Salva il progetto'),self.tr('Ci sono modifiche da salvare.'),QMessageBox.StandardButton.Save|QMessageBox.StandardButton.Discard|QMessageBox.StandardButton.Cancel,QMessageBox.StandardButton.Save)
         if reply==QMessageBox.StandardButton.Cancel:
             return False
         return self.save_project() if reply==QMessageBox.StandardButton.Save else True
 
     def new_project(self):
         if self.confirm_leave():
-            self.project=template(self.template_combo.currentText())
+            self.project=template(self.template_combo.currentData())
             self.path=None
             self.history=[]
             self.redo_history=[]
@@ -774,7 +775,7 @@ class MainWindow(QMainWindow):
     def open_project(self):
         if not self.confirm_leave():
             return
-        path,_=QFileDialog.getOpenFileName(self,'Apri progetto',str(self.root/'projects'),'Progetti S5 Studio (*.s5faceproj)')
+        path,_=QFileDialog.getOpenFileName(self,self.tr('Apri progetto'),str(self.root/'projects'),self.tr('Progetti S5 Studio (*.s5faceproj)'))
         if path:
             try:
                 p=Project.load(Path(path))
@@ -801,7 +802,7 @@ class MainWindow(QMainWindow):
         path=self.path
         if not path or force_dialog:
             suggested=self.root/'projects'/f'{self.project.face_id}.s5faceproj'
-            selected,_=QFileDialog.getSaveFileName(self,'Salva progetto',str(path or suggested),'Progetti S5 Studio (*.s5faceproj)')
+            selected,_=QFileDialog.getSaveFileName(self,self.tr('Salva progetto'),str(path or suggested),self.tr('Progetti S5 Studio (*.s5faceproj)'))
             if not selected:
                 return False
             path=Path(selected)
@@ -813,7 +814,7 @@ class MainWindow(QMainWindow):
             self.dirty=False
             self.clear_recovery()
             self.refresh()
-            self.statusBar().showMessage(f'Progetto salvato: {path}')
+            self.statusBar().showMessage(self.tr('Progetto salvato: {v0}').format(v0=path))
             return True
         except Exception as exc:
             self.error(exc)
@@ -835,7 +836,7 @@ class MainWindow(QMainWindow):
     def offer_recovery(self):
         path=self.recovery_path()
         if path.exists():
-            reply=QMessageBox.question(self,'Recupera progetto','È disponibile un progetto recuperato automaticamente. Vuoi aprirlo?')
+            reply=QMessageBox.question(self,self.tr('Recupera progetto'),self.tr('È disponibile un progetto recuperato automaticamente. Vuoi aprirlo?'))
             if reply==QMessageBox.StandardButton.Yes:
                 try:
                     self.project=Project.load(path)
@@ -847,14 +848,13 @@ class MainWindow(QMainWindow):
                 self.clear_recovery()
 
     def select_compiler(self):
-        path,_=QFileDialog.getOpenFileName(self,'EasyFace Compiler 4.23',str(self.compiler.parent),'Compilatore (Compiler.exe)')
+        path,_=QFileDialog.getOpenFileName(self,self.tr('EasyFace Compiler 4.23'),str(self.compiler.parent),self.tr('Compilatore (Compiler.exe)'))
         if path:
             try:
                 info=compiler_probe(Path(path))
                 self.compiler=Path(path)
-                self.settings_path.parent.mkdir(parents=True,exist_ok=True)
-                self.settings_path.write_text(json.dumps({'compiler':str(self.compiler)},indent=2),encoding='utf-8')
-                self.statusBar().showMessage(f'Compilatore S5 selezionato · SHA-256 {info["sha256"][:16]}…')
+                self.settings.update(compiler=str(self.compiler))
+                self.statusBar().showMessage(self.tr('Compilatore S5 selezionato · SHA-256 {v0}…').format(v0=info["sha256"][:16]))
             except Exception as exc:
                 self.error(exc)
 
@@ -871,7 +871,7 @@ class MainWindow(QMainWindow):
         except Exception as exc:
             self.error(exc)
             return
-        path=QFileDialog.getExistingDirectory(self,'Cartella per le build',str(self.root/'dist'))
+        path=QFileDialog.getExistingDirectory(self,self.tr('Cartella per le build'),str(self.root/'dist'))
         if not path:
             return
         self.export_button.setEnabled(False)
@@ -885,15 +885,15 @@ class MainWindow(QMainWindow):
         self.workspace.setEnabled(True)
         self.export_button.setEnabled(True)
         if error:
-            self.statusBar().showMessage('Compilazione non completata.')
+            self.statusBar().showMessage(self.tr('Compilazione non completata.'))
             self.error(error)
         else:
-            self.statusBar().showMessage(f'Build salvata in {path}')
+            self.statusBar().showMessage(self.tr('Build salvata in {v0}').format(v0=path))
             self.text_dialog('Quadrante compilato',f'ZIP creato dal template quadrante_funzionante.zip.\n\nCartella: {path}\n\nCopia sul telefono il file *_TEMPLATE.zip senza estrarlo. Struttura e file preservati sono stati verificati automaticamente.\n\nL’identità del template è mantenuta: l’installazione può sostituire il quadrante originale. Capability, hashCode e manifest restano intatti; la loro coerenza con il nuovo payload e il funzionamento sul S5 vanno ancora provati.\n\nUsa le impostazioni della mod con cui hai collaudato il template. Leggi LEGGIMI.txt e build-report.json.',open_path=Path(path))
 
     def text_dialog(self,title,text,open_path=None):
         dialog=QDialog(self)
-        dialog.setWindowTitle(title)
+        dialog.setWindowTitle(self.tr(title))
         dialog.resize(650,480)
         layout=QVBoxLayout(dialog)
         editor=QTextEdit()
@@ -903,7 +903,7 @@ class MainWindow(QMainWindow):
         if open_path:
             from PySide6.QtGui import QDesktopServices
             from PySide6.QtCore import QUrl
-            layout.addWidget(button('Apri cartella',lambda:QDesktopServices.openUrl(QUrl.fromLocalFile(str(open_path)))))
+            layout.addWidget(button(self.tr('Apri cartella'),lambda:QDesktopServices.openUrl(QUrl.fromLocalFile(str(open_path)))))
         buttons=QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         buttons.rejected.connect(dialog.reject)
         layout.addWidget(buttons)
@@ -913,7 +913,7 @@ class MainWindow(QMainWindow):
         self.text_dialog('Guida rapida', '1. Scegli un modello e importa una foto come sfondo.\n2. Trascina i componenti o modifica le proprietà.\n3. Aggiungi i numeri dinamici e scegli la sorgente.\n4. Prova i valori nella scheda Simula.\n5. Salva il progetto e premi Compila per S5.\n\n'+TRANSFER_GUIDE)
 
     def check_package(self):
-        path,_=QFileDialog.getOpenFileName(self,'Verifica pacchetto S5',str(self.root),'Pacchetti (*.mwz *.zip)')
+        path,_=QFileDialog.getOpenFileName(self,self.tr('Verifica pacchetto S5'),str(self.root),self.tr('Pacchetti (*.mwz *.zip)'))
         if path:
             try:
                 result=inspect_mwz(Path(path))
@@ -925,30 +925,30 @@ class MainWindow(QMainWindow):
                 self.error(exc)
 
     def save_preview(self):
-        path,_=QFileDialog.getSaveFileName(self,'Esporta anteprima',str(self.root/'dist/preview.png'),'Immagine PNG (*.png)')
+        path,_=QFileDialog.getSaveFileName(self,self.tr('Esporta anteprima'),str(self.root/'dist/preview.png'),self.tr('Immagine PNG (*.png)'))
         if path:
             try:
                 Path(path).write_bytes(png_bytes(render(self.project,self.canvas.values,self.canvas.aod)))
-                self.statusBar().showMessage('Anteprima con dati simulati salvata.')
+                self.statusBar().showMessage(self.tr('Anteprima con dati simulati salvata.'))
             except Exception as exc:
                 self.error(exc)
 
     def record_hardware_test(self):
         dialog=QDialog(self)
-        dialog.setWindowTitle('Registra una prova reale')
+        dialog.setWindowTitle(self.tr('Registra una prova reale'))
         layout=QVBoxLayout(dialog)
-        layout.addWidget(QLabel('Registra soltanto ciò che hai osservato sul tuo orologio.'))
+        layout.addWidget(QLabel(self.tr('Registra soltanto ciò che hai osservato sul tuo orologio.')))
         form=QFormLayout()
         fields={}
         for key,label,default in [('firmware','Firmware','3.221.024'),('mod','Mi Fitness mod','V3.52.0i'),('buildSha256','SHA-256 del binario',''),('region','Regione effettiva',''),('phone','Telefono / Android','')]:
             control=QLineEdit(default)
-            form.addRow(label,control)
+            form.addRow(self.tr(label),control)
             fields[key]=control
         outcome=QComboBox()
-        outcome.addItems(['Installazione riuscita','Installazione rifiutata','Dati verificati','Errore del quadrante'])
-        form.addRow('Esito',outcome)
+        self.add_translated_items(outcome,['Installazione riuscita','Installazione rifiutata','Dati verificati','Errore del quadrante'])
+        form.addRow(self.tr('Esito'),outcome)
         notes=QTextEdit()
-        notes.setPlaceholderText('Dati confrontati, sleep/wake, AOD, messaggi e tempi della prova…')
+        notes.setPlaceholderText(self.tr('Dati confrontati, sleep/wake, AOD, messaggi e tempi della prova…'))
         layout.addLayout(form)
         layout.addWidget(notes)
         controls=QDialogButtonBox(QDialogButtonBox.StandardButton.Save|QDialogButtonBox.StandardButton.Cancel)
@@ -960,18 +960,18 @@ class MainWindow(QMainWindow):
                 values={k:c.text().strip() for k,c in fields.items()}
                 import re
                 if not re.fullmatch('[a-fA-F0-9]{64}',values['buildSha256']):
-                    raise ValueError('Inserisci lo SHA-256 del resource.bin provato (nel build-report.json).')
-                values.update(model='M2530W1',faceId=self.project.face_id,outcome=outcome.currentText(),notes=notes.toPlainText(),reportedBy='user',timestamp=datetime.now().astimezone().isoformat())
+                    raise ValueError(self.tr('Inserisci lo SHA-256 del resource.bin provato (nel build-report.json).'))
+                values.update(model='M2530W1',faceId=self.project.face_id,outcome=outcome.currentData(),notes=notes.toPlainText(),reportedBy='user',timestamp=datetime.now().astimezone().isoformat())
                 target=self.root/'data/hardware-tests'
                 target.mkdir(parents=True,exist_ok=True)
                 (target/f'{datetime.now():%Y%m%d-%H%M%S}-{identifier()}.json').write_text(json.dumps(values,ensure_ascii=False,indent=2),encoding='utf-8')
-                self.statusBar().showMessage('Prova registrata. Il profilo generale resta distinto dalla singola evidenza.')
+                self.statusBar().showMessage(self.tr('Prova registrata. Il profilo generale resta distinto dalla singola evidenza.'))
             except Exception as exc:
                 self.error(exc)
 
     def closeEvent(self,event):
         if self.busy():
-            self.statusBar().showMessage('Attendi il termine della compilazione prima di chiudere.')
+            self.statusBar().showMessage(self.tr('Attendi il termine della compilazione prima di chiudere.'))
             event.ignore()
         elif self.confirm_leave():
             self.clear_recovery()

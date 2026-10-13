@@ -1,0 +1,20 @@
+{
+  "applicationVersion": "2.8",
+  "status": "passed",
+  "checks": [
+    "italian-default-original-labels-and-version",
+    "english-persisted-with-project-names-and-data-unchanged",
+    "missing-key-parameters-and-inherited-key-fallback",
+    "all-six-tabs-dynamic-content-translated",
+    "translated-selector-preserves-backend-value",
+    "new-dom-translated-user-content-preserved",
+    "dynamic-hand-controls-and-smooth-flags-localized",
+    "switch-back-restores-original-italian",
+    "parameterized-layer-count-localized",
+    "new-window-loads-language-from-settings"
+  ],
+  "passed": 10,
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "watchfaceZipCreated": false
+}

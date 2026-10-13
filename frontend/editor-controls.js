@@ -10,7 +10,8 @@ window.S5Selectors=(()=>{
       const graphic=select._studioGraphic?.(value),img=popup.figure.querySelector('img'),caption=popup.figure.querySelector('figcaption');
       img.hidden=!graphic;
       if(graphic){img.src=graphic.src;img.alt=graphic.label;caption.textContent=graphic.label;}
-      else{img.removeAttribute('src');caption.textContent='Passa su un modello per vedere l’anteprima';}
+      else{img.removeAttribute('src');caption.textContent=S5I18n.t('Passa su un modello per vedere l’anteprima');}
+      caption.dataset.i18nSkip='';
     }
     if(popup?.select===select&&popup.description)popup.description.textContent=select._studioDescription?.(value)||'Passa su una voce per leggerne il significato.';
   }
@@ -26,7 +27,7 @@ window.S5Selectors=(()=>{
       trigger.setAttribute('role','combobox');trigger.setAttribute('aria-expanded','false');trigger.setAttribute('aria-haspopup','listbox');
       const label=select.closest('label')?.querySelector('.field')?.textContent||select.getAttribute('aria-label')||'Scegli un valore';
       trigger.setAttribute('aria-label',label);shell.append(trigger);
-      const refresh=()=>{trigger.innerHTML=`<span>${escape(select.selectedOptions[0]?.textContent||'Scegli…')}</span><span aria-hidden="true">⌄</span>`;trigger.disabled=select.disabled;};
+      const refresh=()=>{trigger.innerHTML=`<span data-i18n-skip>${escape(select.selectedOptions[0]?.textContent||S5I18n.t('Scegli…'))}</span><span aria-hidden="true">⌄</span>`;trigger.disabled=select.disabled;};
       select._refreshStudioLabel=refresh;select.addEventListener('change',refresh);refresh();
       function open(){
         if(popup?.select===select){close();return;}
@@ -40,7 +41,7 @@ window.S5Selectors=(()=>{
           [...select.options].filter(o=>o.textContent.toLowerCase().includes(filter.toLowerCase())).forEach(option=>{
             const button=document.createElement('button');button.type='button';button.className='select-option';button.setAttribute('role','option');button.dataset.value=option.value;
             button.disabled=option.disabled;button.setAttribute('aria-selected',String(option.value===select.value));
-            button.innerHTML=`<span>${escape(option.textContent)}</span><span class="committed-check">${option.value===select.value?'✓':''}</span>`;
+            button.innerHTML=`<span data-i18n-skip>${escape(option.textContent)}</span><span class="committed-check">${option.value===select.value?'✓':''}</span>`;
             button.onmouseenter=button.onmouseover=button.onfocus=()=>{
               list.querySelectorAll('.is-hovered').forEach(row=>row.classList.remove('is-hovered'));
               button.classList.add('is-hovered');preview(select,option.value);

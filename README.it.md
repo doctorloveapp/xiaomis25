@@ -2,13 +2,13 @@
 
 ![S5 Studio — progettazione di quadranti per Xiaomi Watch S5](docs/assets/s5-studio-banner.svg)
 
-[![Build 2.7](https://img.shields.io/badge/build-2.7-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![114 test mirati superati](https://img.shields.io/badge/tests-114%20targeted%20passed-15803d)](docs/validation-editor-2.7.json) [![Test S5 confermato dall'utente](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Licenza codice MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
+[![Build 2.8](https://img.shields.io/badge/build-2.8-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![43 test mirati superati](https://img.shields.io/badge/tests-43%20targeted%20passed-15803d)](docs/validation-editor-2.8.json) [![Test S5 confermato dall'utente](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Licenza codice MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
 
 [English](README.md) · **Italiano** · [Releases](https://github.com/doctorloveapp/xiaomis25/releases) · [Documentazione](docs/README.md)
 
 S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da immagini personalizzate. Integra stili indipendenti, livelli dinamici e un cronografo Lua condiviso con compilazione nativa, packaging su template e validazione finale, per produrre quadranti funzionanti e configurabili.
 
-**Dispositivo:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Interfaccia:** italiana. La documentazione bilingue non implica una UI inglese. I badge descrivono risultati registrati per la build 2.7, non un servizio CI continuo.
+**Dispositivo:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Interfaccia:** italiano (default) e inglese. Scegli Lingua nella barra superiore: la preferenza viene salvata in settings.json. I badge descrivono verifiche registrate; la conferma hardware riguarda il runtime invariato testato nella 2.7, non una nuova certificazione. [Guida i18n](docs/I18N_2.8.md).
 
 ## Indice
 
@@ -27,6 +27,7 @@ S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da i
 
 | Funzione | Implementazione e vantaggio |
 | --- | --- |
+| **UI italiano / inglese** | Cambio lingua immediato, cataloghi Qt Linguist TS/QM e JSON offline, preferenza persistente. L’italiano rimane predefinito. |
 | **Editor a livelli** | Immagini, testi, dati live, forme, lancette e dischi; riordino, eliminazione, duplicazione, blocco e Annulla/Ripeti. Ctrl abilita la selezione multipla; trascinamento, frecce e allineamenti agiscono sulla selezione. |
 | **Grafica e geometria** | Importazione PNG/JPEG/WebP/BMP/SVG; ingrandimento oltre il canvas con ritaglio finale a 480 × 480. Rotazione e arco di testo/dati; rettangoli, cerchi ed ellissi con riempimento, cornice e ombre indipendenti. |
 | **Set lancette** | Importazione di set grandi/piccoli con nome, pivot impostabile cliccando sulla grafica, ombre abbinate o generate. Il modello ore può abbinare automaticamente minuti/secondi; ogni lancetta resta modificabile separatamente. |
@@ -37,14 +38,14 @@ S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da i
 | **Simulazione** | Anteprima animata, zoom/panoramica, giorno 1–31, mese e anno, lettura congelata del cronografo. I valori simulati non sostituiscono le sorgenti reali esportate. |
 | **Esportazione validata** | Compilazione EasyFace nativa, anteprime complete, ZIP su template e rapporto per build. **Perché:** binario, metadati, stili e binding Lua sono verificati insieme prima di pubblicare il file di output. |
 
-La build personale 2.7 comprende **629 modelli di lancette e 90 dischi**, anche da 39 quadranti forniti per lo studio. I numeri descrivono quella build: non costituiscono una libreria liberamente redistribuibile. [Ambito di distribuzione](docs/DISTRIBUTION.md).
+La build personale 2.8 comprende **629 modelli di lancette e 90 dischi**, anche da 39 quadranti forniti per lo studio. I numeri descrivono quella build: non costituiscono una libreria liberamente redistribuibile. [Ambito di distribuzione](docs/DISTRIBUTION.md).
 
 ## Installation Guide
 
 ### Applicazione Windows precompilata
 
 1. Apri le [GitHub Releases](https://github.com/doctorloveapp/xiaomis25/releases) e leggi asset e note della release scelta. L'archivio dei sorgenti GitHub non è l'eseguibile.
-2. La build documentata usa **`S5Studio-2.7.exe`**, **Windows x64** e **.NET Framework 4.7.2 o successivo**. Questa build personale incorpora Python, Qt, UI compilata, cataloghi, template e compilatore; sul PC di destinazione non servono Python o Node.
+2. La build documentata usa **`S5Studio-2.8.exe`**, **Windows x64** e **.NET Framework 4.7.2 o successivo**. Questa build personale incorpora Python, Qt, UI compilata, cataloghi, template e compilatore; sul PC di destinazione non servono Python o Node.
 3. Verifica l'hash del file con il rapporto associato a quell'esatto asset. Salva il lavoro, chiudi la versione precedente e avvia l'EXE oppure **`Avvia_S5_Studio.cmd`**, se fornito. La finestra si apre massimizzata.
 4. Crea/apri un `.s5faceproj`, configura stili normali e AOD, salva e premi **Esporta ZIP**, scegliendo la cartella di destinazione.
 5. Copia il ZIP sul telefono senza estrarlo e installalo con un uploader locale compatibile. Mantieni Bluetooth e sincronizzazione attivi. Consulta la [FAQ Capabilities](#perché-linstallazione-locale-fallisce-con-capabilities) prima di modificare le impostazioni dell'uploader.
@@ -63,13 +64,13 @@ La build personale 2.7 comprende **629 modelli di lancette e 90 dischi**, anche 
 | Esportazioni | Cartella scelta in **Esporta ZIP**, compreso `build-report.json` |
 
 ```powershell
-Get-FileHash -LiteralPath .\S5Studio-2.7.exe -Algorithm SHA256
+Get-FileHash -LiteralPath .\S5Studio-2.8.exe -Algorithm SHA256
 ```
 
-SHA-256 dell'**eseguibile personale 2.7 consegnato**:
+SHA-256 dell'**eseguibile personale 2.8 consegnato**:
 
 ```text
-f955eb7d34278e0715646c3c7047232759f6e5d91da918958f61f9e786115205
+ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd
 ```
 
 Identifica quell'esatto file: una ricompilazione o un asset pubblico con risorse diverse avrà un hash diverso. Gli hash di compilatore, template e campione originale sono conservati nella [guida di installazione](docs/INSTALLATION.md#reference-hashes).
@@ -130,13 +131,13 @@ Per un giro completo: intervallo 60 per secondi/minuti, 12 per ore crono su scal
 
 | Dispositivo / firmware | Stato | Evidenza e ambito |
 | --- | --- | --- |
-| **Xiaomi Watch S5 M2530W1 · 3.221.024 · 480 × 480** | **Build 2.7 confermata dall'utente** | Modello e firmware installato dichiarati dal tester; funzionamento confermato il 2026-10-13 |
+| **Xiaomi Watch S5 M2530W1 · 3.221.024 · 480 × 480** | **Build 2.7 confermata dall'utente** | Modello e firmware installato dichiarati dal tester; funzionamento confermato il 2026-10-13; runtime orologio invariato nella 2.8 |
 | Stesso modello, altri firmware | Non verificato | API Lua, canali e uploader possono differire |
 | Altri Xiaomi/Redmi o Mi Band | Target non supportato | Gli esempi API di modelli affini non dimostrano compatibilità dei pacchetti |
 | Windows x64 + .NET Framework 4.7.2 o successivo | Target dell'EXE personale | Requisiti runtime/compilatore; bundle verificato staticamente |
 | Linux/macOS o pubblicazione nello store ufficiale | Non validato | Nessun pacchetto supportato o integrazione di pubblicazione ufficiale |
 
-Target compilatore **MiWatchS5 / 562**, tipo dispositivo del pacchetto **P62**. I profili storici indicano mod m0tral **V3.52.0i**; la versione esatta dell'app nell'ultimo test non è stata confermata separatamente. L'esito hardware è riferito dal proprietario, non una certificazione indipendente. Fps, consumo e risoluzione grezza del clock non sono stati misurati. [Esito reale](docs/hardware-test-2.7.json) · [Test sorgenti](docs/validation-editor-2.7.json) · [Bundle](docs/executable-build-2.7.json).
+Target compilatore **MiWatchS5 / 562**, tipo dispositivo del pacchetto **P62**. I profili storici indicano mod m0tral **V3.52.0i**; la versione esatta dell'app nell'ultimo test non è stata confermata separatamente. L'esito hardware è riferito dal proprietario, non una certificazione indipendente. Fps, consumo e risoluzione grezza del clock non sono stati misurati. [Esito reale](docs/hardware-test-2.7.json) · [Test sorgenti](docs/validation-editor-2.8.json) · [Bundle](docs/executable-build-2.8.json).
 
 ## Troubleshooting
 
@@ -164,7 +165,7 @@ EasyFace 4.23 non espone un selettore Regione verificato. Nei campioni coesiston
 
 ### L'EXE funziona da solo? Perché data/ è nel gitignore?
 
-L'EXE personale 2.7 consegnato incorpora le risorse: non richiede cartelle `data/`, compilatore o template accanto al file. Il clone dei sorgenti è diverso: dati personali, corpus originale, template e compilatore sono esclusi. Per riprodurre quel bundle occorrono gli input originali e i relativi permessi. [Installazione](docs/INSTALLATION.md).
+L'EXE personale 2.8 consegnato incorpora le risorse: non richiede cartelle `data/`, compilatore o template accanto al file. Il clone dei sorgenti è diverso: dati personali, corpus originale, template e compilatore sono esclusi. Per riprodurre quel bundle occorrono gli input originali e i relativi permessi. [Installazione](docs/INSTALLATION.md).
 
 ### Stili e complicazioni sono indipendenti?
 
@@ -201,10 +202,11 @@ python -m pytest -q
 
 Sostituisci i nomi di esempio con i tuoi input/output. `apply-template` accetta progetti Studio e FPRJ supportati; per FPRJ Studio ripristina stili/slot dal progetto incorporato dopo averne verificato gli hash. I widget esterni non ricostruibili coerentemente vengono rifiutati.
 
-`powershell -File scripts/package.ps1` prepara l'EXE personale dopo preflight e sincronizzazione; `python scripts/verify_bundle.py S5Studio-2.7.exe` controlla gli hash incorporati senza avviarlo. Il packaging attuale richiede il catalogo personale fornito e non è un builder generico da clone pulito. [Contributi](CONTRIBUTING.md) · [Prerequisiti sorgenti](docs/INSTALLATION.md#running-from-source).
+`powershell -File scripts/package.ps1` prepara l'EXE personale dopo preflight e sincronizzazione; `python scripts/verify_bundle.py S5Studio-2.8.exe` controlla gli hash incorporati senza avviarlo. Il packaging attuale richiede il catalogo personale fornito e non è un builder generico da clone pulito. [Contributi](CONTRIBUTING.md) · [Prerequisiti sorgenti](docs/INSTALLATION.md#running-from-source).
 
 ## Documentation and Release History
 
+- [Internazionalizzazione 2.8](docs/I18N_2.8.md) — preferenza lingua, estrazione stringhe e workflow traduzioni.
 - [Indice documentazione](docs/README.md) — guide correnti e rapporti, con lingua indicata.
 - [Ingegneria Crono Pro](docs/CHRONO_PRO.md) — stato condiviso, clock, formule, POST e ciclo di vita.
 - [Installazione](docs/INSTALLATION.md) — percorsi, dipendenze, hash e build dai sorgenti.

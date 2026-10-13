@@ -2,13 +2,13 @@
 
 ![S5 Studio — watchface engineering for Xiaomi Watch S5](docs/assets/s5-studio-banner.svg)
 
-[![Build 2.7](https://img.shields.io/badge/build-2.7-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![114 targeted tests passed](https://img.shields.io/badge/tests-114%20targeted%20passed-15803d)](docs/validation-editor-2.7.json) [![S5 device test user confirmed](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Code license MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
+[![Build 2.8](https://img.shields.io/badge/build-2.8-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![43 targeted tests passed](https://img.shields.io/badge/tests-43%20targeted%20passed-15803d)](docs/validation-editor-2.8.json) [![S5 device test user confirmed](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Code license MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
 
 **English** · [Italiano](README.it.md) · [Releases](https://github.com/doctorloveapp/xiaomis25/releases) · [Documentation](docs/README.md)
 
 S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 watchfaces. It combines independent styles, sensor-driven layers and a shared Lua chronograph runtime with template-preserving packaging and export validation, turning custom artwork into configurable, working watchfaces.
 
-**Target:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Application UI:** Italian. English and Italian documentation are available; this does not imply an English application UI. Test badges describe recorded results for build 2.7, not a continuously running CI service.
+**Target:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Application UI:** Italian (default) and English. Choose Language in the toolbar; the preference is saved in settings.json. Test badges describe recorded checks; the device confirmation refers to the unchanged watch runtime tested in 2.7, not a new hardware certification. [Internationalization guide](docs/I18N_2.8.md).
 
 ## Table of Contents
 
@@ -27,6 +27,7 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 
 | Capability | Implementation and design benefit |
 | --- | --- |
+| **Italian / English UI** | Live language switching, Qt Linguist TS/QM catalogs, offline JSON frontend and persistent application preference. Italian remains the default. |
 | **Layer editor** | Images, text, live data, shapes, hands and discs; reorder, delete, duplicate, lock, undo/redo and Ctrl multi-selection. Drag, arrow keys and alignment operate on the selection. |
 | **Artwork and geometry** | Import PNG/JPEG/WebP/BMP/SVG; scale beyond the viewport and crop to 480 × 480 on export. Rotate or curve text/live data; use rectangles, circles or ellipses with independent fill, outline and shadows. |
 | **Hand sets** | Import named main/small-hand sets, edit pivots by clicking the graphic, pair hand shadows or generate them. Main hour selection can pair the matching minute/second models; each remains independently editable. |
@@ -37,14 +38,14 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 | **Simulation** | Animated preview, zoom/pan, date simulation with day 1–31, month and year, and frozen chronograph readout. Preview values do not replace the live sources exported to the watch. |
 | **Validated export** | Native EasyFace compilation, complete previews, template-based ZIP packaging and a per-build report. **Why:** binary resources, metadata, styles and Lua bindings are checked together before publishing the output file. |
 
-The personal 2.7 build contains **629 hand models and 90 discs**, including assets recovered from 39 supplied watchfaces. These counts describe that build, not a freely redistributable asset library. See [distribution scope](docs/DISTRIBUTION.md).
+The personal 2.8 build contains **629 hand models and 90 discs**, including assets recovered from 39 supplied watchfaces. These counts describe that build, not a freely redistributable asset library. See [distribution scope](docs/DISTRIBUTION.md).
 
 ## Installation Guide
 
 ### Prebuilt Windows application
 
 1. Open [GitHub Releases](https://github.com/doctorloveapp/xiaomis25/releases) and read the asset list and distribution notes for the chosen release. A GitHub source archive is not the application executable.
-2. For the documented 2.7 build, use **`S5Studio-2.7.exe`** on **Windows x64** with **.NET Framework 4.7.2 or later**. That personal build includes Python, Qt, the compiled UI, catalogs, template and compiler; Python and Node are not required on the destination PC.
+2. For the documented 2.8 build, use **`S5Studio-2.8.exe`** on **Windows x64** with **.NET Framework 4.7.2 or later**. That personal build includes Python, Qt, the compiled UI, catalogs, template and compiler; Python and Node are not required on the destination PC.
 3. Verify the downloaded file against the report accompanying that exact asset. Save your work and close the previous version, then launch the EXE or **`Avvia_S5_Studio.cmd`** if supplied. The application opens maximized.
 4. Create/open a `.s5faceproj`, configure the normal styles and AOD, save, then select **Esporta ZIP** and choose an output directory.
 5. Transfer the resulting ZIP to the phone without extracting it and install using a compatible local watchface uploader. Keep Bluetooth connected and the watch synchronized. Read the [Capabilities FAQ](#why-does-local-installation-fail-with-capabilities) before changing uploader settings.
@@ -63,13 +64,13 @@ The personal 2.7 build contains **629 hand models and 90 discs**, including asse
 | Watchface output | Directory chosen in **Esporta ZIP**, including `build-report.json` |
 
 ```powershell
-Get-FileHash -LiteralPath .\S5Studio-2.7.exe -Algorithm SHA256
+Get-FileHash -LiteralPath .\S5Studio-2.8.exe -Algorithm SHA256
 ```
 
-SHA-256 of the **delivered personal 2.7 executable**:
+SHA-256 of the **delivered personal 2.8 executable**:
 
 ```text
-f955eb7d34278e0715646c3c7047232759f6e5d91da918958f61f9e786115205
+ee556cbe5a2df507ef8e99bda037feca78aab970ede6396e61691d2d359202cd
 ```
 
 This hash identifies that exact file; a rebuild or differently packaged public asset will have another hash. Compiler, template and reference-package hashes are retained in the [installation reference](docs/INSTALLATION.md#reference-hashes).
@@ -136,7 +137,7 @@ For a full revolution use ranges 60 for seconds/minutes, 12 for 12-hour chronogr
 | Windows x64 + .NET Framework 4.7.2 or later | Personal EXE build target | Runtime and compiler requirements; bundle verified statically |
 | Linux/macOS desktop or official-store publishing | Not validated | No packaged support or official publishing integration is provided |
 
-The compiler target is **MiWatchS5 / 562**, with package device type **P62**. Historical profiles record m0tral mod **V3.52.0i**; the exact companion-app version used for the latest test was not separately confirmed. Device success is an owner report, not independent certification. Fps, battery consumption and raw firmware clock resolution were not measured. [Hardware confirmation](docs/hardware-test-2.7.json) · [Source tests](docs/validation-editor-2.7.json) · [Bundle report](docs/executable-build-2.7.json).
+The compiler target is **MiWatchS5 / 562**, with package device type **P62**. Historical profiles record m0tral mod **V3.52.0i**; the exact companion-app version used for the latest test was not separately confirmed. Device success is an owner report, not independent certification. Fps, battery consumption and raw firmware clock resolution were not measured. [Hardware confirmation](docs/hardware-test-2.7.json) · [Source tests](docs/validation-editor-2.8.json) · [Bundle report](docs/executable-build-2.8.json).
 
 ## Troubleshooting
 
@@ -164,7 +165,7 @@ EasyFace 4.23 exposes no verified Region switch. `deviceRegion=international` an
 
 ### Does the EXE work alone? Why is data/ gitignored?
 
-The delivered personal 2.7 EXE includes its resources and works without adjacent `data/`, compiler or template folders. A source clone is different: `data/`, the original corpus, template and compiler are intentionally excluded. Rebuilding that identical bundle requires those inputs and their permissions. [Installation details](docs/INSTALLATION.md).
+The delivered personal 2.8 EXE includes its resources and works without adjacent `data/`, compiler or template folders. A source clone is different: `data/`, the original corpus, template and compiler are intentionally excluded. Rebuilding that identical bundle requires those inputs and their permissions. [Installation details](docs/INSTALLATION.md).
 
 ### Are styles and complications really independent?
 
@@ -201,10 +202,11 @@ python -m pytest -q
 
 Example file names above are placeholders for your own inputs/outputs. `apply-template` accepts Studio projects and supported FPRJ files; Studio-generated FPRJ restores embedded styles/slots after source-hash checks. External FPRJ widgets that cannot be reconstructed coherently are rejected.
 
-`powershell -File scripts/package.ps1` builds the personal EXE after runtime preflight and set synchronization; `python scripts/verify_bundle.py S5Studio-2.7.exe` checks embedded hashes without launching it. The current packaging script expects the supplied personal catalog and is not a generic clean-clone release builder. See [Contributing](CONTRIBUTING.md) and [source prerequisites](docs/INSTALLATION.md#running-from-source).
+`powershell -File scripts/package.ps1` builds the personal EXE after runtime preflight and set synchronization; `python scripts/verify_bundle.py S5Studio-2.8.exe` checks embedded hashes without launching it. The current packaging script expects the supplied personal catalog and is not a generic clean-clone release builder. See [Contributing](CONTRIBUTING.md) and [source prerequisites](docs/INSTALLATION.md#running-from-source).
 
 ## Documentation and Release History
 
+- [Internationalization 2.8](docs/I18N_2.8.md) — language settings, translation extraction and contributor workflow.
 - [Documentation index](docs/README.md) — current guides and evidence reports, with language labels.
 - [Chrono Pro engineering](docs/CHRONO_PRO.md) — shared state, clocks, formulas, POST and lifecycle.
 - [Installation reference](docs/INSTALLATION.md) — paths, dependencies, reference hashes and source builds.

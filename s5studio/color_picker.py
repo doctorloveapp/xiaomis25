@@ -1,5 +1,6 @@
 """One color dialog for every editor context, including an explicit no-color."""
 import re
+from PySide6.QtWidgets import QColorDialog
 from .colors import NO_COLOR
 
 
@@ -41,24 +42,28 @@ def graphic_color_changes(element,key,color):
     return {key:color if color is not None else '' if state['mode']=='accent' else NO_COLOR}
 
 
+class StudioColorDialog(QColorDialog):
+    def __init__(self,state,parent):
+        from PySide6.QtGui import QColor
+        from PySide6.QtWidgets import QCheckBox,QLabel
+        super().__init__(QColor(state['color']),parent)
+        self.setWindowTitle(self.tr('Select Color'))
+        self.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog,True)
+        self.original=QCheckBox(self.tr('Nessun colore'),self)
+        self.original.setObjectName('studio-original-color');self.original.setChecked(state['original'])
+        help_text={'original':self.tr('Mantieni i colori e la trasparenza originali della grafica.'),
+                   'cap':self.tr('Nascondi soltanto il tappo centrale, mantenendo tutte le lancette.'),
+                   'accent':self.tr('Non applicare un colore accento.'),
+                   'fill':self.tr('Rendi trasparente questo colore.'),
+                   'hand':self.tr('Rendi trasparente la lancetta disegnata.')}[state['mode']]
+        self.original.setToolTip(help_text)
+        help_label=QLabel(help_text,self);help_label.setWordWrap(True)
+        self.layout().insertWidget(0,help_label);self.layout().insertWidget(0,self.original)
+        self.currentColorChanged.connect(lambda _:self.original.setChecked(False))
+
+
 def choose_graphic_color(element,key,parent):
-    from PySide6.QtGui import QColor
-    from PySide6.QtWidgets import QCheckBox,QColorDialog,QDialog
-    state=graphic_color_state(element,key)
-    dialog=QColorDialog(QColor(state['color']),parent)
-    dialog.setWindowTitle('Select Color')
-    dialog.setOption(QColorDialog.ColorDialogOption.DontUseNativeDialog,True)
-    original=QCheckBox('Nessun colore',dialog)
-    original.setObjectName('studio-original-color');original.setChecked(state['original'])
-    help_text={'original':'Mantieni i colori e la trasparenza originali della grafica.',
-               'cap':'Nascondi soltanto il tappo centrale, mantenendo tutte le lancette.',
-               'accent':'Non applicare un colore accento.',
-               'fill':'Rendi trasparente questo colore.','hand':'Rendi trasparente la lancetta disegnata.'}[state['mode']]
-    original.setToolTip(help_text)
-    from PySide6.QtWidgets import QLabel
-    help_label=QLabel(help_text,dialog);help_label.setWordWrap(True)
-    dialog.layout().insertWidget(0,help_label)
-    dialog.layout().insertWidget(0,original)
-    dialog.currentColorChanged.connect(lambda _:original.setChecked(False))
+    from PySide6.QtWidgets import QDialog
+    dialog=StudioColorDialog(graphic_color_state(element,key),parent)
     if dialog.exec()!=QDialog.DialogCode.Accepted:return None
-    return graphic_color_changes(element,key,None if original.isChecked() else dialog.selectedColor().name())
+    return graphic_color_changes(element,key,None if dialog.original.isChecked() else dialog.selectedColor().name())

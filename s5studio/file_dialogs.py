@@ -3,10 +3,12 @@ import json
 from pathlib import Path
 
 from PySide6.QtWidgets import QFileDialog
+from PySide6.QtCore import QObject
 
 
-class RememberedDialogs:
+class RememberedDialogs(QObject):
     def __init__(self,parent,path):
+        super().__init__(parent)
         self.parent=parent;self.path=Path(path)
         try:
             data=json.loads(self.path.read_text(encoding='utf8'))
@@ -33,16 +35,16 @@ class RememberedDialogs:
         except OSError:pass # Folder preferences must not interrupt the operation.
 
     def open(self,category,title,fallback,filters):
-        selected,_=QFileDialog.getOpenFileName(self.parent,title,self.initial(category,fallback),filters)
+        selected,_=QFileDialog.getOpenFileName(self.parent,self.tr(title),self.initial(category,fallback),self.tr(filters))
         self.remember(category,selected)
         return selected
 
     def save(self,category,title,fallback,filters):
-        selected,_=QFileDialog.getSaveFileName(self.parent,title,self.initial(category,fallback,save=True),filters)
+        selected,_=QFileDialog.getSaveFileName(self.parent,self.tr(title),self.initial(category,fallback,save=True),self.tr(filters))
         self.remember(category,selected)
         return selected
 
     def directory(self,category,title,fallback):
-        selected=QFileDialog.getExistingDirectory(self.parent,title,self.initial(category,fallback))
+        selected=QFileDialog.getExistingDirectory(self.parent,self.tr(title),self.initial(category,fallback))
         self.remember(category,selected,directory=True)
         return selected

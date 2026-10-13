@@ -24,6 +24,8 @@ from .hand_sets import HandSetCatalog,empty_draft,roles_for
 from .disk_catalog import DiskCatalog,empty_disk,CATEGORIES
 from .paths import application_root,resource_root,user_data_root,default_compiler
 from .file_dialogs import RememberedDialogs
+from .settings import AppSettings,language_code
+from .i18n import install_language,load_catalog
 from .moon_disk import SOURCE as MOON_SOURCE,LABEL as MOON_LABEL,defaults as moon_defaults,parse_date as parse_moon_date,preview_value as moon_preview_value,lunar_element
 
 
@@ -64,7 +66,7 @@ class StudioBridge(QObject):
         self.set_preview_date(self.preview_date())
         self.worker=None;self.output=None;self.smoke=smoke
         self.state_sequence=0
-        self.compiler=default_compiler()
+        self.compiler=window.settings.compiler(default_compiler()) if hasattr(window,'settings') else default_compiler()
         self.chrono_state='reset';self.chrono_elapsed=0;self.chrono_started=0;self.motion_preview=False;self.motion_started=0
         from .chrono_pro import ProPreview
         self.pro_preview=ProPreview();self.preview_pro_mode=False
@@ -90,6 +92,14 @@ class StudioBridge(QObject):
     def preview_date(self):
         from .complications import SAMPLES
         return date(self.values.get('dateYear',SAMPLES['dateYear']),self.values.get('month',1),self.values.get('day',1))
+
+    @Slot(result=str)
+    def get_language(self):
+        return getattr(self.window,'language','it')
+
+    @Slot(str,result=str)
+    def locale(self,language):
+        return json.dumps(load_catalog(language),ensure_ascii=False)
 
     def set_preview_date(self,value):
         self.values.update(day=value.day,month=value.month,dateYear=value.year,__moonDate=value.isoformat())
@@ -164,7 +174,7 @@ class StudioBridge(QObject):
             'studioChronoCentisecond':'Lettura POST del Crono Pro: frazione del secondo da 00 a 99, oppure sola cifra dei centesimi da 0 a 9. Resta a zero durante il conteggio e raggiunge il valore acquisito allo Stop con animazione da 720 ms a 25 fps. La risoluzione reale dipende dal clock disponibile sul firmware. Esclusa in AOD.',
             'studioChronoMillisecond':'Lettura POST del Crono Pro: frazione del secondo da 000 a 999, oppure sola cifra dei millesimi da 0 a 9. Stesso istante di Stop per tutte le lancette; nessun aggiornamento rapido durante Running. La fase Anim del firmware non garantisce precisione di 1 ms. Esclusa in AOD.'})
         result=self.project.metadata()
-        result.update(variantIndex=self.variant,aod=self.aod,dirty=self.dirty,path=str(self.path or ''),
+        result.update(language=self.get_language(),variantIndex=self.variant,aod=self.aod,dirty=self.dirty,path=str(self.path or ''),
                       background=resolved.background,
                       stateSequence=self.state_sequence,
                       preview=self.image_url(resolved,self.aod),
@@ -234,14 +244,14 @@ class StudioBridge(QObject):
 
     def offer_recovery(self):
         if self.smoke or not self.recovery.exists():return
-        if QMessageBox.question(self.window,'Recupero progetto','Riprendere il progetto recuperato dopo la chiusura precedente?')==QMessageBox.StandardButton.Yes:
+        if QMessageBox.question(self.window,self.tr('Recupero progetto'),self.tr('Riprendere il progetto recuperato dopo la chiusura precedente?'))==QMessageBox.StandardButton.Yes:
             try:self.project=Project.load(self.recovery);self.dirty=True;self.send(state=self.state())
             except Exception as exc:self.send(error=str(exc))
 
     def confirm_leave(self):
         if self.smoke:return True
         if not self.dirty:return True
-        answer=QMessageBox.question(self.window,'Progetto modificato','Salvare le modifiche al progetto?',
+        answer=QMessageBox.question(self.window,self.tr('Progetto modificato'),self.tr('Salvare le modifiche al progetto?'),
                                     QMessageBox.StandardButton.Save|QMessageBox.StandardButton.Discard|QMessageBox.StandardButton.Cancel)
         if answer==QMessageBox.StandardButton.Cancel:return False
         if answer==QMessageBox.StandardButton.Save:return self.save()
@@ -249,7 +259,7 @@ class StudioBridge(QObject):
 
     def save(self):
         suggested=self.path or self.root/'projects/Il_mio_S5.s5faceproj'
-        filename=self.dialogs.save('project-save','Salva progetto',suggested,'Progetti S5 (*.s5faceproj)')
+        filename=self.dialogs.save('project-save',self.tr('Salva progetto'),suggested,self.tr('Progetti S5 (*.s5faceproj)'))
         if not filename:return False
         path=Path(filename)
         if path.suffix.lower()!='.s5faceproj':path=path.with_suffix('.s5faceproj')
@@ -270,7 +280,7 @@ class StudioBridge(QObject):
             if e.id==key:return e
         for slot in self.design.complications:
             if slot['id']==key:return slot
-        raise ValueError('Livello non trovato.')
+        raise ValueError(self.tr('Livello non trovato.'))
 
     def remove_layer(self,key):
         layer=self.layer(key)
@@ -284,21 +294,21 @@ class StudioBridge(QObject):
         source=self.layer(key);other=self.layer(target)
         source_aod=source.aod if isinstance(source,Element) else False
         other_aod=other.aod if isinstance(other,Element) else False
-        if source_aod!=other_aod:raise ValueError('Riordina i livelli nella stessa schermata.')
-        if placement not in ('above','below'):raise ValueError('Posizione di riordino non valida.')
+        if source_aod!=other_aod:raise ValueError(self.tr('Riordina i livelli nella stessa schermata.'))
+        if placement not in ('above','below'):raise ValueError(self.tr('Posizione di riordino non valida.'))
         order=self.design.layer_order
         order.remove(key);position=order.index(target)+(placement=='above')
         order.insert(position,key)
 
     def import_image(self,category='image-open'):
-        filename=self.dialogs.open(category,'Importa immagine',self.root,'Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)')
+        filename=self.dialogs.open(category,self.tr('Importa immagine'),self.root,self.tr('Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)'))
         if not filename:return None
         if Path(filename).suffix.lower()=='.svg':
             from PySide6.QtSvg import QSvgRenderer
             from PySide6.QtGui import QImage,QPainter
             import tempfile
             svg=QSvgRenderer(filename)
-            if not svg.isValid():raise ValueError('SVG non valido.')
+            if not svg.isValid():raise ValueError(self.tr('SVG non valido.'))
             size=svg.defaultSize();size.scale(1920,1920,Qt.AspectRatioMode.KeepAspectRatio)
             image=QImage(size,QImage.Format.Format_ARGB32);image.fill(Qt.GlobalColor.transparent)
             painter=QPainter(image);svg.render(painter);painter.end()
@@ -315,33 +325,35 @@ class StudioBridge(QObject):
         try:
             req=json.loads(raw);action=req.get('action')
             if action=='choose-color':
-                if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
+                if self.worker and self.worker.isRunning():raise ValueError(self.tr('Attendi la fine della compilazione.'))
                 from .color_picker import choose_graphic_color
                 context=req.get('context','layer')
                 if context=='project':target={'background':self.design.background};edit_action='settings'
                 elif context=='variant':target=self.project.variants[self.variant];edit_action='edit-variant'
                 elif context=='layer':
                     target=self.layer(req['id']);edit_action='edit-slot' if isinstance(target,dict) else 'edit'
-                else:raise ValueError('Contesto colore non valido.')
+                else:raise ValueError(self.tr('Contesto colore non valido.'))
                 changes=choose_graphic_color(target,req['key'],self.window)
                 action='state' if changes is None else edit_action
                 if changes is not None:req['changes']=changes
             mutations={'disk-preset','set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
-                if self.worker and self.worker.isRunning():raise ValueError('Attendi la fine della compilazione.')
+                if self.worker and self.worker.isRunning():raise ValueError(self.tr('Attendi la fine della compilazione.'))
                 self.project.ensure_independent_variants()
                 before=self.project.copy()
                 if action in ('variant-image','add-variant','edit-variant','delete-variant'):self.aod=False
                 self._design=self.project.editable_variant(self.variant,self.aod)
                 self.design.sync_layer_order()
             if action=='state':pass
+            elif action=='language':
+                self.window.set_language(req.get('language'))
             elif action.startswith('hand-set-'):
                 self.hand_set_command(action,req)
             elif action.startswith('disk-catalog-'):
                 self.disk_command(action,req)
             elif action=='disk-preset':
                 e=self.element(req)
-                if e.kind!='disk':raise ValueError('Seleziona un livello Disco.')
+                if e.kind!='disk':raise ValueError(self.tr('Seleziona un livello Disco.'))
                 for k,v in self.disk_catalog.changes(self.design,req['preset']).items():setattr(e,k,v)
             elif action=='chrono-preview':
                 self.values.pop('__pointerCalibration',None)
@@ -361,7 +373,7 @@ class StudioBridge(QObject):
             elif action=='pointer-calibration':
                 element=self.element(req)
                 if element.kind!='pointer' or req['pose'] not in ('start','end','live'):
-                    raise ValueError('Posizione di calibrazione non valida.')
+                    raise ValueError(self.tr('Posizione di calibrazione non valida.'))
                 poses=self.values.setdefault('__pointerCalibration',{})
                 if req['pose']=='live':poses.pop(element.id,None)
                 else:poses[element.id]=req['pose']
@@ -380,7 +392,7 @@ class StudioBridge(QObject):
                     if not self.smoke:self.recovery.unlink(missing_ok=True)
             elif action=='open':
                 if self.confirm_leave():
-                    filename=self.dialogs.open('project-open','Apri progetto',self.root/'projects','Progetti S5 (*.s5faceproj)')
+                    filename=self.dialogs.open('project-open',self.tr('Apri progetto'),self.root/'projects',self.tr('Progetti S5 (*.s5faceproj)'))
                     if filename:
                         self.project=Project.load(Path(filename));self.path=Path(filename);self.variant=0;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
                         if not self.smoke:self.recovery.unlink(missing_ok=True)
@@ -397,20 +409,20 @@ class StudioBridge(QObject):
                 defaults['disk']=dict(name='Disco',x=150,y=150,width=180,height=180,source='timeHour',value_range=24,angle_range=360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
                 defaults['compass']=dict(name='Bussola analogica',x=180,y=180,width=120,height=120,source='systemSensorCompass',
                                          value_range=360,angle_range=-360,show_ticks=False,show_shadows=False,pointer_end_pivot=False)
-                if kind not in defaults:raise ValueError('Componente non supportato.')
+                if kind not in defaults:raise ValueError(self.tr('Componente non supportato.'))
                 added=Element(kind=kind,aod=self.aod,**defaults[kind]);self.design.elements.append(added);selection=added.id
                 if kind=='disk':
                     preset=req.get('preset') or next((p['id'] for p in self.disk_presets if p['category']=='celestial'),self.disk_presets[0]['id'] if self.disk_presets else '')
-                    if not preset:raise ValueError('Catalogo dischi non disponibile.')
+                    if not preset:raise ValueError(self.tr('Catalogo dischi non disponibile.'))
                     for k,v in self.disk_catalog.changes(self.design,preset).items():setattr(added,k,v)
                 if kind=='compass':
                     from .compass_catalog import preset_changes as compass_changes
                     preset=next((c for c in self.compass_presets if c['name']=='Ferrari' and c['kind']=='Rosa completa'),self.compass_presets[0] if self.compass_presets else None)
-                    if preset is None:raise ValueError('Catalogo bussole non disponibile.')
+                    if preset is None:raise ValueError(self.tr('Catalogo bussole non disponibile.'))
                     for k,v in compass_changes(self.design,self.resources,preset).items():setattr(added,k,v)
             elif action=='set-shape':
                 e=self.element(req);kind=req.get('kind')
-                if e.kind not in ('rect','circle') or kind not in ('rect','circle'):raise ValueError('Scegli una forma rettangolare o circolare.')
+                if e.kind not in ('rect','circle') or kind not in ('rect','circle'):raise ValueError(self.tr('Scegli una forma rettangolare o circolare.'))
                 e.kind=kind
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
@@ -423,7 +435,7 @@ class StudioBridge(QObject):
                 if e.kind in ('analog','pointer'):
                     changes=hand_edit_changes(e,changes,self.design)
                 allowed=set(Element.__dataclass_fields__)-{'id','kind'}
-                if set(changes)-allowed:raise ValueError('Proprietà non supportata.')
+                if set(changes)-allowed:raise ValueError(self.tr('Proprietà non supportata.'))
                 for k,v in changes.items():setattr(e,k,v)
                 if {'source','month_abbreviated'} & set(changes):
                     from .calendar_labels import labels_for
@@ -434,7 +446,7 @@ class StudioBridge(QObject):
                         e.x=min(e.x,480-e.width);e.y=min(e.y,480-e.height)
             elif action=='nudge':
                 layer=self.layer(req['id']);dx=req.get('dx',0);dy=req.get('dy',0)
-                if type(dx) is not int or type(dy) is not int or abs(dx)>100 or abs(dy)>100:raise ValueError('Spostamento non valido.')
+                if type(dx) is not int or type(dy) is not int or abs(dx)>100 or abs(dy)>100:raise ValueError(self.tr('Spostamento non valido.'))
                 if isinstance(layer,Element):
                     resolved=layer
                     if not layer.locked:
@@ -465,7 +477,7 @@ class StudioBridge(QObject):
                 original=self.layer(req['id']);e=deepcopy(original)
                 if isinstance(e,Element):e.id=identifier();e.name+=' copia';self.design.elements.append(e);selection=e.id
                 else:
-                    if len(self.design.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
+                    if len(self.design.complications)>=MAX_SLOTS:raise ValueError(self.tr('Limite Studio: {v0} slot.').format(v0=MAX_SLOTS))
                     e['id']=identifier();e['name']+=' copia';self.design.complications.append(e);selection=e['id']
                 self.design.sync_layer_order();self.reorder_layer(selection,req['id'],'above')
             elif action=='move-layer':
@@ -476,7 +488,7 @@ class StudioBridge(QObject):
             elif action=='reorder-layer':self.reorder_layer(req['id'],req['targetId'],req['placement'])
             elif action=='fit-image':
                 e=self.element(req)
-                if e.kind!='image' or req.get('fit','cover') not in ('cover','contain'):raise ValueError('Seleziona un livello immagine.')
+                if e.kind!='image' or req.get('fit','cover') not in ('cover','contain'):raise ValueError(self.tr('Seleziona un livello immagine.'))
                 changes={'x':0,'y':0,'width':480,'height':480,'fit':req.get('fit','cover')}
                 for k,v in changes.items():setattr(e,k,v)
             elif action in ('image','variant-image','hand-image','compass-image'):
@@ -488,11 +500,11 @@ class StudioBridge(QObject):
                         self.design.elements.remove(el)
                         if action=='variant-image':self.set_background_image(el)
                         elif action=='compass-image':
-                            if self.element(req).kind!='compass':raise ValueError('Seleziona una bussola.')
+                            if self.element(req).kind!='compass':raise ValueError(self.tr('Seleziona una bussola.'))
                             self.set_compass(req,{'asset':el.asset,'compass_preset':''})
                         else:
                             hand=req['hand']
-                            if hand not in ('hour','minute','second'):raise ValueError('Lancetta non valida.')
+                            if hand not in ('hour','minute','second'):raise ValueError(self.tr('Lancetta non valida.'))
                             self.set_hand(req,clear_hand_changes(hand,el.asset))
             elif action=='hand-preset':
                 preset=next(h for h in self.hand_presets if h['id']==req['preset'])
@@ -501,8 +513,8 @@ class StudioBridge(QObject):
                 e=self.element(req)
                 hand=req['hand']
                 if hand not in ('hour','minute','second') or not getattr(e,hand+'_asset') or req.get('asset')!=getattr(e,hand+'_asset'):
-                    raise ValueError('Applica la grafica prima di scegliere il suo pivot.')
-                if any(type(req.get(a)) is not int or not 0<=req[a]<480 for a in ('x','y')):raise ValueError('Clicca un punto valido nella grafica della lancetta.')
+                    raise ValueError(self.tr('Applica la grafica prima di scegliere il suo pivot.'))
+                if any(type(req.get(a)) is not int or not 0<=req[a]<480 for a in ('x','y')):raise ValueError(self.tr('Clicca un punto valido nella grafica della lancetta.'))
                 changes={hand+'_anchor_x':req['x'],hand+'_anchor_y':req['y']}
                 self.set_hand(req,hand_edit_changes(e,changes,self.design))
             elif action=='compass-preset':
@@ -512,13 +524,13 @@ class StudioBridge(QObject):
             elif action=='clear-hand':
                 self.set_hand(req,clear_hand_changes(req['hand']))
             elif action=='font':
-                filename=self.dialogs.open('font-open','Importa font',self.root,'Font (*.ttf *.otf)')
+                filename=self.dialogs.open('font-open',self.tr('Importa font'),self.root,self.tr('Font (*.ttf *.otf)'))
                 if filename:self.element(req).font_asset=self.design.add_font(Path(filename))
             elif action=='add-variant':
                 self.variant=self.project.add_variant(self.variant);self.aod=False;selection=''
             elif action=='edit-variant':
                 allowed={'name','accent','background','imageAsset'}
-                if set(req['changes'])-allowed:raise ValueError('Proprietà variante non valida.')
+                if set(req['changes'])-allowed:raise ValueError(self.tr('Proprietà variante non valida.'))
                 changes=dict(req['changes']);variant=self.project.variants[self.variant]
                 if changes.get('accent'):
                     old=variant.get('accent','#6ce5c1')
@@ -530,7 +542,7 @@ class StudioBridge(QObject):
                 if 'imageAsset' in changes:
                     asset=changes.pop('imageAsset')
                     if asset:
-                        if asset not in self.project.assets:raise ValueError('Sfondo variante mancante.')
+                        if asset not in self.project.assets:raise ValueError(self.tr('Sfondo variante mancante.'))
                         self.set_background_image(Element(kind='image',asset=asset))
                     else:
                         background=self.background_layer()
@@ -545,7 +557,7 @@ class StudioBridge(QObject):
                 self.pro_preview=ProPreview();self.chrono_state='rest' if self.preview_pro_mode else 'reset'
                 self.chrono_elapsed=0;self.values.pop('__proValues',None);self.values.pop('__choices',None);self.values.pop('__pointerCalibration',None)
             elif action=='add-slot':
-                if len(self.design.complications)>=MAX_SLOTS:raise ValueError(f'Limite Studio: {MAX_SLOTS} slot.')
+                if len(self.design.complications)>=MAX_SLOTS:raise ValueError(self.tr('Limite Studio: {v0} slot.').format(v0=MAX_SLOTS))
                 n=len(self.design.complications)
                 x,y=[(90,112),(280,112),(28,228),(342,228),(185,332)][n%5]
                 slot=normalized_slot({'id':identifier(),'name':f'Complicazione {n+1}','x':x,'y':y,'width':110,'height':44,'size':32,
@@ -555,17 +567,17 @@ class StudioBridge(QObject):
                 self.design.complications.append(slot);selection=slot['id']
             elif action=='edit-slot':
                 slot=next(s for s in self.design.complications if s['id']==req['id'])
-                if set(req['changes'])-{'name','x','y','width','height','size','decimals','digits','unit','color','background','frame','showLabel','showUnit','weatherMode','visible','locked','opacity','align','options','default'}:raise ValueError('Proprietà slot non valida.')
+                if set(req['changes'])-{'name','x','y','width','height','size','decimals','digits','unit','color','background','frame','showLabel','showUnit','weatherMode','visible','locked','opacity','align','options','default'}:raise ValueError(self.tr('Proprietà slot non valida.'))
                 slot.update(req['changes'])
             elif action=='slot-preview':
                 slot=next(s for s in self.design.complications if s['id']==req['id'])
-                if req['choice'] not in slot['options']:raise ValueError('Opzione non disponibile.')
+                if req['choice'] not in slot['options']:raise ValueError(self.tr('Opzione non disponibile.'))
                 self.values.setdefault('__choices',{})[slot['id']]=req['choice']
             elif action=='delete-slot':self.remove_layer(req['id']);selection=''
             elif action=='settings':
                 mapping={'name':'name','author':'author','version':'version','background':'background','aodEnabled':'aod_enabled','faceId':'face_id'}
                 for key,value in req['changes'].items():
-                    if key not in mapping:raise ValueError('Impostazione non valida.')
+                    if key not in mapping:raise ValueError(self.tr('Impostazione non valida.'))
                     setattr(self.design if key=='background' else self.project,mapping[key],value)
                 if self.project.aod_enabled and not any(e.aod and e.kind in ('clock','analog') for e in self.project.elements):
                     self.project.elements.append(Element(kind='analog',name='Lancette AOD',x=80,y=80,width=320,height=320,color='#808080',aod=True))
@@ -579,13 +591,13 @@ class StudioBridge(QObject):
                 limits={'hour':(0,23),'minute':(0,59),'second':(0,59),'systemSensorCompass':(0,359),
                         'day':(1,31),'month':(1,12),'dateYear':(1900,2399)}
                 changes={key:req[key] for key in limits if key in req}
-                if any(type(v) is not int or not limits[k][0]<=v<=limits[k][1] for k,v in changes.items()):raise ValueError('Valore di simulazione fuori intervallo.')
+                if any(type(v) is not int or not limits[k][0]<=v<=limits[k][1] for k,v in changes.items()):raise ValueError(self.tr('Valore di simulazione fuori intervallo.'))
                 calendar_date=None
                 if {'day','month','dateYear'} & changes.keys():
                     current=self.preview_date();year=changes.get('dateYear',current.year);month=changes.get('month',current.month)
                     day=changes.get('day',min(current.day,monthrange(year,month)[1]))
                     try:calendar_date=date(year,month,day)
-                    except ValueError:raise ValueError('Il giorno non esiste nel mese e anno simulati. Scegli una data valida.') from None
+                    except ValueError:raise ValueError(self.tr('Il giorno non esiste nel mese e anno simulati. Scegli una data valida.')) from None
                 self.values.update(changes)
                 if calendar_date:self.set_preview_date(calendar_date)
                 if 'second' in changes:
@@ -594,11 +606,13 @@ class StudioBridge(QObject):
                     self.motion_started=time.monotonic_ns()//1000000
                     self.values['__secondFraction']=0
             elif action=='compiler':
-                filename=self.dialogs.open('compiler-open','Seleziona EasyFace 4.23',self.compiler.parent,'Compilatore (Compiler.exe)')
-                if filename:self.compiler=Path(filename)
+                filename=self.dialogs.open('compiler-open',self.tr('Seleziona EasyFace 4.23'),self.compiler.parent,self.tr('Compilatore (Compiler.exe)'))
+                if filename:
+                    self.compiler=Path(filename)
+                    self.window.settings.update(compiler=str(self.compiler))
             elif action=='build':
-                if self.worker and self.worker.isRunning():raise ValueError('Compilazione già in corso.')
-                destination=self.dialogs.directory('watchface-export','Cartella di esportazione',self.root/'dist')
+                if self.worker and self.worker.isRunning():raise ValueError(self.tr('Compilazione già in corso.'))
+                destination=self.dialogs.directory('watchface-export',self.tr('Cartella di esportazione'),self.root/'dist')
                 if destination:
                     self.motion_timer.stop()
                     self.worker=BuildTask(self.project,self.compiler,Path(destination))
@@ -606,7 +620,7 @@ class StudioBridge(QObject):
                     self.worker.finished.connect(self.build_finished);self.worker.start()
             elif action=='show-output' and self.output:QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.output)))
             elif action=='export-preview':
-                filename=self.dialogs.save('preview-save','Salva anteprima',self.root/'preview.png','PNG (*.png)')
+                filename=self.dialogs.save('preview-save',self.tr('Salva anteprima'),self.root/'preview.png',self.tr('PNG (*.png)'))
                 if filename:Path(filename).write_bytes(png_bytes(render(self.project.variant_project(0 if self.aod else self.variant),self.values,self.aod)))
             if before:
                 if action not in ('add-variant','delete-variant'):
@@ -659,19 +673,19 @@ class StudioBridge(QObject):
         elif action=='hand-set-load':draft=self.hand_set_catalog.draft(req['id'])
         elif action=='hand-set-meta':
             changes=req['changes']
-            if set(changes)-{'name','small','generateShadows','shadowOptions'}:raise ValueError('Proprietà del set non valida.')
-            if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError('Nome del set troppo lungo.')
-            if 'small' in changes and type(changes['small']) is not bool:raise ValueError('Tipo del set non valido.')
+            if set(changes)-{'name','small','generateShadows','shadowOptions'}:raise ValueError(self.tr('Proprietà del set non valida.'))
+            if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError(self.tr('Nome del set troppo lungo.'))
+            if 'small' in changes and type(changes['small']) is not bool:raise ValueError(self.tr('Tipo del set non valido.'))
             if changes.get('small') is False and set(draft['hands'])-set(roles_for(False)):
-                raise ValueError('Decimi, Centesimi e Millesimi appartengono ai set piccoli. Rimuovi queste grafiche prima di passare a un set principale.')
+                raise ValueError(self.tr('Decimi, Centesimi e Millesimi appartengono ai set piccoli. Rimuovi queste grafiche prima di passare a un set principale.'))
             draft.update(changes)
         elif action in ('hand-set-image','hand-set-part','hand-set-remove'):
             role=req['role'];shadow=bool(req.get('shadow'))
-            if role not in roles_for(draft['small']):raise ValueError('Lancetta del set non valida per questo tipo di set.')
-            if shadow and role not in draft['hands']:raise ValueError('Importa prima la lancetta, poi la sua ombra.')
+            if role not in roles_for(draft['small']):raise ValueError(self.tr('Lancetta del set non valida per questo tipo di set.'))
+            if shadow and role not in draft['hands']:raise ValueError(self.tr('Importa prima la lancetta, poi la sua ombra.'))
             if action=='hand-set-image':
                 filename=self.dialogs.open('hand-set-shadow-open' if shadow else 'hand-set-image-open',
-                        'Importa PNG '+role+(' — ombra' if shadow else ''),self.root,'Lancette PNG (*.png)')
+                        ((self.tr('Importa PNG ') + role) + ' — ombra' if shadow else ''),self.root,self.tr('Lancette PNG (*.png)'))
                 if filename:
                     item=self.hand_set_catalog.stage(Path(filename))
                     if shadow:draft['hands'][role]['shadow']=item
@@ -682,14 +696,14 @@ class StudioBridge(QObject):
             elif action=='hand-set-remove':
                 if shadow:
                     if draft['hands'][role].get('shadow',{}).get('generated'):
-                        raise ValueError('Disattiva Genera ombre per rimuovere le ombre automatiche.')
+                        raise ValueError(self.tr('Disattiva Genera ombre per rimuovere le ombre automatiche.'))
                     draft['hands'][role].pop('shadow',None)
                 else:draft['hands'].pop(role,None)
             else:
                 item=draft['hands'][role]['shadow'] if shadow else draft['hands'][role]
-                if shadow and item.get('generated'):raise ValueError('Il pivot automatico segue la lancetta. Regola lo spostamento nelle impostazioni Genera ombre.')
+                if shadow and item.get('generated'):raise ValueError(self.tr('Il pivot automatico segue la lancetta. Regola lo spostamento nelle impostazioni Genera ombre.'))
                 changes=req['changes']
-                if set(changes)-({'pivot','offset'} if shadow else {'pivot'}):raise ValueError('Proprietà della PNG non valida.')
+                if set(changes)-({'pivot','offset'} if shadow else {'pivot'}):raise ValueError(self.tr('Proprietà della PNG non valida.'))
                 item.update(changes);self.hand_set_catalog.validate_item(item)
         elif action=='hand-set-save':
             self.hand_set_catalog.save(draft);self.reload_hand_presets();draft=empty_draft()
@@ -699,13 +713,13 @@ class StudioBridge(QObject):
         elif action=='hand-set-restore':
             self.hand_set_catalog.restore(req['id']);self.reload_hand_presets()
             if draft['id']==req['id']:draft=empty_draft()
-        else:raise ValueError('Comando set lancette non valido.')
+        else:raise ValueError(self.tr('Comando set lancette non valido.'))
         self.hand_set_draft=self.hand_set_catalog.refresh_generated(draft)
 
     def set_hand(self,req,changes):
-        if req.get('hand') not in ('hour','minute','second'):raise ValueError('Lancetta non valida.')
+        if req.get('hand') not in ('hour','minute','second'):raise ValueError(self.tr('Lancetta non valida.'))
         e=self.element(req)
-        if e.kind not in ('analog','pointer'):raise ValueError('Seleziona un livello lancette.')
+        if e.kind not in ('analog','pointer'):raise ValueError(self.tr('Seleziona un livello lancette.'))
         for k,v in changes.items():setattr(e,k,v)
 
     def disk_command(self,action,req):
@@ -716,8 +730,8 @@ class StudioBridge(QObject):
         elif action=='disk-catalog-meta':
             changes=req['changes']
             allowed={'name','category','mode','source','valueStart','valueRange','angleStart','angleRange','generateShadows','shadowOptions','moonReferenceDate','moonDayOffset'}
-            if set(changes)-allowed:raise ValueError('Proprietà disco non valida.')
-            if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError('Nome disco troppo lungo.')
+            if set(changes)-allowed:raise ValueError(self.tr('Proprietà disco non valida.'))
+            if 'name' in changes and (not isinstance(changes['name'],str) or len(changes['name'])>80):raise ValueError(self.tr('Nome disco troppo lungo.'))
             if changes.get('mode') and changes['mode']!=draft['mode'] and draft['hands']:
                 first=deepcopy(next(iter(draft['hands'].values())))
                 draft['hands']={'disk' if changes['mode']=='rotation' else '0':first}
@@ -727,14 +741,14 @@ class StudioBridge(QObject):
             if changes.get('mode')=='values' and changes.get('source',draft['source'])==MOON_SOURCE:
                 changes['source']='dateLunarDay'
             if changes.get('source')==MOON_SOURCE and changes.get('mode',draft['mode'])!='rotation':
-                raise ValueError('Per le fasi lunari a 59 posizioni scegli Disco rotante.')
+                raise ValueError(self.tr('Per le fasi lunari a 59 posizioni scegli Disco rotante.'))
             draft.update(changes)
         elif action in ('disk-catalog-image','disk-catalog-part','disk-catalog-remove'):
             key=str(req.get('key','disk'));shadow=bool(req.get('shadow'))
-            if draft['mode']=='rotation' and key!='disk' or draft['mode']=='values' and (not key.isdigit() or int(key)>65535):raise ValueError('Valore dell’immagine non valido.')
-            if shadow and key not in draft['hands']:raise ValueError('Importa prima la grafica del disco.')
+            if draft['mode']=='rotation' and key!='disk' or draft['mode']=='values' and (not key.isdigit() or int(key)>65535):raise ValueError(self.tr('Valore dell’immagine non valido.'))
+            if shadow and key not in draft['hands']:raise ValueError(self.tr('Importa prima la grafica del disco.'))
             if action=='disk-catalog-image':
-                path=self.dialogs.open('disk-shadow-open' if shadow else 'disk-image-open','Importa PNG '+('ombra' if shadow else 'disco'),self.root,'Dischi PNG (*.png)')
+                path=self.dialogs.open('disk-shadow-open' if shadow else 'disk-image-open',(self.tr('Importa PNG ') + 'ombra' if shadow else 'disco'),self.root,self.tr('Dischi PNG (*.png)'))
                 if path:
                     item=catalog.stage(Path(path))
                     if shadow:draft['hands'][key]['shadow']=item
@@ -744,9 +758,9 @@ class StudioBridge(QObject):
                 else:draft['hands'].pop(key,None)
             else:
                 item=draft['hands'][key]['shadow'] if shadow else draft['hands'][key]
-                if shadow and item.get('generated'):raise ValueError('Il pivot dell’ombra automatica segue il disco.')
+                if shadow and item.get('generated'):raise ValueError(self.tr('Il pivot dell’ombra automatica segue il disco.'))
                 changes=req['changes']
-                if set(changes)-({'pivot','offset'} if shadow else {'pivot'}):raise ValueError('Proprietà PNG non valida.')
+                if set(changes)-({'pivot','offset'} if shadow else {'pivot'}):raise ValueError(self.tr('Proprietà PNG non valida.'))
                 item.update(changes);catalog.validate_item(item)
                 # Sequence frames share one pivot; one click calibrates all.
                 if draft['mode']=='values':
@@ -758,12 +772,12 @@ class StudioBridge(QObject):
         elif action in ('disk-catalog-delete','disk-catalog-restore'):
             (catalog.delete if action.endswith('delete') else catalog.restore)(req['id']);self.reload_disks()
             if draft['id']==req['id']:draft=empty_disk()
-        else:raise ValueError('Comando catalogo dischi non valido.')
+        else:raise ValueError(self.tr('Comando catalogo dischi non valido.'))
         self.disk_draft=catalog.refresh_generated(draft)
 
     def set_compass(self,req,changes):
         e=self.element(req)
-        if e.kind!='compass':raise ValueError('Seleziona un livello bussola.')
+        if e.kind!='compass':raise ValueError(self.tr('Seleziona un livello bussola.'))
         for k,v in changes.items():setattr(e,k,v)
 
     def background_layer(self):
@@ -777,7 +791,7 @@ class StudioBridge(QObject):
         return existing
 
     def set_background_image(self,image):
-        if self.aod:raise ValueError('Seleziona uno stile normale per cambiarne lo sfondo.')
+        if self.aod:raise ValueError(self.tr('Seleziona uno stile normale per cambiarne lo sfondo.'))
         variant=self.project.variants[self.variant];existing=self.background_layer()
         if existing:
             existing.asset=image.asset;existing.visible=True;existing.opacity=255;existing.tint=False
@@ -788,15 +802,22 @@ class StudioBridge(QObject):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self,*,smoke=False):
+    def __init__(self,*,smoke=False,settings_path=None):
         super().__init__()
-        self.setWindowTitle('S5 Studio 2.7 — Xiaomi Watch S5');self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.settings=AppSettings(settings_path)
+        self.language=install_language(self.settings.language)
+        self.setWindowTitle(self.tr('S5 Studio 2.8 — Xiaomi Watch S5'));self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)
         base=Path(sys._MEIPASS) if getattr(sys,'frozen',False) else self.bridge.root
         self.view.setUrl(QUrl.fromLocalFile(str(base/'frontend/index.html')))
         if not smoke:QTimer.singleShot(1800,self.bridge.offer_recovery)
+
+    def set_language(self,language):
+        self.settings.update(language=language)
+        self.language=install_language(language)
+        self.setWindowTitle(self.tr('S5 Studio 2.8 — Xiaomi Watch S5'))
 
     def show_editor(self):
         self.showMaximized()

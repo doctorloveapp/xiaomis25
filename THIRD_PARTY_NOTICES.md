@@ -43,3 +43,7 @@ La 0.11 usa un’animazione LVGL ciclica da 1000 ms per i decimi e il fallback `
 La build personale 2.7 comprende 595 modelli originali più 34 modelli da 11 set personali, per 629 modelli di lancette, e 90 dischi con 516 immagini. I dischi recuperati comprendono bussole, sole/luna/stelle, rotori e grafiche circolari; comprendono inoltre importazioni fornite dall'utente. Origini e hash sono registrati nei cataloghi e nei rapporti in `docs/library-analysis/`. I diritti delle grafiche restano dei rispettivi titolari; non è stata stabilita una licenza pubblica unica per questi asset.
 
 Il banner `docs/assets/s5-studio-banner.svg` è una grafica vettoriale originale Studio, inclusa nella licenza MIT del progetto. Non incorpora bitmap o file font di terzi. I nuovi documenti inglesi e italiani sono documentazione originale del progetto. Marchi e nomi di modelli sono riferimenti identificativi e non indicano affiliazione o approvazione.
+
+## Traduzioni 2.8
+
+I cataloghi applicativi JSON e Qt Linguist sono traduzioni originali Studio. `translations/qtbase_it.qm` proviene dal pacchetto PySide6/Qt installato ed è distribuito con i relativi avvisi Qt già presenti in `licenses/`. Qt Linguist (`lupdate`/`lrelease`) serve alla preparazione dei cataloghi, senza includere i suoi eseguibili nel runtime dell'applicazione.

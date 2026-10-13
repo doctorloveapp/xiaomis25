@@ -2,12 +2,13 @@
 
 [English overview](../README.md) · [Italian overview](../README.it.md) · [Releases](https://github.com/doctorloveapp/xiaomis25/releases)
 
-Current application version: **2.7**. Device report: **Xiaomi Watch S5 M2530W1 / firmware 3.221.024**, user-confirmed on **2026-10-13**. Historical guides describe their own release; the current guides take precedence for present behavior.
+Current application version: **2.8**. Previous runtime/device report (2.7, unchanged Lua): **Xiaomi Watch S5 M2530W1 / firmware 3.221.024**, user-confirmed on **2026-10-13**. Historical guides describe their own release; the current guides take precedence for present behavior.
 
 ## Guides
 
 | Document | Language | Contents |
 | --- | --- | --- |
+| [Internationalization 2.8](I18N_2.8.md) | English | Language preference, Qt TS/QM, offline JSON and extraction |
 | [Installation reference](INSTALLATION.md) | English | Executable/source setup, persistent paths, CLI and reference hashes |
 | [Chrono Pro engineering](CHRONO_PRO.md) | English | Shared Lua scene, clocks, scheduling, fractions, transitions and AOD |
 | [Distribution scope](DISTRIBUTION.md) | English | Code licensing, personal bundle and third-party asset boundaries |
@@ -23,7 +24,16 @@ Current application version: **2.7**. Device report: **Xiaomi Watch S5 M2530W1 /
 | [Region and capabilities](REGIONE_E_TEST_LOCALE.md) | Italian, historical | No verified Region switch; early local-install observations |
 | [Version history](CHANGELOG.md) | Italian | Retained release notes, commands, examples and earlier operating records |
 
-## Evidence for build 2.7
+## Evidence for build 2.8
+
+| Record | What it establishes |
+| --- | --- |
+| [Source validation](validation-editor-2.8.json) | 43 targeted tests and unchanged seven-module watch runtime |
+| [Source editor](editor-2.8.json) | 10 checks: language switching/startup, dynamic UI, user data and stable IDs |
+| [Executable integrity](executable-build-2.8.json) | Static verification, included catalogs and exact file hash |
+| [Set integration](hand-set-integration-2.8.json) | Personal catalog synchronization, originals preserved |
+
+## Historical evidence for build 2.7
 
 | Record | What it establishes |
 | --- | --- |

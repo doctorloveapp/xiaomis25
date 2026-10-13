@@ -1,6 +1,10 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+if exist "%~dp0S5Studio-2.8.exe" (
+  start "" "%~dp0S5Studio-2.8.exe"
+  exit /b
+)
 if exist "%~dp0S5Studio-2.7.exe" (
   start "" "%~dp0S5Studio-2.7.exe"
   exit /b
