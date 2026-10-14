@@ -1518,6 +1518,169 @@
       }
     },
     {
+      "id": "custom-99b05f97c05b43f0957cc20f5877e036",
+      "name": "Swatch Luce",
+      "small": false,
+      "hands": {
+        "minute": {
+          "assetPath": "assets/cdf8c3a8df081ba39ae3609711f4049213d80ea7c528238adcf9d628ec881619.png",
+          "sourceSha256": "cdf8c3a8df081ba39ae3609711f4049213d80ea7c528238adcf9d628ec881619",
+          "size": [
+            73,
+            480
+          ],
+          "pivot": [
+            36,
+            451
+          ],
+          "filename": "Minuti_Swatch_luce.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/e5a583d0679a268494a35a0f712ee4c130a529213919e9f90be0ac3af43928f4.png",
+            "sourceSha256": "e5a583d0679a268494a35a0f712ee4c130a529213919e9f90be0ac3af43928f4",
+            "size": [
+              83,
+              480
+            ],
+            "pivot": [
+              41,
+              451
+            ],
+            "filename": "Minuti_Swatch_luce_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "cdf8c3a8df081ba39ae3609711f4049213d80ea7c528238adcf9d628ec881619",
+              "pivot": [
+                36,
+                451
+              ],
+              "opacity": 55,
+              "blur": 1.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/3010702fd2c0a265c9235f4ade280bd021f12e2a99cdddfddd4a986f01ab2f2d.png",
+          "sourceSha256": "3010702fd2c0a265c9235f4ade280bd021f12e2a99cdddfddd4a986f01ab2f2d",
+          "size": [
+            38,
+            480
+          ],
+          "pivot": [
+            19,
+            397
+          ],
+          "filename": "Secondi_Swatch_luce.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/bd2532072c8f8bb6b6d582ae2d4a4cec70d45b11cd1f05059c989cece55b0ad3.png",
+            "sourceSha256": "bd2532072c8f8bb6b6d582ae2d4a4cec70d45b11cd1f05059c989cece55b0ad3",
+            "size": [
+              48,
+              480
+            ],
+            "pivot": [
+              24,
+              397
+            ],
+            "filename": "Secondi_Swatch_luce_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "3010702fd2c0a265c9235f4ade280bd021f12e2a99cdddfddd4a986f01ab2f2d",
+              "pivot": [
+                19,
+                397
+              ],
+              "opacity": 55,
+              "blur": 1.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        },
+        "hour": {
+          "assetPath": "assets/fd4403ff5de126f2bb4d3225c10d75b7bd921f34f972a654006688ee5165c77d.png",
+          "sourceSha256": "fd4403ff5de126f2bb4d3225c10d75b7bd921f34f972a654006688ee5165c77d",
+          "size": [
+            104,
+            480
+          ],
+          "pivot": [
+            52,
+            440
+          ],
+          "filename": "Ore_Swatch_luce.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/db71457bcff951a5b1fbd1c51434b7a97ce7e4971e2dd10a857d9948abaeb17b.png",
+            "sourceSha256": "db71457bcff951a5b1fbd1c51434b7a97ce7e4971e2dd10a857d9948abaeb17b",
+            "size": [
+              114,
+              480
+            ],
+            "pivot": [
+              57,
+              440
+            ],
+            "filename": "Ore_Swatch_luce_shadow_auto.png",
+            "offset": [
+              3,
+              4
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "fd4403ff5de126f2bb4d3225c10d75b7bd921f34f972a654006688ee5165c77d",
+              "pivot": [
+                52,
+                440
+              ],
+              "opacity": 55,
+              "blur": 1.5,
+              "offset": [
+                3,
+                4
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 55,
+        "blur": 1.5,
+        "offset": [
+          3,
+          4
+        ]
+      }
+    },
+    {
       "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
       "name": "Swatch Orange ombra",
       "small": false,

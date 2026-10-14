@@ -51,3 +51,7 @@ I cataloghi applicativi JSON e Qt Linguist sono traduzioni originali Studio. `tr
 ## Esempio Bulova 2.8
 
 Su richiesta esplicita dell'utente, `resources/examples/Bulova.s5faceproj` è l'unico progetto dimostrativo incorporato nella 2.8 aggiornata. Contiene due stili e le relative risorse fornite dall'utente; la sua inclusione non estende la licenza MIT di S5 Studio alle grafiche, ai font o ai marchi contenuti nel progetto. Il file originale dell'utente resta intatto. Nessun altro progetto personale, preferenza o recupero automatico viene aggiunto al bundle.
+
+## Cinese semplificato e cataloghi 2.9
+
+`locales/zh.json` e il catalogo Qt `s5studio_zh.ts` sono traduzioni originali Studio. `qtbase_zh_CN.qm` proviene da PySide6/Qt e conserva gli avvisi Qt già presenti in `licenses/`. I font CJK vengono selezionati tra quelli disponibili nel sistema; nessun font Microsoft viene incorporato. La 2.9 conserva il solo esempio Bulova e i cataloghi esistenti; integra il nuovo set personale Swatch Luce, per 12 set personali e 632 modelli di lancette complessivi. Origini, hash e diritti delle grafiche restano quelli dei rispettivi cataloghi e titolari.

@@ -490,10 +490,8 @@ Il comportamento del dato assente sul firmware deve ancora essere provato.</sour
       <translation>Wait for compilation to finish before closing.</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="823" />
-      <location filename="../s5studio/web_ui.py" line="834" />
       <source>S5 Studio 2.8 — Xiaomi Watch S5</source>
-      <translation>S5 Studio 2.8 — Xiaomi Watch S5</translation>
+      <translation type="vanished">S5 Studio 2.8 — Xiaomi Watch S5</translation>
     </message>
     <message>
       <source>%Y%m%d-%H%M%S</source>
@@ -1194,6 +1192,12 @@ Folder:</translation>
     <message>
       <source>[a-fA-F0-9]{64}</source>
       <translation type="obsolete">[a-fA-F0-9]{64}</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="823" />
+      <location filename="../s5studio/web_ui.py" line="834" />
+      <source>S5 Studio 2.9 — Xiaomi Watch S5</source>
+      <translation>S5 Studio 2.9 — Xiaomi Watch S5</translation>
     </message>
   </context>
   <context>

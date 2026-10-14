@@ -1,0 +1,173 @@
+{
+  "applicationVersion": "2.9",
+  "date": "2026-10-14",
+  "status": "passed-source-editor-and-static-bundle-checks",
+  "sourceTests": {
+    "passed": 59,
+    "suites": [
+      "test_i18n",
+      "test_bundle_contents",
+      "test_file_dialogs",
+      "test_color_picker"
+    ],
+    "junitReport": "build/tests-2.9.xml",
+    "scope": "Three-language preferences, placeholders, Qt/QtBase Chinese dialogs, project IDs and data, existing project/Bulova opening, bundle guards, colors and file dialogs."
+  },
+  "editorChecks": {
+    "passed": 16,
+    "report": "docs/editor-2.9.json"
+  },
+  "i18n": {
+    "defaultLanguage": "it",
+    "languages": [
+      "it",
+      "en",
+      "zh"
+    ],
+    "jsonCatalogMessages": 1204,
+    "activeQtMessagesPerLanguage": 291,
+    "qtCatalogFormat": "Qt Linguist TS/QM",
+    "frontendOfflineJsonTransport": "QWebChannel for file origin; fetch for HTTP",
+    "settingsFile": "settings.json",
+    "existingSettingsPreserved": true,
+    "userProjectDataPreserved": true,
+    "translatedSelectorValuesPreserved": true,
+    "missingMessagesFallBackToItalian": true,
+    "translationToolsBundled": false,
+    "composedLabelsRefined": true,
+    "simplifiedChineseTranslatedMessages": 1168,
+    "chineseQtLocale": "zh_CN",
+    "chineseAliases": [
+      "zh-CN",
+      "zh_Hans_CN"
+    ],
+    "cjkFonts": "system fonts; no bundled CJK font"
+  },
+  "catalog": {
+    "handSetSyncReport": "docs/hand-set-integration-2.9.json",
+    "personalSets": 12,
+    "effectiveHandModels": 632,
+    "sourceCatalogsModified": false,
+    "discModels": 90,
+    "addedSet": "Swatch Luce"
+  },
+  "newWatchfaceZipCreated": false,
+  "regressionBackupCreated": false,
+  "executableLaunched": false,
+  "isolatedExecutableTestPerformed": false,
+  "newHardwareTestPerformed": false,
+  "lastHardwareConfirmation": {
+    "applicationVersion": "2.7",
+    "device": "M2530W1",
+    "firmware": "3.221.024",
+    "report": "docs/hardware-test-2.7.json"
+  },
+  "localizationCoverage": {
+    "contexts": 161,
+    "report": "docs/localization-coverage-2.9-zh.json",
+    "status": "passed",
+    "renderedTextPairsChecked": 1279,
+    "language": "zh"
+  },
+  "distribution": {
+    "onlyBundledProject": "resources/examples/Bulova.s5faceproj",
+    "bulovaStyles": 2,
+    "bulovaAssets": 14,
+    "otherPersonalProjectsIncluded": false,
+    "personalPreferencesIncluded": false,
+    "catalogsRetained": true,
+    "exampleSha256": "f94209a49a68931e1f54b9e7d163fa597da41dcdae02eca35f4d2b57a95e538d",
+    "existingProjectOpeningTested": true,
+    "watchfaceRuntimeChanged": false
+  },
+  "allSevenWatchLuaModulesUnchangedFrom2_8": true,
+  "header": {
+    "controlHeightPx": 36,
+    "widthsChecked": [
+      1120,
+      1440
+    ],
+    "languagesChecked": [
+      "it",
+      "en",
+      "zh"
+    ],
+    "allControlsAligned": true,
+    "accessibleLabelRetained": true
+  },
+  "bundle": {
+    "status": "passed",
+    "applicationVersion": "2.9",
+    "embeddedFilesVerified": 1267,
+    "exeSize": 249247083,
+    "exeSha256": "fe5508ae527e1f7d7c367936ce9564f19088aff73f58250a3f0aacc1f53c9116",
+    "bundledExampleProjects": [
+      "resources/examples/Bulova.s5faceproj"
+    ],
+    "personalPreferencesIncluded": false,
+    "executableLaunched": false,
+    "isolatedEnvironmentTested": false,
+    "executableFile": "S5Studio-2.9.exe",
+    "sourceModuleCount": 45,
+    "sourceModulesMatch": [
+      "s5studio",
+      "s5studio.builtin_hand_sets",
+      "s5studio.calendar_labels",
+      "s5studio.catalog_labels",
+      "s5studio.chrono_pro",
+      "s5studio.civil_hands",
+      "s5studio.cli",
+      "s5studio.color_picker",
+      "s5studio.colors",
+      "s5studio.compass_catalog",
+      "s5studio.complications",
+      "s5studio.disk_catalog",
+      "s5studio.editable",
+      "s5studio.editor_smoke",
+      "s5studio.effects",
+      "s5studio.export_smoke",
+      "s5studio.file_dialogs",
+      "s5studio.hand_catalog",
+      "s5studio.hand_presets",
+      "s5studio.hand_sets",
+      "s5studio.i18n",
+      "s5studio.live_data",
+      "s5studio.lua_runtime",
+      "s5studio.model",
+      "s5studio.moon_disk",
+      "s5studio.motion",
+      "s5studio.multi_smoke",
+      "s5studio.native",
+      "s5studio.native_graph",
+      "s5studio.paths",
+      "s5studio.precision_smoke",
+      "s5studio.pro_smoke",
+      "s5studio.render",
+      "s5studio.scene_data",
+      "s5studio.selection",
+      "s5studio.semantic_package",
+      "s5studio.settings",
+      "s5studio.source_help",
+      "s5studio.template_package",
+      "s5studio.transforms",
+      "s5studio.ui",
+      "s5studio.variant_smoke",
+      "s5studio.watchface_library",
+      "s5studio.web_smoke",
+      "s5studio.web_ui"
+    ],
+    "mainEntryMatchesSource": true,
+    "luaModuleCount": 7,
+    "luaModulesMatchSource": true,
+    "allSevenLuaModulesUnchangedFrom2_8": true,
+    "luaComparisonReference": "docs/runtime-manifest-2.8.json",
+    "jsonAndQmCatalogsMatchSource": true,
+    "frontendMatchesSource": true,
+    "defaultLanguage": "it",
+    "languages": [
+      "it",
+      "en",
+      "zh"
+    ]
+  }
+}

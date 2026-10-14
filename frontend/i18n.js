@@ -56,7 +56,7 @@ window.S5I18n=(()=>{
   observer.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['title','placeholder','aria-label','alt']});
  }
  function configure(code,italian,catalog){
-  language=['it','en'].includes(code)?code:'it';base=Object.fromEntries(Object.entries(italian||{}).filter(([,v])=>typeof v==='string'));messages={...base,...Object.fromEntries(Object.entries(catalog||{}).filter(([,v])=>typeof v==='string'))};patterns=[];
+  language=['it','en','zh'].includes(code)?code:'it';base=Object.fromEntries(Object.entries(italian||{}).filter(([,v])=>typeof v==='string'));messages={...base,...Object.fromEntries(Object.entries(catalog||{}).filter(([,v])=>typeof v==='string'))};patterns=[];
   for(const key of Object.keys(base)){
    if(!/\{\w+\}/.test(key))continue;
    const keys=[],parts=[];let end=0;

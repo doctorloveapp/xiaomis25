@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from .paths import user_data_root
 
-LANGUAGES = ('it', 'en')
+LANGUAGES = ('it', 'en', 'zh')
 
 
 def language_code(value):

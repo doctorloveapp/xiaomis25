@@ -2,12 +2,13 @@
 
 [English overview](../README.md) · [Italian overview](../README.it.md) · [Releases](https://github.com/doctorloveapp/xiaomis25/releases)
 
-Current application version: **2.8**. Previous runtime/device report (2.7, unchanged Lua): **Xiaomi Watch S5 M2530W1 / firmware 3.221.024**, user-confirmed on **2026-10-13**. Historical guides describe their own release; the current guides take precedence for present behavior.
+Current application version: **2.9**. Previous runtime/device report (2.7, unchanged Lua): **Xiaomi Watch S5 M2530W1 / firmware 3.221.024**, user-confirmed on **2026-10-13**. Historical guides describe their own release; the current guides take precedence for present behavior.
 
 ## Guides
 
 | Document | Language | Contents |
 | --- | --- | --- |
+| [Internationalization 2.9](I18N_2.9.md) | English | Three languages, aligned header, Chinese fonts and validation |
 | [Internationalization 2.8](I18N_2.8.md) | English | Language preference, Qt TS/QM, offline JSON and extraction |
 | [Installation reference](INSTALLATION.md) | English | Executable/source setup, persistent paths, CLI and reference hashes |
 | [Chrono Pro engineering](CHRONO_PRO.md) | English | Shared Lua scene, clocks, scheduling, fractions, transitions and AOD |
@@ -24,7 +25,18 @@ Current application version: **2.8**. Previous runtime/device report (2.7, uncha
 | [Region and capabilities](REGIONE_E_TEST_LOCALE.md) | Italian, historical | No verified Region switch; early local-install observations |
 | [Version history](CHANGELOG.md) | Italian | Retained release notes, commands, examples and earlier operating records |
 
-## Evidence for build 2.8
+## Evidence for build 2.9
+
+| Record | What it establishes |
+| --- | --- |
+| [Source validation](validation-editor-2.9.json) | 59 targeted tests; project compatibility and unchanged watch Lua |
+| [Source editor](editor-2.9.json) | 16 checks, including all three languages and header alignment at two widths |
+| [Chinese localization](localization-coverage-2.9-zh.json) | 161 rendered UI contexts, dynamic text and help |
+| [Executable integrity](executable-build-2.9.json) | Static resource/source verification and exact executable hash |
+| [Set integration](hand-set-integration-2.9.json) | Swatch Luce added; 12 personal sets and 632 effective hand models |
+| [Runtime manifest](runtime-manifest-2.9.json) | Embedded files and per-file hashes |
+
+## Historical evidence for build 2.8
 
 | Record | What it establishes |
 | --- | --- |

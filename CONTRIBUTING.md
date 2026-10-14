@@ -24,12 +24,14 @@ Integrate new/updated personal sets into `resources/hand-sets/`; preserve source
 
 ```powershell
 python -m pytest -q
-python scripts/verify_bundle.py S5Studio-2.8.exe --report build/bundle-check.json
+python scripts/verify_bundle.py S5Studio-2.9.exe --report build/bundle-check.json
+python -X utf8 scripts/check_editor_2_9.py
+python -X utf8 scripts/check_localization_2_9.py --language zh
 ```
 
 The full test suite includes compiler-dependent tests; supply the documented toolchain/fixtures before treating those results as representative. For documentation-only edits, verify Markdown structure, local links, anchors and factual consistency. Do not rebuild an already tested executable solely to change external documentation.
 
-For interface changes, run `python -X utf8 scripts/update_translations.py --compile` to update JSON and Qt TS/QM catalogs. Preserve Italian defaults, translation placeholders and stable selector values. See the [internationalization guide](docs/I18N_2.8.md) for extraction and validation commands.
+For interface changes, run `python -X utf8 scripts/update_translations.py --compile` to update JSON and Qt TS/QM catalogs. Maintain Italian, English and Simplified Chinese catalogs. Preserve Italian defaults, translation placeholders and stable selector values. See the [internationalization guide](docs/I18N_2.9.md) for extraction and validation commands.
 
 ## Release workflow
 

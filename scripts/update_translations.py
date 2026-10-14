@@ -15,7 +15,8 @@ ROOT=Path(__file__).resolve().parents[1]
 IDENTICAL_ENGLISH={'XIAOMI WATCH S5  ·  46 MM','Snap','Zoom','Scenario',
     '{v0}{v1} — S5 Studio {v2}','EasyFace Compiler 4.23','S5 Studio 2.8 — Xiaomi Watch S5',
     'Bluetooth','Ctrl+N','Ctrl+O','Ctrl+S','Ctrl+Shift+S','Ctrl+Y','Ctrl+Z',
-    'Firmware','Font (px)','Fonts','Mi Fitness mod','SpO₂','Stress','PNG (*.png)'}
+    'Firmware','Font (px)','Fonts','Mi Fitness mod','SpO₂','Stress','PNG (*.png)',
+    'S5 Studio 2.9 — Xiaomi Watch S5'}
 
 
 def message(value):
@@ -159,11 +160,15 @@ def update(compile_qm=False):
     italian={**read(locales/'it.json'),**{key:key for key in sorted(found)}}
     english={key:value for key,value in read(locales/'en.json').items()}
     for key in italian:english.setdefault(key,key)
+    chinese={key:value for key,value in read(locales/'zh.json').items()}
+    for key in italian:chinese.setdefault(key,key)
+    catalogs={'it':italian,'en':english,'zh':chinese}
     # Changed placeholders must never be silently dropped by a translation.
-    for key,value in english.items():
-        if key in italian and set(re.findall(r'\{\w+\}',key))!=set(re.findall(r'\{\w+\}',value)):
-            raise ValueError('Translation placeholders differ: '+key)
-    for language,catalog in [('it',italian),('en',english)]:
+    for language,catalog in catalogs.items():
+        for key,value in catalog.items():
+            if key in italian and set(re.findall(r'\{\w+\}',key))!=set(re.findall(r'\{\w+\}',value)):
+                raise ValueError('Translation placeholders differ ('+language+'): '+key)
+    for language,catalog in catalogs.items():
         (locales/(language+'.json')).write_text(json.dumps(dict(sorted(catalog.items())),ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     target=ROOT/'translations';target.mkdir(exist_ok=True)
     supplement=target/'ui_strings.py'
@@ -174,25 +179,27 @@ def update(compile_qm=False):
     sources=[ROOT/'s5studio'/name for name in ['ui.py','web_ui.py','color_picker.py','file_dialogs.py']]+[supplement]
     suffix='.exe' if sys.platform=='win32' else ''
     subprocess.run([str(qt/('lupdate'+suffix)),*map(str,sources),'-source-language','it','-ts',
-                    str(target/'s5studio_it.ts'),str(target/'s5studio_en.ts')],check=True)
-    for language,catalog in [('it',italian),('en',english)]:
-        path=target/('s5studio_'+language+'.ts');tree=ET.parse(path);tree.getroot().set('language',language);tree.getroot().set('sourcelanguage','it')
+                    *[str(target/('s5studio_'+code+'.ts')) for code in catalogs]],check=True)
+    for language,catalog in catalogs.items():
+        path=target/('s5studio_'+language+'.ts');tree=ET.parse(path);tree.getroot().set('language','zh_CN' if language=='zh' else language);tree.getroot().set('sourcelanguage','it')
         for entry in tree.findall('.//message'):
             source=entry.findtext('source') or '';translation=entry.find('translation')
             if translation is None:translation=ET.SubElement(entry,'translation')
             if translation.get('type') in ('obsolete','vanished'):continue
             value=source if language=='it' else catalog.get(source,source[:len(source)-len(source.lstrip())]+catalog.get(source.strip(),source.strip())+source[len(source.rstrip()):])
-            if language=='it' or not translation.text or translation.get('type')=='unfinished':translation.text=value
+            if language=='it' or not translation.text or translation.get('type')=='unfinished' or (language=='zh' and translation.text==source and value!=source):translation.text=value
             if language=='it' or value!=source or source in IDENTICAL_ENGLISH or source in ('Select Color','S5 Studio','Always On Display') or not re.search(r'[A-Za-zÀ-ž]',source):
                 translation.attrib.pop('type',None)
             elif translation.text==source:translation.set('type','unfinished')
         ET.indent(tree,space='  ');tree.write(path,encoding='utf-8',xml_declaration=True)
         if compile_qm:subprocess.run([str(qt/('lrelease'+suffix)),str(path),'-qm',str(path.with_suffix('.qm'))],check=True)
     if compile_qm:
-        qt_base=qt/'translations/qtbase_it.qm'
-        if not qt_base.is_file():raise ValueError('Qt Italian base translation missing.')
-        shutil.copy2(qt_base,target/'qtbase_it.qm')
+        for name in ('qtbase_it.qm','qtbase_zh_CN.qm'):
+            qt_base=qt/'translations'/name
+            if not qt_base.is_file():raise ValueError('Qt base translation missing: '+name)
+            shutil.copy2(qt_base,target/name)
     result={'status':'passed','jsonMessages':len(italian),'englishMessagesDifferentFromSource':sum(english.get(k)!=k for k in italian),
+            'chineseMessagesDifferentFromSource':sum(chinese.get(k)!=k for k in italian),
             'qtBaseTs':'translations/s5studio_it.ts','compiled':compile_qm,'existingCatalogEntriesPreserved':True}
     print(json.dumps(result,ensure_ascii=False,indent=2));return result
 

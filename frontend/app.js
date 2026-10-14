@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const t=(key,parameters)=>S5I18n.t(key,parameters);
 async function loadLanguage(language){
- const code=['it','en'].includes(language)?language:'it';
+ const code=['it','en','zh'].includes(language)?language:'it';
  const read=async lang=>{
   // Chromium does not support fetch(file:); use the local bridge for the EXE.
   if(location.protocol==='file:')return JSON.parse(await new Promise(resolve=>studio.locale(lang,resolve)));

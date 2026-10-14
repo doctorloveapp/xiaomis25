@@ -820,7 +820,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.settings=AppSettings(settings_path)
         self.language=install_language(self.settings.language)
-        self.setWindowTitle(self.tr('S5 Studio 2.8 — Xiaomi Watch S5'));self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle(self.tr('S5 Studio 2.9 — Xiaomi Watch S5'));self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)
@@ -831,7 +831,7 @@ class MainWindow(QMainWindow):
     def set_language(self,language):
         self.settings.update(language=language)
         self.language=install_language(language)
-        self.setWindowTitle(self.tr('S5 Studio 2.8 — Xiaomi Watch S5'))
+        self.setWindowTitle(self.tr('S5 Studio 2.9 — Xiaomi Watch S5'))
 
     def show_editor(self):
         self.showMaximized()

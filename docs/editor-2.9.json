@@ -1,0 +1,280 @@
+{
+  "applicationVersion": "2.9",
+  "status": "passed",
+  "checks": [
+    "italian-default-original-labels-and-version",
+    "english-persisted-with-project-names-and-data-unchanged",
+    "missing-key-parameters-and-inherited-key-fallback",
+    "all-six-tabs-dynamic-content-translated",
+    "translated-selector-preserves-backend-value",
+    "new-dom-translated-user-content-preserved",
+    "dynamic-hand-controls-and-smooth-flags-localized",
+    "switch-back-restores-original-italian",
+    "parameterized-layer-count-localized",
+    "new-window-loads-language-from-settings",
+    "visible-example-button-opens-bulova-as-independent-editable-document",
+    "chinese-switch-persists-with-project-and-user-names-unchanged",
+    "chinese-six-tabs-source-tooltip-and-chrono-readout",
+    "aligned-36px-header-controls-in-three-languages-at-1120-and-1440",
+    "new-window-loads-chinese-from-settings",
+    "italian-restored-after-chinese"
+  ],
+  "passed": 16,
+  "headerMeasurements": [
+    {
+      "language": "it",
+      "windowWidth": 1120,
+      "controls": [
+        {
+          "selector": ".language-control .select-trigger",
+          "x": 693.328125,
+          "y": 21.5,
+          "width": 140,
+          "height": 36,
+          "right": 833.328125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#open",
+          "x": 841.328125,
+          "y": 21.5,
+          "width": 46.0625,
+          "height": 36,
+          "right": 887.390625,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#save",
+          "x": 895.390625,
+          "y": 21.5,
+          "width": 96.859375,
+          "height": 36,
+          "right": 992.25,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#compile",
+          "x": 1000.25,
+          "y": 21.5,
+          "width": 91.75,
+          "height": 36,
+          "right": 1092,
+          "bottom": 57.5
+        }
+      ]
+    },
+    {
+      "language": "it",
+      "windowWidth": 1440,
+      "controls": [
+        {
+          "selector": ".language-control .select-trigger",
+          "x": 1013.328125,
+          "y": 21.5,
+          "width": 140,
+          "height": 36,
+          "right": 1153.328125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#open",
+          "x": 1161.328125,
+          "y": 21.5,
+          "width": 46.0625,
+          "height": 36,
+          "right": 1207.390625,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#save",
+          "x": 1215.390625,
+          "y": 21.5,
+          "width": 96.859375,
+          "height": 36,
+          "right": 1312.25,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#compile",
+          "x": 1320.25,
+          "y": 21.5,
+          "width": 91.75,
+          "height": 36,
+          "right": 1412,
+          "bottom": 57.5
+        }
+      ]
+    },
+    {
+      "language": "en",
+      "windowWidth": 1120,
+      "controls": [
+        {
+          "selector": ".language-control .select-trigger",
+          "x": 703.28125,
+          "y": 21.5,
+          "width": 140,
+          "height": 36,
+          "right": 843.28125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#open",
+          "x": 851.28125,
+          "y": 21.5,
+          "width": 52.75,
+          "height": 36,
+          "right": 904.03125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#save",
+          "x": 912.03125,
+          "y": 21.5,
+          "width": 85.4375,
+          "height": 36,
+          "right": 997.46875,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#compile",
+          "x": 1005.46875,
+          "y": 21.5,
+          "width": 86.53125,
+          "height": 36,
+          "right": 1092,
+          "bottom": 57.5
+        }
+      ]
+    },
+    {
+      "language": "en",
+      "windowWidth": 1440,
+      "controls": [
+        {
+          "selector": ".language-control .select-trigger",
+          "x": 1023.28125,
+          "y": 21.5,
+          "width": 140,
+          "height": 36,
+          "right": 1163.28125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#open",
+          "x": 1171.28125,
+          "y": 21.5,
+          "width": 52.75,
+          "height": 36,
+          "right": 1224.03125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#save",
+          "x": 1232.03125,
+          "y": 21.5,
+          "width": 85.4375,
+          "height": 36,
+          "right": 1317.46875,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#compile",
+          "x": 1325.46875,
+          "y": 21.5,
+          "width": 86.53125,
+          "height": 36,
+          "right": 1412,
+          "bottom": 57.5
+        }
+      ]
+    },
+    {
+      "language": "zh",
+      "windowWidth": 1120,
+      "controls": [
+        {
+          "selector": ".language-control .select-trigger",
+          "x": 727.703125,
+          "y": 21.5,
+          "width": 140,
+          "height": 36,
+          "right": 867.703125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#open",
+          "x": 875.703125,
+          "y": 21.5,
+          "width": 48,
+          "height": 36,
+          "right": 923.703125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#save",
+          "x": 931.703125,
+          "y": 21.5,
+          "width": 70,
+          "height": 36,
+          "right": 1001.703125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#compile",
+          "x": 1009.703125,
+          "y": 21.5,
+          "width": 82.296875,
+          "height": 36,
+          "right": 1092,
+          "bottom": 57.5
+        }
+      ]
+    },
+    {
+      "language": "zh",
+      "windowWidth": 1440,
+      "controls": [
+        {
+          "selector": ".language-control .select-trigger",
+          "x": 1047.703125,
+          "y": 21.5,
+          "width": 140,
+          "height": 36,
+          "right": 1187.703125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#open",
+          "x": 1195.703125,
+          "y": 21.5,
+          "width": 48,
+          "height": 36,
+          "right": 1243.703125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#save",
+          "x": 1251.703125,
+          "y": 21.5,
+          "width": 70,
+          "height": 36,
+          "right": 1321.703125,
+          "bottom": 57.5
+        },
+        {
+          "selector": "#compile",
+          "x": 1329.703125,
+          "y": 21.5,
+          "width": 82.296875,
+          "height": 36,
+          "right": 1412,
+          "bottom": 57.5
+        }
+      ]
+    }
+  ],
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "watchfaceZipCreated": false
+}

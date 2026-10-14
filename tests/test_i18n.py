@@ -18,7 +18,7 @@ def test_default_italian_and_corrupt_settings_do_not_block_startup(tmp_path,cont
     assert AppSettings(path).language=='it'
 
 
-@pytest.mark.parametrize('value,expected',[('en','en'),('en-GB','en'),('it_IT','it'),('de','it'),(None,'it')])
+@pytest.mark.parametrize('value,expected',[('en','en'),('en-GB','en'),('it_IT','it'),('zh','zh'),('zh-CN','zh'),('zh_Hans_CN','zh'),('de','it'),(None,'it')])
 def test_language_normalization(value,expected):
     assert language_code(value)==expected
 
@@ -52,6 +52,42 @@ def test_json_catalogs_preserve_source_text_placeholders_and_italian_fallback():
     assert en['Salva progetto']=='Save project' and en['Movimento Fluido']=='Smooth Motion'
     assert en['{v0} livelli selezionati']=='{v0} selected layers'
     assert load_catalog('../../evil')==it
+
+
+def test_chinese_catalog_has_full_key_and_placeholder_coverage():
+    import re
+    it=load_catalog('it');zh=load_catalog('zh-CN')
+    assert set(it)==set(zh)
+    assert zh['Salva progetto']=='保存项目'
+    assert zh['Movimento Fluido']=='平滑运动'
+    assert zh['↗ Esporta ZIP']=='↗ 导出 ZIP'
+    assert zh['{count} livelli']=='{count} 个图层'
+    for key,value in zh.items():
+        assert set(re.findall(r'\{\w+\}',key))==set(re.findall(r'\{\w+\}',value)),key
+    unchanged=[key for key in it if it[key]==zh[key] and re.search('[A-Za-zÀ-ž]',key)]
+    # Unchanged messages are brands, keyboard shortcuts or technical syntax.
+    assert not any(re.search(r'\b(?:Salva|Crea|Importa|Mostra|Lancette|Progetto|Valore|Errore)\b',key) for key in unchanged)
+
+
+def test_chinese_preference_qt_dialogs_and_italian_default(tmp_path):
+    from PySide6.QtWidgets import QApplication,QMessageBox
+    from PySide6.QtCore import QCoreApplication,QLocale
+    from s5studio.color_picker import StudioColorDialog
+    app=QApplication.instance() or QApplication([])
+    settings=AppSettings(tmp_path/'settings.json');assert settings.language=='it'
+    settings.update(language='zh');assert AppSettings(settings.path).language=='zh'
+    try:
+        install_language(settings.language,app)
+        assert QLocale().name()=='zh_CN'
+        assert QCoreApplication.translate('MainWindow','Annulla')=='撤销'
+        assert QCoreApplication.translate('StudioBridge','Salva progetto')=='保存项目'
+        dialog=StudioColorDialog({'color':'#112233','original':False,'mode':'original'},None)
+        assert dialog.original.text()=='无颜色';dialog.deleteLater()
+        box=QMessageBox();box.setStandardButtons(QMessageBox.StandardButton.Cancel)
+        assert '取消' in box.button(QMessageBox.StandardButton.Cancel).text();box.deleteLater()
+        install_language('en',app)
+        assert QCoreApplication.translate('StudioBridge','Salva progetto')=='Save project'
+    finally:install_language('it',app)
 
 
 def test_refined_catalog_covers_composed_labels_help_and_validation():

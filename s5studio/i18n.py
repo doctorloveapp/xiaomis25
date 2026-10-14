@@ -27,10 +27,11 @@ def install_language(language, app=None):
         translator.deleteLater()
     installed = []
     # Native Qt button labels/file dialogs have their own upstream catalog.
-    if code == 'it':
+    if code in ('it','zh'):
+        qt_catalog='qtbase_zh_CN' if code=='zh' else 'qtbase_it'
         qt = QTranslator(app)
-        if qt.load(str(resource_root() / 'translations/qtbase_it.qm')) or qt.load(
-                'qtbase_it', QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)):
+        if qt.load(str(resource_root() / ('translations/'+qt_catalog+'.qm'))) or qt.load(
+                qt_catalog, QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)):
             app.installTranslator(qt); installed.append(qt)
     if code != 'it':
         studio = QTranslator(app)
@@ -38,5 +39,5 @@ def install_language(language, app=None):
             app.installTranslator(studio); installed.append(studio)
     app._s5_translators = installed  # QTranslator must outlive installTranslator().
     app._s5_language = code
-    QLocale.setDefault(QLocale(code))
+    QLocale.setDefault(QLocale('zh_CN' if code=='zh' else code))
     return code

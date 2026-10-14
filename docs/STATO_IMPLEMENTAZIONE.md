@@ -1,4 +1,6 @@
-# Stato operativo — S5 Studio 2.8
+# Stato operativo — S5 Studio 2.9
+
+Aggiornamento 2.9 (2026-10-14): selettore lingua con globo e controlli header allineati a 36 px. Aggiunto cinese semplificato (简体中文), mantenendo italiano predefinito e inglese; preferenza persistente e font CJK di sistema. 1.204 messaggi JSON, 291 messaggi Qt attivi per lingua. Superati 59 test mirati, 16 controlli editor e 161 contesti cinesi; geometria verificata nelle tre lingue a 1120 e 1440 px. Integrato Swatch Luce: 12 set personali, 632 modelli e 90 dischi. Solo Bulova come progetto di esempio; progetti esistenti compatibili. Sette moduli Lua invariati rispetto alla 2.8. Eseguibile verificato staticamente, senza avvio, ambiente isolato, backup o ZIP dimostrativi. [Guida](I18N_2.9.md), [verifiche](validation-editor-2.9.json), [bundle](executable-build-2.9.json).
 
 Aggiornamento 2.8 (2026-10-13): i18n italiano/inglese, italiano predefinito, preferenza language in settings.json condivisa dagli editor. Stringhe native con self.tr e Qt Linguist TS/QM; JSON offline per frontend statico e dinamico. Verificati 43 test e 11 controlli editor; nomi, valori, ID e sette moduli Lua del quadrante invariati rispetto alla 2.7. Nessun ZIP dimostrativo, backup o avvio EXE. [Guida](I18N_2.8.md), [verifiche](validation-editor-2.8.json).
 

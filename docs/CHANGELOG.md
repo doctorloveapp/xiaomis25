@@ -14,6 +14,14 @@ Xiaomi Watch S5. See [the hardware confirmation](hardware-test-2.7.json).
 The earlier “awaiting hardware test” statements below describe the delivery
 status on 2026-10-12 and are retained as dated history.
 
+## Novità 2.9 — header e cinese semplificato
+
+Selettore lingua con icona globo, etichetta accessibile e altezza uniforme di 36 px con Apri, Salva ed Esporta ZIP. Verificato l’allineamento a 1120 e 1440 px nelle tre lingue. Aggiunto **简体中文**, con cataloghi JSON/Qt completi e font CJK di sistema; italiano ancora predefinito, preferenza conservata tra gli avvii. Nomi e contenuti dei progetti restano quelli dell’utente.
+
+Integrato il nuovo set personale **Swatch Luce**: 12 set, 632 modelli complessivi e 90 dischi. Il solo esempio incorporato resta Bulova; altri progetti, recuperi, preferenze e cronologie personali esclusi. Sorgenti dei cataloghi e `.gitignore` conservati.
+
+**Verifiche:** 59 test mirati, 16 controlli editor e 161 contesti renderizzati in cinese. Eseguibile 2.9 verificato staticamente; sette moduli Lua identici alla 2.8, senza modifiche a compilazione o Crono Pro. Nessun avvio dell’EXE, test isolato, backup o ZIP dimostrativo. [Guida](I18N_2.9.md) · [Test](validation-editor-2.9.json) · [Bundle](executable-build-2.9.json).
+
 ## Novità 2.8 — i18n
 
 Italiano predefinito e inglese selezionabile dalla barra superiore, con preferenza applicativa persistente. Cataloghi Qt TS/QM e JSON frontend offline, estrazione automatizzata, dati utente protetti. 43 test mirati e 10 controlli editor superati; sette moduli Lua invariati. [Guida](I18N_2.8.md) · [Verifiche](validation-editor-2.8.json).
