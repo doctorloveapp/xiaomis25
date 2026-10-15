@@ -29,3 +29,7 @@ input.w-16{width:64px;flex-shrink:0}#preview-export{white-space:nowrap}
 .language-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#8f9bb8;pointer-events:none;z-index:1}
 .language-label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 html[lang=zh] body{font-family:"Microsoft YaHei UI","Microsoft YaHei","Noto Sans CJK SC","PingFang SC",sans-serif}
+
+.gif-frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:340px;overflow:auto}.gif-frame{border:1px solid #29334a;border-radius:8px;padding:4px;background:#101624}.gif-frame.excluded{opacity:.4}.gif-frame button{display:block;width:100%;height:60px;background:repeating-conic-gradient(#182033 0% 25%,#0b0f1c 0% 50%) 50%/12px 12px;border-radius:4px}.gif-frame img{width:100%;height:60px;object-fit:contain}.gif-frame label{display:flex;align-items:center;gap:3px;font-size:9px;margin-top:5px;color:#a5b5c8}
+
+.gif-export-limit{height:104px;box-sizing:border-box;margin-top:12px;padding:10px;border:1px solid #305849;border-radius:8px;background:#10221d;font-size:11px;color:#b3e6d2}.gif-export-limit.over{border-color:#82532d;background:#2b1c12;color:#ffd7a8}.gif-export-limit p{margin:6px 0 0;line-height:14px;font-size:10px}

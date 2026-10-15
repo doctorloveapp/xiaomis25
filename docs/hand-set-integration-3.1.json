@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "sourcesChecked": [
+    {
+      "catalog": "C:\\Users\\hp_wi\\Downloads\\gemini CLI\\Xiaomi_s5\\data\\hand-sets\\catalog.json",
+      "status": "absent"
+    },
+    {
+      "catalog": "C:\\Users\\hp_wi\\AppData\\Local\\S5Studio\\hand-sets\\catalog.json",
+      "status": "checked",
+      "sets": 13
+    }
+  ],
+  "updates": [],
+  "bundledSets": 13,
+  "bundledHands": 40,
+  "bundledAssets": 71,
+  "sets": [
+    {
+      "id": "custom-911b9b557a3249938c8a74bd7432b1d3",
+      "name": "Bulova",
+      "small": false
+    },
+    {
+      "id": "custom-b7312f6f09c64e4ea4bac4f2a7c488de",
+      "name": "Bulova_lancette_piccole",
+      "small": true
+    },
+    {
+      "id": "custom-6f6a7ad536d047bd89280d8e114b7fd6",
+      "name": "Hamilton Lancette",
+      "small": false
+    },
+    {
+      "id": "custom-ea28ed38ee7f41beb5d4d1ddca14de28",
+      "name": "Longine",
+      "small": false
+    },
+    {
+      "id": "custom-77a0e532fd3741cb982fa6b4e8fd7185",
+      "name": "Longines",
+      "small": false
+    },
+    {
+      "id": "custom-c9cd6a9ce7d142088a6e9213db1c2d79",
+      "name": "Longines_Lancette piccole",
+      "small": true
+    },
+    {
+      "id": "custom-9cb392c1650b48289a2351af31ab300a",
+      "name": "Lorenz Star Trek",
+      "small": false
+    },
+    {
+      "id": "custom-239bb4249cf0466db27a7446e0185190",
+      "name": "Omega moon",
+      "small": false
+    },
+    {
+      "id": "custom-9cdd7998cd644b86bf4fb3325faf8afe",
+      "name": "Omega moon piccole",
+      "small": true
+    },
+    {
+      "id": "custom-a47bf9a1fb97424cbdbe457924d6614b",
+      "name": "Seiko 5 ombra",
+      "small": false
+    },
+    {
+      "id": "custom-99b05f97c05b43f0957cc20f5877e036",
+      "name": "Swatch Luce",
+      "small": false
+    },
+    {
+      "id": "custom-ecfdbc81844f4eb29bff89879644e9dc",
+      "name": "Swatch Orange ombra",
+      "small": false
+    },
+    {
+      "id": "custom-6fb7cf28c7414c449f18046d047d13be",
+      "name": "Swatch orange piccole",
+      "small": true
+    }
+  ],
+  "catalogSha256": "e4c66c223c49f7f5053a7db8862cc47ce197965dfa338cedd81a5308fe668eb9",
+  "originalCatalogHands": 595,
+  "effectiveCatalogHands": 635,
+  "sourceCatalogsModified": false
+}

@@ -16,11 +16,12 @@ IDENTICAL_ENGLISH={'XIAOMI WATCH S5  ·  46 MM','Snap','Zoom','Scenario',
     '{v0}{v1} — S5 Studio {v2}','EasyFace Compiler 4.23','S5 Studio 2.8 — Xiaomi Watch S5',
     'Bluetooth','Ctrl+N','Ctrl+O','Ctrl+S','Ctrl+Shift+S','Ctrl+Y','Ctrl+Z',
     'Firmware','Font (px)','Fonts','Mi Fitness mod','SpO₂','Stress','PNG (*.png)',
-    'S5 Studio 2.9 — Xiaomi Watch S5'}
+    'S5 Studio 2.9 — Xiaomi Watch S5','S5 Studio 3.0 — Xiaomi Watch S5','S5 Studio 3.1 — Xiaomi Watch S5','GIF (*.gif)'}
 
 
 def message(value):
     value=html.unescape(value).strip()
+    if value.startswith(('local ','require("','scene:')):return None
     visible=re.sub(r'\{\w+\}', '', value)
     if not visible or not re.search(r'[A-Za-zÀ-ž]',visible):return None
     if value.startswith(('[', '%','button[')) or re.search(r'\b(?:data-[\w-]+|type|id|min|max|step)=',value):return None
@@ -107,7 +108,7 @@ def collect():
             else:
                 item=message(value)
                 if item:found.add(item)
-    for name in ['ui.py','web_ui.py','color_picker.py','source_help.py','motion.py','disk_catalog.py']:
+    for name in ['ui.py','web_ui.py','color_picker.py','source_help.py','motion.py','disk_catalog.py','gif_animation.py']:
         tree=ast.parse((ROOT/'s5studio'/name).read_text(encoding='utf8'))
         docstrings={id(part.body[0].value) for part in ast.walk(tree) if isinstance(part,(ast.Module,ast.ClassDef,ast.FunctionDef)) and part.body and isinstance(part.body[0],ast.Expr) and isinstance(part.body[0].value,ast.Constant)}
         for node in ast.walk(tree):

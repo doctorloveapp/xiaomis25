@@ -36,7 +36,7 @@ def move(project, ids, dx, dy, variant=0, aod=False, variant_only=False):
     xmin=ymin=-8192;xmax=ymax=8192
     for e in bounds:
         get=lambda k:getattr(e,k) if isinstance(e,Element) else e[k]
-        image=isinstance(e,Element) and e.kind=='image';low=-MAX_DESIGN_IMAGE_SIZE if image else 0
+        image=isinstance(e,Element) and e.kind in ('image','gif');low=-MAX_DESIGN_IMAGE_SIZE if image else 0
         xmin=max(xmin,low-get('x'));ymin=max(ymin,low-get('y'))
         xmax=min(xmax,(MAX_DESIGN_IMAGE_SIZE if image else max(0,480-get('width')))-get('x'))
         ymax=min(ymax,(MAX_DESIGN_IMAGE_SIZE if image else max(0,480-get('height')))-get('y'))

@@ -15,7 +15,7 @@ from PySide6.QtWebChannel import QWebChannel
 from PySide6.QtWebEngineCore import QWebEnginePage
 from PySide6.QtWebEngineWidgets import QWebEngineView
 
-from .model import Project,Element,template,identifier,SOURCES,VARIANT_PROPERTIES,MAX_SLOTS,MAX_DESIGN_IMAGE_SIZE,normalized_slot
+from .model import Project,Element,template,empty_project,identifier,SOURCES,VARIANT_PROPERTIES,MAX_SLOTS,MAX_DESIGN_IMAGE_SIZE,normalized_slot
 from .watchface_library import library
 from .render import render,png_bytes,SCENARIOS,layout_errors,hand_preview,hand_edit_changes
 from .native import build
@@ -58,7 +58,7 @@ class StudioBridge(QObject):
 
     def __init__(self,window,*,smoke=False):
         super().__init__(window)
-        self.window=window;self.root=application_root();self.resources=resource_root();self.project=template('Analogico')
+        self.window=window;self.root=application_root();self.resources=resource_root();self.project=empty_project()
         self.project.ensure_independent_variants();self._design=None
         self.path=None;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
         self.dialogs=RememberedDialogs(window,user_data_root()/'dialog-paths.json')
@@ -67,6 +67,7 @@ class StudioBridge(QObject):
         self.worker=None;self.output=None;self.smoke=smoke
         self.state_sequence=0
         self.compiler=window.settings.compiler(default_compiler()) if hasattr(window,'settings') else default_compiler()
+        self.gif_preview=False;self.gif_started=0
         self.chrono_state='reset';self.chrono_elapsed=0;self.chrono_started=0;self.motion_preview=False;self.motion_started=0
         from .chrono_pro import ProPreview
         self.pro_preview=ProPreview();self.preview_pro_mode=False
@@ -173,6 +174,8 @@ class StudioBridge(QObject):
         source_descriptions.update({
             'studioChronoCentisecond':'Lettura POST del Crono Pro: frazione del secondo da 00 a 99, oppure sola cifra dei centesimi da 0 a 9. Resta a zero durante il conteggio e raggiunge il valore acquisito allo Stop con animazione da 720 ms a 25 fps. La risoluzione reale dipende dal clock disponibile sul firmware. Esclusa in AOD.',
             'studioChronoMillisecond':'Lettura POST del Crono Pro: frazione del secondo da 000 a 999, oppure sola cifra dei millesimi da 0 a 9. Stesso istante di Stop per tutte le lancette; nessun aggiornamento rapido durante Running. La fase Anim del firmware non garantisce precisione di 1 ms. Esclusa in AOD.'})
+        from .gif_animation import thumbnail,export_errors as gif_export_errors,MAX_EXPORT_FRAMES,safety_state
+        gif_thumbnails={e.id:['data:image/png;base64,'+base64.b64encode(thumbnail(resolved.assets[f['asset']])).decode() for f in e.gif_frames] for e in resolved.elements if e.kind=='gif'}
         result=self.project.metadata()
         result.update(language=self.get_language(),variantIndex=self.variant,aod=self.aod,dirty=self.dirty,path=str(self.path or ''),
                       background=resolved.background,
@@ -197,7 +200,9 @@ class StudioBridge(QObject):
                       pointerSources=pointer_sources,sourceDescriptions=source_descriptions,sourceAliases=ALIASES,handPreviews=hand_previews,compassPresets=self.compass_presets,
                       luaSources=lua_sources,
                       aodExcluded=[e.id for e in resolved.elements if e.aod and excluded_from_aod(e)],
-                      chronoState=self.chrono_state,chronoElapsedMs=self.chrono_elapsed,chronoPro=self.preview_pro_mode,motionPreview=self.motion_preview,
+                      chronoState=self.chrono_state,chronoElapsedMs=self.chrono_elapsed,chronoPro=self.preview_pro_mode,motionPreview=self.motion_preview,gifPreview=self.gif_preview,gifThumbnails=gif_thumbnails,
+                      exportErrors=gif_export_errors(self.project),gifFrameLimit=MAX_EXPORT_FRAMES,
+                      gifSafety=safety_state(resolved),
                       complicationSources=selectable,
                       scenarios=list(SCENARIOS),
                       maxImageSize=MAX_DESIGN_IMAGE_SIZE,
@@ -209,6 +214,7 @@ class StudioBridge(QObject):
     def preview_tick(self):
         if self.aod or self.worker:return
         now=time.monotonic_ns()//1000000
+        self.values['__gifMs']=now-self.gif_started if self.gif_preview else 0
         self.values['__clockMs']=now
         self.values['__chronoMs']=now-self.chrono_started if self.chrono_state=='running' else self.chrono_elapsed
         self.values['__secondFraction']=(now-self.motion_started)/1000 if self.motion_preview else 0
@@ -217,13 +223,17 @@ class StudioBridge(QObject):
         self.resume_preview()
 
     def resume_preview(self):
-        if not self.smoke and not self.worker and not self.aod and (self.motion_preview or self.chrono_state in ('running','arming','reading','resetting')):
+        if not self.smoke and not self.worker and not self.aod and (self.gif_preview or self.motion_preview or self.chrono_state in ('running','arming','reading','resetting')):
+            self.motion_timer.setInterval(40 if self.gif_preview else 200)
             self.motion_timer.start()
 
     def update_pro_preview(self,now=None):
         from .motion import pro_enabled
         from .chrono_pro import ProPreview
-        resolved=self.project.variant_project(self.variant);mode=pro_enabled(resolved)
+        from .gif_animation import runtime_project,safety_state
+        resolved=runtime_project(self.project.variant_project(self.variant));mode=pro_enabled(resolved)
+        if safety_state(resolved)['active']:
+            self.chrono_state='reset';self.chrono_elapsed=0;self.values['__chronoMs']=0
         if mode!=self.preview_pro_mode:
             self.pro_preview=ProPreview();self.chrono_state='rest' if mode else 'reset'
             self.chrono_elapsed=0;self.preview_pro_mode=mode
@@ -336,7 +346,7 @@ class StudioBridge(QObject):
                 changes=choose_graphic_color(target,req['key'],self.window)
                 action='state' if changes is None else edit_action
                 if changes is not None:req['changes']=changes
-            mutations={'disk-preset','set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
+            mutations={'gif','gif-frame','gif-remove','disk-preset','set-shape','move-group','align-group','add','edit','nudge','delete','duplicate','move-layer','reorder-layer','fit-image','image','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','variant-image','add-variant','edit-variant','delete-variant','add-slot','edit-slot','delete-slot','settings'}
             if action in mutations:
                 if self.worker and self.worker.isRunning():raise ValueError(self.tr('Attendi la fine della compilazione.'))
                 self.project.ensure_independent_variants()
@@ -356,6 +366,9 @@ class StudioBridge(QObject):
                 if e.kind!='disk':raise ValueError(self.tr('Seleziona un livello Disco.'))
                 for k,v in self.disk_catalog.changes(self.design,req['preset']).items():setattr(e,k,v)
             elif action=='chrono-preview':
+                from .gif_animation import safety_state
+                if safety_state(self.project.variant_project(self.variant))['active']:
+                    raise ValueError(self.tr('GIF visibile: massimo 10 fotogrammi inclusi per GIF. Lancette dei secondi e cronografo (Crono/Crono Pro) disattivati in questo stile per limitare i salti. Le impostazioni restano salvate.'))
                 self.values.pop('__pointerCalibration',None)
                 now=time.monotonic_ns()//1000000
                 self.update_pro_preview(now)
@@ -380,6 +393,29 @@ class StudioBridge(QObject):
             elif action=='moon-preview':
                 value=req.get('date','')
                 self.set_preview_date(parse_moon_date(value) if value else date.today())
+            elif action=='gif-preview':
+                self.gif_preview=bool(req.get('value'));self.gif_started=time.monotonic_ns()//1000000
+                self.values['__gifMs']=0;self.values.pop('__gifFrames',None)
+            elif action=='gif-inspect':
+                e=self.element(req);index=req.get('index')
+                if e.kind!='gif' or type(index) is not int or not 0<=index<len(e.gif_frames):raise ValueError(self.tr('Fotogramma GIF non valido.'))
+                self.gif_preview=False;self.values.setdefault('__gifFrames',{})[e.id]=index
+            elif action=='gif':
+                filename=self.dialogs.open('gif-open',self.tr('Importa GIF animata'),self.root,self.tr('GIF (*.gif)'))
+                if filename:
+                    from .gif_animation import import_gif
+                    el=import_gif(self.design,filename);el.aod=self.aod;selection=el.id
+            elif action in ('gif-frame','gif-remove'):
+                e=self.element(req)
+                if e.kind!='gif':raise ValueError(self.tr('Seleziona un livello GIF.'))
+                if action=='gif-frame':
+                    index=req.get('index');included=req.get('included')
+                    if type(index) is not int or not 0<=index<len(e.gif_frames) or type(included) is not bool:raise ValueError(self.tr('Fotogramma GIF non valido.'))
+                    e.gif_frames[index]['included']=included
+                else:e.gif_frames=[f for f in e.gif_frames if f['included']]
+                from .gif_animation import schedule
+                schedule(e);e.asset=next(f['asset'] for f in e.gif_frames if f['included'])
+                self.values.pop('__gifFrames',None)
             elif action=='motion-preview':
                 self.motion_preview=bool(req.get('value'));self.motion_started=time.monotonic_ns()//1000000
                 self.values['__secondFraction']=0
@@ -388,7 +424,7 @@ class StudioBridge(QObject):
                     else:self.motion_timer.stop()
             elif action=='new':
                 if self.confirm_leave():
-                    self.project=template(req.get('template','Analogico'));self.path=None;self.variant=0;self.aod=False;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
+                    self.project=template(req['template']) if req.get('template') else empty_project();self.gif_preview=False;self.values.pop('__gifFrames',None);self.values['__gifMs']=0;self.path=None;self.variant=0;self.aod=False;self.dirty=False;self.undo_stack=[];self.redo_stack=[]
                     if not self.smoke:self.recovery.unlink(missing_ok=True)
             elif action=='open':
                 if self.confirm_leave():
@@ -437,6 +473,9 @@ class StudioBridge(QObject):
                 e.kind=kind
             elif action=='edit':
                 e=self.element(req);changes=req['changes']
+                from .gif_animation import safety_state
+                if e.kind=='analog' and not e.aod and any(changes.get(key) for key in ('second_hand','chrono_pro','only_chrono')) and safety_state(self.design)['active']:
+                    raise ValueError(self.tr('GIF visibile: massimo 10 fotogrammi inclusi per GIF. Lancette dei secondi e cronografo (Crono/Crono Pro) disattivati in questo stile per limitare i salti. Le impostazioni restano salvate.'))
                 if e.kind=='disk' and 'source' in changes and changes['source']!=e.source:
                     changes={**moon_defaults(changes['source']),**changes}
                 if e.kind=='disk' and e.second_shadow_asset:
@@ -461,9 +500,9 @@ class StudioBridge(QObject):
                 if isinstance(layer,Element):
                     resolved=layer
                     if not layer.locked:
-                        low=-MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else 0
-                        xmax=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-resolved.width)
-                        ymax=MAX_DESIGN_IMAGE_SIZE if layer.kind=='image' else max(0,480-resolved.height)
+                        low=-MAX_DESIGN_IMAGE_SIZE if layer.kind in ('image','gif') else 0
+                        xmax=MAX_DESIGN_IMAGE_SIZE if layer.kind in ('image','gif') else max(0,480-resolved.width)
+                        ymax=MAX_DESIGN_IMAGE_SIZE if layer.kind in ('image','gif') else max(0,480-resolved.height)
                         changes={'x':max(low,min(xmax,resolved.x+dx)),'y':max(low,min(ymax,resolved.y+dy))}
                         for k,v in changes.items():setattr(layer,k,v)
                     else:self.project=before;before=None
@@ -499,7 +538,7 @@ class StudioBridge(QObject):
             elif action=='reorder-layer':self.reorder_layer(req['id'],req['targetId'],req['placement'])
             elif action=='fit-image':
                 e=self.element(req)
-                if e.kind!='image' or req.get('fit','cover') not in ('cover','contain'):raise ValueError(self.tr('Seleziona un livello immagine.'))
+                if e.kind not in ('image','gif') or req.get('fit','cover') not in ('cover','contain'):raise ValueError(self.tr('Seleziona un livello immagine.'))
                 changes={'x':0,'y':0,'width':480,'height':480,'fit':req.get('fit','cover')}
                 for k,v in changes.items():setattr(e,k,v)
             elif action in ('image','variant-image','hand-image','compass-image'):
@@ -592,7 +631,7 @@ class StudioBridge(QObject):
                     setattr(self.design if key=='background' else self.project,mapping[key],value)
                 if self.project.aod_enabled and not any(e.aod and e.kind in ('clock','analog') for e in self.project.elements):
                     self.project.elements.append(Element(kind='analog',name='Lancette AOD',x=80,y=80,width=320,height=320,color='#808080',aod=True))
-            elif action=='aod':self.aod=bool(req['value']) and self.project.aod_enabled
+            elif action=='aod':self.aod=bool(req['value'])
             elif action=='scenario':
                 self.scenario=req['value'];self.values=dict(SCENARIOS[self.scenario])
                 self.set_preview_date(self.preview_date())
@@ -623,6 +662,9 @@ class StudioBridge(QObject):
                     self.window.settings.update(compiler=str(self.compiler))
             elif action=='build':
                 if self.worker and self.worker.isRunning():raise ValueError(self.tr('Compilazione già in corso.'))
+                from .gif_animation import export_errors as gif_export_errors
+                problems=gif_export_errors(self.project)
+                if problems:raise ValueError('\n'.join(problems))
                 destination=self.dialogs.directory('watchface-export',self.tr('Cartella di esportazione'),self.root/'dist')
                 if destination:
                     self.motion_timer.stop()
@@ -637,6 +679,9 @@ class StudioBridge(QObject):
                 if action not in ('add-variant','delete-variant'):
                     self.design.sync_layer_order();self.project.commit_variant(self.variant,self.design,self.aod)
                 self.project.sync_layer_order()
+                aod_edits={'add','edit','delete','duplicate','nudge','move-group','align-group','move-layer','reorder-layer','fit-image','image','gif','gif-frame','gif-remove','set-shape','font','hand-image','hand-preset','hand-pivot','compass-preset','compass-image','clear-hand','disk-preset'}
+                if self.aod and action in aod_edits and self.project.metadata()!=before.metadata():
+                    self.project.aod_enabled=True
                 errors=self.project.validate()
                 if errors:raise ValueError('\n'.join(errors))
                 if self.project.metadata()!=before.metadata():
@@ -820,7 +865,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.settings=AppSettings(settings_path)
         self.language=install_language(self.settings.language)
-        self.setWindowTitle(self.tr('S5 Studio 2.9 — Xiaomi Watch S5'));self.resize(1440,920);self.setMinimumSize(1120,760)
+        self.setWindowTitle(self.tr('S5 Studio 3.1 — Xiaomi Watch S5'));self.resize(1440,920);self.setMinimumSize(1120,760)
         self.view=QWebEngineView(self);self.view.setPage(LocalPage(self.view));self.setCentralWidget(self.view)
         self.bridge=StudioBridge(self,smoke=smoke)
         self.channel=QWebChannel(self.view.page());self.channel.registerObject('studio',self.bridge);self.view.page().setWebChannel(self.channel)
@@ -831,7 +876,7 @@ class MainWindow(QMainWindow):
     def set_language(self,language):
         self.settings.update(language=language)
         self.language=install_language(language)
-        self.setWindowTitle(self.tr('S5 Studio 2.9 — Xiaomi Watch S5'))
+        self.setWindowTitle(self.tr('S5 Studio 3.1 — Xiaomi Watch S5'))
 
     def show_editor(self):
         self.showMaximized()

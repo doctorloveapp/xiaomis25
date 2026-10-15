@@ -1,0 +1,17 @@
+{
+  "applicationVersion": "3.0",
+  "date": "2026-10-15",
+  "source": "owner-report-in-conversation",
+  "knownDeviceProfile": {
+    "model": "M2530W1",
+    "firmware": "3.221.024"
+  },
+  "project": "Gatto.s5faceproj",
+  "gifPlayback": "owner-confirmed-working-well",
+  "nativeSecondsHand": "intermittent-jumps-reported-with-all-smooth-flags-disabled",
+  "overallPerformancePassed": false,
+  "aodHardwareResultReportedInThisTest": false,
+  "independentPhysicalTestByAgent": false,
+  "cpuGpuRamOrFrameTimesMeasured": false,
+  "relatedAudit": "docs/gatto-performance-audit-3.0.json"
+}

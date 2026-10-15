@@ -24,9 +24,9 @@ Integrate new/updated personal sets into `resources/hand-sets/`; preserve source
 
 ```powershell
 python -m pytest -q
-python scripts/verify_bundle.py S5Studio-2.9.exe --report build/bundle-check.json
-python -X utf8 scripts/check_editor_2_9.py
-python -X utf8 scripts/check_localization_2_9.py --language zh
+python scripts/verify_bundle.py S5Studio-3.1.exe --report build/bundle-check.json
+python -X utf8 scripts/check_editor_3_0.py
+python -m pytest tests/test_gif_animation.py -q
 ```
 
 The full test suite includes compiler-dependent tests; supply the documented toolchain/fixtures before treating those results as representative. For documentation-only edits, verify Markdown structure, local links, anchors and factual consistency. Do not rebuild an already tested executable solely to change external documentation.

@@ -124,6 +124,11 @@ def inspect_binary(data: bytes) -> dict:
                     slots.append({'id':f'{uid:x}','choices':[f'{v:x}' for v in choices]})
                 if index==9:
                     groups.append(data[pos:pos+length])
+                if index==4:
+                    if length!=12:raise ValueError('Animazione nativa troncata o non supportata.')
+                    target,repeats,interval,first=struct.unpack_from('<IHHI',data,pos)
+                    if interval<1:raise ValueError('Intervallo animazione nativa non valido.')
+                    references.append(target)
                 if index in (2,3):
                     if length<12:
                         raise ValueError("Risorsa immagine troncata.")
@@ -169,6 +174,9 @@ class NativeSource:
 
 
 def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', variant_index=0, app_directory=None) -> NativeSource:
+    if not aod:
+        from .gif_animation import runtime_project
+        p=runtime_project(p)
     if not aod and p.variants:
         expected=[]
         main=None
@@ -234,6 +242,23 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
             from urllib.parse import quote
             name=write_live(p,e,app_directory,variant_index)
             widget(34,'app_'+quote(name,safe=''),0,0,480,480)
+        elif e.kind=='gif':
+            from .gif_animation import native_frames,graphic,uses_lua,write_scene as write_gif_scene
+            if aod:
+                clipped=canvas_image(p,graphic(e))
+                if clipped:bitmap,x,y=clipped;image(prefix+'_gif_aod',bitmap,x,y)
+                continue
+            if uses_lua(e):
+                from urllib.parse import quote
+                name=write_gif_scene(p,e,app_directory,variant_index)
+                widget(34,'app_'+quote(name,safe=''),0,0,480,480)
+                continue
+            interval,sequence,bitmaps,(x,y)=native_frames(p,e)
+            if not sequence:continue
+            for index,bitmap in bitmaps.items():bitmap.save(images/f'{prefix}_gif_{index}.png')
+            widget(31,f'anim_[0@{interval}]_RGBA_{prefix}',x,y,bitmap.width,bitmap.height,
+                   BitmapList='|'.join(f'({n}):{prefix}_gif_{index}.png' for n,index in enumerate(sequence)),
+                   Index_Src='0',DefaultIndex=0)
         elif e.kind=='image':
             clipped=canvas_image(p,e)
             if clipped:
@@ -423,6 +448,9 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         stages.append({'stage':message,'elapsedSeconds':round(time.perf_counter()-started,3)})
         notify(message)
     progress('Preparazione del progetto e controllo del compilatore…')
+    from .gif_animation import export_errors as gif_export_errors
+    gif_problems=gif_export_errors(p)
+    if gif_problems:raise ValueError('\n'.join(gif_problems))
     from .template_package import resolve_template, template_profile, template_identity, apply_template
     template_path=resolve_template(template_path)
     template_info=template_profile(template_path)
@@ -432,6 +460,10 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         errors+=resolved.validate()+layout_errors(resolved)
     if errors:
         raise ValueError("\n".join(errors))
+    from .gif_animation import runtime_project,safety_report
+    source_project=p
+    gif_safety=safety_report(p)
+    p=runtime_project(p)
     if not any(e.visible and not e.aod and e.kind in {"clock","analog"} for e in p.elements):
         raise ValueError("Aggiungi almeno un componente Ora o Lancette.")
     if p.aod_enabled and not any(e.visible and e.aod and e.kind in {"clock","analog"} for e in p.elements):
@@ -521,8 +553,11 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         from .motion import native_motion_report
         seconds_motion=native_motion_report(data)
         application_version=__version__.removesuffix('.0')
+        from .gif_animation import report as gif_report
         generated_metadata['build-report.json']=json.dumps({'applicationVersion':application_version,
             'binarySha256':inspection['sha256'],'interactive':interaction,
+            'gifAnimations':gif_report(p),
+            'gifSafety':gif_safety,
             'secondsMotion':seconds_motion,
             'hardwareVerified':False},ensure_ascii=False,indent=2).encode('utf8')
         progress("Controllo binario, risorse e ID…")
@@ -535,7 +570,7 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
         (bundle/"preview.png").write_bytes(png_bytes(render(first)))
         if p.aod_enabled:
             (bundle/"aod-preview.png").write_bytes(png_bytes(render(first,aod=True)))
-        p.save(bundle/f"{label}.s5faceproj",png_bytes(render(first)))
+        source_project.save(bundle/f"{label}.s5faceproj",png_bytes(render(first)))
         (bundle/"compiler.log").write_text(log,encoding="utf-8")
         previews=[png_bytes(render(p.variant_project(i))) for i in range(max(1,len(p.variants)))]
         from .semantic_package import package
@@ -564,6 +599,9 @@ def build(p: Project, compiler: Path, destination: Path, progress=lambda _: None
                             "Ogni nuovo progetto ha un ID proprio per ridurre le collisioni con il template e le sue anteprime memorizzate.",
                             "Il file .info di EasyFace contiene valori costanti incongruenti ed è stato escluso.",
                             "Il messaggio ADB nel log non è prova di trasferimento: ADB è escluso dall'ambiente di build."]}
+        from .gif_animation import report as gif_report
+        report['gifAnimations']=gif_report(p)
+        report['gifSafety']=gif_safety
         (bundle/"build-report.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
         (bundle/"LEGGIMI.txt").write_text(TRANSFER_GUIDE,encoding="utf-8")
         # Publish with the destination's inherited ACLs. Moving a directory out of

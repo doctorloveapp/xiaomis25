@@ -68,6 +68,17 @@ def validate_semantics(z):
             name=uid_name(uid)
             if uidmap.get(name)!=uid or name not in nodes:raise ValueError('Risorsa senza corrispondenza XML/uidmap: '+hex(uid))
             node=nodes[name]
+            if index==4:
+                target,repeats,interval,first=struct.unpack('<IHHI',b)
+                sprites=node.findall('SpriteInfo')
+                if (screen['aod'] or node.tag!='SpriteGroup' or len(sprites)!=1 or node.get('count')!='1' or
+                        int(node.get('repeatCount'))!=repeats or int(node.get('interval'))!=interval or
+                        uidmap.get(sprites[0].get('ref','').lstrip('@'))!=target or int(sprites[0].get('default_index'))!=first):
+                    raise ValueError('Animazione GIF diversa dal binario o presente in AOD.')
+                array=nodes.get(sprites[0].get('ref','').lstrip('@'))
+                if array is None or array.tag!='ImageArray' or not 0<=first<len(array):
+                    raise ValueError('Sequenza GIF priva di fotogrammi validi.')
+                if resources[target][1][1]!=len(array):raise ValueError('Numero fotogrammi GIF diverso dal binario.')
             if index==7:
                 source=node.get('source');target=struct.unpack_from('<I',b,8)[0]
                 if source not in SOURCES or SOURCES[source][1]!=b[:2].hex().upper() or uidmap.get(node.get('ref','').lstrip('@'))!=target:raise ValueError('Sorgente/riferimento dati incoerente: '+name)
@@ -115,11 +126,18 @@ def validate_semantics(z):
                                           aod_enabled=d.get('aodEnabled',False))
         for variant in project.variants:
             if variant.get('design') is not None:variant['design']=VariantDesign.from_dict(variant['design'])
-        expected=interaction_report(project,data,z.read('resources/manifest.xml'))
         report=json.loads(z.read('build-report.json'))
+        legacy_gif=report.get('gifAnimations',{}).get('encodingVersion',1)<2
+        expected=interaction_report(project,data,z.read('resources/manifest.xml'),legacy_gif_encoding=legacy_gif)
         from .motion import native_motion_report
         if report.get('binarySha256')!=info['sha256'] or report.get('interactive')!=expected or report.get('secondsMotion')!=native_motion_report(data):
             raise ValueError('Rapporto interattività diverso dal contenuto del pacchetto.')
+        if 'gifAnimations' in report:
+            from .gif_animation import report as gif_report
+            if report['gifAnimations']!=gif_report(project,legacy=legacy_gif,export_limit=20 if report.get('applicationVersion')=='3.0' else None):raise ValueError('Rapporto animazioni GIF diverso dal progetto.')
+        if 'gifSafety' in report or report.get('applicationVersion')=='3.1':
+            from .gif_animation import validate_safety
+            validate_safety(project,data,report.get('gifSafety'))
     elif manifest.get('interactive')=='true':raise ValueError('Rapporto build interattiva mancante.')
     return info
 

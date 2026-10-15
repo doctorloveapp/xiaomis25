@@ -1,0 +1,30 @@
+{
+  "applicationVersion": "3.1",
+  "status": "passed",
+  "passed": 9,
+  "checks": [
+    "aod-always-editable-even-with-export-disabled",
+    "gatto-60-total-11-included-loads-and-shows-10-frame-export-limit",
+    "backend-refuses-oversized-gif-before-dialog-or-worker",
+    "aod-remains-accessible-with-gif-and-can-export-independent-simple-clock",
+    "seconds-pro-and-chrono-disabled-in-ui-and-backend-with-preferences-preserved",
+    "hiding-gif-restores-saved-seconds-and-pro-and-showing-it-cancels-chrono",
+    "frame-checkbox-preserves-dom-nested-gallery-inspector-workspace-and-pixel-position",
+    "export-unlocks-at-exactly-10-included-frames-without-deleting-project-frames",
+    "new-aod-and-limit-ui-remains-localized"
+  ],
+  "scrollBefore": [
+    440,
+    1319,
+    0,
+    1160.25
+  ],
+  "scrollAfter": [
+    440,
+    1319,
+    0,
+    1160.25
+  ],
+  "originalGattoProjectUnchanged": true,
+  "executableLaunched": false
+}

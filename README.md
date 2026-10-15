@@ -2,15 +2,15 @@
 
 ![S5 Studio — watchface engineering for Xiaomi Watch S5](docs/assets/s5-studio-banner.svg)
 
-[![Build 2.9](https://img.shields.io/badge/build-2.9-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![59 targeted tests passed](https://img.shields.io/badge/tests-59%20targeted%20passed-15803d)](docs/validation-editor-2.9.json) [![S5 device test user confirmed](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Code license MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
+[![Build 3.1](https://img.shields.io/badge/build-3.1-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![96 focused tests passed](https://img.shields.io/badge/tests-96%20focused%20passed-15803d)](docs/validation-editor-3.1.json) [![S5 device test user confirmed](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Code license MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
 
 **English** · [Italiano](README.it.md) · [Releases](https://github.com/doctorloveapp/xiaomis25/releases) · [Documentation](docs/README.md)
 
 S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 watchfaces. It combines independent styles, sensor-driven layers and a shared Lua chronograph runtime with template-preserving packaging and export validation, turning custom artwork into configurable, working watchfaces.
 
-**Target:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Application UI:** Italian (default), English and Simplified Chinese. Choose Language in the toolbar; the preference is saved in settings.json. Test badges describe recorded checks; the device confirmation refers to the unchanged watch runtime tested in 2.7, not a new hardware certification. [Internationalization guide](docs/I18N_2.9.md).
+**Target:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Application UI:** Italian (default), English and Simplified Chinese. Choose Language in the toolbar; the preference is saved in settings.json. Test badges describe recorded checks; the device confirmation refers to previously tested functions from 2.7. The owner confirmed 3.0 GIF playback on the watch, but reported intermittent native seconds-hand jumps with a full-screen GIF. [Performance audit](docs/AUDIT_GATTO_GIF_3.0.md). [Internationalization guide](docs/I18N_2.9.md).
 
-**New in 2.9:** a globe language selector aligned with the header actions, plus complete Simplified Chinese localization. Italian remains the default. Verification covers 59 targeted tests, 16 editor checks and 161 rendered Chinese contexts. The seven watch Lua modules are unchanged from 2.8; this EXE is verified statically without being launched. [Verification](docs/validation-editor-2.9.json).
+**New in 3.1:** GIF export now allows **10 included frames per visible GIF**. A style with a visible GIF omits seconds hands and disables Crono/Crono Pro, including tap activation. The editor explains the restriction; settings are preserved and restored when the GIF is hidden/deleted. Independent AOD remains exportable. Passed 96 focused tests, 9 editor checks and 2 compiler/ZIP checks. [GIF compatibility guide](docs/GIF_3.1.md) · [Verification](docs/validation-editor-3.1.json).
 
 ## Table of Contents
 
@@ -30,6 +30,7 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 | Capability | Implementation and design benefit |
 | --- | --- |
 | **Italian / English / Chinese UI** | Live language switching, Qt Linguist TS/QM catalogs, offline JSON frontend and persistent application preference. Italian remains the default. |
+| **Animated GIFs** | Import all frames, include up to 10 per visible GIF for export, exclude/delete frames without scroll jumps, adjust speed and preview. Native sprite playback or LVGL inside a shared scene preserves static backgrounds and layer order. A visible GIF disables seconds hands and chronograph activation in its style; settings are retained. AOD is independent and static. [Guide](docs/GIF_3.1.md). |
 | **Layer editor** | Images, text, live data, shapes, hands and discs; reorder, delete, duplicate, lock, undo/redo and Ctrl multi-selection. Drag, arrow keys and alignment operate on the selection. |
 | **Artwork and geometry** | Import PNG/JPEG/WebP/BMP/SVG; scale beyond the viewport and crop to 480 × 480 on export. Rotate or curve text/live data; use rectangles, circles or ellipses with independent fill, outline and shadows. |
 | **Hand sets** | Import named main/small-hand sets, edit pivots by clicking the graphic, pair hand shadows or generate them. Main hour selection can pair the matching minute/second models; each remains independently editable. |
@@ -40,16 +41,16 @@ S5 Studio is a Windows visual editor and compiler pipeline for Xiaomi Watch S5 w
 | **Simulation** | Animated preview, zoom/pan, date simulation with day 1–31, month and year, and frozen chronograph readout. Preview values do not replace the live sources exported to the watch. |
 | **Validated export** | Native EasyFace compilation, complete previews, template-based ZIP packaging and a per-build report. **Why:** binary resources, metadata, styles and Lua bindings are checked together before publishing the output file. |
 
-The complete 2.9 build contains **632 hand models and 90 discs**, including assets recovered from 39 supplied watchfaces. These counts describe that build, not a freely redistributable asset library. See [distribution scope](docs/DISTRIBUTION.md).
+The complete 3.1 build contains **635 hand models and 90 discs**, including assets recovered from 39 supplied watchfaces. These counts describe that build, not a freely redistributable asset library. See [distribution scope](docs/DISTRIBUTION.md).
 
 ## Installation Guide
 
 ### Prebuilt Windows application
 
 1. Open [GitHub Releases](https://github.com/doctorloveapp/xiaomis25/releases) and read the asset list and distribution notes for the chosen release. A GitHub source archive is not the application executable.
-2. For the documented 2.9 build, use **`S5Studio-2.9.exe`** on **Windows x64** with **.NET Framework 4.7.2 or later**. That personal build includes Python, Qt, the compiled UI, catalogs, template and compiler; Python and Node are not required on the destination PC.
+2. For the documented 3.1 build, use **`S5Studio-3.1.exe`** on **Windows x64** with **.NET Framework 4.7.2 or later**. That personal build includes Python, Qt, the compiled UI, catalogs, template and compiler; Python and Node are not required on the destination PC.
 3. Verify the downloaded file against the report accompanying that exact asset. Save your work and close the previous version, then launch the EXE or **`Avvia_S5_Studio.cmd`** if supplied. The application opens maximized.
-4. Create/open a `.s5faceproj`, configure the normal styles and AOD, save, then select **Esporta ZIP** and choose an output directory.
+4. The editor starts blank; create/open a `.s5faceproj`, configure the normal styles and AOD, save, then select **Esporta ZIP** and choose an output directory.
 5. Transfer the resulting ZIP to the phone without extracting it and install using a compatible local watchface uploader. Keep Bluetooth connected and the watch synchronized. Read the [Capabilities FAQ](#why-does-local-installation-fail-with-capabilities) before changing uploader settings.
 
 **Distribution scope:** the current standalone build is a **personal bundle** containing an external compiler and third-party artwork. Its MIT code license does not establish redistribution permission for those components. A public release with a different resource set may have different installation requirements. [Details and prerequisites](docs/INSTALLATION.md) · [Third-party notices](THIRD_PARTY_NOTICES.md).
@@ -68,13 +69,13 @@ The complete 2.9 build contains **632 hand models and 90 discs**, including asse
 | Watchface output | Directory chosen in **Esporta ZIP**, including `build-report.json` |
 
 ```powershell
-Get-FileHash -LiteralPath .\S5Studio-2.9.exe -Algorithm SHA256
+Get-FileHash -LiteralPath .\S5Studio-3.1.exe -Algorithm SHA256
 ```
 
-SHA-256 of the **delivered personal 2.9 executable**:
+SHA-256 of the **delivered personal 3.1 executable**:
 
 ```text
-fe5508ae527e1f7d7c367936ce9564f19088aff73f58250a3f0aacc1f53c9116
+8e37fc22d282465736ade62eb089eb7b9d001959a5f708a2b3526efe1695adb7
 ```
 
 This hash identifies that exact file; a rebuild or differently packaged public asset will have another hash. Compiler, template and reference-package hashes are retained in the [installation reference](docs/INSTALLATION.md#reference-hashes).
@@ -105,6 +106,8 @@ The local validator checks protected records, CRCs, IDs, offsets, native referen
 **Data boundaries:** mapped channels are watchface framework data, not arbitrary access to raw sensors. Three formatted-text channels observed in the reference corpus are not supported as dynamic text exports. Native widgets are used where possible; dynamic layers inside a shared Lua scene keep their live bindings and layer order. Unsupported interleaved widget types are rejected rather than silently flattened.
 
 ## Chrono Pro Documentation
+
+**GIF compatibility in 3.1:** a visible normal GIF disables Crono and Crono Pro in that style, omits all chrono/POST hands and hides civil seconds hands. Hide/delete the GIF or use a separate non-GIF style to restore saved behavior. [Rules](docs/GIF_3.1.md).
 
 ### Modes and control sequence
 
@@ -141,7 +144,7 @@ For a full revolution use ranges 60 for seconds/minutes, 12 for 12-hour chronogr
 | Windows x64 + .NET Framework 4.7.2 or later | Personal EXE build target | Runtime and compiler requirements; bundle verified statically |
 | Linux/macOS desktop or official-store publishing | Not validated | No packaged support or official publishing integration is provided |
 
-The compiler target is **MiWatchS5 / 562**, with package device type **P62**. Historical profiles record m0tral mod **V3.52.0i**; the exact companion-app version used for the latest test was not separately confirmed. Device success is an owner report, not independent certification. Fps, battery consumption and raw firmware clock resolution were not measured. [Hardware confirmation](docs/hardware-test-2.7.json) · [Source tests](docs/validation-editor-2.9.json) · [Bundle report](docs/executable-build-2.9.json).
+The compiler target is **MiWatchS5 / 562**, with package device type **P62**. Historical profiles record m0tral mod **V3.52.0i**; the exact companion-app version used for the latest test was not separately confirmed. Device success is an owner report, not independent certification. Fps, battery consumption and raw firmware clock resolution were not measured. [Hardware confirmation](docs/hardware-test-2.7.json) · [Source tests](docs/validation-editor-3.1.json) · [Bundle report](docs/executable-build-3.1.json).
 
 ## Troubleshooting
 
@@ -149,6 +152,7 @@ The compiler target is **MiWatchS5 / 562**, with package device type **P62**. Hi
 | --- | --- |
 | **Capabilities** rejected by the local uploader | See the [FAQ below](#why-does-local-installation-fail-with-capabilities); do not assume changing CN/Global is a fix |
 | Generic `L00000000001` name or missing phone preview | Local uploader behavior was also observed with the reference package; compare watch/edit previews and the generated preview files before changing the design |
+| Seconds-hand jumps with a full-screen GIF | Reducing total frames mainly reduces package size; frame dimensions and playback rate still matter. See the [Gatto audit](docs/AUDIT_GATTO_GIF_3.0.md); the native seconds descriptor is correctly set to 1 Hz |
 | Export cannot find the compiler or template | A source checkout does not include every personal runtime dependency; follow [source prerequisites](docs/INSTALLATION.md#running-from-source) |
 | Watch differs from the edited project | Re-export using the current build and reinstall the new ZIP; already installed packages are not updated by changing the PC application |
 | Wrong hand position or scale | Verify the source, range, initial angle and pivot; small civil seconds show actual simulated seconds rather than automatically starting at zero |
@@ -158,6 +162,10 @@ The compiler target is **MiWatchS5 / 562**, with package device type **P62**. Hi
 [Local uploader investigation](docs/ANALISI_UPLOADER_1.4.md) · [Longines scene composition](docs/LONGINE_LIVELLI_2.6.md) · [2.7 civil-hand corrections](docs/EDITOR_2.7.md).
 
 ## Common Questions
+
+### Can GIFs animate on the watch and be removed from AOD?
+
+Version 3.1 exports GIF frames as native sprite resources or an LVGL sequence; loading an animated file as a static image is not equivalent. Normal GIF layers are excluded from AOD by default. AOD is always editable; adding or changing its layers enables export of that chosen composition. You can also select Include AOD in ZIP. An explicitly added AOD GIF is static. The owner confirmed GIF playback on the S5; full-screen playback can coincide with intermittent seconds-hand jumps. The [performance audit](docs/AUDIT_GATTO_GIF_3.0.md) records verified settings, suspected rendering contention and compiler-only native alternatives; a hardware cause has not been established. [GIF setup and limits](docs/GIF_3.1.md).
 
 ### Why does local installation fail with Capabilities?
 
@@ -169,7 +177,7 @@ EasyFace 4.23 exposes no verified Region switch. `deviceRegion=international` an
 
 ### Does the EXE work alone? Why is data/ gitignored?
 
-The delivered personal 2.9 EXE includes its resources and works without adjacent `data/`, compiler or template folders. A source clone is different: `data/`, the original corpus, template and compiler are intentionally excluded. Rebuilding that identical bundle requires those inputs and their permissions. [Installation details](docs/INSTALLATION.md).
+The delivered personal 3.1 EXE includes its resources and works without adjacent `data/`, compiler or template folders. A source clone is different: `data/`, the original corpus, template and compiler are intentionally excluded. Rebuilding that identical bundle requires those inputs and their permissions. [Installation details](docs/INSTALLATION.md).
 
 ### Are styles and complications really independent?
 
@@ -206,7 +214,7 @@ python -m pytest -q
 
 Example file names above are placeholders for your own inputs/outputs. `apply-template` accepts Studio projects and supported FPRJ files; Studio-generated FPRJ restores embedded styles/slots after source-hash checks. External FPRJ widgets that cannot be reconstructed coherently are rejected.
 
-`powershell -File scripts/package.ps1` builds the personal EXE after runtime preflight and set synchronization; `python scripts/verify_bundle.py S5Studio-2.9.exe` checks embedded hashes without launching it. The current packaging script expects the supplied personal catalog and is not a generic clean-clone release builder. See [Contributing](CONTRIBUTING.md) and [source prerequisites](docs/INSTALLATION.md#running-from-source).
+`powershell -File scripts/package.ps1` builds the personal EXE after runtime preflight and set synchronization; `python scripts/verify_bundle.py S5Studio-3.1.exe` checks embedded hashes without launching it. The current packaging script expects the supplied personal catalog and is not a generic clean-clone release builder. See [Contributing](CONTRIBUTING.md) and [source prerequisites](docs/INSTALLATION.md#running-from-source).
 
 ## Documentation and Release History
 

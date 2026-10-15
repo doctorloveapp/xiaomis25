@@ -55,3 +55,7 @@ Su richiesta esplicita dell'utente, `resources/examples/Bulova.s5faceproj` è l'
 ## Cinese semplificato e cataloghi 2.9
 
 `locales/zh.json` e il catalogo Qt `s5studio_zh.ts` sono traduzioni originali Studio. `qtbase_zh_CN.qm` proviene da PySide6/Qt e conserva gli avvisi Qt già presenti in `licenses/`. I font CJK vengono selezionati tra quelli disponibili nel sistema; nessun font Microsoft viene incorporato. La 2.9 conserva il solo esempio Bulova e i cataloghi esistenti; integra il nuovo set personale Swatch Luce, per 12 set personali e 632 modelli di lancette complessivi. Origini, hash e diritti delle grafiche restano quelli dei rispettivi cataloghi e titolari.
+
+## GIF e cataloghi 3.0–3.1
+
+La decodifica GIF usa Pillow, gi? incluso tra le dipendenze e i relativi avvisi. Il modulo `studio_gif.lua` e i controlli GIF sono codice originale S5 Studio. Nessuna GIF personale viene preinstallata. Il solo progetto esempio resta Bulova; il catalogo integra Lorenz Star Trek, arrivando a 13 set personali e 635 modelli complessivi. I diritti delle grafiche restano dei rispettivi titolari. Lupa serve esclusivamente ai test e non viene incorporato nell?eseguibile.

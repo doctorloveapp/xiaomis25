@@ -1,0 +1,16 @@
+{
+  "applicationVersion": "3.0",
+  "status": "passed",
+  "elapsedSeconds": 3.61,
+  "styles": 2,
+  "aodScreens": 2,
+  "nativeGifAnimations": 2,
+  "sharedSceneGifAnimations": 2,
+  "longSequenceGifAnimations": 2,
+  "staticArtworkAndGifLayering": true,
+  "gifRuntimeIncluded": true,
+  "zipSemanticsVerified": true,
+  "inputProjectUnchanged": true,
+  "hardwareTestPerformed": false,
+  "temporaryCompilerExport": true
+}

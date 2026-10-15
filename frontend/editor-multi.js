@@ -25,7 +25,7 @@ const S5Multi=(()=>{
   const move=ev=>{
    const scale=480/$('canvas').getBoundingClientRect().width;
    let xmin=-8192,xmax=8192,ymin=-8192,ymax=8192;
-   for(const e of layers){const image=e.kind==='image',low=image?-state.maxImageSize:0;
+   for(const e of layers){const image=['image','gif'].includes(e.kind),low=image?-state.maxImageSize:0;
     xmin=Math.max(xmin,low-e.x);xmax=Math.min(xmax,(image?state.maxImageSize:Math.max(0,480-e.width))-e.x);
     ymin=Math.max(ymin,low-e.y);ymax=Math.min(ymax,(image?state.maxImageSize:Math.max(0,480-e.height))-e.y);}
    dx=Math.max(xmin,Math.min(xmax,Math.round((ev.clientX-sx)*scale)));dy=Math.max(ymin,Math.min(ymax,Math.round((ev.clientY-sy)*scale)));

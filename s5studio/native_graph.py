@@ -42,6 +42,14 @@ def collect_nodes(data,screen,fprj):
                 from urllib.parse import unquote
                 if index!=5 or nodes[uid]['attrs']['src']!='app/'+unquote(w.get('Name')[4:]):
                     raise ValueError('Entry point Lua diverso dal layout compilato.')
+            elif shape=='31' and w.get('Name','').startswith('anim_'):
+                if index!=4 or len(payload)!=12:raise ValueError('Animazione GIF senza SpriteGroup nativo.')
+                target,repeats,interval,first=struct.unpack('<IHHI',payload)
+                items=w.get('BitmapList').split('|')
+                if available[target][1][1]!=len(items):raise ValueError('Numero fotogrammi GIF diverso dal binario.')
+                nodes[target]={'tag':'ImageArray','attrs':{},'bitmaps':[(folder/n.split(':')[-1]).read_bytes() for n in items]}
+                nodes[uid]={'tag':'SpriteGroup','attrs':{'repeatCount':str(repeats),'interval':str(interval),'count':'1'},
+                            'spriteRef':target,'defaultIndex':first}
             elif shape in ('32','31'):
                 target=struct.unpack_from('<I',payload,8)[0]
                 items=w.get('BitmapList').split('|')
@@ -81,8 +89,8 @@ class Allocator:
         for index,rows in enumerate(tables):
             for uid,flags,payload in rows:
                 b=bytearray(payload)
-                if index in (0,7):
-                    pos=0 if index==0 else 8;old=struct.unpack_from('<I',b,pos)[0]
+                if index in (0,4,7):
+                    pos=8 if index==7 else 0;old=struct.unpack_from('<I',b,pos)[0]
                     struct.pack_into('<I',b,pos,mapping[old])
                 if index==7 and b[3]>>4==1:
                     # Observed S5 numeric descriptors use parameter 1000.
@@ -93,6 +101,7 @@ class Allocator:
         for uid,node in nodes.items():
             node=deepcopy(node)
             if type(node['attrs'].get('ref')) is int:node['attrs']['ref']=mapping[node['attrs']['ref']]
+            if 'spriteRef' in node:node['spriteRef']=mapping[node['spriteRef']]
             rewritten[mapping[uid]]=node
         return output,rewritten
 
@@ -298,6 +307,8 @@ def metadata(project,screens,nodes,face_id):
             for n,b in enumerate(node['bitmaps']):
                 path=f'studio/{name}_{n}.png';ET.SubElement(el,'Image',src=path);files['resources/'+path]=b
                 editor['formats'][path]='indexed8'
+        elif node['tag']=='SpriteGroup':
+            ET.SubElement(el,'SpriteInfo',ref='@'+uid_name(node['spriteRef']),default_index=str(node['defaultIndex']))
         elif node['tag']=='Translation':
             for language in LANGUAGES:ET.SubElement(el,'Item',language=language,str=node['text'])
         elif node['tag']=='DataItemImageValues':

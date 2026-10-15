@@ -35,7 +35,7 @@ def scene_layers(project, aod=False):
     if not indices:return []
     span=layers[indices[0]:indices[-1]+1]
     for e in span:
-        if isinstance(e,dict) or e.kind not in ('image','text','rect','circle') and not lua_element(e) and not live_element(e) and not scene_data_element(e):
+        if isinstance(e,dict) or e.kind not in ('gif','image','text','rect','circle') and not lua_element(e) and not live_element(e) and not scene_data_element(e):
             name=e.get('name','Complicazione') if isinstance(e,dict) else e.name
             raise ValueError(f'Il livello «{name}» non può ancora essere inserito nella scena condivisa Crono/Decimi. Spostalo sotto tutte le lancette/dischi Lua oppure sopra tutti. Giorni, mesi, immagini, testi, forme e lancette a sorgente nativa possono restare nel gruppo.')
     return span
@@ -67,6 +67,9 @@ def write_scene(project, layers, directory, variant, *, key=None):
              'scene:clear_flag(lvgl.FLAG.SCROLLABLE)', 'scene:clear_flag(lvgl.FLAG.CLICKABLE)']
     pointers=[e for e in layers if e.kind=='pointer' and e.source in LUA_SOURCES]
     for e in layers:
+        if e.kind=='gif':
+            from .gif_animation import lua_lines
+            lines+=lua_lines(project,e,base,variant);continue
         if lunar_element(e):
             from .moon_disk import lines as moon_lines
             lines+=moon_lines(project,e,base,variant);continue
@@ -132,6 +135,9 @@ def write_pro_scene(project,layers,directory,variant,*,key=None):
         (base/'gfx'/name).write_bytes(png_bytes(image))
         lines.extend([f'local img = scene:Image {{x={x},y={y},src=SCRIPT_PATH.."gfx/{name}"}}','img:clear_flag(lvgl.FLAG.CLICKABLE)'])
     for e in layers:
+        if e.kind=='gif':
+            from .gif_animation import lua_lines
+            lines+=lua_lines(project,e,base,variant);continue
         if lunar_element(e):
             from .moon_disk import lines as moon_lines
             lines+=moon_lines(project,e,base,variant);continue
@@ -193,7 +199,7 @@ def pointer_lines(project,e,base,variant,*,shadow_modes=None,value_scale=1,graph
     return lines
 
 
-def interaction_report(project, data, manifest_bytes):
+def interaction_report(project, data, manifest_bytes,*,legacy_gif_encoding=False):
     import xml.etree.ElementTree as ET
     from .watchface_library import read_tables
     from .native import inspect_binary
@@ -219,7 +225,7 @@ def interaction_report(project, data, manifest_bytes):
                     raise ValueError('Runtime animato/interattivo non consentito in AOD.')
         app_layouts+=len(entries)
         if not screen['aod']:
-            screen_apps.append([n for n in entries if '_live_' not in n and '_civil_' not in n])
+            screen_apps.append([n for n in entries if '_live_' not in n and '_civil_' not in n and '_gif_' not in n])
             civil_apps.append([n for n in entries if '_civil_' in n])
         if screen['aod']:
             from .motion import SECOND_SOURCES
@@ -228,7 +234,8 @@ def interaction_report(project, data, manifest_bytes):
             if any(b[3]>>4==3 and b[:2] in codes for _,_,b in tables[7]):
                 raise ValueError('Lancetta secondi presente in AOD.')
     manifest=ET.fromstring(manifest_bytes)
-    requested=any(e.visible and (live_element(e) or lunar_element(e) or not e.aod and lua_element(e) or civil_roles(e))
+    from .gif_animation import uses_lua as gif_uses_lua
+    requested=any(e.visible and (live_element(e) or lunar_element(e) or not e.aod and (lua_element(e) or gif_uses_lua(e,legacy=legacy_gif_encoding)) or civil_roles(e))
                   for i in range(max(1,len(project.variants))) for e in project.variant_project(i).elements)
     if requested != bool(app_layouts) or manifest.get('interactive')!=str(requested).lower():
         raise ValueError('Interattività richiesta ma script/layout/manifest incoerenti.')
@@ -242,6 +249,9 @@ def interaction_report(project, data, manifest_bytes):
             'manifestInteractive':manifest.get('interactive'),'aodSecondsExcluded':True,'hardwareVerified':False,
             'limitations':(['Runtime Lua, clock monotono e VM condivisa da verificare sul firmware S5.',
                             'Cronografo locale al quadrante; cambio quadrante o ricreazione della VM resetta il conteggio.'] if requested else [])}
+    from .gif_animation import validate_lua
+    gif_ids=validate_lua(project,files,legacy=legacy_gif_encoding)
+    if gif_ids:result['sharedSceneGif']={'ids':gif_ids,'runtime':'studio_gif.lua','aodAnimation':False,'writeOnChange':True}
     from .moon_disk import validate_injection
     moon_report=validate_injection(project,files)
     if moon_report:result['moonDisc']=moon_report

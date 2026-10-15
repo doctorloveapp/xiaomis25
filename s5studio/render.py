@@ -353,6 +353,9 @@ def hand_image(e: Element, which: str, p: Project | None=None, *, shadow=False):
 
 
 def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=(0,0)):
+    if e.kind=='gif':
+        from .gif_animation import graphic
+        e=graphic(e,values.get('__gifMs',0),values.get('__gifFrames',{}).get(e.id))
     if labels_for(e):
         return calendar_image(p, e, sample_label(e, values))
     if e.kind=='image_values':
@@ -457,6 +460,9 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
 
 
 def render(p: Project, values: dict | None = None, aod=False, circular=True):
+    if not aod:
+        from .gif_animation import runtime_project
+        p=runtime_project(p)
     values = values or SCENARIOS["Normale"]
     from .complications import sample_values
     values=sample_values(values)
@@ -466,8 +472,11 @@ def render(p: Project, values: dict | None = None, aod=False, circular=True):
     for layer in p.ordered_layers(aod):
         if isinstance(layer,Element):
             if layer.visible and not (aod and excluded_from_aod(layer)):
-                if layer.kind in ('image','text','rect','circle','image_values'):
+                if layer.kind in ('gif','image','text','rect','circle','image_values'):
                     graphic=layer
+                    if layer.kind=='gif':
+                        from .gif_animation import graphic as gif_graphic
+                        graphic=gif_graphic(layer,0 if aod else values.get('__gifMs',0),None if aod else values.get('__gifFrames',{}).get(layer.id))
                     if layer.kind=='image_values':
                         from dataclasses import replace
                         value=values.get(layer.source);key=str(int(value)) if value is not None else '99'
@@ -521,6 +530,6 @@ def layout_errors(p: Project) -> list[str]:
             box=font_for(p,e).getbbox(e.text)
             if box[2]-box[0]>e.width or box[3]-box[1]>e.height:
                 errors.append(f"{e.name}: il testo non entra nello spazio assegnato.")
-        if e.kind!='image' and (e.x+e.width>480 or e.y+e.height>480):
+        if e.kind not in ('image','gif') and (e.x+e.width>480 or e.y+e.height>480):
             errors.append(f"{e.name}: il componente supera i bordi del canvas.")
     return errors

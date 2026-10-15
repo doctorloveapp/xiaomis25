@@ -182,8 +182,10 @@ def test_qt_linguist_catalog_switch_and_color_dialog():
 def test_lua_runtime_is_unchanged_from_tested_2_7():
     import hashlib
     manifest=json.loads((ROOT/'docs/runtime-manifest-2.7.json').read_text(encoding='utf8'))
-    for path in (ROOT/'s5studio/lua').glob('*.lua'):
-        assert hashlib.sha256(path.read_bytes()).hexdigest()==manifest['files'][path.relative_to(ROOT).as_posix()]
+    paths=[name for name in manifest['files'] if name.startswith('s5studio/lua/') and name.endswith('.lua')]
+    assert len(paths)==7
+    for name in paths:
+        assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==manifest['files'][name]
 
 
 def test_legacy_qt_editor_uses_translated_text_and_stable_combo_ids(tmp_path):

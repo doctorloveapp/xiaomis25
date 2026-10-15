@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QHBoxLayout, 
     QTabWidget, QTextEdit, QDialog, QDialogButtonBox, QSlider, QAbstractItemView)
 
 from . import __version__
-from .model import Project, Element, SOURCES, identifier, template
+from .model import Project, Element, SOURCES, identifier, template, empty_project
 from .render import render, png_bytes, element_image, SCENARIOS, layout_errors
 from .native import build, compiler_probe, inspect_mwz, TRANSFER_GUIDE
 from .settings import AppSettings
@@ -78,7 +78,7 @@ class Canvas(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.project=template()
+        self.project=empty_project()
         self.values=dict(SCENARIOS['Normale'])
         self.selection=""
         self.aod=False
@@ -200,12 +200,12 @@ class MainWindow(QMainWindow):
             if (fonts/name).exists():
                 QFontDatabase.addApplicationFont(str(fonts/name))
         self.root=app_root()
-        self.project=template()
+        self.project=empty_project()
         self.path=None
         self.dirty=False
         self.history=[]
         self.redo_history=[]
-        self.selection=next(e.id for e in self.project.elements if e.kind=='clock')
+        self.selection=''
         self.refreshing=False
         self.worker=None
         self.compiler=self.root/'tools/easyface-4.23/Compiler.exe'

@@ -14,6 +14,42 @@ Xiaomi Watch S5. See [the hardware confirmation](hardware-test-2.7.json).
 The earlier “awaiting hardware test” statements below describe the delivery
 status on 2026-10-12 and are retained as dated history.
 
+## Novità 3.1 — limiti GIF e compatibilità secondi/cronografo
+
+Massimo **10 fotogrammi inclusi per GIF visibile normale**, verificato in tutti gli stili: contatore, messaggio ed Esporta ZIP disabilitato oltre il limite. Bozze, importazione ed esclusi restano modificabili/salvabili. Scorrimento dei fotogrammi conservato.
+
+In uno stile con GIF visibile vengono escluse lancetta grande secondi/ombra, piccole dei secondi/decimi e tutte le lancette Crono/POST; **Crono, Crono Pro, Only Crono e relativi tap sono disabilitati**. Avviso italiano/inglese/cinese e controlli bloccati. Le preferenze restano nel progetto e si ripristinano nascondendo/eliminando la GIF. Uno stile senza GIF conserva il cronografo. Anche una GIF con un solo fotogramma o preview PC ferma segue la regola conservativa. AOD indipendente, sempre modificabile/esportabile, con GIF esplicite statiche.
+
+Anteprima e sorgenti EasyFace usano una copia separata con le esclusioni. `gifSafety` nei rapporti ZIP/esterno descrive ogni stile; il validator rifiuta secondi nativi o un controller Crono attivo nello stile GIF. Il progetto consegnato accanto al ZIP conserva le impostazioni originali. Tutti gli otto Lua invariati rispetto alla 3.0; nessuna modifica al clock. Il limite è una scelta applicativa, non un massimo firmware scoperto.
+
+**96 test mirati, 9 controlli editor e 2 compilazioni/ZIP superati**, incluse varianti miste GIF/Pro, quattro viste con AOD, ripristino, confronto anteprima e rifiuto di un puntatore secondi reinserito. Set personali controllati: 13, nessun aggiornamento, 635 modelli/90 dischi conservati. Solo Bulova incorporato. EXE verificato staticamente; nessun avvio isolato, backup o ZIP dimostrativo. Le nuove limitazioni attendono la prova reale. [Guida](GIF_3.1.md) · [Verifiche](validation-editor-3.1.json).
+
+### Audit Gatto 3.0 — riscontro hardware e prestazioni (2026-10-15)
+
+L’utente conferma la riproduzione della GIF sull’orologio, ma segnala salti saltuari dei secondi con tutti i flag fluidi disattivati. Verificati progetto e ZIP effettivo: nove PNG RGBA opachi a pieno schermo, velocità 50%, 7,5 cambi immagine/s; sei puntatori e ombre nativi correttamente a 1.000 ms. Il runtime GIF applica già Write-on-Change e non scrive l’ora. Decodifica/disegno concorrente è la causa più plausibile, non misurata sul firmware; non è dimostrato un limite hardware inevitabile.
+
+Tre compilazioni `.face` temporanee verificano la fattibilità di alternative native: nove immagini uniformi a 130 ms senza Lua, oppure 30 posizioni per conservare la pianificazione variabile. Quest’ultima porta il binario a 34,8 MB; il solo suffisso RGB non cambia il formato prodotto dal compiler target 562. Prove di compilazione, non benchmark hardware. Documentato il confronto diagnostico con velocità 25% (3,75 cambi/s).
+
+**Solo audit: codice, runtime, eseguibile e progetti intatti**; nessun backup, avvio EXE o ZIP dimostrativo. Set personali controllati: 13, nessuna modifica. [Rapporto](AUDIT_GATTO_GIF_3.0.md) · [Dati](gatto-performance-audit-3.0.json) · [Riscontro utente](hardware-gif-3.0.json).
+
+## Novità 3.0 — GIF animate e creazione da zero
+
+Nuovo pulsante **＋ Gif** dopo Immagine. Tutti i fotogrammi vengono decodificati con trasparenze e disposal; si possono escludere, eliminare con Annulla e riprodurre in anteprima. Velocità 25–400%, massimo 25 fps. Immagini statiche e GIF mantengono il proprio ordine; scale, ritaglio, rotazione e arco vengono applicati ai fotogrammi.
+
+Esportazione nativa SpriteGroup/ImageArray, con fallback LVGL per GIF dentro la scena Crono o sequenze lunghe. Metadati, binding, risorse, conteggi e report GIF sono validati nel ZIP. In AOD nessuna GIF normale è copiata; eventuali GIF aggiunte espressamente sono statiche e possono essere eliminate indipendentemente. Avvio vuoto e tacche disattivate sulle nuove lancette; scelte dei progetti precedenti conservate.
+
+**Verifiche:** 162 test mirati, 10 controlli dell’editor e compilazione temporanea di due stili/due AOD con sfondo statico, tre percorsi GIF e Crono Pro. Sette moduli Lua preesistenti invariati; studio_gif.lua è indipendente dal conteggio. Nessun backup, avvio EXE o prova isolata; il test fisico delle GIF è ancora necessario. Integrato Lorenz Star Trek: 13 set personali e 635 modelli. Solo Bulova come esempio. [Guida](GIF_3.0.md) · [Test](validation-editor-3.0.json) · [Compilazione](export-validation-3.0.json).
+
+### Correzioni 3.0 — AOD, limite GIF e compilazione Gatto (2026-10-15)
+
+**AOD sempre accessibile**, anche con GIF e anche quando escluso dall’esportazione. Aggiungere o modificare un suo livello ne attiva automaticamente l’esportazione; resta disponibile il pulsante Includi AOD nello ZIP. Il pacchetto conserva la composizione AOD scelta, indipendente dal normale; una GIF esplicita in AOD è statica.
+
+**Massimo 20 fotogrammi inclusi per GIF visibile normale**, in ogni stile: contatore, messaggio e ZIP disabilitato oltre il limite, con controllo backend prima della compilazione. Le bozze più grandi restano apribili/modificabili/salvabili. I flag dei fotogrammi si aggiornano sul posto, senza ricreare il pannello né spostare lo scroll.
+
+Gatto aveva 60 fotogrammi, 44 inclusi e 73 bitmap native per rappresentare i tempi variabili; il precedente ZIP pesava 90,6 MB. Il log incompleto e l’intervallo di circa 93 secondi sono coerenti con il timeout del compilatore a 90 secondi, non con un massimo firmware di 44 fotogrammi. Il percorso LVGL riusa una sola bitmap per fotogramma incluso. Con 20 fotogrammi e AOD scelto: **9,76 secondi, ZIP 31,6 MB**, AOD statico verificato e preview identica al progetto. Il limite di 20 è una politica Studio; non è stata verificata la dimensione massima firmware.
+
+**98 test mirati, 7 controlli editor e compilazione reale Gatto/AOD superati**; progetto originale intatto, output temporaneo eliminato. Tutti gli otto Lua invariati rispetto alla prima 3.0; pacchetti precedenti ancora validabili. Catalogo personale ricontrollato: 13 set, nessun aggiornamento. Nessun backup o avvio EXE; verifica statica del bundle. [Guida](GIF_3.0.md) · [Controlli](gif-hotfix-editor-3.0.json) · [Diagnosi](gatto-gif-diagnosis-3.0.json) · [Compilazione](gatto-export-hotfix-3.0.json).
+
 ## Novità 2.9 — header e cinese semplificato
 
 Selettore lingua con icona globo, etichetta accessibile e altezza uniforme di 36 px con Apri, Salva ed Esporta ZIP. Verificato l’allineamento a 1120 e 1440 px nelle tre lingue. Aggiunto **简体中文**, con cataloghi JSON/Qt completi e font CJK di sistema; italiano ancora predefinito, preferenza conservata tra gli avvii. Nomi e contenuti dei progetti restano quelli dell’utente.

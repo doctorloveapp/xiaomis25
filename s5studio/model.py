@@ -39,6 +39,7 @@ VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height',
 VARIANT_PROPERTIES.update({'smooth_hours','smooth_minutes','only_chrono'})
 VARIANT_PROPERTIES.update({'month_abbreviated','disk_preset','disk_mode','disk_shadow_assets','value_assets'})
 VARIANT_PROPERTIES.update({'moon_reference_date','moon_day_offset'})
+VARIANT_PROPERTIES.update({'gif_frames','gif_speed'})
 VARIANT_PROPERTIES.update({'pointer_arc','post_readout','value_start','value_range','angle_start','angle_range'})
 from .effects import PROPERTIES as EFFECT_PROPERTIES
 VARIANT_PROPERTIES.update(EFFECT_PROPERTIES)
@@ -46,7 +47,7 @@ MAX_SLOTS=16  # Studio guardrail, not a declared firmware limit.
 
 def valid_design_geometry(kind,x,y,width,height):
     if any(type(v) is not int for v in (x,y,width,height)):return False
-    if kind=='image':
+    if kind in ('image','gif'):
         return (-MAX_DESIGN_IMAGE_SIZE<=x<=MAX_DESIGN_IMAGE_SIZE and
                 -MAX_DESIGN_IMAGE_SIZE<=y<=MAX_DESIGN_IMAGE_SIZE and
                 1<=width<=MAX_DESIGN_IMAGE_SIZE and 1<=height<=MAX_DESIGN_IMAGE_SIZE)
@@ -104,6 +105,8 @@ class Element:
     month_abbreviated: bool = False
     align: str = "center"
     asset: str = ""
+    gif_frames: list = field(default_factory=list)
+    gif_speed: int = 100
     font_asset: str = ""
     bold: bool = True
     fit: str = "cover"
@@ -124,7 +127,7 @@ class Element:
     visible: bool = True
     locked: bool = False
     aod: bool = False
-    show_ticks: bool = True
+    show_ticks: bool = False
     second_hand: bool = False
     smooth_seconds: bool = False
     smooth_hours: bool = False
@@ -200,6 +203,9 @@ class Element:
 
     @classmethod
     def from_dict(cls, data):
+        data = dict(data)
+        # Older files omitted new defaults: retain their original tick design.
+        data.setdefault('show_ticks', True)
         known = cls.__dataclass_fields__
         unknown = set(data) - set(known)
         if unknown:
@@ -406,7 +412,7 @@ class Project:
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_name(path.name + ".tmp")
         referenced = {key for i in range(max(1,len(self.variants))) for e in self.variant_project(i).elements
-                      for key in (*[getattr(e,k) for k in ASSET_FIELDS],*e.value_assets.values(),*e.disk_shadow_assets.values()) if key}
+                      for key in (*[getattr(e,k) for k in ASSET_FIELDS],*e.value_assets.values(),*e.disk_shadow_assets.values(),*[f['asset'] for f in e.gif_frames]) if key}
         try:
             with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
                 z.writestr("project.json", json.dumps(self.metadata(), ensure_ascii=False, indent=2))
@@ -517,7 +523,7 @@ class Project:
             if not re.fullmatch(r"[a-f0-9]{12}", str(el.id)) or el.id in ids:
                 errors.append(f"{label}: ID componente non valido o duplicato.")
             ids.add(el.id)
-            if el.kind not in {"image", "image_values", "text", "number", "clock", "date", "analog", "pointer", "compass", "disk", "rect", "circle"}:
+            if el.kind not in {"gif", "image", "image_values", "text", "number", "clock", "date", "analog", "pointer", "compass", "disk", "rect", "circle"}:
                 errors.append(f"{label}: tipo non supportato ({el.kind}).")
             from .motion import ALL_LUA_SOURCES
             from .moon_disk import lunar_element,calibration_errors
@@ -561,6 +567,9 @@ class Project:
                     errors.append(f"{label}: risorsa mancante o percorso non valido.")
             if el.kind == "image" and not el.asset:
                 errors.append(f"{label}: immagine mancante.")
+            if el.kind == 'gif':
+                from .gif_animation import errors as gif_errors
+                errors.extend(f'{label}: {message}' for message in gif_errors(self, el))
             if el.kind=='image_values' and (not el.value_assets or any(not re.fullmatch(r'-?\d+',str(k)) or v not in self.assets for k,v in el.value_assets.items())):errors.append(f'{label}: immagini/valori della lista non validi.')
             if el.kind in ('pointer','disk') and (any(type(getattr(el,k)) is not int for k in ('value_start','value_range','angle_start','angle_range')) or not 0<=el.value_start<=65535 or not 1<=el.value_range<=65535 or not -360<=el.angle_start<=360 or not -720<=el.angle_range<=720):errors.append(f'{label}: intervallo del puntatore non valido.')
             if type(el.pointer_arc) is not bool or el.post_readout not in ('fraction','digit'):
@@ -626,4 +635,12 @@ def template(name="Digitale") -> Project:
         p.aod_enabled=True
         p.elements += [Element(kind='analog',name='Lancette AOD',aod=True,x=80,y=80,width=320,height=320,color='#808080') if name=='Analogico' else Element(kind='clock',name='Ora AOD',aod=True,x=95,y=190,width=290,height=75,size=64),
                        Element(kind='date',name='Data AOD',aod=True,x=166,y=282,width=148,height=34,size=26,color='#808080')]
+    return p
+
+
+def empty_project():
+    """Blank editor document; named starting layouts remain opt-in."""
+    p = template('Analogico')
+    p.name = 'Il mio S5'; p.elements = []; p.complications = []; p.layer_order = []
+    p.aod_enabled = False
     return p

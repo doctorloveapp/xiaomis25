@@ -1,0 +1,20 @@
+{
+  "applicationVersion": "3.0",
+  "status": "passed",
+  "passed": 10,
+  "checks": [
+    "blank-startup-with-no-normal-or-aod-objects",
+    "requested-toolbar-order-and-dedicated-gif-button",
+    "gif-only-dialog-and-all-decoded-frames-in-inspector",
+    "frame-exclusion-deletion-and-undo",
+    "speed-playback-and-manual-frame-inspection",
+    "gif-scaling-beyond-480-and-clipped-preview",
+    "new-hand-group-defaults-to-no-dial-ticks",
+    "aod-simple-clock-with-gif-omitted-or-deleted-independently",
+    "gif-controls-localized-in-three-languages-and-header-aligned",
+    "portable-project-keeps-gif-frames-speed-and-aod"
+  ],
+  "sourceEditorTested": true,
+  "executableLaunched": false,
+  "hardwareTestPerformed": false
+}

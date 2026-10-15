@@ -1,0 +1,10 @@
+{
+  "applicationVersion": "3.1",
+  "status": "passed",
+  "documentsChecked": 12,
+  "localLinksChecked": 418,
+  "anchorsChecked": 41,
+  "tablesRendered": 30,
+  "executableHashMatchesDocumentation": true,
+  "gitignoreChanged": false
+}

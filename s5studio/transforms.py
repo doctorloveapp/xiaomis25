@@ -9,7 +9,7 @@ from io import BytesIO
 import math
 from PIL import Image,ImageChops
 
-KINDS=frozenset(('image','image_values','text','number','rect','circle'))
+KINDS=frozenset(('gif','image','image_values','text','number','rect','circle'))
 
 
 def active(e):

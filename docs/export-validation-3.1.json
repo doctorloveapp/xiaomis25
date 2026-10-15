@@ -1,0 +1,12 @@
+{
+  "applicationVersion": "3.1",
+  "status": "passed",
+  "styles": 2,
+  "aodScreens": 2,
+  "gifStyleSecondsAndChronoExcluded": true,
+  "nonGifStyleChronoPreserved": true,
+  "editablePreferencesPreservedInExportedProject": true,
+  "inputProjectUnchanged": true,
+  "zipSemanticsVerified": true,
+  "hardwareTestPerformed": false
+}

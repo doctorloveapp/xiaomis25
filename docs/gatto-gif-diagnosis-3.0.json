@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-15",
+  "applicationVersion": "3.0",
+  "project": "Gattos5faceproj.s5faceproj",
+  "inputSha256": "d49901d9e03359fd5e14d5e813757cebdb2ae6806007d5194c0b0b5e7ad5636e",
+  "totalFrames": 60,
+  "includedFrames": 44,
+  "previousNativeSequenceEntries": 73,
+  "fullNativeSequenceEntries": 100,
+  "previousZipBytes": 90572282,
+  "previousBinaryBytes": 84034084,
+  "aodEnabledInInput": false,
+  "originalLuaHashes": {
+    "s5studio/lua/studio_civil_clock.lua": "7afae5f924bb8f25fa10d61f4d4a5491d6c14d251bde1b7748ddfab542579065",
+    "s5studio/lua/studio_civil_hand.lua": "b03203f1acf8f3d30e0b21821d5f2bf0ba04ebc5e2e789064a96ef85ec4f9c6c",
+    "s5studio/lua/studio_core.lua": "0826877942a76f54040f7768ac1931eb7a4794f6533eb8aba5049355d2b4d5d9",
+    "s5studio/lua/studio_core_pro.lua": "3f197bc740de9f9e2058dce8e67bb78dad07bff84c15ecc60ae88eced9627287",
+    "s5studio/lua/studio_gif.lua": "4070da094093a6b9ec12cbb33c8a25394ef7f0d055befb9b44979b0e7dd6c0ab",
+    "s5studio/lua/studio_live_data.lua": "50f392780dc98ad38cc98efff59a22f84320b1b3f9bdd75691c0ebd39468aac4",
+    "s5studio/lua/studio_moon_disk.lua": "056e17eb8cac6d4df39e2409799bf89b5290be9e0320883932fa8f67a36ee37d",
+    "s5studio/lua/studio_scene_data.lua": "2a44e21302384234b90e31f502153aedc327dd8b4a751643c68bcc8e880307d7"
+  },
+  "originalExecutableSha256": "fbbbefd351bc77f6790fe4358bc01de7a43add7cc40b19f7ea4b7555b785706a",
+  "sourceProjectModified": false,
+  "newFrameLimit": 20,
+  "limitScope": "included-frames-per-visible-normal-GIF",
+  "compilerTimeoutSeconds": 90,
+  "failedLog": "Loading project; App found, packing; no successful completion",
+  "firmwarePackageByteLimitVerified": false,
+  "failedJobObservedIntervalSeconds": 93,
+  "timeoutDiagnosis": "inferred-from-job-times-and-incomplete-packing-log; no-fixed-frame-limit-established"
+}

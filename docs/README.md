@@ -2,12 +2,14 @@
 
 [English overview](../README.md) · [Italian overview](../README.it.md) · [Releases](https://github.com/doctorloveapp/xiaomis25/releases)
 
-Current application version: **2.9**. Previous runtime/device report (2.7, unchanged Lua): **Xiaomi Watch S5 M2530W1 / firmware 3.221.024**, user-confirmed on **2026-10-13**. Historical guides describe their own release; the current guides take precedence for present behavior.
+Current application version: **3.1**. Previous device report (2.7; seven original Lua modules unchanged, 3.0 GIF playback confirmed by owner with native-seconds jitter reported): **Xiaomi Watch S5 M2530W1 / firmware 3.221.024**, user-confirmed on **2026-10-13**. Historical guides describe their own release; the current guides take precedence for present behavior.
 
 ## Guides
 
 | Document | Language | Contents |
 | --- | --- | --- |
+| [GIF restrictions 3.1](GIF_3.1.md) | English | 10-frame cap, seconds/chrono exclusions, preserved settings and independent AOD |
+| [GIF layers 3.0](GIF_3.0.md) | English | Frame editing, native/LVGL export, static backgrounds and independent AOD |
 | [Internationalization 2.9](I18N_2.9.md) | English | Three languages, aligned header, Chinese fonts and validation |
 | [Internationalization 2.8](I18N_2.8.md) | English | Language preference, Qt TS/QM, offline JSON and extraction |
 | [Installation reference](INSTALLATION.md) | English | Executable/source setup, persistent paths, CLI and reference hashes |
@@ -25,7 +27,35 @@ Current application version: **2.9**. Previous runtime/device report (2.7, uncha
 | [Region and capabilities](REGIONE_E_TEST_LOCALE.md) | Italian, historical | No verified Region switch; early local-install observations |
 | [Version history](CHANGELOG.md) | Italian | Retained release notes, commands, examples and earlier operating records |
 
-## Evidence for build 2.9
+## Evidence for build 3.1
+
+| Record | What it establishes |
+| --- | --- |
+| [Source validation](validation-editor-3.1.json) | 96 focused tests, including policy boundaries and preserved settings |
+| [Source editor](gif-policy-editor-3.1.json) | 9 checks: disabled seconds/chrono, restoration, AOD, scrolling and three languages |
+| [Mixed GIF/Pro export](export-validation-3.1.json) | Separate GIF and active Pro styles, with two AOD views and checked binary exclusions |
+| [Native/long GIF exports](export-validation-gif-paths-3.1.json) | Native and long-schedule backends, static artwork and AOD |
+| [Executable integrity](executable-build-3.1.json) | Static resource/source verification and exact file hash |
+| [Set integration](hand-set-integration-3.1.json) | 13 sets checked; no changes; catalogs retained |
+| [Runtime manifest](runtime-manifest-3.1.json) | Embedded resources; Bulova remains the only example |
+
+## Historical evidence for build 3.0
+
+| Record | What it establishes |
+| --- | --- |
+| [Gatto performance audit](AUDIT_GATTO_GIF_3.0.md) | Italian assessment, package measurements and three temporary native compiler probes; no production changes |
+| [GIF device report](hardware-gif-3.0.json) | Owner confirms playback and reports intermittent seconds-hand jumps; cause not measured |
+| [Current source validation](validation-editor-3.0.json) | 98 focused tests; initial 162-test validation retained as history |
+| [Current source editor](gif-hotfix-editor-3.0.json) | 7 checks: AOD access/export, frame limit, exact scroll preservation and three languages |
+| [Gatto diagnosis](gatto-gif-diagnosis-3.0.json) | 60/44 source frames, native bitmap duplication and likely timeout |
+| [Gatto/AOD export](gatto-export-hotfix-3.0.json) | 20 frames, chosen static AOD, 9.76 s / 31.6 MB; original project unchanged |
+| [Initial source editor](editor-3.0.json) | 10 checks from the initial 3.0 build |
+| [Initial compiler export](export-validation-3.0.json) | Two styles/AOD with native, interleaved and long-schedule GIFs plus Crono Pro |
+| [Executable integrity](executable-build-3.0.json) | Static source/resource verification and exact file hash |
+| [Set integration](hand-set-integration-3.0.json) | Lorenz Star Trek added; 13 personal sets and 635 effective hand models |
+| [Runtime manifest](runtime-manifest-3.0.json) | Included resources and hashes; Bulova remains the only example |
+
+## Historical evidence for build 2.9
 
 | Record | What it establishes |
 | --- | --- |

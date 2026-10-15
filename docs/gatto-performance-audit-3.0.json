@@ -1,0 +1,214 @@
+{
+  "applicationVersion": "3.0",
+  "date": "2026-10-15",
+  "scope": "read-only-audit-and-temporary-compiler-feasibility-probes; no-production-code-changes",
+  "project": "Quadranti Compilati\\Gatto-865100840-20261015-145916\\Gatto.s5faceproj",
+  "inputSha256": "1983096cfd439aed0dfb47829d2c605a2fad8a547d00ebd4d11cf3af48686bb0",
+  "draftSha256": "4153eccdfbc2feded0aa50c0103c9b47e5361a233f20fc0879c6413b122261c9",
+  "executableSha256": "0633c11fe055c62202c461a4ac11c356b3267ec85556dcad029afa70a3530c8b",
+  "totalFrames": 60,
+  "includedFrames": 9,
+  "speedPercent": 50,
+  "scheduleIntervalMs": 40,
+  "scheduleEntries": 30,
+  "cycleMs": 1200,
+  "imageChangesPerSecond": 7.5,
+  "gifBackend": "lvgl-frame-sequence",
+  "gifPngBytes": 4461486,
+  "gifImages": [
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_10.png",
+      "bytes": 509637,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_11.png",
+      "bytes": 496031,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_12.png",
+      "bytes": 496149,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_13.png",
+      "bytes": 493369,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_14.png",
+      "bytes": 491270,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_15.png",
+      "bytes": 498982,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_16.png",
+      "bytes": 487282,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_17.png",
+      "bytes": 488964,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    },
+    {
+      "path": "app/lua/gfx/v0_9503a1cb66fa_gif_9.png",
+      "bytes": 499802,
+      "size": [
+        480,
+        480
+      ],
+      "mode": "RGBA",
+      "opaque": true
+    }
+  ],
+  "nativePointers": [
+    {
+      "uid": "07000000",
+      "sourceCode": "0811",
+      "periodMs": 1000
+    },
+    {
+      "uid": "07000001",
+      "sourceCode": "0811",
+      "periodMs": 1000
+    },
+    {
+      "uid": "07000002",
+      "sourceCode": "1011",
+      "periodMs": 1000
+    },
+    {
+      "uid": "07000003",
+      "sourceCode": "1011",
+      "periodMs": 1000
+    },
+    {
+      "uid": "07000004",
+      "sourceCode": "1811",
+      "periodMs": 1000
+    },
+    {
+      "uid": "07000005",
+      "sourceCode": "1811",
+      "periodMs": 1000
+    }
+  ],
+  "allCivilSmoothFlagsOff": true,
+  "gifWriteOnChangeVerified": true,
+  "gifDoesNotWriteTimeSource": true,
+  "normalNativeAnimations": 0,
+  "probes": [
+    {
+      "name": "uniform-native-RGB",
+      "status": "compiler-and-bounds-passed",
+      "intervalMs": 130,
+      "cycleMs": 1170,
+      "sequenceEntries": 9,
+      "uniqueImages": 9,
+      "arrayBytes": 10044805,
+      "arrayPixelFormatByte": 4,
+      "binaryBytes": 11375360,
+      "compileSeconds": 2.17,
+      "luaApps": 0,
+      "nativePointerSourcesAndPeriodsUnchanged": true,
+      "aodScreenPresent": true,
+      "hardwarePerformanceMeasured": false
+    },
+    {
+      "name": "uniform-native-RGBA",
+      "status": "compiler-and-bounds-passed",
+      "intervalMs": 130,
+      "cycleMs": 1170,
+      "sequenceEntries": 9,
+      "uniqueImages": 9,
+      "arrayBytes": 10044805,
+      "arrayPixelFormatByte": 4,
+      "binaryBytes": 11375360,
+      "compileSeconds": 1.84,
+      "luaApps": 0,
+      "nativePointerSourcesAndPeriodsUnchanged": true,
+      "aodScreenPresent": true,
+      "hardwarePerformanceMeasured": false
+    },
+    {
+      "name": "exact-native-RGB-repeated",
+      "status": "compiler-and-bounds-passed",
+      "intervalMs": 40,
+      "cycleMs": 1200,
+      "sequenceEntries": 30,
+      "uniqueImages": 9,
+      "arrayBytes": 33478582,
+      "arrayPixelFormatByte": 4,
+      "binaryBytes": 34809136,
+      "compileSeconds": 11.84,
+      "luaApps": 0,
+      "nativePointerSourcesAndPeriodsUnchanged": true,
+      "aodScreenPresent": true,
+      "hardwarePerformanceMeasured": false
+    }
+  ],
+  "productionCodeUnchanged": true,
+  "inputProjectsUnchanged": true,
+  "executableUnchanged": true,
+  "temporaryProbeFilesRemoved": true,
+  "demoZipCreated": false,
+  "executableLaunched": false,
+  "deviceFinding": {
+    "gifPlayback": "owner-confirmed-working",
+    "nativeSecondsHand": "owner-reported-intermittent-jumps",
+    "cause": "suspected-image-decoding-rendering-contention; not-proven-with-device-profiling",
+    "cpuGpuRamMeasured": false,
+    "unavoidableHardwareLimitEstablished": false
+  },
+  "references": [
+    "https://docs.lvgl.io/8.3/overview/image.html",
+    "https://github.com/m0tral/EasyFace/wiki/Animations",
+    "https://github.com/m0tral/EasyFace/wiki/ImageFormatEN"
+  ]
+}

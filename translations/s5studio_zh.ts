@@ -490,10 +490,8 @@ Il comportamento del dato assente sul firmware deve ancora essere provato.</sour
       <translation>请等待编译完成后再关闭。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="823" />
-      <location filename="../s5studio/web_ui.py" line="834" />
       <source>S5 Studio 2.9 — Xiaomi Watch S5</source>
-      <translation>S5 Studio 2.9 — Xiaomi Watch S5</translation>
+      <translation type="vanished">S5 Studio 2.9 — Xiaomi Watch S5</translation>
     </message>
     <message>
       <location filename="ui_strings.py" line="6" />
@@ -1131,415 +1129,452 @@ Cartella:</source>
 
 文件夹：</translation>
     </message>
+    <message>
+      <source>S5 Studio 3.0 — Xiaomi Watch S5</source>
+      <translation type="vanished">S5 Studio 3.0 — Xiaomi Watch S5</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="868" />
+      <location filename="../s5studio/web_ui.py" line="879" />
+      <source>S5 Studio 3.1 — Xiaomi Watch S5</source>
+      <translation>S5 Studio 3.1 — Xiaomi Watch S5</translation>
+    </message>
   </context>
   <context>
     <name>StudioBridge</name>
     <message>
-      <location filename="../s5studio/web_ui.py" line="247" />
+      <location filename="../s5studio/web_ui.py" line="257" />
       <source>Recupero progetto</source>
       <translation>项目恢复</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="247" />
+      <location filename="../s5studio/web_ui.py" line="257" />
       <source>Riprendere il progetto recuperato dopo la chiusura precedente?</source>
       <translation>是否继续上次会话恢复的项目？</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="254" />
+      <location filename="../s5studio/web_ui.py" line="264" />
       <source>Progetto modificato</source>
       <translation>项目已修改</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="254" />
+      <location filename="../s5studio/web_ui.py" line="264" />
       <source>Salvare le modifiche al progetto?</source>
       <translation>保存项目更改？</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="262" />
+      <location filename="../s5studio/web_ui.py" line="272" />
       <source>Salva progetto</source>
       <translation>保存项目</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="262" />
-      <location filename="../s5studio/web_ui.py" line="395" />
+      <location filename="../s5studio/web_ui.py" line="272" />
+      <location filename="../s5studio/web_ui.py" line="431" />
       <source>Progetti S5 (*.s5faceproj)</source>
       <translation>S5 项目 (*.s5faceproj)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="283" />
+      <location filename="../s5studio/web_ui.py" line="293" />
       <source>Livello non trovato.</source>
       <translation>找不到图层。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="297" />
+      <location filename="../s5studio/web_ui.py" line="307" />
       <source>Riordina i livelli nella stessa schermata.</source>
       <translation>请在同一屏幕内重排图层。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="298" />
+      <location filename="../s5studio/web_ui.py" line="308" />
       <source>Posizione di riordino non valida.</source>
       <translation>重排位置无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="304" />
+      <location filename="../s5studio/web_ui.py" line="314" />
       <source>Importa immagine</source>
       <translation>导入图像</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="304" />
+      <location filename="../s5studio/web_ui.py" line="314" />
       <source>Immagini (*.png *.jpg *.jpeg *.webp *.bmp *.svg)</source>
       <translation>图像 (*.png *.jpg *.jpeg *.webp *.bmp *.svg)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="311" />
+      <location filename="../s5studio/web_ui.py" line="321" />
       <source>SVG non valido.</source>
       <translation>SVG 无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="328" />
-      <location filename="../s5studio/web_ui.py" line="341" />
+      <location filename="../s5studio/web_ui.py" line="338" />
+      <location filename="../s5studio/web_ui.py" line="351" />
       <source>Attendi la fine della compilazione.</source>
       <translation>请等待编译完成。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="335" />
+      <location filename="../s5studio/web_ui.py" line="345" />
       <source>Contesto colore non valido.</source>
       <translation>颜色上下文无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="356" />
+      <location filename="../s5studio/web_ui.py" line="366" />
       <source>Seleziona un livello Disco.</source>
       <translation>请选择圆盘图层。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="376" />
+      <location filename="../s5studio/web_ui.py" line="371" />
+      <location filename="../s5studio/web_ui.py" line="478" />
+      <source>GIF visibile: massimo 10 fotogrammi inclusi per GIF. Lancette dei secondi e cronografo (Crono/Crono Pro) disattivati in questo stile per limitare i salti. Le impostazioni restano salvate.</source>
+      <translation>GIF 可见时，每个 GIF 最多包含 10 帧。此样式中的秒针和计时码表（Chrono/Chrono Pro）将被禁用，以减少跳动。您的设置仍会保留。</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="389" />
       <source>Posizione di calibrazione non valida.</source>
       <translation>校准位置无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="395" />
+      <location filename="../s5studio/web_ui.py" line="401" />
+      <location filename="../s5studio/web_ui.py" line="413" />
+      <source>Fotogramma GIF non valido.</source>
+      <translation>GIF 帧无效。</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="404" />
+      <source>Importa GIF animata</source>
+      <translation>导入 GIF 动画</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="404" />
+      <source>GIF (*.gif)</source>
+      <translation>GIF (*.gif)</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="410" />
+      <source>Seleziona un livello GIF.</source>
+      <translation>请选择 GIF 图层。</translation>
+    </message>
+    <message>
+      <location filename="../s5studio/web_ui.py" line="431" />
       <source>Apri progetto</source>
       <translation>打开项目</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="400" />
+      <location filename="../s5studio/web_ui.py" line="436" />
       <source>Esempio non disponibile.</source>
       <translation>示例不可用。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="423" />
+      <location filename="../s5studio/web_ui.py" line="459" />
       <source>Componente non supportato.</source>
       <translation>不支持的组件。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="427" />
+      <location filename="../s5studio/web_ui.py" line="463" />
       <source>Catalogo dischi non disponibile.</source>
       <translation>圆盘目录不可用。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="432" />
+      <location filename="../s5studio/web_ui.py" line="468" />
       <source>Catalogo bussole non disponibile.</source>
       <translation>指南针目录不可用。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="436" />
+      <location filename="../s5studio/web_ui.py" line="472" />
       <source>Scegli una forma rettangolare o circolare.</source>
       <translation>选择矩形或圆形形状。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="449" />
+      <location filename="../s5studio/web_ui.py" line="488" />
       <source>Proprietà non supportata.</source>
       <translation>不支持的属性。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="460" />
+      <location filename="../s5studio/web_ui.py" line="499" />
       <source>Spostamento non valido.</source>
       <translation>偏移无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="491" />
-      <location filename="../s5studio/web_ui.py" line="571" />
+      <location filename="../s5studio/web_ui.py" line="530" />
+      <location filename="../s5studio/web_ui.py" line="610" />
       <source>Limite Studio: {v0} slot.</source>
       <translation>Studio 限制：{v0} 个信息位。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="502" />
+      <location filename="../s5studio/web_ui.py" line="541" />
       <source>Seleziona un livello immagine.</source>
       <translation>请选择图像图层。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="514" />
+      <location filename="../s5studio/web_ui.py" line="553" />
       <source>Seleziona una bussola.</source>
       <translation>请选择指南针。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="518" />
-      <location filename="../s5studio/web_ui.py" line="734" />
+      <location filename="../s5studio/web_ui.py" line="557" />
+      <location filename="../s5studio/web_ui.py" line="779" />
       <source>Lancetta non valida.</source>
       <translation>指针无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="527" />
+      <location filename="../s5studio/web_ui.py" line="566" />
       <source>Applica la grafica prima di scegliere il suo pivot.</source>
       <translation>请先应用图形，再选择旋转中心。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="528" />
+      <location filename="../s5studio/web_ui.py" line="567" />
       <source>Clicca un punto valido nella grafica della lancetta.</source>
       <translation>请点击指针图形内的有效位置。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="538" />
+      <location filename="../s5studio/web_ui.py" line="577" />
       <source>Importa font</source>
       <translation>导入字体</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="538" />
+      <location filename="../s5studio/web_ui.py" line="577" />
       <source>Font (*.ttf *.otf)</source>
       <translation>字体 (*.ttf *.otf)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="544" />
+      <location filename="../s5studio/web_ui.py" line="583" />
       <source>Proprietà variante non valida.</source>
       <translation>样式属性无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="556" />
+      <location filename="../s5studio/web_ui.py" line="595" />
       <source>Sfondo variante mancante.</source>
       <translation>缺少样式背景。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="581" />
+      <location filename="../s5studio/web_ui.py" line="620" />
       <source>Proprietà slot non valida.</source>
       <translation>信息位属性无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="585" />
+      <location filename="../s5studio/web_ui.py" line="624" />
       <source>Opzione non disponibile.</source>
       <translation>选项不可用。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="591" />
+      <location filename="../s5studio/web_ui.py" line="630" />
       <source>Impostazione non valida.</source>
       <translation>设置无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="605" />
+      <location filename="../s5studio/web_ui.py" line="644" />
       <source>Valore di simulazione fuori intervallo.</source>
       <translation>模拟数值超出范围。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="611" />
+      <location filename="../s5studio/web_ui.py" line="650" />
       <source>Il giorno non esiste nel mese e anno simulati. Scegli una data valida.</source>
       <translation>模拟的月份和年份中不存在该日期，请选择有效日期。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="620" />
+      <location filename="../s5studio/web_ui.py" line="659" />
       <source>Seleziona EasyFace 4.23</source>
       <translation>选择 EasyFace 4.23</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="620" />
+      <location filename="../s5studio/web_ui.py" line="659" />
       <source>Compilatore (Compiler.exe)</source>
       <translation>编译器（Compiler.exe）</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="625" />
+      <location filename="../s5studio/web_ui.py" line="664" />
       <source>Compilazione già in corso.</source>
       <translation>正在编译中。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="626" />
+      <location filename="../s5studio/web_ui.py" line="668" />
       <source>Cartella di esportazione</source>
       <translation>导出文件夹</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="634" />
+      <location filename="../s5studio/web_ui.py" line="676" />
       <source>Salva anteprima</source>
       <translation>保存预览</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="634" />
+      <location filename="../s5studio/web_ui.py" line="676" />
       <source>PNG (*.png)</source>
       <translation>PNG (*.png)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="678" />
+      <location filename="../s5studio/web_ui.py" line="723" />
       <source>ZIP pronto: {path}</source>
       <translation>ZIP 已就绪：{path}</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="678" />
+      <location filename="../s5studio/web_ui.py" line="723" />
       <source>Compilazione interrotta.</source>
       <translation>编译已中断。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="687" />
+      <location filename="../s5studio/web_ui.py" line="732" />
       <source>Proprietà del set non valida.</source>
       <translation>套装属性无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="688" />
+      <location filename="../s5studio/web_ui.py" line="733" />
       <source>Nome del set troppo lungo.</source>
       <translation>套装名称过长。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="689" />
+      <location filename="../s5studio/web_ui.py" line="734" />
       <source>Tipo del set non valido.</source>
       <translation>套装类型无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="691" />
+      <location filename="../s5studio/web_ui.py" line="736" />
       <source>Decimi, Centesimi e Millesimi appartengono ai set piccoli. Rimuovi queste grafiche prima di passare a un set principale.</source>
       <translation>十分之一秒、百分之一秒和千分之一秒属于小指针套装。切换为主指针套装前请移除这些图形。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="695" />
+      <location filename="../s5studio/web_ui.py" line="740" />
       <source>Lancetta del set non valida per questo tipo di set.</source>
       <translation>此套装类型的指针无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="696" />
+      <location filename="../s5studio/web_ui.py" line="741" />
       <source>Importa prima la lancetta, poi la sua ombra.</source>
       <translation>请先导入指针，再导入其阴影。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="698" />
+      <location filename="../s5studio/web_ui.py" line="743" />
       <source>ore</source>
       <translation>时针</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="698" />
+      <location filename="../s5studio/web_ui.py" line="743" />
       <source>minuti</source>
       <translation>分针</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="698" />
+      <location filename="../s5studio/web_ui.py" line="743" />
       <source>secondi</source>
       <translation>秒针</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="699" />
+      <location filename="../s5studio/web_ui.py" line="744" />
       <source>decimi</source>
       <translation>十分之一秒</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="699" />
+      <location filename="../s5studio/web_ui.py" line="744" />
       <source>centesimi</source>
       <translation>百分之一秒</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="700" />
+      <location filename="../s5studio/web_ui.py" line="745" />
       <source>millesimi</source>
       <translation>千分之一秒</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="701" />
+      <location filename="../s5studio/web_ui.py" line="746" />
       <source>datario</source>
       <translation>日期指针</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="702" />
+      <location filename="../s5studio/web_ui.py" line="747" />
       <source>Importa PNG ombra — {role}</source>
       <translation>导入阴影 PNG — {role}</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="702" />
+      <location filename="../s5studio/web_ui.py" line="747" />
       <source>Importa PNG — {role}</source>
       <translation>导入 PNG — {role}</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="702" />
+      <location filename="../s5studio/web_ui.py" line="747" />
       <source>Lancette PNG (*.png)</source>
       <translation>PNG 指针 (*.png)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="713" />
+      <location filename="../s5studio/web_ui.py" line="758" />
       <source>Disattiva Genera ombre per rimuovere le ombre automatiche.</source>
       <translation>请关闭“生成阴影”后再移除自动阴影。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="718" />
+      <location filename="../s5studio/web_ui.py" line="763" />
       <source>Il pivot automatico segue la lancetta. Regola lo spostamento nelle impostazioni Genera ombre.</source>
       <translation>自动旋转中心跟随指针。请在“生成阴影”设置中调整偏移。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="720" />
+      <location filename="../s5studio/web_ui.py" line="765" />
       <source>Proprietà della PNG non valida.</source>
       <translation>PNG 属性无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="730" />
+      <location filename="../s5studio/web_ui.py" line="775" />
       <source>Comando set lancette non valido.</source>
       <translation>指针套装命令无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="736" />
+      <location filename="../s5studio/web_ui.py" line="781" />
       <source>Seleziona un livello lancette.</source>
       <translation>请选择指针图层。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="747" />
+      <location filename="../s5studio/web_ui.py" line="792" />
       <source>Proprietà disco non valida.</source>
       <translation>圆盘属性无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="748" />
+      <location filename="../s5studio/web_ui.py" line="793" />
       <source>Nome disco troppo lungo.</source>
       <translation>圆盘名称过长。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="758" />
+      <location filename="../s5studio/web_ui.py" line="803" />
       <source>Per le fasi lunari a 59 posizioni scegli Disco rotante.</source>
       <translation>59 位置月相轮请使用“旋转圆盘”。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="762" />
+      <location filename="../s5studio/web_ui.py" line="807" />
       <source>Valore dell’immagine non valido.</source>
       <translation>图像数值无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="763" />
+      <location filename="../s5studio/web_ui.py" line="808" />
       <source>Importa prima la grafica del disco.</source>
       <translation>请先导入圆盘图形。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="765" />
+      <location filename="../s5studio/web_ui.py" line="810" />
       <source>Importa PNG ombra</source>
       <translation>导入阴影 PNG</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="765" />
+      <location filename="../s5studio/web_ui.py" line="810" />
       <source>Importa PNG disco</source>
       <translation>导入圆盘 PNG</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="765" />
+      <location filename="../s5studio/web_ui.py" line="810" />
       <source>Dischi PNG (*.png)</source>
       <translation>PNG 圆盘 (*.png)</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="775" />
+      <location filename="../s5studio/web_ui.py" line="820" />
       <source>Il pivot dell’ombra automatica segue il disco.</source>
       <translation>自动阴影的旋转中心跟随圆盘。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="777" />
+      <location filename="../s5studio/web_ui.py" line="822" />
       <source>Proprietà PNG non valida.</source>
       <translation>PNG 属性无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="789" />
+      <location filename="../s5studio/web_ui.py" line="834" />
       <source>Comando catalogo dischi non valido.</source>
       <translation>圆盘目录命令无效。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="794" />
+      <location filename="../s5studio/web_ui.py" line="839" />
       <source>Seleziona un livello bussola.</source>
       <translation>请选择指南针图层。</translation>
     </message>
     <message>
-      <location filename="../s5studio/web_ui.py" line="808" />
+      <location filename="../s5studio/web_ui.py" line="853" />
       <source>Seleziona uno stile normale per cambiarne lo sfondo.</source>
       <translation>请选择正常样式后再更改背景。</translation>
     </message>

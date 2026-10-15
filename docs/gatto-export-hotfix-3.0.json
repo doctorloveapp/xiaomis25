@@ -1,0 +1,41 @@
+{
+  "applicationVersion": "3.0",
+  "status": "passed",
+  "includedFrames": 20,
+  "elapsedSeconds": 9.76,
+  "zipBytes": 31617362,
+  "binaryBytes": 12485732,
+  "animations": {
+    "animations": [
+      {
+        "variant": 0,
+        "id": "9503a1cb66fa",
+        "frames": 60,
+        "includedFrames": 20,
+        "sequenceLength": 32,
+        "intervalMs": 40,
+        "cycleMs": 1280,
+        "speedPercent": 100,
+        "engine": "lvgl-frame-sequence",
+        "aod": "static-first-included-frame"
+      }
+    ],
+    "maximumFps": 25,
+    "layerOrderPreserved": true,
+    "originalGifEmbedded": false,
+    "hardwareVerified": false,
+    "encodingVersion": 2,
+    "maximumIncludedFramesPerGif": 20,
+    "duplicateBitmapEncoding": false
+  },
+  "zipSemanticsVerified": true,
+  "temporaryOutputRemoved": true,
+  "originalProjectUnchanged": true,
+  "oldZipBytes": 90572282,
+  "sizeReductionPercent": 65.1,
+  "hardwareTestPerformed": false,
+  "aodExported": true,
+  "aodUserSelectedLayersPreserved": true,
+  "aodPreviewMatchesProjectPixelForPixel": true,
+  "aodGifAnimationAbsent": true
+}

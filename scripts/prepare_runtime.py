@@ -19,7 +19,7 @@ def prepare():
     if len(library.get('hands',[]))!=595 or not library.get('compasses') or library.get('errors'):
         raise ValueError('Catalogo incompleto: rigenera la libreria e il catalogo bussole prima di confezionare.')
     integration=sync_hand_sets(ROOT)
-    (ROOT/'docs/hand-set-integration-2.9.json').write_text(json.dumps(integration,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    (ROOT/'docs/hand-set-integration-3.1.json').write_text(json.dumps(integration,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     compiler_probe(ROOT/'tools/easyface-4.23/Compiler.exe')
     template=resolve_template()
     files={}
@@ -52,7 +52,7 @@ def prepare():
     for item in library['weatherIcons'].values():add(item['path'],item['sha256'])
     for name in ['Compiler.exe','DeviceInfo.db']:add('tools/easyface-4.23/'+name)
     add('tools/toolchain.json');add(template.relative_to(ROOT));add('THIRD_PARTY_NOTICES.md');add('LICENSE')
-    for name in ['index.html','app.js','i18n.js','hand-sets.js','disks.js','editor-controls.js','editor-precision.js','editor-multi.js','studio.css','tailwind.css']:add('frontend/'+name)
+    for name in ['index.html','app.js','gif.js','i18n.js','hand-sets.js','disks.js','editor-controls.js','editor-precision.js','editor-multi.js','studio.css','tailwind.css']:add('frontend/'+name)
     for language in ('it','en','zh'):
         add('locales/'+language+'.json')
         add('translations/s5studio_'+language+'.qm')
@@ -65,13 +65,11 @@ def prepare():
     forbidden={'settings.json','dialog-paths.json'}
     if any(Path(name).name in forbidden or 'recovery' in name.lower() for name in files):
         raise ValueError('Configurazione personale non ammessa nella release.')
-    add('s5studio/lua/studio_live_data.lua');add('s5studio/lua/studio_core.lua');add('s5studio/lua/studio_core_pro.lua');add('s5studio/lua/studio_civil_hand.lua')
-    add('s5studio/lua/studio_civil_clock.lua')
-    add('s5studio/lua/studio_moon_disk.lua')
-    add('s5studio/lua/studio_scene_data.lua')
+    for module in sorted((ROOT/'s5studio/lua').glob('*.lua')):
+        add(module.relative_to(ROOT))
     for path in (ROOT/'licenses').rglob('*'):
         if path.is_file():add(path.relative_to(ROOT))
-    target=(ROOT/'build/runtime-2.9').resolve()
+    target=(ROOT/'build/runtime-3.1').resolve()
     assert target.parent==(ROOT/'build').resolve() and target.is_relative_to(ROOT)
     if target.exists():
         if not (target/'runtime-manifest.json').is_file():raise ValueError('Cartella runtime preesistente non riconosciuta; nessun file viene eliminato.')
@@ -82,7 +80,7 @@ def prepare():
     packaged_integration={**integration,'sourcesChecked':[
         {**source,'catalog':'personal-hand-sets/'+str(index+1)+'/catalog.json'}
         for index,source in enumerate(integration['sourcesChecked'])]}
-    report={'applicationVersion':'2.9','scope':'offline-runtime-with-curated-catalogs-and-bulova-example',
+    report={'applicationVersion':'3.1','scope':'offline-runtime-with-curated-catalogs-and-bulova-example',
             'hands':len(library['hands']),'bundledHandSets':integration['bundledSets'],'bundledHands':integration['bundledHands'],
             'handSetIntegration':packaged_integration,'compasses':len(library['compasses']),'discs':len(disks['sets']),
             'sources':len(library['sources']),'weatherIcons':len(library['weatherIcons']),
@@ -90,7 +88,7 @@ def prepare():
             'exampleProjects':project_files,'personalSettingsIncluded':False,
             'excluded':['all-other-personal-projects','recovery','settings','dialog-history','hardware-test-projects','original-watchface-corpus','ADB','EasyFace editor']}
     (target/'runtime-manifest.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
-    (ROOT/'docs/runtime-manifest-2.9.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
+    (ROOT/'docs/runtime-manifest-3.1.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     print(json.dumps({'directory':str(target),'files':len(files),'hands':report['hands'],'compasses':report['compasses']},indent=2))
     return target
 

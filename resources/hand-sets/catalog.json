@@ -1078,6 +1078,169 @@
       }
     },
     {
+      "id": "custom-9cb392c1650b48289a2351af31ab300a",
+      "name": "Lorenz Star Trek",
+      "small": false,
+      "hands": {
+        "hour": {
+          "assetPath": "assets/ed585067f14c69313b5bba47d50cc4114da1ceb77f86e113781192da57a7a904.png",
+          "sourceSha256": "ed585067f14c69313b5bba47d50cc4114da1ceb77f86e113781192da57a7a904",
+          "size": [
+            126,
+            480
+          ],
+          "pivot": [
+            62,
+            390
+          ],
+          "filename": "Ore_Lorenz_startrek.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/f8798c0e2fb21f7930d40de876152ff195449cff98adf9f13690a47142b98ea8.png",
+            "sourceSha256": "f8798c0e2fb21f7930d40de876152ff195449cff98adf9f13690a47142b98ea8",
+            "size": [
+              136,
+              480
+            ],
+            "pivot": [
+              67,
+              390
+            ],
+            "filename": "Ore_Lorenz_startrek_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "ed585067f14c69313b5bba47d50cc4114da1ceb77f86e113781192da57a7a904",
+              "pivot": [
+                62,
+                390
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "minute": {
+          "assetPath": "assets/056346288dce81604d3952a7ce904d653f94c87cbb2c82300a25f02917649a73.png",
+          "sourceSha256": "056346288dce81604d3952a7ce904d653f94c87cbb2c82300a25f02917649a73",
+          "size": [
+            64,
+            480
+          ],
+          "pivot": [
+            30,
+            414
+          ],
+          "filename": "Minuti_Lorenz_startrek.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/338be3f50411fd6851f27fa877f382b5d3af694bedd72dbc21571a486195b1c0.png",
+            "sourceSha256": "338be3f50411fd6851f27fa877f382b5d3af694bedd72dbc21571a486195b1c0",
+            "size": [
+              74,
+              480
+            ],
+            "pivot": [
+              35,
+              414
+            ],
+            "filename": "Minuti_Lorenz_startrek_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "056346288dce81604d3952a7ce904d653f94c87cbb2c82300a25f02917649a73",
+              "pivot": [
+                30,
+                414
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "second": {
+          "assetPath": "assets/e0769303db8d0143fd8cc0cf1b8a58e3b5671fc7c2d67055f33e477643e4c3d6.png",
+          "sourceSha256": "e0769303db8d0143fd8cc0cf1b8a58e3b5671fc7c2d67055f33e477643e4c3d6",
+          "size": [
+            37,
+            480
+          ],
+          "pivot": [
+            18,
+            401
+          ],
+          "filename": "Secondi_Lorenz_startrek.png",
+          "offset": [
+            0,
+            0
+          ],
+          "shadow": {
+            "assetPath": "assets/b8d53956999645a4da5433b9b4edb6c5a12781f193907672adbe301f13049263.png",
+            "sourceSha256": "b8d53956999645a4da5433b9b4edb6c5a12781f193907672adbe301f13049263",
+            "size": [
+              47,
+              480
+            ],
+            "pivot": [
+              23,
+              401
+            ],
+            "filename": "Secondi_Lorenz_startrek_shadow_auto.png",
+            "offset": [
+              2,
+              3
+            ],
+            "generated": true,
+            "generatedFrom": {
+              "engine": "alpha-black-gaussian-v1",
+              "sourceSha256": "e0769303db8d0143fd8cc0cf1b8a58e3b5671fc7c2d67055f33e477643e4c3d6",
+              "pivot": [
+                18,
+                401
+              ],
+              "opacity": 45,
+              "blur": 1.5,
+              "offset": [
+                2,
+                3
+              ]
+            }
+          }
+        }
+      },
+      "generateShadows": true,
+      "shadowOptions": {
+        "opacity": 45,
+        "blur": 1.5,
+        "offset": [
+          2,
+          3
+        ]
+      }
+    },
+    {
       "id": "custom-239bb4249cf0466db27a7446e0185190",
       "name": "Omega moon",
       "small": false,

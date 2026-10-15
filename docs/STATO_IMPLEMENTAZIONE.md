@@ -1,4 +1,34 @@
-# Stato operativo — S5 Studio 2.9
+# Stato operativo — S5 Studio 3.1
+
+## Novità 3.1 — limiti GIF e compatibilità secondi/cronografo
+
+Massimo **10 fotogrammi inclusi per GIF visibile normale**, verificato in tutti gli stili: contatore, messaggio ed Esporta ZIP disabilitato oltre il limite. Bozze, importazione ed esclusi restano modificabili/salvabili. Scorrimento dei fotogrammi conservato.
+
+In uno stile con GIF visibile vengono escluse lancetta grande secondi/ombra, piccole dei secondi/decimi e tutte le lancette Crono/POST; **Crono, Crono Pro, Only Crono e relativi tap sono disabilitati**. Avviso italiano/inglese/cinese e controlli bloccati. Le preferenze restano nel progetto e si ripristinano nascondendo/eliminando la GIF. Uno stile senza GIF conserva il cronografo. Anche una GIF con un solo fotogramma o preview PC ferma segue la regola conservativa. AOD indipendente, sempre modificabile/esportabile, con GIF esplicite statiche.
+
+Anteprima e sorgenti EasyFace usano una copia separata con le esclusioni. `gifSafety` nei rapporti ZIP/esterno descrive ogni stile; il validator rifiuta secondi nativi o un controller Crono attivo nello stile GIF. Il progetto consegnato accanto al ZIP conserva le impostazioni originali. Tutti gli otto Lua invariati rispetto alla 3.0; nessuna modifica al clock. Il limite è una scelta applicativa, non un massimo firmware scoperto.
+
+**96 test mirati, 9 controlli editor e 2 compilazioni/ZIP superati**, incluse varianti miste GIF/Pro, quattro viste con AOD, ripristino, confronto anteprima e rifiuto di un puntatore secondi reinserito. Set personali controllati: 13, nessun aggiornamento, 635 modelli/90 dischi conservati. Solo Bulova incorporato. EXE verificato staticamente; nessun avvio isolato, backup o ZIP dimostrativo. Le nuove limitazioni attendono la prova reale. [Guida](GIF_3.1.md) · [Verifiche](validation-editor-3.1.json).
+
+### Audit Gatto 3.0 — riscontro hardware e prestazioni (2026-10-15)
+
+L’utente conferma la riproduzione della GIF sull’orologio, ma segnala salti saltuari dei secondi con tutti i flag fluidi disattivati. Verificati progetto e ZIP effettivo: nove PNG RGBA opachi a pieno schermo, velocità 50%, 7,5 cambi immagine/s; sei puntatori e ombre nativi correttamente a 1.000 ms. Il runtime GIF applica già Write-on-Change e non scrive l’ora. Decodifica/disegno concorrente è la causa più plausibile, non misurata sul firmware; non è dimostrato un limite hardware inevitabile.
+
+Tre compilazioni `.face` temporanee verificano la fattibilità di alternative native: nove immagini uniformi a 130 ms senza Lua, oppure 30 posizioni per conservare la pianificazione variabile. Quest’ultima porta il binario a 34,8 MB; il solo suffisso RGB non cambia il formato prodotto dal compiler target 562. Prove di compilazione, non benchmark hardware. Documentato il confronto diagnostico con velocità 25% (3,75 cambi/s).
+
+**Solo audit: codice, runtime, eseguibile e progetti intatti**; nessun backup, avvio EXE o ZIP dimostrativo. Set personali controllati: 13, nessuna modifica. [Rapporto](AUDIT_GATTO_GIF_3.0.md) · [Dati](gatto-performance-audit-3.0.json) · [Riscontro utente](hardware-gif-3.0.json).
+
+### Correzioni 3.0 — AOD, limite GIF e compilazione Gatto (2026-10-15)
+
+**AOD sempre accessibile**, anche con GIF e anche quando escluso dall’esportazione. Aggiungere o modificare un suo livello ne attiva automaticamente l’esportazione; resta disponibile il pulsante Includi AOD nello ZIP. Il pacchetto conserva la composizione AOD scelta, indipendente dal normale; una GIF esplicita in AOD è statica.
+
+**Massimo 20 fotogrammi inclusi per GIF visibile normale**, in ogni stile: contatore, messaggio e ZIP disabilitato oltre il limite, con controllo backend prima della compilazione. Le bozze più grandi restano apribili/modificabili/salvabili. I flag dei fotogrammi si aggiornano sul posto, senza ricreare il pannello né spostare lo scroll.
+
+Gatto aveva 60 fotogrammi, 44 inclusi e 73 bitmap native per rappresentare i tempi variabili; il precedente ZIP pesava 90,6 MB. Il log incompleto e l’intervallo di circa 93 secondi sono coerenti con il timeout del compilatore a 90 secondi, non con un massimo firmware di 44 fotogrammi. Il percorso LVGL riusa una sola bitmap per fotogramma incluso. Con 20 fotogrammi e AOD scelto: **9,76 secondi, ZIP 31,6 MB**, AOD statico verificato e preview identica al progetto. Il limite di 20 è una politica Studio; non è stata verificata la dimensione massima firmware.
+
+**98 test mirati, 7 controlli editor e compilazione reale Gatto/AOD superati**; progetto originale intatto, output temporaneo eliminato. Tutti gli otto Lua invariati rispetto alla prima 3.0; pacchetti precedenti ancora validabili. Catalogo personale ricontrollato: 13 set, nessun aggiornamento. Nessun backup o avvio EXE; verifica statica del bundle. [Guida](GIF_3.0.md) · [Controlli](gif-hotfix-editor-3.0.json) · [Diagnosi](gatto-gif-diagnosis-3.0.json) · [Compilazione](gatto-export-hotfix-3.0.json).
+
+Prima consegna 3.0 (2026-10-15; verifiche storiche): oggetto GIF animata con tutti i fotogrammi, esclusione/eliminazione con Annulla, velocità 25–400% e anteprima. Ordine pulsanti aggiornato, avvio senza livelli/AOD e tacche false per nuove lancette; progetti precedenti conservati. Sfondo statico e GIF rispettano ordine e trasparenza. SpriteGroup nativo per sequenze compatibili, modulo studio_gif.lua per interposizione nella scena Crono e sequenze lunghe. GIF normali escluse dall’AOD; eventuali GIF importate nell’AOD sono statiche ed eliminabili senza toccare il normale. Sette moduli Lua precedenti invariati. 162 test, 10 controlli editor e compilazione reale di due stili/due AOD superati. Nuovo set Lorenz Star Trek: 13 set, 635 modelli, 90 dischi; solo Bulova come esempio. EXE verificato staticamente, nessun avvio isolato o backup. GIF e prestazioni da confermare sul firmware reale. [Guida](GIF_3.0.md), [test](validation-editor-3.0.json), [compilazione](export-validation-3.0.json).
 
 Aggiornamento 2.9 (2026-10-14): selettore lingua con globo e controlli header allineati a 36 px. Aggiunto cinese semplificato (简体中文), mantenendo italiano predefinito e inglese; preferenza persistente e font CJK di sistema. 1.204 messaggi JSON, 291 messaggi Qt attivi per lingua. Superati 59 test mirati, 16 controlli editor e 161 contesti cinesi; geometria verificata nelle tre lingue a 1120 e 1440 px. Integrato Swatch Luce: 12 set personali, 632 modelli e 90 dischi. Solo Bulova come progetto di esempio; progetti esistenti compatibili. Sette moduli Lua invariati rispetto alla 2.8. Eseguibile verificato staticamente, senza avvio, ambiente isolato, backup o ZIP dimostrativi. [Guida](I18N_2.9.md), [verifiche](validation-editor-2.9.json), [bundle](executable-build-2.9.json).
 

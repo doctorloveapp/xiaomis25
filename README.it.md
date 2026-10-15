@@ -2,15 +2,15 @@
 
 ![S5 Studio — progettazione di quadranti per Xiaomi Watch S5](docs/assets/s5-studio-banner.svg)
 
-[![Build 2.9](https://img.shields.io/badge/build-2.9-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![59 test mirati superati](https://img.shields.io/badge/tests-59%20targeted%20passed-15803d)](docs/validation-editor-2.9.json) [![Test S5 confermato dall'utente](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Licenza codice MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
+[![Build 3.1](https://img.shields.io/badge/build-3.1-2563eb)](https://github.com/doctorloveapp/xiaomis25/releases) [![96 test mirati superati](https://img.shields.io/badge/tests-96%20focused%20passed-15803d)](docs/validation-editor-3.1.json) [![Test S5 confermato dall'utente](https://img.shields.io/badge/S5%20device%20test-user%20confirmed-15803d)](docs/hardware-test-2.7.json) [![Licenza codice MIT](https://img.shields.io/badge/code%20license-MIT-64748b)](LICENSE)
 
 [English](README.md) · **Italiano** · [Releases](https://github.com/doctorloveapp/xiaomis25/releases) · [Documentazione](docs/README.md)
 
 S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da immagini personalizzate. Integra stili indipendenti, livelli dinamici e un cronografo Lua condiviso con compilazione nativa, packaging su template e validazione finale, per produrre quadranti funzionanti e configurabili.
 
-**Dispositivo:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Interfaccia:** italiano (default), inglese e cinese semplificato. Scegli Lingua nella barra superiore: la preferenza viene salvata in settings.json. I badge descrivono verifiche registrate; la conferma hardware riguarda il runtime invariato testato nella 2.7, non una nuova certificazione. [Guida i18n](docs/I18N_2.9.md).
+**Dispositivo:** Xiaomi Watch S5 **M2530W1**, 480 × 480. **Interfaccia:** italiano (default), inglese e cinese semplificato. Scegli Lingua nella barra superiore: la preferenza viene salvata in settings.json. I badge descrivono verifiche registrate; la conferma hardware riguarda le funzioni già provate nella 2.7; l’utente ha confermato la riproduzione GIF nella 3.0, segnalando però salti saltuari dei secondi con una GIF a pieno schermo. [Audit prestazioni](docs/AUDIT_GATTO_GIF_3.0.md). [Guida i18n](docs/I18N_2.9.md).
 
-**Novità 2.9:** selettore lingua con globo allineato ai pulsanti dell’header e interfaccia completa in cinese semplificato. Italiano predefinito. Superati 59 test mirati, 16 controlli editor e 161 contesti renderizzati in cinese. I sette moduli Lua dell’orologio sono invariati rispetto alla 2.8; EXE verificato staticamente senza avviarlo. [Verifiche](docs/validation-editor-2.9.json).
+**Novità 3.1:** massimo **10 fotogrammi inclusi per GIF visibile**. In quello stile vengono escluse le lancette dei secondi e disabilitati Crono/Crono Pro, compresi i tap. L’editor spiega il blocco; le impostazioni restano salvate e tornano operative nascondendo/eliminando la GIF. AOD indipendente sempre esportabile. Superati 96 test mirati, 9 controlli editor e 2 prove di compilazione/ZIP. [Guida alle limitazioni GIF](docs/GIF_3.1.md) · [Verifiche](docs/validation-editor-3.1.json).
 
 ## Indice
 
@@ -30,6 +30,7 @@ S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da i
 | Funzione | Implementazione e vantaggio |
 | --- | --- |
 | **UI italiano / inglese / cinese** | Cambio lingua immediato, cataloghi Qt Linguist TS/QM e JSON offline, preferenza persistente. L’italiano rimane predefinito. |
+| **GIF animate** | Importazione di tutti i fotogrammi, massimo 10 inclusi per GIF visibile in esportazione, esclusione senza salti di scorrimento, eliminazione, velocità e anteprima. Esportazione nativa o LVGL nella scena condivisa, rispettando sfondo statico e ordine livelli. Una GIF visibile disabilita secondi e attivazione del cronografo nel suo stile, conservando le impostazioni. AOD indipendente e statico. [Guida](docs/GIF_3.1.md). |
 | **Editor a livelli** | Immagini, testi, dati live, forme, lancette e dischi; riordino, eliminazione, duplicazione, blocco e Annulla/Ripeti. Ctrl abilita la selezione multipla; trascinamento, frecce e allineamenti agiscono sulla selezione. |
 | **Grafica e geometria** | Importazione PNG/JPEG/WebP/BMP/SVG; ingrandimento oltre il canvas con ritaglio finale a 480 × 480. Rotazione e arco di testo/dati; rettangoli, cerchi ed ellissi con riempimento, cornice e ombre indipendenti. |
 | **Set lancette** | Importazione di set grandi/piccoli con nome, pivot impostabile cliccando sulla grafica, ombre abbinate o generate. Il modello ore può abbinare automaticamente minuti/secondi; ogni lancetta resta modificabile separatamente. |
@@ -40,14 +41,14 @@ S5 Studio è un editor visuale Windows per creare quadranti Xiaomi Watch S5 da i
 | **Simulazione** | Anteprima animata, zoom/panoramica, giorno 1–31, mese e anno, lettura congelata del cronografo. I valori simulati non sostituiscono le sorgenti reali esportate. |
 | **Esportazione validata** | Compilazione EasyFace nativa, anteprime complete, ZIP su template e rapporto per build. **Perché:** binario, metadati, stili e binding Lua sono verificati insieme prima di pubblicare il file di output. |
 
-La build personale 2.9 comprende **632 modelli di lancette e 90 dischi**, anche da 39 quadranti forniti per lo studio. I numeri descrivono quella build: non costituiscono una libreria liberamente redistribuibile. [Ambito di distribuzione](docs/DISTRIBUTION.md).
+La build personale 3.1 comprende **635 modelli di lancette e 90 dischi**, anche da 39 quadranti forniti per lo studio. I numeri descrivono quella build: non costituiscono una libreria liberamente redistribuibile. [Ambito di distribuzione](docs/DISTRIBUTION.md).
 
 ## Installation Guide
 
 ### Applicazione Windows precompilata
 
 1. Apri le [GitHub Releases](https://github.com/doctorloveapp/xiaomis25/releases) e leggi asset e note della release scelta. L'archivio dei sorgenti GitHub non è l'eseguibile.
-2. La build documentata usa **`S5Studio-2.9.exe`**, **Windows x64** e **.NET Framework 4.7.2 o successivo**. Questa build personale incorpora Python, Qt, UI compilata, cataloghi, template e compilatore; sul PC di destinazione non servono Python o Node.
+2. La build documentata usa **`S5Studio-3.1.exe`**, **Windows x64** e **.NET Framework 4.7.2 o successivo**. Questa build personale incorpora Python, Qt, UI compilata, cataloghi, template e compilatore; sul PC di destinazione non servono Python o Node.
 3. Verifica l'hash del file con il rapporto associato a quell'esatto asset. Salva il lavoro, chiudi la versione precedente e avvia l'EXE oppure **`Avvia_S5_Studio.cmd`**, se fornito. La finestra si apre massimizzata.
 4. Crea/apri un `.s5faceproj`, configura stili normali e AOD, salva e premi **Esporta ZIP**, scegliendo la cartella di destinazione.
 5. Copia il ZIP sul telefono senza estrarlo e installalo con un uploader locale compatibile. Mantieni Bluetooth e sincronizzazione attivi. Consulta la [FAQ Capabilities](#perché-linstallazione-locale-fallisce-con-capabilities) prima di modificare le impostazioni dell'uploader.
@@ -68,13 +69,13 @@ La build personale 2.9 comprende **632 modelli di lancette e 90 dischi**, anche 
 | Esportazioni | Cartella scelta in **Esporta ZIP**, compreso `build-report.json` |
 
 ```powershell
-Get-FileHash -LiteralPath .\S5Studio-2.9.exe -Algorithm SHA256
+Get-FileHash -LiteralPath .\S5Studio-3.1.exe -Algorithm SHA256
 ```
 
-SHA-256 dell'**eseguibile personale 2.9 consegnato**:
+SHA-256 dell'**eseguibile personale 3.1 consegnato**:
 
 ```text
-fe5508ae527e1f7d7c367936ce9564f19088aff73f58250a3f0aacc1f53c9116
+8e37fc22d282465736ade62eb089eb7b9d001959a5f708a2b3526efe1695adb7
 ```
 
 Identifica quell'esatto file: una ricompilazione o un asset pubblico con risorse diverse avrà un hash diverso. Gli hash di compilatore, template e campione originale sono conservati nella [guida di installazione](docs/INSTALLATION.md#reference-hashes).
@@ -106,6 +107,8 @@ Il validator verifica record protetti, CRC, ID, offset, riferimenti nativi, stil
 
 ## Chrono Pro Documentation
 
+**Compatibilità GIF nella 3.1:** una GIF normale visibile disabilita Crono e Crono Pro nello stesso stile, esclude tutte le lancette Crono/POST e nasconde le lancette dei secondi civili. Nascondi/elimina la GIF oppure usa uno stile separato senza GIF per ripristinare le impostazioni salvate. [Regole](docs/GIF_3.1.md).
+
 ### Modalità e tap
 
 | Modalità | Impostazione | Sequenza e secondi grandi |
@@ -135,13 +138,13 @@ Per un giro completo: intervallo 60 per secondi/minuti, 12 per ore crono su scal
 
 | Dispositivo / firmware | Stato | Evidenza e ambito |
 | --- | --- | --- |
-| **Xiaomi Watch S5 M2530W1 · 3.221.024 · 480 × 480** | **Build 2.7 confermata dall'utente** | Modello e firmware installato dichiarati dal tester; funzionamento confermato il 2026-10-13; runtime orologio invariato nella 2.9 |
+| **Xiaomi Watch S5 M2530W1 · 3.221.024 · 480 × 480** | **Build 2.7 confermata dall'utente** | Modello e firmware installato dichiarati dal tester; funzionamento confermato il 2026-10-13; otto moduli Lua invariati dalla 3.0; nuove limitazioni GIF 3.1 da verificare sul dispositivo |
 | Stesso modello, altri firmware | Non verificato | API Lua, canali e uploader possono differire |
 | Altri Xiaomi/Redmi o Mi Band | Target non supportato | Gli esempi API di modelli affini non dimostrano compatibilità dei pacchetti |
 | Windows x64 + .NET Framework 4.7.2 o successivo | Target dell'EXE personale | Requisiti runtime/compilatore; bundle verificato staticamente |
 | Linux/macOS o pubblicazione nello store ufficiale | Non validato | Nessun pacchetto supportato o integrazione di pubblicazione ufficiale |
 
-Target compilatore **MiWatchS5 / 562**, tipo dispositivo del pacchetto **P62**. I profili storici indicano mod m0tral **V3.52.0i**; la versione esatta dell'app nell'ultimo test non è stata confermata separatamente. L'esito hardware è riferito dal proprietario, non una certificazione indipendente. Fps, consumo e risoluzione grezza del clock non sono stati misurati. [Esito reale](docs/hardware-test-2.7.json) · [Test sorgenti](docs/validation-editor-2.9.json) · [Bundle](docs/executable-build-2.9.json).
+Target compilatore **MiWatchS5 / 562**, tipo dispositivo del pacchetto **P62**. I profili storici indicano mod m0tral **V3.52.0i**; la versione esatta dell'app nell'ultimo test non è stata confermata separatamente. L'esito hardware è riferito dal proprietario, non una certificazione indipendente. Fps, consumo e risoluzione grezza del clock non sono stati misurati. [Esito reale](docs/hardware-test-2.7.json) · [Test sorgenti](docs/validation-editor-3.1.json) · [Bundle](docs/executable-build-3.1.json).
 
 ## Troubleshooting
 
@@ -149,6 +152,7 @@ Target compilatore **MiWatchS5 / 562**, tipo dispositivo del pacchetto **P62**. 
 | --- | --- |
 | Rifiuto **Capabilities** nell'uploader locale | Segui la [FAQ](#perché-linstallazione-locale-fallisce-con-capabilities); cambiare CN/Global non è una soluzione dimostrata |
 | Nome `L00000000001` o preview assente sul telefono | Osservato anche sul riferimento; confronta preview sull'orologio, in Modifica e nei file generati prima di cambiare la grafica |
+| Salti dei secondi con GIF a pieno schermo | Meno fotogrammi riducono soprattutto il peso; contano anche dimensioni e velocità. Vedi l’[audit Gatto](docs/AUDIT_GATTO_GIF_3.0.md): il descrittore nativo dei secondi è correttamente a 1 Hz |
 | Compilatore/template mancanti | Il clone non include ogni dipendenza personale; consulta i [requisiti sorgenti](docs/INSTALLATION.md#running-from-source) |
 | Risultato sull'orologio diverso dall'editor | Riesporta dalla build corrente e reinstalla il nuovo ZIP; aggiornare il programma sul PC non aggiorna i quadranti installati |
 | Lancetta in posizione/dimensione inattesa | Verifica sorgente, intervallo, angolo e pivot; i secondi civili indicano i secondi simulati, non partono automaticamente da zero |
@@ -158,6 +162,10 @@ Target compilatore **MiWatchS5 / 562**, tipo dispositivo del pacchetto **P62**. 
 [Analisi uploader](docs/ANALISI_UPLOADER_1.4.md) · [Scena Longines](docs/LONGINE_LIVELLI_2.6.md) · [Correzioni lancette 2.7](docs/EDITOR_2.7.md).
 
 ## Common Questions
+
+### Le GIF si possono togliere dall’AOD?
+
+Le GIF normali sono escluse dall’AOD per default. L’AOD è sempre accessibile; aggiungere o modificare i suoi livelli attiva l’esportazione della composizione scelta. Puoi anche premere Includi AOD nello ZIP. Una GIF aggiunta espressamente all’AOD è statica e può essere eliminata senza toccare quella normale. L’utente ha confermato la riproduzione GIF sul S5, segnalando salti saltuari della lancetta dei secondi con una GIF a pieno schermo. L’[audit](docs/AUDIT_GATTO_GIF_3.0.md) distingue configurazione corretta, possibile carico grafico e alternative native provate soltanto con il compilatore; non è dimostrato un limite hardware inevitabile. [Configurazione e limiti](docs/GIF_3.1.md).
 
 ### Perché l'installazione locale fallisce con Capabilities?
 
@@ -169,7 +177,7 @@ EasyFace 4.23 non espone un selettore Regione verificato. Nei campioni coesiston
 
 ### L'EXE funziona da solo? Perché data/ è nel gitignore?
 
-L'EXE personale 2.9 consegnato incorpora le risorse: non richiede cartelle `data/`, compilatore o template accanto al file. Il clone dei sorgenti è diverso: dati personali, corpus originale, template e compilatore sono esclusi. Per riprodurre quel bundle occorrono gli input originali e i relativi permessi. [Installazione](docs/INSTALLATION.md).
+L'EXE personale 3.1 consegnato incorpora le risorse: non richiede cartelle `data/`, compilatore o template accanto al file. Il clone dei sorgenti è diverso: dati personali, corpus originale, template e compilatore sono esclusi. Per riprodurre quel bundle occorrono gli input originali e i relativi permessi. [Installazione](docs/INSTALLATION.md).
 
 ### Stili e complicazioni sono indipendenti?
 
@@ -206,7 +214,7 @@ python -m pytest -q
 
 Sostituisci i nomi di esempio con i tuoi input/output. `apply-template` accetta progetti Studio e FPRJ supportati; per FPRJ Studio ripristina stili/slot dal progetto incorporato dopo averne verificato gli hash. I widget esterni non ricostruibili coerentemente vengono rifiutati.
 
-`powershell -File scripts/package.ps1` prepara l'EXE personale dopo preflight e sincronizzazione; `python scripts/verify_bundle.py S5Studio-2.9.exe` controlla gli hash incorporati senza avviarlo. Il packaging attuale richiede il catalogo personale fornito e non è un builder generico da clone pulito. [Contributi](CONTRIBUTING.md) · [Prerequisiti sorgenti](docs/INSTALLATION.md#running-from-source).
+`powershell -File scripts/package.ps1` prepara l'EXE personale dopo preflight e sincronizzazione; `python scripts/verify_bundle.py S5Studio-3.1.exe` controlla gli hash incorporati senza avviarlo. Il packaging attuale richiede il catalogo personale fornito e non è un builder generico da clone pulito. [Contributi](CONTRIBUTING.md) · [Prerequisiti sorgenti](docs/INSTALLATION.md#running-from-source).
 
 ## Documentation and Release History
 

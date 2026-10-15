@@ -66,6 +66,9 @@ def write_scene(project,layers,directory,variant,*,key=None):
           'local scene = lvgl.Object(nil, {x=0,y=0,w=480,h=480,bg_opa=0,border_width=0,pad_all=0})',
           'scene:clear_flag(lvgl.FLAG.SCROLLABLE)','scene:clear_flag(lvgl.FLAG.CLICKABLE)']
     for e in layers:
+        if e.kind=='gif':
+            from .gif_animation import lua_lines
+            code+=lua_lines(project,e,base,variant);continue
         if lunar_element(e):code+=lines(project,e,base,variant)
         else:
             from .scene_data import supported,lines as scene_data_lines
