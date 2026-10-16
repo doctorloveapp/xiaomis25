@@ -233,4 +233,4 @@ Example file names above are placeholders for your own inputs/outputs. `apply-te
 
 **Artwork and trademarks:** hand/disc/weather graphics and reference watchfaces retain their authors' rights; fonts require their own permissions. HaloX78 is credited as a watchface creator, including the Ferrari reference, which is not treated as an OEM Xiaomi design. Watch brands and model names identify references and do not imply affiliation or endorsement.
 
-Read [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [licenses/](licenses/) and [distribution scope](docs/DISTRIBUTION.md) before redistributing a bundle or catalog. **The application-code MIT license does not relicense the proprietary compiler or third-party assets.**
+Read [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [licenses/](licenses/) and [distribution scope](docs/DISTRIBUTION.md) before redistributing a bundle or catalog. **The application-code MIT license does not relicense the proprietary compiler or  third-party assets.**
