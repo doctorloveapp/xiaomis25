@@ -1695,4 +1695,10 @@ Cartella:</translation>
       <translation>Rendi trasparente la lancetta disegnata.</translation>
     </message>
   </context>
+  <context>
+    <name>MainWindow</name>
+    <message><source>Spaziatura caratteri (px)</source><translation>Spaziatura caratteri (px)</translation></message>
+    <message><source>Corsivo</source><translation>Corsivo</translation></message>
+    <message><source>Sottolineato</source><translation>Sottolineato</translation></message>
+  </context>
 </TS>

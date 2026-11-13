@@ -35,7 +35,7 @@ SOURCES.update({key:(label,SOURCES[source][1],SOURCES[source][2]) for key,label,
 HAND_ASSET_FIELDS=tuple(h+k for h in ('hour','minute','second') for k in ('_asset','_shadow_asset'))
 SOURCES['timeHour24']=('Ore (24h · giorno/notte)',SOURCES['hour'][1],2)
 ASSET_FIELDS=('asset','font_asset',*HAND_ASSET_FIELDS)
-VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
+VARIANT_PROPERTIES={'show_center_cap','rotation','arc','x','y','width','height','size','color','text','asset','visible','font_asset','bold','italic','underline','letter_spacing','fit','opacity','tint','hour_length','minute_length','second_length','hour_width','minute_width','second_width','show_ticks','second_hand','smooth_seconds','chrono_pro','show_shadows','pointer_end_pivot','compass_preset'} | {h+k for h in ('hour','minute','second') for k in ('_asset','_anchor_x','_anchor_y','_color','_preset','_shadow_asset','_shadow_anchor_x','_shadow_anchor_y','_shadow_offset_x','_shadow_offset_y','_length_adjusted','_width_adjusted','_pivot_reference_x','_pivot_reference_y')}
 VARIANT_PROPERTIES.update({'smooth_hours','smooth_minutes','only_chrono'})
 VARIANT_PROPERTIES.update({'month_abbreviated','disk_preset','disk_mode','disk_shadow_assets','value_assets'})
 VARIANT_PROPERTIES.update({'moon_reference_date','moon_day_offset'})
@@ -109,6 +109,9 @@ class Element:
     gif_speed: int = 100
     font_asset: str = ""
     bold: bool = True
+    italic: bool = False
+    underline: bool = False
+    letter_spacing: int = 0
     fit: str = "cover"
     opacity: int = 255
     tint: bool = False
@@ -553,6 +556,10 @@ class Project:
                 errors.append(f"{label}: posizione o dimensioni fuori dai limiti del canvas.")
             if not (8 <= el.size <= 160 and 1 <= el.digits <= 6 and 0 <= el.opacity <= 255):
                 errors.append(f"{label}: font, numero di cifre o opacità fuori dai limiti.")
+            if type(el.letter_spacing) is not int or not 0 <= el.letter_spacing <= 40:
+                errors.append(f"{label}: spaziatura caratteri fuori dai limiti (0–40 px).")
+            if type(el.bold) is not bool or type(el.italic) is not bool or type(el.underline) is not bool:
+                errors.append(f"{label}: formato carattere non valido.")
             if type(el.decimals) is not int or not 0<=el.decimals<=3 or el.decimals and el.digits<el.decimals+2:errors.append(f'{label}: numero di cifre insufficiente per i decimali.')
             if el.align not in {"left", "center", "right"} or el.fit not in {"cover", "contain", "stretch"}:
                 errors.append(f"{label}: allineamento o adattamento non validi.")

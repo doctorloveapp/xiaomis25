@@ -313,15 +313,14 @@ def generate_fprj(p: Project, directory: Path, aod=False, filename='quadrante', 
                     name=f"{prefix}_{n}_{'minus' if digit=='-' else 'dot' if digit=='.' else digit}.png"
                     digit_image(p,e,digit).save(images/name)
                     names.append(name)
-                widget(32,f"{prefix}_{n}",e.x+x,e.y+y,count*cw,ch,
+                widget(32,f"{prefix}_{n}",e.x+x,e.y+y,count*cw+(count-1)*e.letter_spacing,ch,
                        BitmapList="|".join(names),Digits=count|(e.decimals<<4 if e.kind=='number' else 0),
                        Alignment={'left':0,'center':1,'right':2}[e.align] if e.kind=='number' else 0,Value_Src=code,
-                       Spacing=0,Blanking=0 if e.leading_zero or e.kind in {"clock","date"} else 1)
+                       Spacing=e.letter_spacing,Blanking=0 if e.leading_zero or e.kind in {"clock","date"} else 1)
             if sep:
                 char,x,y,w,h=sep
-                im=Image.new("RGBA",(w,h))
-                box=font_for(p,e).getbbox(char)
-                ImageDraw.Draw(im).text(((w-(box[2]-box[0]))//2-box[0],1-digit_metrics(p,e)[2]),char,font=font_for(p,e),fill=rgba(e))
+                from .render import separator_image
+                im=separator_image(p,e,char,w,h)
                 image(prefix+"_separator",im,e.x+x,e.y+y)
         elif e.kind in ('pointer','compass','disk'):
             if e.show_shadows:
