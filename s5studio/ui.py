@@ -344,7 +344,7 @@ class MainWindow(QMainWindow):
             control.editingFinished.connect(self.commit_properties)
             self.fields[key]=control
             form.addRow(self.tr(label),control)
-        for key,label,minv,maxv in [('x','Posizione X',0,479),('y','Posizione Y',0,479),('width','Larghezza',1,480),('height','Altezza',1,480),('size','Font (px)',8,160),('digits','Cifre',1,6),('opacity','Opacità',0,255)]:
+        for key,label,minv,maxv in [('x','Posizione X',0,479),('y','Posizione Y',0,479),('width','Larghezza',1,480),('height','Altezza',1,480),('size','Font (px)',8,160),('letter_spacing','Spaziatura caratteri (px)',0,40),('digits','Cifre',1,6),('opacity','Opacità',0,255)]:
             control=QSpinBox()
             control.setRange(minv,maxv)
             control.setKeyboardTracking(False)
@@ -365,7 +365,7 @@ class MainWindow(QMainWindow):
             form.addRow(self.tr(label),control)
         self.color_button=button(self.tr('Colore'),self.element_color)
         form.addRow(self.tr('Colore'),self.color_button)
-        for key,label in [('leading_zero','Mostra zeri iniziali'),('bold','Grassetto'),('visible','Visibile'),('locked','Blocca posizione')]:
+        for key,label in [('leading_zero','Mostra zeri iniziali'),('bold','Grassetto'),('italic','Corsivo'),('underline','Sottolineato'),('visible','Visibile'),('locked','Blocca posizione')]:
             control=QCheckBox(self.tr(label))
             control.toggled.connect(self.commit_properties)
             self.fields[key]=control

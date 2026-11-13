@@ -1617,4 +1617,10 @@ Cartella:</source>
       <translation>将绘制的指针设为透明。</translation>
     </message>
   </context>
+  <context>
+    <name>MainWindow</name>
+    <message><source>Spaziatura caratteri (px)</source><translation>字符间距（像素）</translation></message>
+    <message><source>Corsivo</source><translation>斜体</translation></message>
+    <message><source>Sottolineato</source><translation>下划线</translation></message>
+  </context>
 </TS>

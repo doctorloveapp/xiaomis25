@@ -1689,4 +1689,10 @@ Folder:</translation>
       <translation>Make the drawn hand transparent.</translation>
     </message>
   </context>
+  <context>
+    <name>MainWindow</name>
+    <message><source>Spaziatura caratteri (px)</source><translation>Character spacing (px)</translation></message>
+    <message><source>Corsivo</source><translation>Italic</translation></message>
+    <message><source>Sottolineato</source><translation>Underline</translation></message>
+  </context>
 </TS>

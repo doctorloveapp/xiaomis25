@@ -20,16 +20,46 @@ SCENARIOS = {
 
 
 @lru_cache(maxsize=128)
-def system_font(size: int, bold: bool):
+def system_font(size: int, bold: bool, italic: bool = False):
     fonts = Path(os.environ.get("WINDIR", "C:/Windows")) / "Fonts"
-    for name in (["arialbd.ttf", "segoeuib.ttf"] if bold else ["arial.ttf", "segoeui.ttf"]):
+    if bold and italic:names=["arialbi.ttf", "segoeuiz.ttf"]
+    elif bold:names=["arialbd.ttf", "segoeuib.ttf"]
+    elif italic:names=["ariali.ttf", "segoeuii.ttf"]
+    else:names=["arial.ttf", "segoeui.ttf"]
+    for name in names:
         if (fonts / name).exists():
             return ImageFont.truetype(str(fonts / name), size)
-    return ImageFont.truetype("DejaVuSans.ttf", size)
+    suffix = '-BoldOblique' if bold and italic else '-Bold' if bold else '-Oblique' if italic else ''
+    return ImageFont.truetype(f"DejaVuSans{suffix}.ttf", size)
 
 
 def font_for(p: Project, e: Element):
-    return ImageFont.truetype(BytesIO(p.assets[e.font_asset]), e.size) if e.font_asset else system_font(e.size, e.bold)
+    return ImageFont.truetype(BytesIO(p.assets[e.font_asset]), e.size) if e.font_asset else system_font(e.size, e.bold, e.italic)
+
+
+def text_metrics(font, text, spacing=0):
+    """Measure text with explicit tracking, matching the rasterized output."""
+    if not spacing:
+        box=font.getbbox(text)
+        return box[2]-box[0],box[3]-box[1]
+    boxes=[font.getbbox(char) for char in text] or [(0,0,0,0)]
+    width=sum(box[2]-box[0] for box in boxes)+max(0,len(text)-1)*spacing
+    return width, max(box[3] for box in boxes)-min(box[1] for box in boxes)
+
+
+def draw_styled_text(draw, xy, text, font, fill, spacing=0, underline=False):
+    x,y=xy
+    if not spacing:
+        box=font.getbbox(text)
+        draw.text((x-box[0],y),text,font=font,fill=fill)
+        x+=box[2]-box[0]
+    else:
+        for char in text:
+            box=font.getbbox(char)
+            draw.text((x-box[0],y),char,font=font,fill=fill)
+            x += box[2]-box[0] + spacing
+    if underline and text:
+        draw.line((xy[0],y+font.size+1,x-(spacing if spacing else 0)-1,y+font.size+1),fill=fill,width=max(1,font.size//16))
 
 
 def rgba(e: Element):
@@ -53,6 +83,7 @@ def digit_metrics(p: Project, e: Element):
     width = max(b[2] - min(b[0], 0) for b in boxes) + 2
     top = min(b[1] for b in boxes)
     height = max(b[3] for b in boxes) - top + 2
+    if e.underline:height=max(height,e.size+max(1,e.size//16)+3-top)
     return width, height, top
 
 
@@ -63,6 +94,18 @@ def digit_image(p: Project, e: Element, char: str):
     font = font_for(p, e)
     box = font.getbbox(char)
     draw.text(((width - (box[2]-box[0]))//2 - box[0], 1 - top), char, font=font, fill=rgba(e))
+    if e.underline:draw.line((0,e.size+2-top,width-1,e.size+2-top),fill=rgba(e),width=max(1,e.size//16))
+    return im
+
+
+def separator_image(p: Project, e: Element, char: str, width: int, height: int):
+    im=Image.new('RGBA',(width,height))
+    font=font_for(p,e)
+    box=font.getbbox(char)
+    top=digit_metrics(p,e)[2]
+    draw=ImageDraw.Draw(im)
+    draw.text(((width-(box[2]-box[0]))//2-box[0],1-top),char,font=font,fill=rgba(e))
+    if e.underline:draw.line((0,e.size+2-top,width-1,e.size+2-top),fill=rgba(e),width=max(1,e.size//16))
     return im
 
 
@@ -73,20 +116,20 @@ def number_parts(p: Project, e: Element):
     if e.kind in {"clock", "date"}:
         separator = ":" if e.kind == "clock" else "/"
         sw = max(8, int(font_for(p, e).getlength(separator)) + 4)
-        total = 4*cw + sw
+        total = 4*cw + sw + 4*e.letter_spacing
         offset = 0 if e.align == "left" else (e.width-total if e.align == "right" else (e.width-total)//2)
         y = (e.height-ch)//2
         return [("hour" if e.kind == "clock" else "day", 2, offset, y),
-                ("minute" if e.kind == "clock" else "month", 2, offset + 2*cw+sw, y)], (separator, offset+2*cw, y, sw, ch)
-    total = e.digits*cw
+                ("minute" if e.kind == "clock" else "month", 2, offset + 2*cw+sw+3*e.letter_spacing, y)], (separator, offset+2*cw+2*e.letter_spacing, y, sw, ch)
+    total = e.digits*cw + (e.digits-1)*e.letter_spacing
     offset = 0 if e.align == "left" else (e.width-total if e.align == "right" else (e.width-total)//2)
     return [(e.source, e.digits, offset, (e.height-ch)//2)], None
 
 
 def calendar_metrics(p, e):
     font = font_for(p, e)
-    boxes = [font.getbbox(word) for word in labels_for(e).values()]
-    return max(b[2]-b[0] for b in boxes), max(b[3]-b[1] for b in boxes)
+    sizes = [text_metrics(font,word,e.letter_spacing) for word in labels_for(e).values()]
+    return max(s[0] for s in sizes), max(s[1] for s in sizes)+(max(2,e.size//5) if e.underline else 0)
 
 
 def calendar_image(p, e, word):
@@ -113,9 +156,12 @@ def static_image(p: Project, e: Element):
     elif e.kind == "text":
         font = font_for(p, e)
         box = draw.textbbox((0,0), e.text, font=font)
-        w,h = box[2]-box[0],box[3]-box[1]
+        w,h = text_metrics(font,e.text,e.letter_spacing) if e.letter_spacing else (box[2]-box[0],box[3]-box[1])
+        if e.underline:h+=max(2,e.size//5)
         x = 0 if e.align == "left" else e.width-w if e.align == "right" else (e.width-w)//2
-        draw.text((x-box[0], (e.height-h)//2-box[1]), e.text, font=font, fill=rgba(e))
+        if e.letter_spacing or e.underline:
+            draw_styled_text(draw,(x,(e.height-h)//2-box[1]),e.text,font,rgba(e),e.letter_spacing,e.underline)
+        else:draw.text((x-box[0], (e.height-h)//2-box[1]), e.text, font=font, fill=rgba(e))
     elif e.kind == "rect":
         draw.rounded_rectangle((0,0,e.width-1,e.height-1), radius=min(12, e.height//3),
                                fill=rgba(e) if e.fill_enabled else None,
@@ -446,16 +492,14 @@ def element_image(p: Project, e: Element, values: dict, *, viewport=None,origin=
             else:text = str(max(-(10**(count-1)-1),min(int(value),10**count-1)))
             if e.leading_zero or e.kind in {"clock","date"}:text = text.zfill(count)
         if e.kind=='number' and not e.leading_zero:
-            if e.align=='right':x+=(count-len(text))*cw
-            elif e.align=='center':x+=count*cw//2-len(text)*cw//2
+            if e.align=='right':x+=(count-len(text))*(cw+e.letter_spacing)
+            elif e.align=='center':x+=(count*cw+(count-1)*e.letter_spacing)//2-(len(text)*cw+(len(text)-1)*e.letter_spacing)//2
         for index,char in enumerate(text):
             if char != " ":
-                im.alpha_composite(digit_image(p,e,char),(x+index*cw,y))
+                im.alpha_composite(digit_image(p,e,char),(x+index*(cw+e.letter_spacing),y))
     if sep:
         char,x,y,w,h=sep
-        font=font_for(p,e)
-        box=font.getbbox(char)
-        ImageDraw.Draw(im).text((x+(w-(box[2]-box[0]))//2-box[0],y+1-digit_metrics(p,e)[2]), char, font=font, fill=rgba(e))
+        im.alpha_composite(separator_image(p,e,char,w,h),(x,y))
     return im
 
 
@@ -524,11 +568,12 @@ def layout_errors(p: Project) -> list[str]:
         elif e.kind in {"number","clock","date"}:
             cw,ch,_=digit_metrics(p,e)
             groups,sep=number_parts(p,e)
-            if any(x<0 or y<0 or x+n*cw>e.width or y+ch>e.height for _,n,x,y in groups):
+            if any(x<0 or y<0 or x+n*cw+(n-1)*e.letter_spacing>e.width or y+ch>e.height for _,n,x,y in groups):
                 errors.append(f"{e.name}: aumenta larghezza/altezza o riduci la dimensione del font.")
         elif e.kind == 'text':
-            box=font_for(p,e).getbbox(e.text)
-            if box[2]-box[0]>e.width or box[3]-box[1]>e.height:
+            w,h=text_metrics(font_for(p,e),e.text,e.letter_spacing)
+            if e.underline:h+=max(2,e.size//5)
+            if w>e.width or h>e.height:
                 errors.append(f"{e.name}: il testo non entra nello spazio assegnato.")
         if e.kind not in ('image','gif') and (e.x+e.width>480 or e.y+e.height>480):
             errors.append(f"{e.name}: il componente supera i bordi del canvas.")

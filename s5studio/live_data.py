@@ -20,8 +20,9 @@ def live_element(e):
 def glyph_positions(project,e,length):
     cw,_,_=digit_metrics(project,e)
     (_,count,x,y),=number_parts(project,e)[0]
-    offset=(count-length)*cw if e.align=='right' else count*cw//2-length*cw//2 if e.align=='center' else 0
-    return [(x+offset+index*cw,y) for index in range(length)]
+    spacing=e.letter_spacing
+    offset=(count-length)*(cw+spacing) if e.align=='right' else (count*cw+(count-1)*spacing)//2-(length*cw+(length-1)*spacing)//2 if e.align=='center' else 0
+    return [(x+offset+index*(cw+spacing),y) for index in range(length)]
 
 
 def glyph_layers(project,e,char,position):
